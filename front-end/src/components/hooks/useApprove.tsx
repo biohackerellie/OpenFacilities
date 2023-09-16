@@ -1,5 +1,5 @@
 'use client';
-import { approveReservation, denyReservation } from '@/functions';
+import { approveReservation, denyReservation } from '@/functions/reservations';
 import { multiChoiceAlert } from '../ui/swals';
 
 export default async function useApproveAll(id: number) {

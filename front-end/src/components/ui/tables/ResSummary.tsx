@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { cancelDate } from '@/functions';
+import { cancelDate } from '@/functions/reservations';
 
 import moment from 'moment-timezone';
 

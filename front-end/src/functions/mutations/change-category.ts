@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 
-import { updateRes } from '@/functions';
+import { updateRes } from '@/functions/reservations';
 
 export async function changeCat(id: number, category: any) {
   try {

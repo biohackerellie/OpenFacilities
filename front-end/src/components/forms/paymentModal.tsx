@@ -4,7 +4,7 @@ import { YellowButton, PurpleButton } from '../ui/buttons';
 import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactModal from 'react-modal';
-import { addFee, removeFee, Checkout } from '@/functions/index';
+import { addFee, removeFee } from '@/functions/mutations';
 
 export default function EditPricingModal({ id, additionalFees, amount, user }) {
   const router = useRouter();

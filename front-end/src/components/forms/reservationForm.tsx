@@ -2,7 +2,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { YellowButton, PurpleButton } from '@/components/ui/buttons';
-import { createReservation } from '@/functions';
+import { createReservation } from '@/functions/reservations';
 import { ModalInput } from '@/components/forms/recurringModal';
 import { useFacilities, useHandleAddDate } from '@/components/hooks';
 import { IFormInput } from '@/lib/types';

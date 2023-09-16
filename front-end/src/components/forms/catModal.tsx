@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 import ReactModal from 'react-modal';
-import { changeCat, updateRes } from '@/functions/index';
+import { updateRes } from '@/functions/reservations';
 import { YellowButton, PurpleButton } from '../ui/buttons';
 
 export default function EditCatModal({ id, categories }) {

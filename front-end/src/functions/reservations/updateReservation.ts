@@ -1,6 +1,6 @@
 'use server';
 import prisma from '@/lib/prisma';
-import { calculateFees } from '@/functions';
+import { calculateFees } from '@/functions/calculations';
 
 interface updateParams {
   id: number;

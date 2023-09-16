@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { YellowButton } from './index';
-import { Paid } from '@/functions';
+import { Paid } from '@/functions/mutations';
 
 export default function PaidButton({ id }: any) {
   return (

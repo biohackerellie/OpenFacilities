@@ -1,6 +1,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import SubNav from '@/components/ui/subNav';
+import { Suspense } from 'react';
+import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
 
 const FacilityCard = dynamic(() => import('./facility_card'));
 
@@ -18,11 +20,13 @@ export default async function FacilitiesPage() {
       <h1 className="text-4xl m-2 mb-2 font-bold text-center">Facilities</h1>
       <SubNav />
       <div className="grid grid-cols-1 p-0 scale-75 sm:scale-100 sm:grid-cols-3 gap-4 mt-0 pb-[1px] sm:pb-[150px] overflow-auto">
-        {facilities?.map((facility: any) => (
-          <div key={facility.id} className="gap-3 m-2 show flex-1">
-            <FacilityCard {...facility} />
-          </div>
-        ))}
+        <Suspense fallback={<FacilityCardSkeleton />}>
+          {facilities?.map((facility: any) => (
+            <div key={facility.id} className="gap-3 m-2 show flex-1">
+              <FacilityCard {...facility} />
+            </div>
+          ))}
+        </Suspense>
       </div>
     </div>
   );

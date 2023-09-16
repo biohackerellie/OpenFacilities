@@ -2,7 +2,8 @@
 
 import { YellowButton, PurpleButton } from '../ui/buttons';
 import React, { useState } from 'react';
-import { PayinPerson, Checkout } from '@/functions';
+import { PayinPerson } from '@/functions/mutations';
+import { Checkout } from '@/functions/other';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 

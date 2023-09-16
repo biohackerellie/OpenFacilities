@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 import { YellowButton, GreenButton, RedButton, PurpleButton } from '../buttons';
 import {
   updateRes,
-  updateEmail,
   approveReservation,
   denyReservation,
   approveDate,
   denyDate,
   HandleDelete,
-} from '@/functions';
-import { useApproveAll } from '@/components/hooks';
+} from '@/functions/reservations';
+import { updateEmail } from '@/functions/emails';
+
 import { multiChoiceAlert, Alert } from '../swals';
 import moment from 'moment-timezone';
 import { JiraModal } from '@/components/forms';

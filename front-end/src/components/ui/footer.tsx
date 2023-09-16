@@ -12,13 +12,12 @@ export default function Footer() {
       <span className="mx-2">
         <TosModal />
       </span>
-      <div>
-        <BugModal> Report a Bug</BugModal>
-      </div>
-
       <div className="flex items-center text-center pl-5 ">
-        <a href="https://github.com/biohackerellie" target="_blank">
-          Designed and Built by Ellie Kerns
+        <a
+          href="https://github.com/biohackerellie/OpenFacilities"
+          target="_blank"
+        >
+          Powered by Open Facilities
         </a>
       </div>
     </footer>

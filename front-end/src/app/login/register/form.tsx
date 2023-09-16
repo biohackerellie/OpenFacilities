@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TosModal } from '@/components/forms';
-import { CreateUser } from '@/functions';
+import { CreateUser } from '@/functions/mutations';
 import { redirect } from 'next/navigation';
 import Swal from 'sweetalert2';
 

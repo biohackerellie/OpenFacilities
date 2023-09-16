@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { set, useForm } from 'react-hook-form';
-import { BugEmailer } from '@/functions';
+import { BugEmailer } from '@/functions/emails';
 
 interface IFormInput {
   name: string;

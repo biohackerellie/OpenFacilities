@@ -27,7 +27,7 @@ export default function FacilityCard({
       <Link href={`/facilities/${idString}`}>
         <CardHeader className="drop-shadow-md">
           {imagePath ? (
-            <img
+            <Image
               src={imagePath}
               alt={`${name}`}
               width={350}

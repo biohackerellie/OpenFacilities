@@ -4,7 +4,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { YellowButton } from '../ui/buttons';
-import { Uploader } from '@/functions';
+import { Uploader } from '@/functions/mutations';
 
 export function UploadFile({ params }: { params: { id: number } }) {
   const [isUploading, setIsUploading] = useState(false);

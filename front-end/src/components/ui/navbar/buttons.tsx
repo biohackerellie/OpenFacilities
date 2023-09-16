@@ -1,4 +1,4 @@
-import { verifyDoc } from '@/functions';
+import { verifyDoc } from '@/functions/mutations';
 
 import Link from 'next/link';
 

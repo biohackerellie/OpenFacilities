@@ -4,7 +4,6 @@ import EditPricingModal from '@/components/forms/paymentModal';
 import EditCatModal from '@/components/forms/catModal';
 import { PaidButton } from '@/components/ui/buttons';
 import prisma from '@/lib/prisma';
-import { Paid } from '@/functions';
 
 export default async function paymentPage({
   params,
