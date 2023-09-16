@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "Laurel-Facilities",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "python.analysis.typeCheckingMode": "off",
+    "cSpell.words": ["datepicker", "idempotency", "nextauth", "Swall"]
+  }
+}

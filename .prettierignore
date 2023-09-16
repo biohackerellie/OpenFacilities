@@ -1,0 +1,7 @@
+./front-end/.prettierrc
+./front-end/app/(authenticated)/reservation/form.tsx
+/back-end
+*.prettierrc
+*.json
+masters.js
+front-end/app/components/calendar/Calendar.tsx

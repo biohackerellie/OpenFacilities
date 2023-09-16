@@ -1,0 +1,152 @@
+[
+	{
+		"image_path": "/images/GR/Graff-Classroom.jpg",
+		"name": "Graff Classroom",
+		"building": "Graff Elementary",
+		"address": "417 E 6th Street, Laurel MT 59044",
+		"calendar_id": "c_1883mq3h2jipqj6oiq45m5j2kl5na@resource.calendar.google.com",
+		"capacity": 35,
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/GR/grfield.jpg",
+		"name": "Graff Field",
+		"building": "Graff Elementary",
+		"address": "417 E 6th Street, Laurel MT 59044",
+		"calendar_id": "c_1885i1r919lq2ga4mdm28dapu5phq@resource.calendar.google.com",
+		"capacity": null,
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/GR/GraffGym.jpg",
+		"name": "Graff Gym",
+		"building": "Graff Elementary",
+		"address": "417 E 6th Street, Laurel MT 59044",
+		"calendar_id": "c_1887je2bh89aggavght7gkmn1aiba@resource.calendar.google.com",
+		"capacity": 100,
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": null,
+		"name": "Graff Cafeteria",
+		"building": "Graff Elementary",
+		"address": "417 E 6th Street, Laurel MT 59044",
+		"calendar_id": "c_188271lj2bhcihgsk0g2dkof5vj3s@resource.calendar.google.com",
+		"capacity": 100,
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/GR/GraffLibrary.jpg",
+		"name": "Graff Library",
+		"building": "Graff Elementary",
+		"address": "417 E 6th Street, Laurel MT 59044",
+		"calendar_id": "c_1883dhcn3nk7sgtiml9ovb7optrr6@resource.calendar.google.com",
+		"capacity": 75,
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	}
+]

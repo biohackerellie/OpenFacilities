@@ -1,0 +1,19 @@
+{
+  "python.analysis.typeCheckingMode": "off",
+  "cSpell.words": [
+		"datepicker",
+		"graff",
+		"minio",
+		"Payin",
+		"Swal",
+		"swals",
+		"sweetalert",
+		"varified"
+	],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+	"python.formatting.provider": "none",
+	"jest.jestCommandLine": "test",
+	"jest.rootPath": "./front-end/scripts"
+}

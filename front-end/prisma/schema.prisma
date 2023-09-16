@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+	binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  ext_expires_in    Int?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String
+  image         String?
+  email         String        @unique
+  emailVerified DateTime?
+  password      String?
+  provider      String?
+  externalUser  Boolean       @default(false)
+  role          UserRole      @default(USER)
+  createdAt     DateTime      @default(now())
+  tos           Boolean       @default(false)
+  accounts      Account[]
+  Reservation   Reservation[]
+  sessions      Session[]
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String        @db.Text
+  price       Float
+  facilityId  Int
+  Facility    Facility      @relation(fields: [facilityId], references: [id])
+  Reservation Reservation[]
+
+  @@index([facilityId], map: "Category_facilityId_fkey")
+}
+
+model Events {
+  id               String        @id @unique
+  calendarId       String?
+  title            String?
+  start            DateTime?
+  end              DateTime?
+  location         String?
+  recurringEventId String?
+  facilityId       Int
+  facility         Facility      @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  reservation      Reservation[]
+
+  @@index([facilityId], map: "Events_facilityId_fkey")
+}
+
+model Facility {
+  id               Int           @id @default(autoincrement())
+  name             String        @unique
+  building         String
+  address          String
+  imagePath        String?
+  capacity         Int?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  googleCalendarId String        @unique(map: "Facility_calendarId_key")
+  Category         Category[]
+  Events           Events[]
+  Reservation      Reservation[]
+  Option           Option[]      @relation("FacilityToOption")
+}
+
+model InsuranceFiles {
+  id            Int         @id @default(autoincrement())
+  path          String?
+  fileName      String?
+  reservationId Int
+  varified      Boolean     @default(false)
+  reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "InsuranceFiles_reservationId_fkey")
+}
+
+model Option {
+  id       Int        @id @default(autoincrement())
+  name     String
+  Facility Facility[] @relation("FacilityToOption")
+}
+
+model Reservation {
+  id               Int               @id @default(autoincrement())
+  userId           String
+  eventName        String
+  facilityId       Int
+  approved         Approved          @default(pending)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  details          String?           @db.VarChar(2000)
+  eventId          String?
+  fees             Float?
+  insurance        Boolean
+  primaryContact   String?
+  responsibleParty String?
+  doorAccess       Boolean?
+  doorsDetails     String?
+  name             String?
+  people           String?
+  techDetails      String?
+  techSupport      Boolean?
+  phone            String?
+  categoryId       Int
+  totalHours       Float?
+  inPerson         Boolean           @default(false)
+  paid             Boolean           @default(false)
+  paymentUrl       String?
+  paymentLinkID    String?           @unique
+  ticketMade       Boolean           @default(false)
+  conflicts        Boolean           @default(false)
+  InsuranceFiles   InsuranceFiles[]
+  Category         Category          @relation(fields: [categoryId], references: [id])
+  Event            Events?           @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  Facility         Facility          @relation(fields: [facilityId], references: [id])
+  User             User              @relation(fields: [userId], references: [id])
+  ReservationDate  ReservationDate[]
+  additionalFees   ReservationFees[]
+
+  @@index([facilityId], map: "Reservation_facilityId_fkey")
+  @@index([categoryId], map: "Reservation_categoryId_fkey")
+  @@index([eventId], map: "Reservation_eventId_fkey")
+  @@index([userId], map: "Reservation_userId_fkey")
+}
+
+model ReservationFees {
+  id             Int         @id @default(autoincrement())
+  additionalFees Float?
+  feesType       String?
+  reservationId  Int
+  Reservation    Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "ReservationFees_reservationId_fkey")
+}
+
+model ReservationDate {
+  id            Int         @id @default(autoincrement())
+  startDate     String
+  endDate       String
+  startTime     String
+  endTime       String
+  reservationId Int
+  approved      Approved    @default(pending)
+  Reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "ReservationDate_reservationId_fkey")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Session_userId_fkey")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum UserRole {
+  CAL_ADMIN
+  ADMIN_ADMIN
+  GR_ADMIN
+  LHS_ADMIN
+  LMS_ADMIN
+  WE_ADMIN
+  SO_ADMIN
+  SUP_ADMIN
+  USER
+}
+
+enum Approved {
+  pending
+  approved
+  denied
+  canceled
+}

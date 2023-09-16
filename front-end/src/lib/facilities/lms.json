@@ -1,0 +1,213 @@
+[
+	{
+		"image_path": "/images/LMS/MSBand.jpg",
+		"name": "LMS Band Room",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 100,
+		"calendar_id": "c_188f1dit7nbtajd6kv7uk6v3aknl6@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/MSShop.jpg",
+		"name": "LMS Classroom FACS",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 35,
+		"calendar_id": "c_188bk7280sc46jfuilmkhvuo529lo@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$25.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/MSClassroom.jpg",
+		"name": "LMS Classroom",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 35,
+		"calendar_id": "c_188en6n8f95rqha7j330r5lanv1qk@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$25.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/Commons.jpg",
+		"name": "LMS Commons",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 200,
+		"calendar_id": "c_188cpus5c7mr8ijjhevocvmk02k18@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$50.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$100.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/LMSGym.jpg",
+		"name": "LMS Gym",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 800,
+		"calendar_id": "c_188a0selkkk9ig12ic7msqq5865ji@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$50.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$100.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/MSLibrary.jpg",
+		"name": "LMS Library",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": 100,
+		"calendar_id": "c_188be6mneijb8i9mg2o376cpba6fi@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	},
+	{
+		"image_path": "/images/LMS/mogan-field.jpg",
+		"name": "Mogan Field",
+		"building": "Laurel Middle School",
+		"address": "725 Washington Ave, Laurel, MT 59044",
+		"capacity": null,
+		"calendar_id": "c_188fcg0j26krki0nivbhv25vjqgrg@resource.calendar.google.com",
+		"categories": [
+			{
+				"name": "LPS Staff",
+				"description": "For all LPS Staff to reserve and LPS activity.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ",
+				"description": "Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or adivsors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.",
+				"price": "$0.00/hr"
+			},
+			{
+				"name": "Category 2 - All community non-profit organizations and groups",
+				"description": "This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.",
+				"price": "$25.00/hr"
+			},
+			{
+				"name": "Category 3 - all for-profit organizations and non-profits from outside of the community",
+				"description": "This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.",
+				"price": "$50.00/hr"
+			}
+		]
+	}
+
+]

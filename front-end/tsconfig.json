@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+		"baseUrl": "src/",
+    "paths": {
+      "@/*": ["./*"],
+			"@/app/*": ["app/*"],
+			"@/components/*": ["components/*"],
+			"@/lib/*": ["lib/*"],
+			"@/utils/*": ["utils/*"],
+			"@/functions/*": ["functions/*"],
+
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/actions/newRequests.jss.js", "src/app/components/actions/checkout.js", "src/app/components/forms/SquarePayment.ts", "src/app/components/ui/navbar/mobile/menu.js", "app/components/forms/showPayment.jsx"],
+  "exclude": ["node_modules", "src/app/api/auth/[...nextauth]/route.tse.ts", "src/app/components/*" ]
+}

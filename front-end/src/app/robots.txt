@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /login
+Crawl-delay: 10
+sitemap: https://facilities.laurel.k12.mt.us/sitemap.xml

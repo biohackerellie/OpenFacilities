@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  Laurel-Facilities:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laurel-facilities-test
+    container_name: laurel-facilities-test
+    ports:
+      - "3000:3000"
+    # env_file:
+    #   - ../../.env
