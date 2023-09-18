@@ -200,12 +200,12 @@
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
-	body {
+	/* body {
 		height: 100%;
 		@apply bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-gray-100 to-gray-300 dark:bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] dark:from-gray-900 dark:to-gray-600  bg-no-repeat bg-fixed 
 
 	
-	}
+	} */
  
 .ReactModal__Overlay {
 	opacity: 0;
