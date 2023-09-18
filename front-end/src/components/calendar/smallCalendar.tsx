@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Modal from 'react-modal';
 import { Events } from '@prisma/client';
+import { useTheme } from 'next-themes';
 
 const localizer = momentLocalizer(moment);
 
@@ -39,6 +40,19 @@ export default function SmallCalendar({ facilityId }) {
     fetchEvents();
   }, []);
 
+  const { theme } = useTheme();
+
+  const isDarkMode = theme === 'dark';
+  const calendarStyle = {
+    height: 500,
+
+    border: 5,
+    ...(isDarkMode && {
+      WebkitTextFillColor: 'white',
+      WebkitTextStrokeColor: 'white',
+    }),
+  };
+
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
@@ -58,9 +72,9 @@ export default function SmallCalendar({ facilityId }) {
           onSelectEvent={(event) => setSelectedEvent(event)}
           popup
           startAccessor="start"
-          className="z-0 bg-white max-w-[480px] sm:max-w-2xl font-normal border-solid rounded-lg dark:bg-white-200 text-black dark:text-black"
+          // className="z-0 bg-white max-w-[480px] sm:max-w-2xl font-normal border-solid rounded-lg dark:bg-white-200 text-black dark:text-black"
           endAccessor="end"
-          style={{ height: 500 }}
+          style={calendarStyle}
         />
       </div>
       <div className="items-center align-middle justify-center drop-shadow-md">

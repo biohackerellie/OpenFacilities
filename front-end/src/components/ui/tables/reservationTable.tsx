@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { YellowButton } from '../buttons';
 import Link from 'next/link';
-import { swallDates } from '../swals';
+import { swallDates } from '../alerts';
 
 export default function ReservationTable(
   reservations: any,

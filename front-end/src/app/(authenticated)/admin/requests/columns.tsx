@@ -1,5 +1,5 @@
 'use client';
-import { useApproveAll } from '@/components/hooks';
+import { ApproveAll } from '@/components/hooks';
 import { ColumnDef } from '@tanstack/react-table';
 import { YellowButton, Button } from '@/components/ui/buttons';
 import Link from 'next/link';
@@ -57,7 +57,7 @@ export const columns: ColumnDef<TableReservations>[] = [
         <Button
           variant="outline"
           onClick={() => {
-            useApproveAll(id);
+            ApproveAll(id);
           }}
         >
           Approve/Deny

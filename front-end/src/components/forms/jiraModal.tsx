@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { YellowButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 
 interface IFormInput {
   department: string;
@@ -42,9 +42,10 @@ export default function JiraModal() {
 
   return (
     <>
-      <div className="justify-center self-center mt-8">
-        <YellowButton onClick={showModal}>Submit a Work Order</YellowButton>
-      </div>
+      <Button variant="ghost" onClick={showModal}>
+        Submit a Work Order
+      </Button>
+
       <ReactModal
         className="relative inset-0 flex animate-overlayShow  flex-col items-center text-black dark:text-black inset-y-20 justify-center z-50 transition-all ease-in-out duration-1000"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
@@ -82,12 +83,12 @@ export default function JiraModal() {
             </div>
             <div className="flex justify-between mt-2 ">
               <div>
-                <YellowButton type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting}>
                   Submit
-                </YellowButton>
+                </Button>
               </div>
               <div>
-                <YellowButton onClick={hideModal}>Cancel</YellowButton>
+                <Button onClick={hideModal}>Cancel</Button>
               </div>
             </div>
           </form>

@@ -45,9 +45,9 @@ export default async function facilityPage({
           <h2 className="font-bold text-xl drop-shadow text-gold">
             {building} ⋅ Max Capacity: {capacity}{' '}
           </h2>
-          <a href={map} target="_blank">
+          <Link href={map} target="_blank">
             {address} <ExternalLink className="inline-block scale-75" />
-          </a>
+          </Link>
 
           {imagePath ? (
             <Image

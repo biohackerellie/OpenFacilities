@@ -1,11 +1,12 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { YellowButton, Button } from '@/components/ui/buttons';
-import React, { useState } from 'react';
+import { Button } from '@/components/ui/buttons';
+import React from 'react';
+import HandleDelete from '@/functions/reservations/deleteDates';
 import { approveDate, denyDate } from '@/functions/reservations';
 import { ArrowUpDown } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +15,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
 import EditDates from '@/components/forms/EditDates';
 
 interface TableDates {
@@ -72,9 +83,7 @@ export const columns: ColumnDef<TableDates>[] = [
     accessorKey: 'Options',
     header: 'Options',
     cell: ({ row }) => {
-      const router = useRouter();
-
-      const reservationID = row.getValue('Edit') as any;
+      const reservationID = row.getValue('Options') as any;
 
       const isApproved = row.getValue('approved') === 'approved';
       const isDenied = row.getValue('approved') === 'denied';
@@ -85,46 +94,78 @@ export const columns: ColumnDef<TableDates>[] = [
           alert('Error denying reservation');
           console.log(error);
         } finally {
-          router.refresh();
+          location.reload();
         }
-      };
-      const HandleApprove = async (id: number) => {
-        try {
-          await approveDate(id);
-          router.refresh();
-        } catch (error) {
-          alert('Error approving reservation');
-        } finally {
-          router.refresh();
-        }
-      };
+        const HandleApprove = async (id: number) => {
+          try {
+            await approveDate(id);
+          } catch (error) {
+            alert('Error approving reservation');
+          } finally {
+            location.reload();
+          }
+        };
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="outline">Options</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem></DropdownMenuItem>
-            {!isApproved && (
-              <>
-                <DropdownMenuItem onClick={() => HandleApprove(reservationID)}>
-                  Approve Date
-                </DropdownMenuItem>
-              </>
-            )}
-            {!isDenied && (
-              <>
-                <DropdownMenuItem onClick={() => HandleDeny(reservationID)}>
-                  Deny Date
-                </DropdownMenuItem>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+        const DeleteDate = async (id: number) => {
+          try {
+            await HandleDelete(id);
+          } catch (error) {
+            alert('Error deleting reservation');
+          } finally {
+            location.reload();
+          }
+        };
+        return (
+          <Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button variant="outline">Options</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem></DropdownMenuItem>
+                {!isApproved && (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() => HandleApprove(reservationID)}
+                    >
+                      Approve Date
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {!isDenied && (
+                  <>
+                    <DropdownMenuItem onClick={() => HandleDeny(reservationID)}>
+                      Deny Date
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DialogTrigger asChild>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Delete Date</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete this date?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="ghost"
+                  onClick={() => DeleteDate(reservationID)}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        );
+      };
     },
   },
+
   {
     accessorKey: 'Edit',
     header: 'Edit',

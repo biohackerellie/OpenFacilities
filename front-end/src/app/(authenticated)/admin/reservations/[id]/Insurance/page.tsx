@@ -1,6 +1,6 @@
 import { UploadFile } from '@/components/forms/uploadFile';
-import ResNav from '@/components/ui/reservationNav';
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { VerifyButton } from '@/components/ui/navbar/buttons';
 
 export default async function insurancePage({
@@ -19,37 +19,12 @@ export default async function insurancePage({
 
   const reservation = await res.json();
 
-  const {
-    id,
-    name,
-    Facility,
-    eventName,
-    people,
-    doorAccess,
-    doorsDetails,
-    techSupport,
-    techDetails,
-    InsuranceFiles,
-
-    responsibleParty,
-    primaryContact,
-    insurance,
-    phone,
-    details,
-    fees,
-    approved,
-    createdAt,
-    Event,
-    Category,
-    User,
-    ReservationDate,
-  } = reservation;
+  const { InsuranceFiles } = reservation;
 
   const files = InsuranceFiles || [];
 
   return (
     <div>
-      <ResNav id={id} facility={Facility} />
       <div className="justify-center flex flex-col sm:flex-row my-4 ">
         <div className="flex  flex-col border-gray-600 dark:border-white drop-shadow-xl shadow-xl   max-w-[900px] m-3 p-4 border-2">
           <h2 className="flex font-bold text-4xl text-gray-600 dark:text-gray-300">

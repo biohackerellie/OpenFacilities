@@ -1,8 +1,8 @@
 'use client';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { multiChoiceAlert } from '../ui/swals';
+import { multiChoiceAlert } from '../ui/alerts';
 
-export default async function useApproveAll(id: number) {
+export default async function ApproveAll(id: number) {
   multiChoiceAlert({
     title: 'Confirm or Deny All Dates',
     id: id,

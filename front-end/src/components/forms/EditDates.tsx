@@ -1,7 +1,5 @@
 'use client';
 import { Button } from '@/components/ui/buttons/button';
-import { input } from '@/components/ui/input';
-import prisma from '@/lib/prisma';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
