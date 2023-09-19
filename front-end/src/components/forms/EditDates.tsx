@@ -49,7 +49,7 @@ export default function EditDates(date: DateProps) {
   };
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger asChild>
         <Button variant="outline">Edit</Button>
       </SheetTrigger>
       <SheetContent>

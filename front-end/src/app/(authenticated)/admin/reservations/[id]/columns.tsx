@@ -6,7 +6,7 @@ import React from 'react';
 import HandleDelete from '@/functions/reservations/deleteDates';
 import { approveDate, denyDate } from '@/functions/reservations';
 import { ArrowUpDown } from 'lucide-react';
-
+import moment from 'moment';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +28,7 @@ import {
 import EditDates from '@/components/forms/EditDates';
 
 interface TableDates {
-  Options?: any;
+  Options: any;
   startDate: string;
   endDate: string;
   startTime: string;
@@ -36,6 +36,36 @@ interface TableDates {
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   ReservationID: any;
 }
+
+const HandleDeny = async (id: number) => {
+  try {
+    await denyDate(id);
+  } catch (error) {
+    alert('Error denying reservation');
+    console.log(error);
+  } finally {
+    location.reload();
+  }
+};
+const HandleApprove = async (id: number) => {
+  try {
+    await approveDate(id);
+  } catch (error) {
+    alert('Error approving reservation');
+  } finally {
+    location.reload();
+  }
+};
+
+const DeleteDate = async (id: number) => {
+  try {
+    await HandleDelete(id);
+  } catch (error) {
+    alert('Error deleting reservation');
+  } finally {
+    location.reload();
+  }
+};
 
 export const columns: ColumnDef<TableDates>[] = [
   {
@@ -51,6 +81,11 @@ export const columns: ColumnDef<TableDates>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const startDate = row.getValue('startDate') as string;
+      const formatedDate = moment(startDate).format('MM/DD/YY');
+      return <div>{formatedDate}</div>;
+    },
   },
   {
     accessorKey: 'endDate',
@@ -64,6 +99,11 @@ export const columns: ColumnDef<TableDates>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const endDate = row.getValue('endDate') as string;
+      const formatedDate = moment(endDate).format('MM/DD/YY');
+      return <div>{formatedDate}</div>;
     },
   },
   {
@@ -83,86 +123,54 @@ export const columns: ColumnDef<TableDates>[] = [
     accessorKey: 'Options',
     header: 'Options',
     cell: ({ row }) => {
-      const reservationID = row.getValue('Options') as any;
+      const dateID = row.getValue('Options') as any;
 
       const isApproved = row.getValue('approved') === 'approved';
       const isDenied = row.getValue('approved') === 'denied';
-      const HandleDeny = async (id: number) => {
-        try {
-          await denyDate(id);
-        } catch (error) {
-          alert('Error denying reservation');
-          console.log(error);
-        } finally {
-          location.reload();
-        }
-        const HandleApprove = async (id: number) => {
-          try {
-            await approveDate(id);
-          } catch (error) {
-            alert('Error approving reservation');
-          } finally {
-            location.reload();
-          }
-        };
 
-        const DeleteDate = async (id: number) => {
-          try {
-            await HandleDelete(id);
-          } catch (error) {
-            alert('Error deleting reservation');
-          } finally {
-            location.reload();
-          }
-        };
-        return (
-          <Dialog>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button variant="outline">Options</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem></DropdownMenuItem>
-                {!isApproved && (
-                  <>
-                    <DropdownMenuItem
-                      onClick={() => HandleApprove(reservationID)}
-                    >
-                      Approve Date
-                    </DropdownMenuItem>
-                  </>
-                )}
-                {!isDenied && (
-                  <>
-                    <DropdownMenuItem onClick={() => HandleDeny(reservationID)}>
-                      Deny Date
-                    </DropdownMenuItem>
-                  </>
-                )}
-                <DialogTrigger asChild>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DialogTrigger>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Delete Date</DialogTitle>
-                <DialogDescription>
-                  Are you sure you want to delete this date?
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button
-                  variant="ghost"
-                  onClick={() => DeleteDate(reservationID)}
-                >
-                  Delete
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        );
-      };
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Options</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {!isApproved && (
+                <>
+                  <DropdownMenuItem onClick={() => HandleApprove(dateID)}>
+                    Approve Date
+                  </DropdownMenuItem>
+                </>
+              )}
+              {!isDenied && (
+                <>
+                  <DropdownMenuItem onClick={() => HandleDeny(dateID)}>
+                    Deny Date
+                  </DropdownMenuItem>
+                </>
+              )}
+              <DialogTrigger asChild>
+                <DropdownMenuItem>
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent className="bg-slate-200">
+            <DialogHeader>
+              <DialogTitle className="text-red-500">Delete Date</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this date?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => DeleteDate(dateID)}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
     },
   },
 

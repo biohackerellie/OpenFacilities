@@ -1,8 +1,7 @@
 //@ts-nocheck
 'use client';
 
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -13,10 +12,15 @@ import { useTheme } from 'next-themes';
 const localizer = momentLocalizer(moment);
 
 interface Props {
-  events: Events[];
+  facilityId: number;
+  startDate: Date;
 }
 
-export default function SmallCalendar({ facilityId }) {
+interface DateProps {
+  startDate: Date;
+}
+
+export default function SmallCalendar({ facilityId, startDate }: Props) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -44,8 +48,8 @@ export default function SmallCalendar({ facilityId }) {
 
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
-    height: 500,
-
+    height: 450,
+    width: 600,
     border: 5,
     ...(isDarkMode && {
       WebkitTextFillColor: 'white',
@@ -54,6 +58,18 @@ export default function SmallCalendar({ facilityId }) {
   };
 
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const { defaultDate, views } = useMemo(
+    () => ({
+      defaultDate: new Date(startDate),
+      views: {
+        month: true,
+        week: false,
+        day: false,
+        agenda: false,
+      },
+    }),
+    [startDate]
+  );
 
   useEffect(() => {
     if (selectedEvent) {
@@ -67,6 +83,8 @@ export default function SmallCalendar({ facilityId }) {
     <>
       <div className="flex  h-35 max-h-35 p-3 mb-10">
         <Calendar
+          defaultDate={defaultDate}
+          views={views}
           localizer={localizer}
           events={events}
           onSelectEvent={(event) => setSelectedEvent(event)}
