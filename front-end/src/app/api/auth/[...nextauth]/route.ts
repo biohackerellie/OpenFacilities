@@ -9,7 +9,7 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -47,10 +47,10 @@ export const authOptions: NextAuthOptions = {
     ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
       ? [
           AzureADProvider({
-            clientId: process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.NEXT_PUBLIC_AZURE_TENANT_ID,
-            authorizationUrl: `https://login.microsoftonline.com/${process.env.NEXT_PUBLIC_AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
+            clientId: process.env.AZURE_AD_CLIENT_ID,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+            tenantId: process.env.AZURE_TENANT_ID,
+            authorizationUrl: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
 
             async authorize(credentials: { email: any }) {
               const user = await prisma.user.findFirst({
@@ -74,8 +74,8 @@ export const authOptions: NextAuthOptions = {
     ...(process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH?.toLowerCase() === 'true'
       ? [
           GoogleProvider({
-            clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-            clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
             async authroize(credentials: { email: any }) {
               const user = await prisma.user.findFirst({

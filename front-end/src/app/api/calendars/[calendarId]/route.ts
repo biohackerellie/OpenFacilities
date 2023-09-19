@@ -8,13 +8,13 @@ export async function GET(req: NextRequest, response: NextResponse) {
   const calendarId = req.nextUrl.pathname.split('/')[3];
 
   const oauth2Client = new OAuth2Client({
-    clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
-    redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
   });
 
   oauth2Client.setCredentials({
-    refresh_token: process.env.NEXT_PUBLIC_GOOGLE_REFRESH_TOKEN,
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
   });
 
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
