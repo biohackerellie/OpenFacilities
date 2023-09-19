@@ -63,7 +63,7 @@ export default function CalendarMain() {
 
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
-    height: 700,
+    height: 800,
     width: '100%',
     border: 5,
     ...(isDarkMode && {

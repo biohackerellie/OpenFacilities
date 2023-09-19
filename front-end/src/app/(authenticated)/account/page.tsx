@@ -1,9 +1,22 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { DataTable } from '@/components/ui/tables';
+import { columns } from './columns';
 import React from 'react';
-import Link from 'next/link';
+import { Reservation } from '@/lib/types';
+import moment from 'moment';
 
-export default async function accountPage() {
+interface TableReservation {
+  eventName: string;
+  Facility: string;
+  ReservationDate: any[];
+  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  Details: number;
+}
+
+const currentDate = moment().format('YYYY-MM-DD');
+
+async function getData(): Promise<TableReservation[]> {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
@@ -12,82 +25,37 @@ export default async function accountPage() {
   );
   const userSession = await res.json();
 
-  const reservation = userSession?.Reservation;
+  const reservations: Reservation[] = userSession?.Reservation;
   const Facility = userSession?.Facility;
+  const mappedReservations: TableReservation[] = reservations.map(
+    (reservation) => {
+      const sortedDates = reservation.ReservationDate.sort((a, b) =>
+        moment(a.startDate).diff(moment(b.startDate))
+      );
+      const nextUpcomingDate = sortedDates.find((date) =>
+        moment(date.startDate).isSameOrAfter(currentDate)
+      );
+      return {
+        eventName: reservation.eventName,
+        Facility: reservation.Facility.name,
+        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
+        approved: reservation.approved,
+        Details: reservation.id,
+      };
+    }
+  );
 
+  return mappedReservations;
+}
+
+export default async function Account() {
+  const data = await getData();
   return (
-    <section className="flex flex-col h-full p-3 transition-all ease-in-out">
-      <h1 className="font-bold flex justify-center m-3 p-3 drop-shadow-lg text-7xl">
-        Account
+    <div className="container mx-auto py-10">
+      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
+        My Reservations
       </h1>
-      <h2 className="font-bold flex justify-center m-3 border-b p-3 drop-shadow-lg text-4xl">
-        {user.name}
-      </h2>
-      <div className="h-full justify-center max-w-7xl self-center align-middle flex flex-wrap ">
-        <h1 className="text-bold drop-shadow-md text-3xl basis-full m-2  ">
-          My Reservations
-        </h1>
-        <div className=" hidden sm:block sm:max-w-7xl ">
-          <table>
-            <thead>
-              <tr>
-                <th>reservation ID</th>
-                <th> Event Name</th>
-                <th> Facility </th>
-                <th> Dates </th>
-                <th> Status </th>
-
-                <th> Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reservation?.map((reservation: any) => (
-                <tr key={reservation.id}>
-                  <td>{reservation.id}</td>
-                  <td>{reservation.eventName}</td>
-                  <td>{reservation.Facility.name}</td>
-                  <td className="">
-                    {`${reservation.ReservationDate[0]?.startDate} - ${reservation.ReservationDate[0]?.endDate}`}{' '}
-                    {reservation.ReservationDate.length > 1 && '...'}
-                  </td>
-                  <td className="justify-between">{reservation.approved} </td>
-
-                  <td>
-                    <Link href={`/reservation/${reservation.id}`}>Details</Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="block sm:hidden">
-          {reservation?.map((reservation: any) => (
-            <div key={reservation.id} className="border m-2 p-2">
-              <p>
-                <strong>Reservation ID:</strong> {reservation.id}
-              </p>
-              <p>
-                <strong>Event Name:</strong> {reservation.eventName}
-              </p>
-              <p>
-                <strong>Facility:</strong> {reservation.Facility.name}
-              </p>
-              <p>
-                <strong>Dates:</strong>{' '}
-                {`${reservation.ReservationDate[0]?.startDate} - ${reservation.ReservationDate[0]?.endDate}`}{' '}
-                {reservation.ReservationDate.length > 1 && '...'}
-              </p>
-              <p>
-                <strong>Status:</strong> {reservation.approved}
-              </p>
-              <p>
-                <strong>Details:</strong>{' '}
-                <Link href={`/reservation/${reservation.id}`}>Details</Link>
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+      <DataTable columns={columns} data={data} />
+    </div>
   );
 }

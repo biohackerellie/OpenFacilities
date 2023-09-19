@@ -1,5 +1,3 @@
-import IsUserReserv from '@/components/contexts/isUserReserv';
-import UserResNav from '@/components/ui/userResNav';
 import { ShowPayment } from '@/components/forms';
 
 import React from 'react';
@@ -31,61 +29,32 @@ export default async function paymentPage({
   const paid: boolean = reservation.paid;
 
   return (
-    <IsUserReserv reservation={reservation}>
-      <div>
-        <UserResNav id={id} />
-        <div className="justify-center flex flex-col sm:flex-row my-4 ">
-          <div className="flex  flex-col border-gray-600 dark:border-white drop-shadow-xl shadow-xl   max-w-[900px] m-3 p-4 border-2">
-            <h2 className="flex font-bold text-4xl text-gray-600 dark:text-gray-300">
-              Pricing and Payments
-            </h2>
-            <div className=" my-5  gap-36">
-              <div className="flex flex-shrink  my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-                <table>
-                  <thead>
-                    <tr>
-                      <th> Category: </th>
-                      <th> Price: </th>
-                      <th> Total Hours: </th>
-                      <th> Total Base Price: </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-ellipsis overflow-hidden">
-                        {' '}
-                        {Category.name} -{' '}
-                      </td>
-                      <td> ${Category.price} /hr </td>
-                      <td> {reservation.totalHours}</td>
-                      <td> ${totalBasePrice}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+    <div>
+      <div className="justify-center flex flex-col sm:flex-row my-4 ">
+        <div className="flex  flex-col border-gray-600 dark:border-white drop-shadow-xl shadow-xl   w-[800px] m-3 p-4 border-2">
+          <h2 className="flex font-bold text-4xl text-gray-600 dark:text-gray-300">
+            Pricing and Payments
+          </h2>
+          <div className=" my-5  gap-36">
+            <div className="  my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white ">
+              <p>Category: {Category.name} </p>
+              <p> Price: ${Category.price} /hr </p>
+              <p> Total Hours: {reservation.totalHours} </p>
+              <p> Total Base Price: ${totalBasePrice} </p>
+            </div>
 
-              <div className="flex  my-2 p-2  justify-between text-xl  border-b-gray-700 dark:border-b-white text-justify ">
-                <table>
-                  <thead>
-                    <tr>
-                      <th> Additional Fees: </th>
+            <div className=" my-2 p-2  justify-between text-xl  border-b-gray-700 dark:border-b-white  ">
+              <p> Additional Fees: </p>
+              <p> Price: </p>
 
-                      <th> Price: </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {additionalFees.map((fee: any, index: any) => (
-                      <tr key={index} className="m-2">
-                        <td className="text-ellipsis overflow-hidden">
-                          {fee.feesType}
-                        </td>
-                        <td>${fee.additionalFees}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
+              {additionalFees.map((fee: any, index: any) => (
+                <div key={index} className="m-2">
+                  <div className="text-ellipsis overflow-hidden">
+                    {fee.feesType}
+                  </div>
+                  <div>${fee.additionalFees}</div>
+                </div>
+              ))}
               <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
                 Total: $ {!paid ? totalCost : 'Paid'}
               </div>
@@ -94,6 +63,6 @@ export default async function paymentPage({
           </div>
         </div>
       </div>
-    </IsUserReserv>
+    </div>
   );
 }
