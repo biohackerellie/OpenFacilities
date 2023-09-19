@@ -7,7 +7,7 @@ export default function SquarePayment(amount: any, user: any) {
     <div className="grid justify-center align-center h-40">
       <PaymentForm
         //@ts-expect-error
-        applicationId={process.env.NEXT_PUBLIC_SQUARE_APP_ID}
+        applicationId={process.env.SQUARE_APP_ID}
         cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
           const response = await fetch(
             process.env.NEXT_PUBLIC_HOST + '/api/payments',
@@ -32,7 +32,7 @@ export default function SquarePayment(amount: any, user: any) {
             verifiedBuyer
           );
         }}
-        locationId={process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID || ''}
+        locationId={process.env.SQUARE_LOCATION_ID || ''}
       >
         <CreditCard />
       </PaymentForm>

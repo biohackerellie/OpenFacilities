@@ -5,7 +5,7 @@ import { Client } from 'square';
 import { randomUUID } from 'crypto';
 
 const { checkoutApi } = new Client({
-  accessToken: process.env.NEXT_PUBLIC_SQUARE_TOKEN,
+  accessToken: process.env.SQUARE_TOKEN,
   environment: 'production',
 });
 
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         amount: BigInt(Math.round(body.amount * 100)),
         currency: 'USD',
       },
-      locationId: process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID,
+      locationId: process.env.SQUARE_LOCATION_ID,
     },
     checkoutOptions: {
       allowTipping: false,

@@ -30,6 +30,6 @@
 
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/actions/newRequests.jss.js", "src/app/components/actions/checkout.js", "src/app/components/forms/SquarePayment.ts", "src/app/components/ui/navbar/mobile/menu.js", "app/components/forms/showPayment.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/actions/newRequests.jss.js", "src/app/components/actions/checkout.js", "src/app/components/forms/SquarePayment.ts", "src/app/components/ui/navbar/mobile/menu.js", "app/components/forms/showPayment.jsx", "src/components/calendar/Calendar2.jsx"],
   "exclude": ["node_modules", "src/app/api/auth/[...nextauth]/route.tse.ts", "src/app/components/*" ]
 }
