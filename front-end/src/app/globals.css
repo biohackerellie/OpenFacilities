@@ -155,40 +155,7 @@
 	
 	
 	
-	.nav-item li:hover ul {
-		height: 200px;
-		width: max;
-		opacity: 1;
-		transform: translateY(0);
-		flex: 1;
-		flex-wrap: wrap;
-		text-overflow: ellipsis;
-	}
 	
-	.nav-item ul {
-		background: #f7b512;
-		color: rgb(221, 221, 221);
-		font-weight: bold;
-		height: 0;
-		right: 0;
-		bottom: 1;
-		opacity: 0;
-		position: absolute;
-		transition: all .5s ease;
-		top: 35px;
-		width: 100%;
-	}
-	
-	.nav-item > li > Link {
-		background: #f7b512;
-		color: white;
-		
-		display: block;
-		font-size: 1.2em;
-		padding: 10px;
-		text-decoration: none;
-		gap: 10px;
-	}
 	
 	
 	label {
