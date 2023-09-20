@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { YellowButton, Button } from '@/components/ui/buttons';
+import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import moment from 'moment';
@@ -53,9 +53,9 @@ export const columns: ColumnDef<TableUsers>[] = [
     cell: ({ row }) => {
       const id = row.getValue('Details') as string;
       return (
-        <YellowButton>
+        <Button>
           <Link href={`/admin/users/${id}`}>Details</Link>
-        </YellowButton>
+        </Button>
       );
     },
   },

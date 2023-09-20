@@ -1,6 +1,6 @@
 'use client';
 
-import { YellowButton, PurpleButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 import React, { useState } from 'react';
 import { PayinPerson } from '@/functions/mutations';
 import { Checkout } from '@/functions/other';
@@ -40,14 +40,12 @@ export default function ShowPayment({ id }: { id: number }) {
     <>
       <div className="flex m-2 gap-2">
         <div>
-          <YellowButton onClick={() => inPerson(id)}>
-            Pay in Person
-          </YellowButton>
+          <Button onClick={() => inPerson(id)}>Pay in Person</Button>
         </div>
         <div>
-          <YellowButton onClick={() => online(id)} disabled={isSubmitting}>
+          <Button onClick={() => online(id)} disabled={isSubmitting}>
             Pay Online
-          </YellowButton>
+          </Button>
           <p className="font-extralight italic">
             {' '}
             A Square checkout link will be sent to your account's email address{' '}
