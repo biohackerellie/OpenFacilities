@@ -9,7 +9,7 @@ Hey there! 👋 I'm working on Open Facilities, an open-source facilities reserv
 The project is still under active development, and I'm super excited about the updates that are coming soon. Stay tuned for the official release!
 
 ### Roadmap 🗺️
-- [ ] UI Cleanup
+- [x] UI Cleanup
 - [ ] Migrate database to Supabase
 - [ ] Convert all customizable options into env variables
 - [ ] Migrate all calendar events to Google Calendar
