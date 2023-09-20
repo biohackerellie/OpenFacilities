@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactModal from 'react-modal';
-import { PurpleButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 
 export default function TosModal() {
   const hideModal = () => setIsVisible(false);
@@ -142,7 +142,7 @@ export default function TosModal() {
               event School District property is damaged
             </p>
           </article>
-          <PurpleButton onClick={hideModal}>close</PurpleButton>
+          <Button onClick={hideModal}>close</Button>
         </div>
       </ReactModal>
     </>

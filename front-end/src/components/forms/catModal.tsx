@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import ReactModal from 'react-modal';
 import { updateRes } from '@/functions/reservations';
-import { YellowButton, PurpleButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 
 export default function EditCatModal({ id, categories }) {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function EditCatModal({ id, categories }) {
 
   return (
     <>
-      <YellowButton onClick={showModal}>Change Category</YellowButton>
+      <Button onClick={showModal}>Change Category</Button>
       <ReactModal
         className="fixed inset-0 flex text-lg items-center text-black dark:text-black justify-center z-50 transition-all ease-in-out duration-1000"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
@@ -45,12 +45,12 @@ export default function EditCatModal({ id, categories }) {
                 ))}
               </select>
               <div>
-                <YellowButton type="submit" onClick={handleSave}>
+                <Button type="submit" onClick={handleSave}>
                   Save
-                </YellowButton>
-                <PurpleButton type="button" onClick={hideModal}>
+                </Button>
+                <Button type="button" onClick={hideModal}>
                   Cancel
-                </PurpleButton>
+                </Button>
               </div>
             </div>
           </form>

@@ -25,7 +25,9 @@ const buildingColors: any = {
 function EventComponent({ event }: { event: Events }) {
   return (
     <div
-      className={`rbc-event-content ${buildingColors[event.building]}`}
+      className={`rbc-event-content ${
+        buildingColors[event.building]
+      } rbc-event-label`}
       title={event.title}
     >
       {event.title}

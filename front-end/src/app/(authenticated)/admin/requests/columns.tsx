@@ -1,7 +1,7 @@
 'use client';
 import { ApproveAll } from '@/components/hooks';
 import { ColumnDef } from '@tanstack/react-table';
-import { YellowButton, Button } from '@/components/ui/buttons';
+import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
@@ -85,9 +85,9 @@ export const columns: ColumnDef<TableReservations>[] = [
     cell: ({ row }) => {
       const id = parseInt(row.getValue('Details'));
       return (
-        <YellowButton>
+        <Button>
           <Link href={`/admin/reservations/${id}`}>Details</Link>
-        </YellowButton>
+        </Button>
       );
     },
   },

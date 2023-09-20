@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { updateRes } from '@/functions/reservations';
 import ReactModal from 'react-modal';
 import { useFacilities } from '../hooks';
-import { PurpleButton, YellowButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 import { Facility } from '@/lib/types';
 
 interface ChangeFacilityProps {
@@ -96,12 +96,12 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
                 ))}
               </select>
               <div>
-                <YellowButton type="submit" onClick={handleSave}>
+                <Button type="submit" onClick={handleSave}>
                   Save
-                </YellowButton>
-                <PurpleButton type="button" onClick={hideModal}>
+                </Button>
+                <Button type="button" onClick={hideModal}>
                   Cancel
-                </PurpleButton>
+                </Button>
               </div>
             </div>
           </form>

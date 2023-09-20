@@ -52,7 +52,7 @@ export default async function reservationPage({
   return (
     <div className="flex flex-wrap justify-center h-full pb-3 mb-2 ">
       <div key={facility} className="     ">
-        <div className=" w-[1400px] gap-y-4  drop-shadow-md  m-3 p-4 ">
+        <div className="  xl:w-[1300px] w-[800px] gap-y-4  drop-shadow-md  m-3 p-4 ">
           <div>
             <h2 className="  font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
               {' '}
@@ -89,12 +89,12 @@ export default async function reservationPage({
               <SmallCalendar startDate={startDate} facilityId={Facility.id} />
             </div>
           </div>
-        </div>
-        <div className="max-w-[650px] float-right ">
-          <h2 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
-            Reservation Dates
-          </h2>
-          <DataTable columns={columns} data={mappedDates} />
+          <div className="max-w-[650px] float-right ">
+            <h2 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
+              Reservation Dates
+            </h2>
+            <DataTable columns={columns} data={mappedDates} />
+          </div>
         </div>
       </div>
     </div>

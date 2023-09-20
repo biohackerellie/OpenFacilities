@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { YellowButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 import { Uploader } from '@/functions/mutations';
 
 export function UploadFile({ params }: { params: { id: number } }) {
@@ -37,14 +37,14 @@ export function UploadFile({ params }: { params: { id: number } }) {
           />
         </div>
         <div className="p-2">
-          <YellowButton
+          <Button
             name="submit"
             onClick={handleUpload}
             disabled={isUploading || !file}
           >
             {' '}
             Submit{' '}
-          </YellowButton>
+          </Button>
         </div>
       </div>
     </div>

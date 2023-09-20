@@ -1,6 +1,6 @@
 //@ts-nocheck
 'use client';
-import { YellowButton, PurpleButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactModal from 'react-modal';
@@ -33,7 +33,7 @@ export default function EditPricingModal({ id, additionalFees, amount, user }) {
 
   return (
     <>
-      <YellowButton onClick={showModal}>Edit Fees</YellowButton>
+      <Button onClick={showModal}>Edit Fees</Button>
       <ReactModal
         className="fixed inset-0 flex text-lg items-center text-black dark:text-black justify-center z-50 transition-all ease-in-out duration-1000"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
@@ -81,17 +81,13 @@ export default function EditPricingModal({ id, additionalFees, amount, user }) {
               />
             </div>
             <div className="gap-2">
-              <PurpleButton
-                className="mx-2 p-3"
-                type="submit"
-                onClick={handleSave}
-              >
+              <Button className="mx-2 p-3" type="submit" onClick={handleSave}>
                 Save
-              </PurpleButton>
+              </Button>
 
-              <YellowButton type="button" onClick={hideModal}>
+              <Button type="button" onClick={hideModal}>
                 Cancel
-              </YellowButton>
+              </Button>
             </div>
           </form>
         </div>

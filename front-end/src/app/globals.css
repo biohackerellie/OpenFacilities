@@ -199,54 +199,62 @@
 
 .rbc-event{
 	border: none !important;
+	width: 80% !important;
+	margin-top: 5px !important;
+	fill-opacity: .5 !important;
+	
+}
+
+.rbc-background-event {
+	display: none !important;
+	width: 80% !important;
+
+}
+
+.rbc-day-slot {
+	opacity: 0.5 !important;
 }
 
 .modal-overlay {
   z-index: 1000;
 }
 
+.rbc-event-content{
+	border: none !important;
+	fill-opacity: 0.5 !important;
+	stroke-opacity: 0.5 !important;
+	background-blend-mode: soft-light !important;
+
+}
+
 .rbc-event-content.purple {
-	background-color: rgba(85, 62, 85, 0.582);
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
-	border-color: rgba(128, 0, 128, 0.021);
+	background-color: rgba(85, 62, 85, 0.582) !important;
+
 
 }
 
 .rbc-event-content.green {
 	background-color: green;
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
+
 }
 .rbc-event-content.red {
 	background-color: red;
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
+
 }
 
 .rbc-event-content.blue {
 	background-color: rgb(82, 94, 126);
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
+
 }
 
 .rbc-event-content.yellow {
 	background-color: yellow;
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
+
 }
 
 .rbc-event-content.orange {
-	background-color: rgb(241, 160, 9) !important;
-	border-radius: 30px;
-	box-shadow: #373a3c;
-	text-shadow: #373a3c;
-	border-color: rgb(106, 65, 153) !important;
+	background-color: rgba(250, 196, 97, 0.452) !important;
+	
 
 }
 

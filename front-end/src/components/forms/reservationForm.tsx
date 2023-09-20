@@ -1,7 +1,7 @@
 //@ts-nocheck
 'use client';
 import React, { useEffect } from 'react';
-import { YellowButton, PurpleButton } from '@/components/ui/buttons';
+import { Button } from '@/components/ui/buttons';
 import { createReservation } from '@/functions/reservations';
 import { ModalInput } from '@/components/forms/recurringModal';
 import { useFacilities, useHandleAddDate } from '@/components/hooks';
@@ -275,14 +275,12 @@ export default function ReservationForm() {
                       <label className="text-black">End Time</label>
                     </div>
                     <div>
-                      <YellowButton onClick={() => remove(index)}>
-                        Delete Date
-                      </YellowButton>
+                      <Button onClick={() => remove(index)}>Delete Date</Button>
                     </div>
                   </div>
                 );
               })}
-              <YellowButton
+              <Button
                 onClick={() =>
                   append({
                     startDate: formatDate(new Date()),
@@ -293,7 +291,7 @@ export default function ReservationForm() {
                 }
               >
                 Add Date
-              </YellowButton>
+              </Button>
               <ModalInput
                 isVisible={isVisible}
                 setIsVisible={setIsVisible}
@@ -301,7 +299,7 @@ export default function ReservationForm() {
                 onClose={hideModal}
                 selectedData={selectedData}
               />
-              <YellowButton onClick={() => remove()}>Clear All</YellowButton>
+              <Button onClick={() => remove()}>Clear All</Button>
             </div>
 
             <div className=" col-start-1 border-b-2 col-end-3 col-span-3 ">
@@ -447,7 +445,7 @@ export default function ReservationForm() {
                     Please complete all required fields.
                   </p>
                 )}
-                <PurpleButton
+                <Button
                   className="bg-primary  dark:bg-secondary justify-end self-end text-white rounded-md  hover:bg-purple-700 p-2 drop-shadow-md shadow-md transition-all duration-75 ease-in-out hover:scale-105 hover:-translate-x-1 hover:translate-y-1 "
                   type="submit"
                   disabled={isSubmitting || isButtonDisabled}
@@ -457,7 +455,7 @@ export default function ReservationForm() {
                   {errors && errors.events && (
                     <p> Please add at least one date. </p>
                   )}
-                </PurpleButton>
+                </Button>
               </div>
             </div>
           </div>

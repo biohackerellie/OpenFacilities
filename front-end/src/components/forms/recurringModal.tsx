@@ -5,7 +5,7 @@ import ReactModal from 'react-modal';
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select';
 import './styles.css';
-import { PurpleButton } from '../ui/buttons';
+import { Button } from '../ui/buttons';
 export const ModalInput = (props: {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
@@ -22,9 +22,9 @@ export const ModalInput = (props: {
   };
   return (
     <>
-      <PurpleButton type="button" onClick={showModal}>
+      <Button type="button" onClick={showModal}>
         Add Reoccurring Dates
-      </PurpleButton>
+      </Button>
       {isVisible && (
         <ModalForm
           isVisible={isVisible}
