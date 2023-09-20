@@ -1,5 +1,6 @@
 import React from 'react';
-import { TosModal, BugModal } from '../forms';
+import TosModal from '../forms/tos';
+import Contact from './alerts/contact';
 
 export default function Footer() {
   return (
@@ -12,7 +13,10 @@ export default function Footer() {
       <span className="mx-2">
         <TosModal />
       </span>
-      <div className="flex items-center text-center pl-5 ">
+      <span>
+        <Contact />
+      </span>
+      <div className="text-center right-0 ">
         <a
           href="https://github.com/biohackerellie/OpenFacilities"
           target="_blank"
