@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 
 export default async function denyDate(id: number) {
-  const deniedDate = await prisma.reservationDate.update({
+  const deniedDate = await prisma.reservationdate.update({
     where: {
       id: id,
     },
@@ -10,36 +10,36 @@ export default async function denyDate(id: number) {
     },
   });
   const reservation = await prisma.reservation.findUnique({
-    where: { id: deniedDate.reservationId },
-    include: { ReservationDate: true, Category: true, Facility: true },
+    where: { id: deniedDate.reservationid },
+    include: { reservationdate: true, category: true, facility: true },
   });
   //@ts-expect-error
-  const approvedDates = reservation.ReservationDate.filter(
+  const approvedDates = reservation.reservationdate.filter(
     (date) => date.approved === 'approved'
   );
   //@ts-expect-error
-  const allDatesDenied = reservation.ReservationDate.every(
+  const allDatesDenied = reservation.reservationdate.every(
     (date) => date.approved === 'denied'
   );
 
-  const totalHours = approvedDates.reduce((acc, date) => {
-    const startTime = new Date(`1970-01-01T${date.startTime}Z`);
-    const endTime = new Date(`1970-01-01T${date.endTime}Z`);
+  const totalhours = approvedDates.reduce((acc, date) => {
+    const starttime = new Date(`1970-01-01T${date.starttime}Z`);
+    const endtime = new Date(`1970-01-01T${date.endtime}Z`);
     //@ts-expect-error
-    const hours = Math.abs(endTime - startTime) / 36e5;
+    const hours = Math.abs(endtime - starttime) / 36e5;
     return acc + hours;
   }, 0);
 
-  const roundedTotalHours = Math.round(totalHours * 10) / 10;
+  const roundedTotalHours = Math.round(totalhours * 10) / 10;
 
   let fees = 0;
   //@ts-expect-error
-  if (reservation.Facility.building === 'Laurel Stadium') {
+  if (reservation.facility.building === 'Laurel Stadium') {
     //@ts-expect-error
-    fees = reservation.Category.price;
+    fees = reservation.category.price;
   } else {
     //@ts-expect-error
-    fees = reservation.Category.price * roundedTotalHours;
+    fees = reservation.category.price * roundedTotalHours;
   }
   const roundedFees = Math.round(fees * 10) / 10;
 
@@ -49,7 +49,7 @@ export default async function denyDate(id: number) {
       where: { id: reservation.id },
       data: {
         approved: 'denied',
-        totalHours: roundedTotalHours,
+        totalhours: roundedTotalHours,
         fees: roundedFees,
       },
     });
@@ -58,7 +58,7 @@ export default async function denyDate(id: number) {
       //@ts-expect-error
       where: { id: reservation.id },
       data: {
-        totalHours: roundedTotalHours,
+        totalhours: roundedTotalHours,
         fees: roundedFees,
       },
     });

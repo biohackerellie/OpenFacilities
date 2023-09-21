@@ -32,7 +32,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([
-    { id: 'startDate', desc: false },
+    { id: 'startdate', desc: false },
   ]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});

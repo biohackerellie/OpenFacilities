@@ -3,14 +3,14 @@ import { columns } from './columns';
 import React from 'react';
 import moment from 'moment';
 
-import { Reservation } from 'lib/types';
+import { reservation } from 'lib/types';
 
 interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
+  eventname: string;
+  facility: string;
+  reservationdate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
+  user: string;
   Details: number;
 }
 
@@ -20,22 +20,22 @@ async function getReservations(): Promise<TableReservation[]> {
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reservation`, {
     cache: 'no-store',
   });
-  const Reservations: Reservation[] = await res.json();
+  const Reservations: reservation[] = await res.json();
 
   const mappedReservations: TableReservation[] = Reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
+      const sortedDates = reservation.reservationdate.sort((a, b) =>
+        moment(a.startdate).diff(moment(b.startdate))
       );
       const nextUpcomingDate = sortedDates.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
+        moment(date.startdate).isSameOrAfter(currentDate)
       );
       return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
+        eventname: reservation.eventname,
+        facility: reservation.facility.name,
+        reservationdate: nextUpcomingDate ? nextUpcomingDate.startdate : 'N/A',
         approved: reservation.approved,
-        User: reservation.User?.name || '',
+        user: reservation.user?.name || '',
         Details: reservation.id,
       };
     }

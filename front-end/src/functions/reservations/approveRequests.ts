@@ -25,41 +25,41 @@ export async function approveReservation(id: number) {
   const reservation: any = await prisma.reservation.findUnique({
     where: { id: id },
     include: {
-      User: true,
-      Facility: true,
-      Category: true,
-      ReservationDate: true,
+      user: true,
+      facility: true,
+      category: true,
+      reservationdate: true,
     },
   });
 
-  const category = reservation.Category.price;
+  const category = reservation.category.price;
 
-  let totalHours = reservation.ReservationDate.reduce(
-    (acc: any, reservationDate: any) => {
-      const startTime: any = new Date(
-        `1970-01-01T${reservationDate.startTime}Z`
+  let totalhours = reservation.reservationdate.reduce(
+    (acc: any, reservationdate: any) => {
+      const starttime: any = new Date(
+        `1970-01-01T${reservationdate.starttime}Z`
       );
-      const endTime: any = new Date(`1970-01-01T${reservationDate.endTime}Z`);
-      const hours = Math.abs(endTime - startTime) / 36e5;
+      const endtime: any = new Date(`1970-01-01T${reservationdate.endtime}Z`);
+      const hours = Math.abs(endtime - starttime) / 36e5;
       return acc + hours;
     },
     0
   );
 
-  totalHours = Math.round(totalHours * 100) / 100;
+  totalhours = Math.round(totalhours * 100) / 100;
 
   let fees = 0;
 
-  if (reservation.Facility.building === 'Laurel Stadium') {
-    fees = reservation.Category.price;
+  if (reservation.facility.building === 'Laurel Stadium') {
+    fees = reservation.category.price;
   } else {
-    fees = category ? category * totalHours : 0;
+    fees = category ? category * totalhours : 0;
   }
 
   fees = Math.round(fees * 100) / 100;
 
   let data = {
-    summary: `A Facility Reservation that requires unlocked doors, ${reservation.eventName} , at ${reservation.Facility.building}  has been approved`,
+    summary: `A facility reservation that requires unlocked doors, ${reservation.eventname} , at ${reservation.facility.building}  has been approved`,
     description: `Visit https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id} to view the details \n \n Additional details: ${reservation.doorsDetails}`,
     department: 'IT',
   };
@@ -82,13 +82,13 @@ export async function approveReservation(id: number) {
     },
     data: {
       approved: 'approved',
-      totalHours: totalHours,
+      totalhours: totalhours,
       fees: fees,
-      ticketMade: ticket,
-      ReservationDate: {
+      ticketmade: ticket,
+      reservationdate: {
         updateMany: {
           where: {
-            reservationId: id,
+            reservationid: id,
           },
           data: {
             approved: 'approved',
@@ -97,41 +97,41 @@ export async function approveReservation(id: number) {
       },
     },
     include: {
-      ReservationDate: true,
-      Facility: true,
+      reservationdate: true,
+      facility: true,
     },
   });
 
-  for (const reservationDate of approvedReservation.ReservationDate) {
-    const startDateTime = moment
+  for (const reservationdate of approvedReservation.reservationdate) {
+    const startdateTime = moment
       .tz(
-        `${reservationDate.startDate} ${reservationDate.startTime}`,
+        `${reservationdate.startdate} ${reservationdate.starttime}`,
         'America/Denver'
       )
       .toISOString();
 
-    const endDateTime = moment
+    const enddateTime = moment
       .tz(
-        `${reservationDate.endDate} ${reservationDate.endTime}`,
+        `${reservationdate.enddate} ${reservationdate.endtime}`,
         'America/Denver'
       )
       .toISOString();
 
     const event = {
-      summary: approvedReservation.eventName,
+      summary: approvedReservation.eventname,
       description: approvedReservation.details,
       start: {
-        dateTime: startDateTime,
+        dateTime: startdateTime,
         timeZone: 'America/Denver',
       },
       end: {
-        dateTime: endDateTime,
+        dateTime: enddateTime,
         timeZone: 'America/Denver',
       },
     };
     try {
       const response = await calendar.events.insert({
-        calendarId: approvedReservation.Facility.googleCalendarId,
+        calendarId: approvedReservation.facility.googlecalendarid,
         requestBody: event,
       });
     } catch (error) {
@@ -148,10 +148,10 @@ export async function approveReservation(id: number) {
   });
 
   const info = await transporter.sendMail({
-    from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
-    to: reservation.User.email,
-    subject: 'Your Facility Reservation has been approved!',
-    text: `Your reservation for ${approvedReservation.eventName} has been approved! You can view the details, upload insurance, and view any fees at https://facilities.laurel.k12.mt.us/reservation/${approvedReservation.id}`,
+    from: '"facility reservation" no_reply@laurel.k12.mt.us',
+    to: reservation.user.email,
+    subject: 'Your facility reservation has been approved!',
+    text: `Your reservation for ${approvedReservation.eventname} has been approved! You can view the details, upload insurance, and view any fees at https://facilities.laurel.k12.mt.us/reservation/${approvedReservation.id}`,
   });
 
   return approvedReservation;
@@ -164,10 +164,10 @@ export async function denyReservation(id: number) {
     },
     data: {
       approved: 'denied',
-      ReservationDate: {
+      reservationdate: {
         updateMany: {
           where: {
-            reservationId: id,
+            reservationid: id,
           },
           data: {
             approved: 'denied',
@@ -176,8 +176,8 @@ export async function denyReservation(id: number) {
       },
     },
     include: {
-      User: true,
-      ReservationDate: true,
+      user: true,
+      reservationdate: true,
     },
   });
 
@@ -190,10 +190,10 @@ export async function denyReservation(id: number) {
   });
 
   const info = await transporter.sendMail({
-    from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
-    to: deniedReservation.User.email,
-    subject: 'Your Facility Reservation has been denied',
-    text: `Your reservation for ${deniedReservation.eventName} has been denied. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${deniedReservation.id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`,
+    from: '"facility reservation" no_reply@laurel.k12.mt.us',
+    to: deniedReservation.user.email,
+    subject: 'Your facility reservation has been denied',
+    text: `Your reservation for ${deniedReservation.eventname} has been denied. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${deniedReservation.id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`,
   });
   return deniedReservation;
 }

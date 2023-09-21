@@ -10,18 +10,18 @@ export async function GET(req: Request) {
   const res = await prisma.reservation.findMany({
     where: {
       approved: 'approved',
-      ReservationDate: {
+      reservationdate: {
         some: {
-          startDate: {
+          startdate: {
             gte: currentDate,
           },
         },
       },
     },
     include: {
-      Facility: true,
-      ReservationDate: true,
-      User: true,
+      facility: true,
+      reservationdate: true,
+      user: true,
     },
   });
   return NextResponse.json(res);

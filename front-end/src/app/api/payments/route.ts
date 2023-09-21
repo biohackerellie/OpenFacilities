@@ -18,9 +18,9 @@ export async function POST(req: NextRequest) {
   console.log('request: ', body);
   const response = await checkoutApi.createPaymentLink({
     idempotencyKey: randomUUID(),
-    description: 'Facility Rental',
+    description: 'facility Rental',
     quickPay: {
-      name: 'Facility Reservation',
+      name: 'facility reservation',
       priceMoney: {
         amount: BigInt(Math.round(body.amount * 100)),
         currency: 'USD',
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       enableLoyalty: false,
     },
     prePopulatedData: {},
-    paymentNote: 'Facility Rental for ' + body.user,
+    paymentNote: 'facility Rental for ' + body.user,
   });
 
   console.log(response.result);

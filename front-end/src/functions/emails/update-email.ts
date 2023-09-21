@@ -8,8 +8,8 @@ export default async function updateEmail(id: number) {
       id: id,
     },
     include: {
-      Facility: true,
-      User: true,
+      facility: true,
+      user: true,
     },
   });
 
@@ -24,9 +24,9 @@ export default async function updateEmail(id: number) {
   });
   const mailOptions = {
     from: 'noreply@laurel.k12.mt.us',
-    to: reservation?.User.email,
-    subject: 'Laurel Facility Reservation Update',
-    text: `Your reservation for ${reservation?.Facility.name} has been updated. Please visit https://laurel.k12.mt.us/reservation/${reservation?.id} to view the update. \n\n If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`,
+    to: reservation?.user.email,
+    subject: 'Laurel facility reservation Update',
+    text: `Your reservation for ${reservation?.facility.name} has been updated. Please visit https://laurel.k12.mt.us/reservation/${reservation?.id} to view the update. \n\n If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`,
   };
 
   const info = await transporter.sendMail(mailOptions);

@@ -2,55 +2,55 @@ import prisma from '@/lib/prisma';
 
 export default async function addFee(
   id: number,
-  additionalFees: any,
-  additionalFeesDetails: string
+  reservationfees: any,
+  reservationfeesDetails: string
 ) {
   await prisma.reservationFees.create({
     data: {
-      additionalFees: parseInt(additionalFees),
-      feesType: additionalFeesDetails,
-      reservationId: id,
+      reservationfees: parseInt(reservationfees),
+      feesType: reservationfeesDetails,
+      reservationid: id,
     },
     include: {
-      Reservation: true,
+      reservation: true,
     },
   });
   const reservation: any = await prisma.reservation.findUnique({
     where: { id: id },
     include: {
-      Category: true,
-      ReservationDate: true,
-      additionalFees: true,
+      category: true,
+      reservationdate: true,
+      reservationfees: true,
     },
   });
-  const category = reservation.Category.price;
+  const category = reservation.category.price;
 
-  let totalHours = reservation.ReservationDate.reduce(
-    (acc: any, reservationDate: any) => {
-      const startTime: any = new Date(
-        `1970-01-01T${reservationDate.startTime}Z`
+  let totalhours = reservation.reservationdate.reduce(
+    (acc: any, reservationdate: any) => {
+      const starttime: any = new Date(
+        `1970-01-01T${reservationdate.starttime}Z`
       );
-      const endTime: any = new Date(`1970-01-01T${reservationDate.endTime}Z`);
-      const hours = Math.abs(endTime - startTime) / 36e5;
+      const endtime: any = new Date(`1970-01-01T${reservationdate.endtime}Z`);
+      const hours = Math.abs(endtime - starttime) / 36e5;
 
       return acc + hours;
     },
     0
   );
 
-  totalHours = Math.round(totalHours * 100) / 100;
+  totalhours = Math.round(totalhours * 100) / 100;
 
-  const charges = additionalFees.reduce(
-    (sum: any, fee: any) => sum + fee.additionalFees,
+  const charges = reservationfees.reduce(
+    (sum: any, fee: any) => sum + fee.reservationfees,
     0
   );
 
   let fees = 0;
 
-  if (reservation.Facility.building === 'Laurel Stadium') {
-    fees = reservation.Category.price;
+  if (reservation.facility.building === 'Laurel Stadium') {
+    fees = reservation.category.price;
   } else {
-    fees = category ? category * totalHours : 0;
+    fees = category ? category * totalhours : 0;
   }
 
   fees = Math.round(fees * 100) / 100;

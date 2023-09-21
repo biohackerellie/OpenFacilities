@@ -8,7 +8,7 @@ export default async function Checkout(id) {
       id: parseInt(id),
     },
     include: {
-      User: true,
+      user: true,
     },
   });
 
@@ -19,19 +19,19 @@ export default async function Checkout(id) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ amount: fees, user: reservation.User.name }),
+    body: JSON.stringify({ amount: fees, user: reservation.user.name }),
   });
   if (!response.ok) {
     throw new Error(`Server responded with status code ${response.status}`);
   }
 
   let responseData;
-  let paymentUrl;
+  let paymenturl;
   let paymentId;
 
   try {
     responseData = await response.json();
-    paymentUrl = responseData.url;
+    paymenturl = responseData.url;
     paymentId = responseData.id;
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -42,12 +42,12 @@ export default async function Checkout(id) {
     });
 
     const info = await transporter.sendMail({
-      from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
-      to: reservation.User.email,
-      subject: 'Facility Reservation Payment Link',
+      from: '"facility reservation" no_reply@laurel.k12.mt.us',
+      to: reservation.user.email,
+      subject: 'facility reservation Payment Link',
       text:
         'Click the link below to pay for your reservation: \n \n ' +
-        paymentUrl +
+        paymenturl +
         '\n \n If you have any questions, please contact the Activities Director at lpsactivites@laurel.k12.mt.us',
     });
   } catch (error) {
@@ -59,8 +59,8 @@ export default async function Checkout(id) {
       id: parseInt(id),
     },
     data: {
-      paymentUrl: paymentUrl,
-      paymentLinkID: paymentId,
+      paymenturl: paymenturl,
+      paymentlinkid: paymentId,
     },
   });
 }

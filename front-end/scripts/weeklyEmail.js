@@ -95,9 +95,9 @@ async function main() {
       .join('');
 
     const info = await transporter.sendMail({
-      from: '"Weekly Events" no_reply@laurel.k12.mt.us',
+      from: '"Weekly events" no_reply@laurel.k12.mt.us',
       to: school.email,
-      subject: 'Weekly Events',
+      subject: 'Weekly events',
       html: `<p>Here are the events happening in your building this week:</p><ul>${eventList}</ul>`,
     });
   }

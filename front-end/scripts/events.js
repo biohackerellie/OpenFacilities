@@ -6,18 +6,18 @@ require('dotenv').config();
 
 async function main() {
   const facilities = await prisma.facility.findMany();
-  const allEvents = [];
+  const allevents = [];
   for (const facility of facilities) {
     try {
-			const currentEvents = await prisma.events.findMany({
-				where: { facilityId: facility.id },
-				select: { id: true },
-			})
+      const currentevents = await prisma.events.findMany({
+        where: { facilityid: facility.id },
+        select: { id: true },
+      });
 
-			const currentEventIds = currentEvents.map((event) => event.id)
+      const currents = currentevents.map((event) => event.id);
 
       const result = await fetch(
-        `https://facilities.laurel.k12.mt.us/api/calendars/${facility.googleCalendarId}`
+        `https://facilities.laurel.k12.mt.us/api/calendars/${facility.googlecalendarid}`
       );
       if (!result.ok) {
         console.error(
@@ -29,7 +29,7 @@ async function main() {
       const data = await result.json();
 
       if (data) {
-        const fetchedEvents = data
+        const fetchedevents = data
           .map((event) => {
             let start, end;
             if (event.start && event.end) {
@@ -49,7 +49,7 @@ async function main() {
                   .toDate();
               } else {
                 console.warn(
-                  `Event ${event.summary} at ${event.location} does not have a valid start and end time.`
+                  `event ${event.summary} at ${event.location} does not have a valid start and end time.`
                 );
                 return null;
               }
@@ -59,32 +59,30 @@ async function main() {
                 start: start,
                 end: end,
                 location: event.location,
-                recurringEventId: event.recurringEventId,
+                recurring: event.recurring,
               };
             } else {
               console.warn(
-                `Event ${event.summary} at ${event.location} does not have a start and end property.`
+                `event ${event.summary} at ${event.location} does not have a start and end property.`
               );
               return null;
             }
           })
           .filter((event) => event !== null);
 
-				const fetchedEventIds = fetchedEvents.map ((event) => event.id)
+        const fetcheds = fetchedevents.map((event) => event.id);
 
-				const eventsToRemove = currentEventIds.filter(
-					(id) => !fetchedEventIds.includes(id)
-				);
+        const eventsToRemove = currents.filter((id) => !fetcheds.includes(id));
 
-				for (const id of eventsToRemove) {
-					await prisma.events.delete({ where: { id } })
-				}
+        for (const id of eventsToRemove) {
+          await prisma.events.delete({ where: { id } });
+        }
 
-        for (const event of fetchedEvents) {
-          const existingEvent = await prisma.events.findUnique({
+        for (const event of fetchedevents) {
+          const existingevent = await prisma.events.findUnique({
             where: { id: event.id },
           });
-          if (!existingEvent) {
+          if (!existingevent) {
             await prisma.events.create({
               data: {
                 id: event.id,
@@ -92,13 +90,13 @@ async function main() {
                 start: event.start,
                 end: event.end,
                 location: event.location,
-                recurringEventId: event.recurringEventId,
-                facilityId: facility.id,
+                recurring: event.recurring,
+                facilityid: facility.id,
               },
             });
           }
         }
-				allEvents.push(...fetchedEvents);
+        allevents.push(...fetchedevents);
       }
     } catch (error) {
       console.error(error);

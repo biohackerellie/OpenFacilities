@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import { Facility } from '@/lib/types';
+import { facility } from '@/lib/types';
 
-type FacilitySelectProps = {
-  facilities: Facility[];
-  onFacilitySelect: (facility: Facility) => void;
+type facilitySelectProps = {
+  facilities: facility[];
+  onfacilitySelect: (facility: facility) => void;
 };
 
-export default function FacilitySelect({
+export default function facilitySelect({
   facilities,
-  onFacilitySelect,
-}: FacilitySelectProps) {
+  onfacilitySelect,
+}: facilitySelectProps) {
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
 
   const buildings = Array.from(new Set(facilities.map((f) => f.building)));
 
   const handleBuildingSelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
     setSelectedBuilding(event.target.value);
   };
 
-  const handleFacilitySelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handlefacilitySelect = (
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
     const facility = facilities.find(
       (f) => f.id === parseInt(event.target.value)
     );
-    if (facility && typeof onFacilitySelect === 'function') {
-      onFacilitySelect(facility);
+    if (facility && typeof onfacilitySelect === 'function') {
+      onfacilitySelect(facility);
     }
   };
 
@@ -47,8 +47,8 @@ export default function FacilitySelect({
         ))}
       </select>
       <br />
-      <label htmlFor="facility-select">Facility:</label>
-      <select id="facility-select" onChange={handleFacilitySelect}>
+      <label htmlFor="facility-select">facility:</label>
+      <select id="facility-select" onChange={handlefacilitySelect}>
         <option value="">Select a facility</option>
         {filteredFacilities.map((facility) => (
           <option key={facility.id} value={facility.id}>

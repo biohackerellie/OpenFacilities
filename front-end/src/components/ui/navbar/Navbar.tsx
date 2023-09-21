@@ -16,7 +16,7 @@ export default function Navbar() {
             />
           </Link>
           <h1 className=" text-white font-bold inline-block text-xl ">
-            Laurel Montana Facility Rentals
+            Laurel Montana facility Rentals
           </h1>
         </div>
         <div>

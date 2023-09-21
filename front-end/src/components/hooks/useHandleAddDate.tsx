@@ -1,5 +1,5 @@
 import { FieldArrayMethodProps } from 'react-hook-form';
-import useCalculateNumberOfEvents from './useCalculateNumberOfEvents';
+import useCalculateNumberOfevents from './useCalculateNumberOfevents';
 import moment from 'moment-timezone';
 
 moment.tz.setDefault('America/Denver');
@@ -9,16 +9,16 @@ export default function useHandleAddDate(
     (
       value:
         | {
-            startDate: moment.Moment;
-            endDate: moment.Moment;
-            startTime: moment.Moment;
-            endTime: moment.Moment;
+            startdate: moment.Moment;
+            enddate: moment.Moment;
+            starttime: moment.Moment;
+            endtime: moment.Moment;
           }
         | {
-            startDate: moment.Moment;
-            endDate: moment.Moment;
-            startTime: moment.Moment;
-            endTime: moment.Moment;
+            startdate: moment.Moment;
+            enddate: moment.Moment;
+            starttime: moment.Moment;
+            endtime: moment.Moment;
           }[],
       options?: FieldArrayMethodProps | undefined
     ): void;
@@ -26,16 +26,16 @@ export default function useHandleAddDate(
   },
   hideModal: { (): void; (): void }
 ) {
-  const calculateNumberOfWeeks = useCalculateNumberOfEvents();
+  const calculateNumberOfWeeks = useCalculateNumberOfevents();
   const formatDate = (date: moment.Moment) => {
     return date.format('YYYY-MM-DD');
   };
 
   return (data: {
-    startDate: string | number | moment.Moment;
-    endDate: string | number | moment.Moment;
-    startTime: { split: (arg0: string) => number[] };
-    endTime: { split: (arg0: string) => number[] };
+    startdate: string | number | moment.Moment;
+    enddate: string | number | moment.Moment;
+    starttime: { split: (arg0: string) => number[] };
+    endtime: { split: (arg0: string) => number[] };
     dayOfWeek: any[];
     repeatUntil: string | number | moment.Moment;
   }) => {
@@ -43,31 +43,31 @@ export default function useHandleAddDate(
       return date.clone().add(days, 'days');
     };
 
-    const startDate = moment(data.startDate);
-    const endDate = moment(data.endDate);
-    const startTime = moment();
-    startTime.set({
-      hour: data.startTime.split(':')[0],
-      minute: data.startTime.split(':')[1],
+    const startdate = moment(data.startdate);
+    const enddate = moment(data.enddate);
+    const starttime = moment();
+    starttime.set({
+      hour: data.starttime.split(':')[0],
+      minute: data.starttime.split(':')[1],
     });
 
-    const endTime = moment();
-    endTime.set({
-      hour: data.endTime.split(':')[0],
-      minute: data.endTime.split(':')[1],
+    const endtime = moment();
+    endtime.set({
+      hour: data.endtime.split(':')[0],
+      minute: data.endtime.split(':')[1],
     });
 
-    startDate.set({
-      hour: startTime.hour(),
-      minute: startTime.minute(),
+    startdate.set({
+      hour: starttime.hour(),
+      minute: starttime.minute(),
     });
 
-    endDate.set({
-      hour: endTime.hour(),
-      minute: endTime.minute(),
+    enddate.set({
+      hour: endtime.hour(),
+      minute: endtime.minute(),
     });
 
-    const duration = moment.duration(endTime.diff(startTime)).asMilliseconds();
+    const duration = moment.duration(endtime.diff(starttime)).asMilliseconds();
 
     const daysOfWeek = data.dayOfWeek.map((day: any) => {
       return parseInt(day.value);
@@ -78,14 +78,14 @@ export default function useHandleAddDate(
     };
 
     const events: {
-      startDate: string;
-      endDate: string;
-      endTime: string;
-      startTime: string;
+      startdate: string;
+      enddate: string;
+      endtime: string;
+      starttime: string;
     }[] = [];
 
     daysOfWeek.forEach((day) => {
-      let currentStartDate = moment(data.startDate);
+      let currentStartDate = moment(data.startdate);
       while (currentStartDate.isoWeekday() !== day) {
         currentStartDate = addDays(currentStartDate, 1);
       }
@@ -101,39 +101,39 @@ export default function useHandleAddDate(
         currentEndDate = addDays(currentEndDate, -1);
       }
 
-      const numberOfEvents = calculateNumberOfWeeks(
+      const numberOfevents = calculateNumberOfWeeks(
         currentStartDate.toDate(),
         currentEndDate.toDate(),
         day
       );
 
-      Array.from({ length: numberOfEvents }, (_, i) => {
-        const startDate = addDays(currentStartDate, i * 7);
-        startDate.set({
-          hour: startTime.hour(),
-          minute: startTime.minute(),
+      Array.from({ length: numberOfevents }, (_, i) => {
+        const startdate = addDays(currentStartDate, i * 7);
+        startdate.set({
+          hour: starttime.hour(),
+          minute: starttime.minute(),
         });
 
-        if (startDate > moment(data.repeatUntil)) {
+        if (startdate > moment(data.repeatUntil)) {
           return;
         }
 
-        const endDate = moment(startDate).add(duration, 'milliseconds');
-        endDate.set({
-          hour: endTime.hour(),
-          minute: endTime.minute(),
+        const enddate = moment(startdate).add(duration, 'milliseconds');
+        enddate.set({
+          hour: endtime.hour(),
+          minute: endtime.minute(),
         });
 
         events.push({
-          startDate: formatDate(startDate),
-          endDate: formatDate(endDate),
-          endTime: formatTime(endDate),
-          startTime: formatTime(startDate),
+          startdate: formatDate(startdate),
+          enddate: formatDate(enddate),
+          endtime: formatTime(enddate),
+          starttime: formatTime(startdate),
         });
       });
     });
 
-    events.sort((a, b) => moment(a.startDate).diff(moment(b.startDate)));
+    events.sort((a, b) => moment(a.startdate).diff(moment(b.startdate)));
 
     events.forEach((event) => append(event));
 

@@ -1,9 +1,9 @@
-import NextAuth, { User as NextAuthUser } from 'next-auth';
+import NextAuth, { user as NextAuthuser } from 'next-auth';
 import { Path, UseFormRegister } from 'react-hook-form';
 
-export interface Facility {
+export interface facility {
   map(
-    arg0: (facility: Facility) => import('react').JSX.Element
+    arg0: (facility: facility) => import('react').JSX.Element
   ): import('react').ReactNode;
   id: number;
   image_path: string;
@@ -12,7 +12,7 @@ export interface Facility {
   address: string;
   calendar_id: string;
   capacity: number;
-  Category: [
+  category: [
     {
       name: string;
       description: string;
@@ -25,46 +25,46 @@ export interface Role {
   role: string;
 }
 
-export interface User extends NextAuthUser {
+export interface user extends NextAuthuser {
   roles: Role;
   email: string;
 }
 
 export type FormData = {
-  eventName: string;
-  Category: string;
+  eventname: string;
+  category: string;
   name: string;
   phone: string;
   email: string;
   recurrence: string;
-  startDate: string;
-  startTime: string;
+  startdate: string;
+  starttime: string;
   people: number;
   facility: string;
-  endDate: string;
-  endTime: string;
+  enddate: string;
+  endtime: string;
   details: string;
 };
 
 export interface IFormInput {
-  eventName: string;
-  Category: { label: string; value: number };
+  eventname: string;
+  category: { label: string; value: number };
   name: string;
   phone: string;
   email: string;
   recurrence: { label: string; value: string };
-  startDate: Date;
+  startdate: Date;
   people: number;
-  techSupport: boolean;
-  techDetails: string;
+  techsupport: boolean;
+  techdetails: string;
   doorAccess: boolean;
   doorDetails: string;
 
   events: {
-    startDate: Date;
-    endDate: Date;
-    startTime: Date;
-    endTime: Date;
+    startdate: Date;
+    enddate: Date;
+    starttime: Date;
+    endtime: Date;
   }[];
   details: string;
   building: { key: string; value: string };
@@ -78,35 +78,35 @@ export type InputProps = {
   defaultValue?: string;
 };
 
-export interface Reservation {
+export interface reservation {
   id: number;
   name?: string;
   userId: string;
-  eventName: string;
-  eventId?: string;
+  eventname: string;
+  ?: string;
   people?: string;
   doorAccess?: boolean;
   doorsDetails?: string;
-  techSupport?: boolean;
-  techDetails?: string;
+  techsupport?: boolean;
+  techdetails?: string;
 
-  responsibleParty?: string;
-  primaryContact?: string;
+  responsibleparty?: string;
+  primarycontact?: string;
   insurance?: string;
   phone?: string;
   details?: string;
   fees?: string;
-  facilityId: number;
+  facilityid: number;
   recurrence?: string;
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   createdAt: Date;
   updatedAt: Date;
-  additionalFees: [];
-  Event?: any[];
-  Category?: string;
-  Facility: Facility;
-  User?: User;
-  ReservationDate: any[];
+  reservationfees: [];
+  event?: any[];
+  category?: string;
+  facility: facility;
+  user?: user;
+  reservationdate: any[];
 }
 
 export interface IAlert {

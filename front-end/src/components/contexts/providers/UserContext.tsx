@@ -1,33 +1,33 @@
 'use client';
 
-import { User } from '@/lib/types';
+import { user } from '@/lib/types';
 
 import React, { createContext, useContext, useState } from 'react';
 
-interface UserContextProps {
-  user: User | null | undefined;
-  setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
+interface userContextProps {
+  user: user | null | undefined;
+  setuser: React.Dispatch<React.SetStateAction<user | null | undefined>>;
 }
 
-const UserContext = createContext<UserContextProps | undefined>(undefined);
+const userContext = createContext<userContextProps | undefined>(undefined);
 
 export const useUser = () => {
-  const context = useContext(UserContext);
+  const context = useContext(userContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useUser must be used within a userProvider');
   }
   return context;
 };
 
-interface UserProviderProps {
+interface userProviderProps {
   children: React.ReactNode;
 }
 
-export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null | undefined>(null);
+export const userProvider: React.FC<userProviderProps> = ({ children }) => {
+  const [user, setuser] = useState<user | null | undefined>(null);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <userContext.Provider value={{ user, setuser }}>
       {children}
-    </UserContext.Provider>
+    </userContext.Provider>
   );
 };

@@ -28,7 +28,7 @@ export default async function buildingPage({
     building = 'Facilities';
   }
 
-  const FacilityCard = dynamic(() => import('../facilities/facility_card'));
+  const facilityCard = dynamic(() => import('../facilities/facility_card'));
   return (
     <div className=" grid sm:place-items-center min-h-screen pb-[50px] scroll-smooth   gap-5 ">
       <h1 className="text-4xl m-2 mb-2 font-bold text-center">{building}</h1>
@@ -36,7 +36,7 @@ export default async function buildingPage({
       <div className="grid grid-cols-1 p-0 scale-75 sm:scale-100 sm:grid-cols-3 gap-4 mt-0 pb-[1px] sm:pb-[150px] overflow-auto">
         {facility?.map((facility: any) => (
           <div key={facility.id}>
-            <FacilityCard {...facility} />
+            <facilityCard {...facility} />
           </div>
         ))}
       </div>

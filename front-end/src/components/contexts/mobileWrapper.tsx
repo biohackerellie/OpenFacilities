@@ -14,9 +14,9 @@ export default function MobileWrapper({
     setWidth(window.innerWidth);
   }
   useEffect(() => {
-    window.addEventListener('resize', handleWindowSizeChange);
+    window.addeventListener('resize', handleWindowSizeChange);
     return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
+      window.removeeventListener('resize', handleWindowSizeChange);
     };
   }, []);
 

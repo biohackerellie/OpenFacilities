@@ -3,13 +3,13 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
-import { Reservation } from '@/lib/types';
+import { reservation } from '@/lib/types';
 import moment from 'moment';
 
 interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
+  eventname: string;
+  facility: string;
+  reservationdate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   Details: number;
 }
@@ -25,20 +25,20 @@ async function getData(): Promise<TableReservation[]> {
   );
   const userSession = await res.json();
 
-  const reservations: Reservation[] = userSession?.Reservation;
-  const Facility = userSession?.Facility;
+  const reservations: reservation[] = userSession?.reservation;
+  const facility = userSession?.facility;
   const mappedReservations: TableReservation[] = reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
+      const sortedDates = reservation.reservationdate.sort((a, b) =>
+        moment(a.startdate).diff(moment(b.startdate))
       );
       const nextUpcomingDate = sortedDates.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
+        moment(date.startdate).isSameOrAfter(currentDate)
       );
       return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
+        eventname: reservation.eventname,
+        facility: reservation.facility.name,
+        reservationdate: nextUpcomingDate ? nextUpcomingDate.startdate : 'N/A',
         approved: reservation.approved,
         Details: reservation.id,
       };
@@ -48,7 +48,7 @@ async function getData(): Promise<TableReservation[]> {
   return mappedReservations;
 }
 
-export default async function Account() {
+export default async function account() {
   const data = await getData();
   return (
     <div className="container mx-auto py-10">

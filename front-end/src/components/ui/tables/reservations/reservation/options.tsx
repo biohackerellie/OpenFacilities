@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { Reservation, Facility } from '@/lib/types';
+import { reservation, facility } from '@/lib/types';
 import { Button } from '@/components/ui/buttons';
-import { ChangeFacility } from '@/components/forms';
+import { Changefacility } from '@/components/forms';
 import { updateEmail } from '@/functions/emails';
 import { useFacilities, ApproveAll } from '@/components/hooks';
 import { updateRes } from '@/functions/reservations';
@@ -28,17 +28,17 @@ import {
 
 interface ResNavProps {
   id: number;
-  facility: Facility;
+  facility: facility;
 }
 
 export default function ReservationOptions({ id, facility }: ResNavProps) {
-  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+  const [selectedcategory, setSelectedcategory] = useState<number | undefined>(
     undefined
   );
-  const handleCategorySelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handlecategorySelect = (
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
-    setSelectedCategory(Number(event.target.value));
+    setSelectedcategory(Number(event.target.value));
   };
 
   const router = useRouter();
@@ -48,14 +48,14 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     filteredFacilities,
     facilityCategories,
     handleBuildingSelect,
-    handleFacilitySelect,
+    handlefacilitySelect,
   } = useFacilities();
 
   const handleSave = async () => {
     await updateRes({
       id: id,
       facilityiD: facility.id,
-      catID: selectedCategory,
+      catID: selectedcategory,
     });
     router.refresh();
   };
@@ -78,14 +78,14 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => ApproveAll(id)}>
-              Approve/Deny Reservation
+              Approve/Deny reservation
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
             <SheetTrigger asChild>
               <DropdownMenuItem>
                 <Button asChild variant="ghost">
-                  <ChangeFacility id={id} facility={facility} />
+                  <Changefacility id={id} facility={facility} />
                 </Button>
               </DropdownMenuItem>
             </SheetTrigger>
@@ -98,7 +98,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
           </DropdownMenuContent>
         </DropdownMenu>
         <SheetContent>
-          <SheetHeader>Change Facility</SheetHeader>
+          <SheetHeader>Change facility</SheetHeader>
           <SheetDescription>
             <form onSubmit={handleSave}>
               <div className="flex flex-col">
@@ -118,7 +118,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
                 <select
                   id="facility"
                   name="facility"
-                  onChange={handleFacilitySelect}
+                  onChange={handlefacilitySelect}
                 >
                   <option value="">Select a facility</option>
                   {filteredFacilities.map((facility) => (
@@ -130,7 +130,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
                 <select
                   id="category"
                   name="category"
-                  onChange={handleCategorySelect}
+                  onChange={handlecategorySelect}
                 >
                   <option value="">Select a category</option>
                   {facilityCategories.map((category, index) => (

@@ -8,17 +8,17 @@ import moment from 'moment';
 
 interface TableDates {
   Options: any;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   ReservationID: any;
 }
 
 export const columns: ColumnDef<TableDates>[] = [
   {
-    accessorKey: 'startDate',
+    accessorKey: 'startdate',
     header: ({ column }) => {
       return (
         <Button
@@ -31,13 +31,13 @@ export const columns: ColumnDef<TableDates>[] = [
       );
     },
     cell: ({ row }) => {
-      const startDate = row.getValue('startDate') as string;
-      const formatedDate = moment(startDate).format('MM/DD/YY');
+      const startdate = row.getValue('startdate') as string;
+      const formatedDate = moment(startdate).format('MM/DD/YY');
       return <div>{formatedDate}</div>;
     },
   },
   {
-    accessorKey: 'endDate',
+    accessorKey: 'enddate',
     header: ({ column }) => {
       return (
         <Button
@@ -50,17 +50,17 @@ export const columns: ColumnDef<TableDates>[] = [
       );
     },
     cell: ({ row }) => {
-      const endDate = row.getValue('endDate') as string;
-      const formatedDate = moment(endDate).format('MM/DD/YY');
+      const enddate = row.getValue('enddate') as string;
+      const formatedDate = moment(enddate).format('MM/DD/YY');
       return <div>{formatedDate}</div>;
     },
   },
   {
-    accessorKey: 'startTime',
+    accessorKey: 'starttime',
     header: 'Start Time',
   },
   {
-    accessorKey: 'endTime',
+    accessorKey: 'endtime',
     header: 'End Time',
   },
   {

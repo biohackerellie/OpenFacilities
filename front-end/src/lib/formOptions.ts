@@ -12,16 +12,16 @@ export const catOptions = [
   {
     value: '1',
     label:
-      'Category 1 - Community groups involving LPS children and non paid adults, or LPS staff',
+      'category 1 - Community groups involving LPS children and non paid adults, or LPS staff',
   },
   {
     value: '2',
-    label: 'Category 2 - All community non-profit organizations and groups',
+    label: 'category 2 - All community non-profit organizations and groups',
   },
   {
     value: '3',
     label:
-      'Category 3 - all for-profit organizations and non-profits from outside of the community',
+      'category 3 - all for-profit organizations and non-profits from outside of the community',
   },
   {
     value: 'staff',

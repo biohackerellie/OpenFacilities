@@ -9,14 +9,14 @@ export function swallDates() {
     const datesString = dates
       .map((date) => {
         const start = moment.tz(
-          date.startDate + ' ' + date.startTime,
+          date.startdate + ' ' + date.starttime,
           'America/Denver'
         );
         const end = moment.tz(
-          date.endDate + ' ' + date.endTime,
+          date.enddate + ' ' + date.endtime,
           'America/Denver'
         );
-        return `${date.startDate} ${start.format('h:mm a')} -  ${end.format(
+        return `${date.startdate} ${start.format('h:mm a')} -  ${end.format(
           'h:mm a'
         )}`;
       })
@@ -32,8 +32,8 @@ export function swallDates() {
 export function SwallButton({ reservation }: any) {
   const handleDateClick = swallDates();
   return (dates: any[]) => {
-    <button onClick={() => handleDateClick(reservation.ReservationDate)}>
-      {`${reservation.ReservationDate[0].startDate} - ${reservation.ReservationDate[0].endDate}`}{' '}
+    <button onClick={() => handleDateClick(reservation.reservationdate)}>
+      {`${reservation.reservationdate[0].startdate} - ${reservation.reservationdate[0].enddate}`}{' '}
     </button>;
   };
 }

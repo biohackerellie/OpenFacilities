@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TosModal } from '@/components/forms';
-import { CreateUser } from '@/functions/mutations';
+import { Createuser } from '@/functions/mutations';
 import { redirect } from 'next/navigation';
 import Swal from 'sweetalert2';
 
@@ -14,7 +14,7 @@ interface IFormInput {
   terms: boolean;
 }
 
-export default function CreateAccount() {
+export default function Createaccount() {
   const {
     register,
     watch,
@@ -33,9 +33,9 @@ export default function CreateAccount() {
 
   const onSubmit = async (formData: IFormInput) => {
     try {
-      await CreateUser(formData);
+      await Createuser(formData);
       Swal.fire({
-        title: 'Account Created',
+        title: 'account Created',
         text: 'Your account has been created. Please login.',
         icon: 'success',
         confirmButtonText: 'Ok',
@@ -135,7 +135,7 @@ export default function CreateAccount() {
           className="bg-primary dark:bg-secondary text-sm sm:text-md p-1 text-white rounded-md hover:bg-purple-700 text-center sm:p-2 mt-5 drop-shadow-md shadow-md transition-all duration-75 ease-in-out hover:scale-105 sm:hover:translate-x-1 sm:hover:translate-y-1 "
           type="submit"
         >
-          Create Account
+          Create account
         </button>
       </form>
     </div>

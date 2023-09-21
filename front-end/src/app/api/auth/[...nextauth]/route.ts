@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import NextAuth, { User as NextAuthUser } from 'next-auth';
+import NextAuth, { user as NextAuthUser } from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -110,7 +110,7 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user, account, profile, isNewuser }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;

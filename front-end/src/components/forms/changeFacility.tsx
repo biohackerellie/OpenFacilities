@@ -6,21 +6,21 @@ import { updateRes } from '@/functions/reservations';
 import ReactModal from 'react-modal';
 import { useFacilities } from '../hooks';
 import { Button } from '../ui/buttons';
-import { Facility } from '@/lib/types';
+import { facility } from '@/lib/types';
 
-interface ChangeFacilityProps {
+interface ChangefacilityProps {
   id: number;
-  facility: Facility;
+  facility: facility;
 }
 
-export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
-  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+export default function Changefacility({ id, facility }: ChangefacilityProps) {
+  const [selectedcategory, setSelectedcategory] = useState<number | undefined>(
     undefined
   );
-  const handleCategorySelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handlecategorySelect = (
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
-    setSelectedCategory(Number(event.target.value));
+    setSelectedcategory(Number(event.target.value));
   };
 
   const router = useRouter();
@@ -29,18 +29,18 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
     filteredFacilities,
     facilityCategories,
     handleBuildingSelect,
-    handleFacilitySelect,
+    handlefacilitySelect,
   } = useFacilities();
 
-  const reservationId = id;
+  const reservationid = id;
   const hideModal = () => setIsVisible(false);
   const showModal = () => setIsVisible(true);
   const [isVisible, setIsVisible] = React.useState(false);
   const handleSave = async () => {
     await updateRes({
-      id: reservationId,
+      id: reservationid,
       facilityiD: facility.id,
-      catID: selectedCategory,
+      catID: selectedcategory,
     });
     router.refresh();
     hideModal();
@@ -48,7 +48,7 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
 
   return (
     <>
-      <button onClick={showModal}>Edit Facility Details</button>
+      <button onClick={showModal}>Edit facility Details</button>
       <ReactModal
         className="fixed inset-0 flex text-lg items-center text-black dark:text-black justify-center z-50 transition-all ease-in-out duration-1000"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
@@ -56,7 +56,7 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
       >
         <div className="bg-white items-center place-content-center   justify-center flex flex-col rounded-lg w-auto min-w-34 p-4">
           <form onSubmit={handleSave}>
-            <h2>Change Facility</h2>
+            <h2>Change facility</h2>
             <div className="flex flex-col">
               <label htmlFor="building">Building</label>
               <select
@@ -74,7 +74,7 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
               <select
                 id="facility"
                 name="facility"
-                onChange={handleFacilitySelect}
+                onChange={handlefacilitySelect}
               >
                 <option value="">Select a facility</option>
                 {filteredFacilities.map((facility) => (
@@ -86,7 +86,7 @@ export default function ChangeFacility({ id, facility }: ChangeFacilityProps) {
               <select
                 id="category"
                 name="category"
-                onChange={handleCategorySelect}
+                onChange={handlecategorySelect}
               >
                 <option value="">Select a category</option>
                 {facilityCategories.map((category, index) => (

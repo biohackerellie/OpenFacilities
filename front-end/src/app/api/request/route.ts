@@ -9,9 +9,9 @@ export async function GET(req: Request) {
       approved: 'pending',
     },
     include: {
-      Facility: true,
-      ReservationDate: true,
-      User: true,
+      facility: true,
+      reservationdate: true,
+      user: true,
     },
   });
   return NextResponse.json(res);

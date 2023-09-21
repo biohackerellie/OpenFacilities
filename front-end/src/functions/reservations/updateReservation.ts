@@ -6,10 +6,10 @@ interface updateParams {
   id: number;
   catID?: number;
   name?: string;
-  startTime?: string;
-  startDate?: string;
-  endTime?: string;
-  endDate?: string;
+  starttime?: string;
+  startdate?: string;
+  endtime?: string;
+  enddate?: string;
   dateID?: number;
   phone?: string;
   email?: string;
@@ -21,10 +21,10 @@ export async function updateRes(params: updateParams) {
   const {
     id,
     catID,
-    startTime,
-    startDate,
-    endTime,
-    endDate,
+    starttime,
+    startdate,
+    endtime,
+    enddate,
     dateID,
     facilityiD,
   } = params;
@@ -32,24 +32,24 @@ export async function updateRes(params: updateParams) {
   const reservation = await prisma.reservation.findUnique({
     where: { id: id },
     include: {
-      Facility: true,
-      ReservationDate: true,
-      additionalFees: true,
-      Category: true,
-      User: true,
+      facility: true,
+      reservationdate: true,
+      reservationfees: true,
+      category: true,
+      user: true,
     },
   });
   if (!reservation) {
-    throw new Error('Reservation not found');
+    throw new Error('reservation not found');
   }
 
-  let category = reservation.Category ? reservation.Category : null;
+  let category = reservation.category ? reservation.category : null;
 
   if (catID) {
     await prisma.reservation.update({
       where: { id: id },
       data: {
-        categoryId: catID,
+        categoryid: catID,
       },
     });
     category = await prisma.category.findUnique({
@@ -57,14 +57,14 @@ export async function updateRes(params: updateParams) {
     });
   }
 
-  if (dateID && startTime && startDate && endTime && endDate) {
-    await prisma.reservationDate.update({
+  if (dateID && starttime && startdate && endtime && enddate) {
+    await prisma.reservationdate.update({
       where: { id: dateID },
       data: {
-        startTime: startTime,
-        startDate: startDate,
-        endTime: endTime,
-        endDate: endDate,
+        starttime: starttime,
+        startdate: startdate,
+        endtime: endtime,
+        enddate: enddate,
       },
     });
   }
@@ -73,7 +73,7 @@ export async function updateRes(params: updateParams) {
     await prisma.reservation.update({
       where: { id: id },
       data: {
-        facilityId: facilityiD,
+        facilityid: facilityiD,
       },
     });
   }
@@ -91,55 +91,55 @@ export async function updateRes(params: updateParams) {
 
 export async function addFee(
   id: number,
-  additionalFees: any,
-  additionalFeesDetails: string
+  reservationfees: any,
+  reservationfeesDetails: string
 ) {
   await prisma.reservationFees.create({
     data: {
-      additionalFees: parseInt(additionalFees),
-      feesType: additionalFeesDetails,
-      reservationId: id,
+      reservationfees: parseInt(reservationfees),
+      feesType: reservationfeesDetails,
+      reservationid: id,
     },
     include: {
-      Reservation: true,
+      reservation: true,
     },
   });
   const reservation: any = await prisma.reservation.findUnique({
     where: { id: id },
     include: {
-      Category: true,
-      ReservationDate: true,
-      additionalFees: true,
+      category: true,
+      reservationdate: true,
+      reservationfees: true,
     },
   });
-  const category = reservation.Category.price;
+  const category = reservation.category.price;
 
-  let totalHours = reservation.ReservationDate.reduce(
-    (acc: any, reservationDate: any) => {
-      const startTime: any = new Date(
-        `1970-01-01T${reservationDate.startTime}Z`
+  let totalhours = reservation.reservationdate.reduce(
+    (acc: any, reservationdate: any) => {
+      const starttime: any = new Date(
+        `1970-01-01T${reservationdate.starttime}Z`
       );
-      const endTime: any = new Date(`1970-01-01T${reservationDate.endTime}Z`);
-      const hours = Math.abs(endTime - startTime) / 36e5;
+      const endtime: any = new Date(`1970-01-01T${reservationdate.endtime}Z`);
+      const hours = Math.abs(endtime - starttime) / 36e5;
 
       return acc + hours;
     },
     0
   );
 
-  totalHours = Math.round(totalHours * 100) / 100;
+  totalhours = Math.round(totalhours * 100) / 100;
 
-  const charges = additionalFees.reduce(
-    (sum: any, fee: any) => sum + fee.additionalFees,
+  const charges = reservationfees.reduce(
+    (sum: any, fee: any) => sum + fee.reservationfees,
     0
   );
 
   let fees = 0;
 
-  if (reservation.Facility.building === 'Laurel Stadium') {
-    fees = reservation.Category.price;
+  if (reservation.facility.building === 'Laurel Stadium') {
+    fees = reservation.category.price;
   } else {
-    fees = category ? category * totalHours : 0;
+    fees = category ? category * totalhours : 0;
   }
 
   fees = Math.round(fees * 100) / 100;
@@ -157,7 +157,7 @@ export async function changeCat(id: number, category: any) {
     await prisma.reservation.update({
       where: { id: id },
       data: {
-        categoryId: parseInt(category),
+        categoryid: parseInt(category),
       },
     });
   } catch (error) {

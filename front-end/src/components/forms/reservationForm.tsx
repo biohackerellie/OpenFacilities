@@ -43,7 +43,7 @@ export default function ReservationForm() {
   );
   const [isVisible, setIsVisible] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState({});
-  const [techSupport, setTechSupport] = React.useState(false);
+  const [techsupport, setTechSupport] = React.useState(false);
   const [doorAccess, setDoorAccess] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
@@ -93,7 +93,7 @@ export default function ReservationForm() {
     filteredFacilities,
     facilityCategories,
     handleBuildingSelect,
-    handleFacilitySelect,
+    handlefacilitySelect,
   } = useFacilities();
 
   const { data: session } = useSession();
@@ -118,10 +118,10 @@ export default function ReservationForm() {
               <div className=" col-start-1 col-span-1 ">
                 <input
                   className={styles.input}
-                  {...register('eventName', { required: true, maxLength: 256 })}
+                  {...register('eventname', { required: true, maxLength: 256 })}
                 />
                 <label className={styles.label}>
-                  Event Title <span className="text-red-500">*</span>
+                  event Title <span className="text-red-500">*</span>
                 </label>
               </div>
             </div>
@@ -165,16 +165,16 @@ export default function ReservationForm() {
                 {...register('details')}
                 placeholder="Please provide any additional details about your event including any special requests or needs, additional contact information, etc."
               />
-              <label className={styles.label}>Event Description</label>
+              <label className={styles.label}>event Description</label>
             </div>
 
             <div className="col-start-1 flex-wrap sm:flex-nowrap sm:col-span-3 max-w-auto border-b-2 pb-2   ">
               <h1 className="font-bold text-black text-2xl">
-                Event Dates <span className="text-red-500">*</span>
+                event Dates <span className="text-red-500">*</span>
               </h1>
               {fields.map((field, index) => {
-                const watchStartTime = watch(`events.${index}.startTime`);
-                const watchEndTime = watch(`events.${index}.endTime`);
+                const watchStartTime = watch(`events.${index}.starttime`);
+                const watchEndTime = watch(`events.${index}.endtime`);
                 return (
                   <div
                     key={field.id}
@@ -182,9 +182,9 @@ export default function ReservationForm() {
                   >
                     <div>
                       <Controller
-                        name={`events.${index}.startDate`}
+                        name={`events.${index}.startdate`}
                         control={control}
-                        defaultValue={field.startDate}
+                        defaultValue={field.startdate}
                         rules={{ required: true }}
                         render={({ field }) => (
                           <input
@@ -195,7 +195,7 @@ export default function ReservationForm() {
                               field.onChange(e);
                               const updatedEndDate = e.target.value;
                               setValue(
-                                `events.${index}.endDate`,
+                                `events.${index}.enddate`,
                                 updatedEndDate
                               );
                             }}
@@ -206,16 +206,16 @@ export default function ReservationForm() {
                     </div>
                     <div>
                       <Controller
-                        name={`events.${index}.startTime`}
+                        name={`events.${index}.starttime`}
                         control={control}
-                        defaultValue={field.startTime}
+                        defaultValue={field.starttime}
                         rules={{ required: true }}
                         onChange={(e) => {
                           field.onChange(e);
                           const updatedStartTime = e.target.value;
                           if (updatedStartTime > watchEndTime) {
                             setValue(
-                              `events.${index}.endTime`,
+                              `events.${index}.endtime`,
                               updatedStartTime
                             );
                           }
@@ -234,9 +234,9 @@ export default function ReservationForm() {
                     </div>
                     <div hidden>
                       <Controller
-                        name={`events.${index}.endDate`}
+                        name={`events.${index}.enddate`}
                         control={control}
-                        defaultValue={field.endDate}
+                        defaultValue={field.enddate}
                         render={({ field }) => (
                           //@ts-expect-error
                           <input
@@ -251,9 +251,9 @@ export default function ReservationForm() {
                     </div>
                     <div>
                       <Controller
-                        name={`events.${index}.endTime`}
+                        name={`events.${index}.endtime`}
                         control={control}
-                        defaultValue={field.endTime}
+                        defaultValue={field.endtime}
                         rules={{
                           required: true,
                           validate: (value) =>
@@ -283,10 +283,10 @@ export default function ReservationForm() {
               <Button
                 onClick={() =>
                   append({
-                    startDate: formatDate(new Date()),
-                    startTime: moment().local().format('h:mm'),
-                    endDate: formatDate(new Date()),
-                    endTime: moment().local().format('h:mm'),
+                    startdate: formatDate(new Date()),
+                    starttime: moment().local().format('h:mm'),
+                    enddate: formatDate(new Date()),
+                    endtime: moment().local().format('h:mm'),
                   })
                 }
               >
@@ -352,7 +352,7 @@ export default function ReservationForm() {
                       required
                       onChange={(event) => {
                         field.onChange(event);
-                        handleFacilitySelect(event);
+                        handlefacilitySelect(event);
                       }}
                     >
                       <option value="">Select a facility</option>
@@ -365,11 +365,11 @@ export default function ReservationForm() {
                   )}
                 />
                 <select
-                  {...register('Category')}
+                  {...register('category')}
                   required
                   className="  bg-slate-300 dark:bg-slate-600 max-w-[200px] flex rounded-md mt-2 overflow-hidden whitespace-nowrap text-ellipsis border-0 mx-2 truncate "
                 >
-                  <option value="">Pricing Category</option>
+                  <option value="">Pricing category</option>
                   {facilityCategories.map((category, index) => (
                     <option
                       className="truncate text-ellipsis w-[100px]"
@@ -389,20 +389,20 @@ export default function ReservationForm() {
               <input
                 className="mx-2 my-2 scale-150 form-checkbox justify-end self-end align-bottom items-end bg-slate-400 border-4 shadow-md"
                 type="checkbox"
-                {...register('techSupport')}
-                checked={techSupport}
+                {...register('techsupport')}
+                checked={techsupport}
                 onChange={(e) => {
                   const value = e.target.checked;
                   setTechSupport(value);
                   return value;
                 }}
               />
-              {techSupport && (
+              {techsupport && (
                 <div>
                   {' '}
                   <textarea
                     className={styles.textarea}
-                    {...register('techDetails')}
+                    {...register('techdetails')}
                   />{' '}
                   <label className="italic text-black font-light">
                     Please describe what you need, projectors, microphones, etc.

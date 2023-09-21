@@ -3,7 +3,7 @@ import React from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/buttons';
 
-export default function UserResNav({ id }: { id: any }) {
+export default function userResNav({ id }: { id: any }) {
   return (
     <div className="flex h-5 items-center space-x-4 text-md">
       <div>

@@ -66,24 +66,24 @@ export const ModalForm = (props: {
                 <input
                   className="form-date bg-gray-300 hover:bg-gray-200 text-black"
                   type="date"
-                  {...register('startDate')}
+                  {...register('startdate')}
                 />
               </div>
               <div className="border-b-2 gap-2 my-2 p-2">
-                <label className="label">Event start time? </label>
+                <label className="label">event start time? </label>
                 <input
                   type="time"
                   className="form-date bg-gray-300 hover:bg-gray-200 my-2 text-black"
-                  {...register('startTime')}
+                  {...register('starttime')}
                 />
               </div>
               <div>
                 <div className="border-b-2 gap-2 my-2 p-2">
-                  <label className="label">Event end time? </label>
+                  <label className="label">event end time? </label>
                   <input
                     type="time"
                     className="form-date bg-gray-300 hover:bg-gray-200 text-black"
-                    {...register('endTime')}
+                    {...register('endtime')}
                   />
                 </div>
                 <div className="border-b-2 gap-2 my-2 p-2">

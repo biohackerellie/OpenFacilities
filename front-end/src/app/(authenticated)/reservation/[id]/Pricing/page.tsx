@@ -14,17 +14,17 @@ export default async function paymentPage({
     { cache: 'no-store' }
   );
   const reservation = await res.json();
-  const { Category } = reservation;
-  const user = reservation.User.name;
-  const url = reservation.paymentUrl;
+  const { category } = reservation;
+  const user = reservation.user.name;
+  const url = reservation.paymenturl;
 
-  const additionalFees = reservation.additionalFees;
-  // const additionalFeesTotal = additionalFees.reduce(
-  //   (sum: any, fee: any) => sum + fee.additionalFees,
+  const reservationfees = reservation.reservationfees;
+  // const reservationfeesTotal = reservationfees.reduce(
+  //   (sum: any, fee: any) => sum + fee.reservationfees,
   //   0
   // );
 
-  const totalBasePrice = Category.price * reservation.totalHours;
+  const totalBasePrice = category.price * reservation.totalhours;
   const totalCost = reservation.fees;
   const paid: boolean = reservation.paid;
 
@@ -37,9 +37,9 @@ export default async function paymentPage({
           </h2>
           <div className=" my-5  gap-36">
             <div className="  my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white ">
-              <p>Category: {Category.name} </p>
-              <p> Price: ${Category.price} /hr </p>
-              <p> Total Hours: {reservation.totalHours} </p>
+              <p>category: {category.name} </p>
+              <p> Price: ${category.price} /hr </p>
+              <p> Total Hours: {reservation.totalhours} </p>
               <p> Total Base Price: ${totalBasePrice} </p>
             </div>
 
@@ -47,12 +47,12 @@ export default async function paymentPage({
               <p> Additional Fees: </p>
               <p> Price: </p>
 
-              {additionalFees.map((fee: any, index: any) => (
+              {reservationfees.map((fee: any, index: any) => (
                 <div key={index} className="m-2">
                   <div className="text-ellipsis overflow-hidden">
                     {fee.feesType}
                   </div>
-                  <div>${fee.additionalFees}</div>
+                  <div>${fee.reservationfees}</div>
                 </div>
               ))}
               <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">

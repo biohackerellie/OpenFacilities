@@ -1,14 +1,14 @@
 import {
-  Facility,
-  Reservation,
-  ReservationDate,
-  ReservationFees,
+  facility,
+  reservation,
+  reservationdate,
+  reservationfees,
 } from '@prisma/client';
 
-type ExtendedReservation = Reservation & {
-  ReservationDate: ReservationDate[];
-  additionalFees: ReservationFees[];
-  Facility: Facility;
+type ExtendedReservation = reservation & {
+  reservationdate: reservationdate[];
+  reservationfees: reservationfees[];
+  facility: facility;
 };
 
 export default function calculateFees(
@@ -18,35 +18,35 @@ export default function calculateFees(
     name: string;
     description: string;
     price: number;
-    facilityId: number;
+    facilityid: number;
   } | null
 ) {
-  let totalHours = reservation.ReservationDate.reduce(
-    (acc: any, reservationDate: any) => {
-      const startTime: any = new Date(
-        `1970-01-01T${reservationDate.startTime}Z`
+  let totalhours = reservation.reservationdate.reduce(
+    (acc: any, reservationdate: any) => {
+      const starttime: any = new Date(
+        `1970-01-01T${reservationdate.starttime}Z`
       );
-      const endTime: any = new Date(`1970-01-01T${reservationDate.endTime}Z`);
-      const hours = Math.abs(endTime - startTime) / 36e5;
+      const endtime: any = new Date(`1970-01-01T${reservationdate.endtime}Z`);
+      const hours = Math.abs(endtime - starttime) / 36e5;
       return acc + hours;
     },
     0
   );
 
-  totalHours = Math.round(totalHours * 10) / 10;
+  totalhours = Math.round(totalhours * 10) / 10;
 
-  const additionalFees = reservation.additionalFees;
-  const charges = additionalFees.reduce(
-    (sum: any, fee: any) => sum + fee.additionalFees,
+  const reservationfees = reservation.reservationfees;
+  const charges = reservationfees.reduce(
+    (sum: any, fee: any) => sum + fee.reservationfees,
     0
   );
 
   let fees = 0 as number;
 
-  if (reservation.Facility.building === 'Laurel Stadium') {
+  if (reservation.facility.building === 'Laurel Stadium') {
     fees = category?.price ? category.price : 0;
   } else {
-    fees = category?.price ? category.price * totalHours : 0;
+    fees = category?.price ? category.price * totalhours : 0;
   }
 
   fees = Math.round(fees * 10) / 10;

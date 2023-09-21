@@ -1,6 +1,6 @@
 import React from 'react';
-import UserResNav from './userResNav';
-import IsUserReserv from '@/components/contexts/isUserReserv';
+import userResNav from './userResNav';
+import IsuserReserv from '@/components/contexts/isuserReserv';
 
 async function getReservation(id: number) {
   const res = await fetch(
@@ -18,24 +18,24 @@ export default async function reservationLayout({
   params: { id: number };
 }) {
   const reservation = await getReservation(params.id);
-  const { id, eventName, Facility } = reservation;
+  const { id, eventname, facility } = reservation;
 
   return (
-    <IsUserReserv reservation={reservation}>
+    <IsuserReserv reservation={reservation}>
       <section className="flex flex-wrap relative justify-center h-full p-3 transition-all ease-in-out">
         <div className="container pb-3 flex justify-between border-b-2 border-b-slate-500 ">
           <div className="">
-            <h1 className="font-bold   drop-shadow-lg text-2xl">{eventName}</h1>
+            <h1 className="font-bold   drop-shadow-lg text-2xl">{eventname}</h1>
             <h2 className=" font-light  drop-shadow-lg text-xl">
-              {Facility.building} {Facility.name}
+              {facility.building} {facility.name}
             </h2>
           </div>
           <div className=" self-end right-0">
-            <UserResNav id={id} />
+            <userResNav id={id} />
           </div>
         </div>
         {children}
       </section>
-    </IsUserReserv>
+    </IsuserReserv>
   );
 }

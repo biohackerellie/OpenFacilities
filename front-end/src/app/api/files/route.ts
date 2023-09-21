@@ -14,25 +14,25 @@ const minioClient = new Client({
 
 export async function POST(req: NextRequest) {
   try {
-    const { fileName, fileType, fileSize, id } = await req.json();
+    const { filename, fileType, fileSize, id } = await req.json();
     console.log('request: ', req);
-    if (!fileName || !fileType || !fileSize || !id) {
+    if (!filename || !fileType || !fileSize || !id) {
       return NextResponse.badRequest('Missing required parameters');
     }
     const bucketName = 'documents';
-    const fileUrl = `https://s3.laurel.k12.mt.us/${bucketName}/${fileName}`;
-    const putUrl = await minioClient.presignedPutObject(bucketName, fileName);
+    const fileUrl = `https://s3.laurel.k12.mt.us/${bucketName}/${filename}`;
+    const putUrl = await minioClient.presignedPutObject(bucketName, filename);
     console.log('putUrl', putUrl);
     const getUrl = await minioClient.presignedGetObject(
       bucketName,
-      fileName,
+      filename,
       24 * 60 * 60
     );
     console.log('getUrl', getUrl);
     await prisma.insuranceFiles.create({
       data: {
         path: fileUrl,
-        fileName: fileName,
+        filename: filename,
         reservation: {
           connect: {
             id: parseInt(id),

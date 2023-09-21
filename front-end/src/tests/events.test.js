@@ -20,16 +20,16 @@ describe('events.js', () => {
     // Create some facilities in the database
     const facility1 = await prisma.facility.create({
       data: {
-        name: 'Facility 1',
+        name: 'facility 1',
         building: 'Building 1',
-        googleCalendarId: 'calendar1',
+        googlecalendarid: 'calendar1',
       },
     });
     const facility2 = await prisma.facility.create({
       data: {
-        name: 'Facility 2',
+        name: 'facility 2',
         building: 'Building 2',
-        googleCalendarId: 'calendar2',
+        googlecalendarid: 'calendar2',
       },
     });
 
@@ -37,14 +37,14 @@ describe('events.js', () => {
     const mockResponse1 = [
       {
         id: 'event1',
-        summary: 'Event 1',
+        summary: 'event 1',
         start: { dateTime: '2022-01-01T10:00:00Z' },
         end: { dateTime: '2022-01-01T12:00:00Z' },
         location: 'Location 1',
       },
       {
         id: 'event2',
-        summary: 'Event 2',
+        summary: 'event 2',
         start: { dateTime: '2022-01-02T10:00:00Z' },
         end: { dateTime: '2022-01-02T12:00:00Z' },
         location: 'Location 2',
@@ -53,14 +53,14 @@ describe('events.js', () => {
     const mockResponse2 = [
       {
         id: 'event3',
-        summary: 'Event 3',
+        summary: 'event 3',
         start: { dateTime: '2022-01-03T10:00:00Z' },
         end: { dateTime: '2022-01-03T12:00:00Z' },
         location: 'Location 3',
       },
       {
         id: 'event4',
-        summary: 'Event 4',
+        summary: 'event 4',
         start: { dateTime: '2022-01-04T10:00:00Z' },
         end: { dateTime: '2022-01-04T12:00:00Z' },
         location: 'Location 4',
@@ -94,45 +94,45 @@ describe('events.js', () => {
     expect(events).toContainEqual(
       expect.objectContaining({
         id: 'event1',
-        title: 'Event 1',
+        title: 'event 1',
         start: expect.any(Date),
         end: expect.any(Date),
         location: 'Location 1',
-        recurringEventId: null,
-        facilityId: facility1.id,
+        recurring: null,
+        facilityid: facility1.id,
       })
     );
     expect(events).toContainEqual(
       expect.objectContaining({
         id: 'event2',
-        title: 'Event 2',
+        title: 'event 2',
         start: expect.any(Date),
         end: expect.any(Date),
         location: 'Location 2',
-        recurringEventId: null,
-        facilityId: facility1.id,
+        recurring: null,
+        facilityid: facility1.id,
       })
     );
     expect(events).toContainEqual(
       expect.objectContaining({
         id: 'event3',
-        title: 'Event 3',
+        title: 'event 3',
         start: expect.any(Date),
         end: expect.any(Date),
         location: 'Location 3',
-        recurringEventId: null,
-        facilityId: facility2.id,
+        recurring: null,
+        facilityid: facility2.id,
       })
     );
     expect(events).toContainEqual(
       expect.objectContaining({
         id: 'event4',
-        title: 'Event 4',
+        title: 'event 4',
         start: expect.any(Date),
         end: expect.any(Date),
         location: 'Location 4',
-        recurringEventId: null,
-        facilityId: facility2.id,
+        recurring: null,
+        facilityid: facility2.id,
       })
     );
   });
@@ -141,9 +141,9 @@ describe('events.js', () => {
     // Create a facility in the database
     const facility = await prisma.facility.create({
       data: {
-        name: 'Facility',
+        name: 'facility',
         building: 'Building',
-        googleCalendarId: 'calendar',
+        googlecalendarid: 'calendar',
       },
     });
 

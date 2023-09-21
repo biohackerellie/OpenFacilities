@@ -11,20 +11,20 @@ moment.tz.setDefault('America/Denver');
 export default async function createReservation(data: IFormInput) {
   let conflicts = false;
 
-  // const existingEvents = await prisma.events.findMany({
+  // const existingevents = await prisma.events.findMany({
   //   where: {
   //     start: {
-  //       gte: moment(data.startDate),
+  //       gte: moment(data.startdate),
   //     },
   //   },
   // });
 
-  // for (const event of existingEvents) {
-  //   if (event.facilityId === parseInt(data.facilityName)) {
+  // for (const event of existingevents) {
+  //   if (event.facilityid === parseInt(data.facilityName)) {
   //     if (
   //       moment(event.start).isBetween(
-  //         moment(data.startDate),
-  //         moment(data.endDate)
+  //         moment(data.startdate),
+  //         moment(data.enddate)
   //       )
   //     ) {
   //       conflicts = true;
@@ -34,10 +34,10 @@ export default async function createReservation(data: IFormInput) {
 
   const reservation = await prisma.reservation.create({
     data: {
-      eventName: data.eventName,
-      Category: {
+      eventname: data.eventname,
+      category: {
         connect: {
-          id: parseInt(data.Category),
+          id: parseInt(data.category),
         },
       },
       name: data.name,
@@ -47,37 +47,37 @@ export default async function createReservation(data: IFormInput) {
       doorAccess: data.doorAccess,
       doorsDetails: data.doorDetails,
       phone: data.phone,
-      techSupport: data.techSupport,
-      techDetails: data.techDetails,
-      Facility: {
+      techsupport: data.techsupport,
+      techdetails: data.techdetails,
+      facility: {
         connect: {
           id: parseInt(data.facilityName),
         },
       },
       insurance: false,
 
-      User: {
+      user: {
         connect: {
           email: data.email,
         },
       },
     },
     include: {
-      User: true,
-      Facility: true,
-      InsuranceFiles: true,
-      Category: true,
+      user: true,
+      facility: true,
+      insurancefiles: true,
+      category: true,
     },
   });
 
   for (const event of data.events) {
-    await prisma.reservationDate.create({
+    await prisma.reservationdate.create({
       data: {
-        startDate: moment(event.startDate).format('YYYY-MM-DD'),
-        endDate: moment(event.endDate).format('YYYY-MM-DD'),
-        startTime: event.startTime,
-        endTime: event.endTime,
-        reservationId: reservation.id,
+        startdate: moment(event.startdate).format('YYYY-MM-DD'),
+        enddate: moment(event.enddate).format('YYYY-MM-DD'),
+        starttime: event.starttime,
+        endtime: event.endtime,
+        reservationid: reservation.id,
       },
     });
   }
@@ -93,33 +93,33 @@ export default async function createReservation(data: IFormInput) {
 
     let to = '';
 
-    if (reservation.Facility.building === 'Laurel High School') {
+    if (reservation.facility.building === 'Laurel High School') {
       to =
         'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'Laurel Middle School') {
+    } else if (reservation.facility.building === 'Laurel Middle School') {
       to =
         'justin_klebe@laurel.k12.mt.us, allyson_robertus@laurel.k12.mt.us, geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'South Elementary') {
+    } else if (reservation.facility.building === 'South Elementary') {
       to =
         'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, katherine_dawe@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'West Elementary') {
+    } else if (reservation.facility.building === 'West Elementary') {
       to =
         'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, bethany_fuchs@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'Graff Elementary') {
+    } else if (reservation.facility.building === 'Graff Elementary') {
       to =
         'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, lynne_peterson@laurel.k12.mt.us, sunny_denz@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'Laurel Stadium') {
+    } else if (reservation.facility.building === 'Laurel Stadium') {
       to = 'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us';
-    } else if (reservation.Facility.building === 'Administration Building') {
+    } else if (reservation.facility.building === 'Administration Building') {
       to =
         'elliana_kerns@laurel.k12.mt.us, geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us';
     } else to = 'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us';
 
     const info = await transporter.sendMail({
-      from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
+      from: '"facility reservation" no_reply@laurel.k12.mt.us',
       to: to as string,
-      subject: 'New Facility Reservation',
-      text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id}`,
+      subject: 'New facility reservation',
+      text: `A new reservation request has been submitted by ${data.name} for ${data.eventname}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id}`,
     });
   }
 }

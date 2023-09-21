@@ -19,9 +19,9 @@ export default async function insurancePage({
 
   const reservation = await res.json();
 
-  const { InsuranceFiles } = reservation;
+  const { insurancefiles } = reservation;
 
-  const files = InsuranceFiles || [];
+  const files = insurancefiles || [];
 
   return (
     <div>
@@ -95,7 +95,7 @@ export default async function insurancePage({
                                   target="_blank"
                                   className="hover:underline font-bold text-black dark:text-white hover:text-blue-500"
                                 >
-                                  {file.fileName}
+                                  {file.filename}
                                 </a>
                               </td>
                               {!file.varified ? (

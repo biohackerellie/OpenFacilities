@@ -26,7 +26,7 @@ export default function EditCatModal({ id, categories }) {
 
   return (
     <>
-      <Button onClick={showModal}>Change Category</Button>
+      <Button onClick={showModal}>Change category</Button>
       <ReactModal
         className="fixed inset-0 flex text-lg items-center text-black dark:text-black justify-center z-50 transition-all ease-in-out duration-1000"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
@@ -34,9 +34,9 @@ export default function EditCatModal({ id, categories }) {
       >
         <div className="bg-white items-center place-content-center   justify-center flex flex-col rounded-lg w-auto min-w-34 p-4">
           <form onSubmit={handleSave}>
-            <h2>Change Category</h2>
+            <h2>Change category</h2>
             <div className="flex flex-col">
-              <label htmlFor="category">Category</label>
+              <label htmlFor="category">category</label>
               <select id="category" name="category" ref={categoryRef}>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>

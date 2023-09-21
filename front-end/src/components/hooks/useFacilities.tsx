@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Facility } from '@/lib/types';
-import { Category } from '@prisma/client';
+import { facility } from '@/lib/types';
+import { category } from '@prisma/client';
 
-export function useFacilities(onFacilitySelect?: (facility: Facility) => void) {
-  const [facilities, setFacilities] = useState<Facility[]>([]);
-  const [facilityCategories, setFacilityCategories] = useState<Category[]>([]);
+export function useFacilities(onfacilitySelect?: (facility: facility) => void) {
+  const [facilities, setFacilities] = useState<facility[]>([]);
+  const [facilityCategories, setfacilityCategories] = useState<category[]>([]);
   useEffect(() => {
     const fetchFacilities = async () => {
       const response = await fetch('/api/facilities');
@@ -21,27 +21,27 @@ export function useFacilities(onFacilitySelect?: (facility: Facility) => void) {
   const buildings = Array.from(new Set(facilities.map((f) => f.building)));
 
   const handleBuildingSelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
     setSelectedBuilding(event.target.value);
   };
-  const updateFacilityCategory = useCallback(async (id: number) => {
+  const updatefacilitycategory = useCallback(async (id: number) => {
     const response = await fetch(`/api/facilities/${id}`);
     const data = await response.json();
-    setFacilityCategories(data.Category);
+    setfacilityCategories(data.category);
   }, []);
 
-  const handleFacilitySelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handlefacilitySelect = (
+    event: React.Changeevent<HTMLSelectElement>
   ) => {
     const facility = facilities.find(
       (f) => f.id === parseInt(event.target.value)
     );
-    if (facility && typeof onFacilitySelect === 'function') {
-      onFacilitySelect(facility);
+    if (facility && typeof onfacilitySelect === 'function') {
+      onfacilitySelect(facility);
     }
     if (facility) {
-      updateFacilityCategory(facility.id);
+      updatefacilitycategory(facility.id);
     }
   };
 
@@ -53,7 +53,7 @@ export function useFacilities(onFacilitySelect?: (facility: Facility) => void) {
     buildings,
     handleBuildingSelect,
     filteredFacilities,
-    handleFacilitySelect,
+    handlefacilitySelect,
 
     facilityCategories,
   };

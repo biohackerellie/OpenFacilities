@@ -6,33 +6,33 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Modal from 'react-modal';
-import { Events } from '@prisma/client';
+import { events } from '@prisma/client';
 import { useTheme } from 'next-themes';
 
 const localizer = momentLocalizer(moment);
 
 interface Props {
-  facilityId: number;
-  startDate: Date;
+  facilityid: number;
+  startdate: Date;
 }
 
 interface DateProps {
-  startDate: Date;
+  startdate: Date;
 }
 
-export default function SmallCalendar({ facilityId, startDate }: Props) {
-  const [events, setEvents] = useState([]);
+export default function SmallCalendar({ facilityid, startdate }: Props) {
+  const [events, setevents] = useState([]);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchevents = async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_HOST + `/api/events/${facilityId}`,
+        process.env.NEXT_PUBLIC_HOST + `/api/events/${facilityid}`,
         { next: { tags: ['events'] } }
       );
-      const fetchedEvents = await res.json();
+      const fetchedevents = await res.json();
 
-      setEvents(
-        fetchedEvents.map((event) => ({
+      setevents(
+        fetchedevents.map((event) => ({
           title: event.title,
           start: new Date(event.start),
           end: new Date(event.end),
@@ -41,7 +41,7 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
         }))
       );
     };
-    fetchEvents();
+    fetchevents();
   }, []);
 
   const { theme } = useTheme();
@@ -57,10 +57,10 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
     }),
   };
 
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedevent, setSelectedevent] = useState(null);
   const { defaultDate, views } = useMemo(
     () => ({
-      defaultDate: new Date(startDate),
+      defaultDate: new Date(startdate),
       views: {
         month: true,
         week: false,
@@ -68,16 +68,16 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
         agenda: false,
       },
     }),
-    [startDate]
+    [startdate]
   );
 
   useEffect(() => {
-    if (selectedEvent) {
+    if (selectedevent) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
     }
-  }, [selectedEvent]);
+  }, [selectedevent]);
 
   return (
     <>
@@ -87,7 +87,7 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
           views={views}
           localizer={localizer}
           events={events}
-          onSelectEvent={(event) => setSelectedEvent(event)}
+          onSelectevent={(event) => setSelectedevent(event)}
           popup
           startAccessor="start"
           // className="z-0 bg-white max-w-[480px] sm:max-w-2xl font-normal border-solid rounded-lg dark:bg-white-200 text-black dark:text-black"
@@ -97,26 +97,26 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
       </div>
       <div className="items-center align-middle justify-center drop-shadow-md">
         <Modal
-          isOpen={!!selectedEvent}
-          onRequestClose={() => setSelectedEvent(null)}
+          isOpen={!!selectedevent}
+          onRequestClose={() => setSelectedevent(null)}
           className="fixed inset-0 flex items-center text-black dark:text-black justify-center z-50 transition-opacity ease-out duration-500"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
         >
           <div className="bg-white rounded-lg p-8">
-            <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
-            <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-            <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
+            <h3 className="text-xl font-bold mb-4">{selectedevent?.title}</h3>
+            <h4 className="text-lg mb-2">{selectedevent?.building}</h4>
+            <h4 className="text-lg mb-2">{selectedevent?.facility}</h4>
             <p className="mb-2">
               {' '}
-              Starts at {selectedEvent?.start.toLocaleString()}
+              Starts at {selectedevent?.start.toLocaleString()}
             </p>
             <p className="mb-4">
               {' '}
-              Ends at {selectedEvent?.end.toLocaleString()}
+              Ends at {selectedevent?.end.toLocaleString()}
             </p>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              onClick={() => setSelectedEvent(null)}
+              onClick={() => setSelectedevent(null)}
             >
               Close
             </button>

@@ -2,13 +2,13 @@ import Link from 'next/link';
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
 import { JiraModal } from '@/components/forms';
-import { Facility } from '@/lib/types';
+import { facility } from '@/lib/types';
 import { Button } from '@/components/ui/buttons';
 import dynamic from 'next/dynamic';
 
 interface ResNavProps {
   id: number;
-  facility: Facility;
+  facility: facility;
 }
 
 const ReservationOptions = dynamic(

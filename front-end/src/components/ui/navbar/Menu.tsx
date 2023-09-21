@@ -64,7 +64,7 @@ export function AuthenticatedMenu() {
                   </ListItem>
                 </Link>
                 <Link href="/admin/users" legacyBehavior passHref>
-                  <ListItem title="Users">Manage users</ListItem>
+                  <ListItem title="users">Manage users</ListItem>
                 </Link>
               </ul>
             </NavigationMenuContent>

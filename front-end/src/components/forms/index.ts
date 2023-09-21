@@ -5,10 +5,10 @@ import BugModal from './bugModal';
 import ShowPayment from './showPayment';
 import JiraModal from './jiraModal';
 
-import ChangeFacility from './changeFacility';
+import Changefacility from './changefacility';
 
 export {
-  ChangeFacility,
+  Changefacility,
   CustomInput,
   SquarePayment,
   TosModal,

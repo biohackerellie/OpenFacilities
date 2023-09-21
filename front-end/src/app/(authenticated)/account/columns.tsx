@@ -6,34 +6,34 @@ import Link from 'next/link';
 import { ArrowUpDown } from 'lucide-react';
 
 interface TableReservations {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
+  eventname: string;
+  facility: string;
+  reservationdate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   Details: number;
 }
 
 export const columns: ColumnDef<TableReservations>[] = [
   {
-    accessorKey: 'eventName',
-    header: 'Event Name',
+    accessorKey: 'eventname',
+    header: 'event Name',
   },
   {
-    accessorKey: 'Facility',
+    accessorKey: 'facility',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Facility
+          facility
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: 'ReservationDate',
+    accessorKey: 'reservationdate',
 
     header: ({ column }) => {
       return (

@@ -8,7 +8,7 @@ interface IFormInput {
   name: string;
 }
 
-export default async function CreateUser(formData: IFormInput) {
+export default async function Createuser(formData: IFormInput) {
   const password = formData.password as string;
   const newHash = bcrypt.hashSync(password, 10);
   const res = await prisma.user.create({

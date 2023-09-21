@@ -18,18 +18,18 @@ import React from 'react';
 
 interface DateProps {
   id: any;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
   resID: any;
 }
 
 interface IForminput {
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
   id: any;
 }
 
@@ -64,37 +64,37 @@ export default function EditDates(date: DateProps) {
             <div className="flex flex-col space-y-2">
               <Label htmlFor="start-date">Start Date</Label>
               <input
-                {...register('startDate')}
-                id="startDate"
+                {...register('startdate')}
+                id="startdate"
                 type="date"
-                defaultValue={date.startDate}
+                defaultValue={date.startdate}
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="endDate">End Date</Label>
+              <Label htmlFor="enddate">End Date</Label>
               <input
-                {...register('endDate')}
-                id="endDate"
+                {...register('enddate')}
+                id="enddate"
                 type="date"
-                defaultValue={date.endDate}
+                defaultValue={date.enddate}
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="startTime">Start Time</Label>
+              <Label htmlFor="starttime">Start Time</Label>
               <input
-                {...register('startTime')}
-                id="startTime"
+                {...register('starttime')}
+                id="starttime"
                 type="time"
-                defaultValue={date.startTime}
+                defaultValue={date.starttime}
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="endTime">End Time</Label>
+              <Label htmlFor="endtime">End Time</Label>
               <input
-                {...register('endTime')}
-                id="endTime"
+                {...register('endtime')}
+                id="endtime"
                 type="time"
-                defaultValue={date.endTime}
+                defaultValue={date.endtime}
               />
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Category, Events } from '@prisma/client';
+import { category, events } from '@prisma/client';
 import { ExternalLink } from 'lucide-react';
 
 import Link from 'next/link';
@@ -32,7 +32,7 @@ export default async function facilityPage({
     process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`
   );
   const facility = await res.json();
-  const { id, name, address, building, capacity, imagePath, Category, Events } =
+  const { id, name, address, building, capacity, imagepath, category, events } =
     facility;
 
   const map = `https://www.google.com/maps/search/?api=1&query=${address}`;
@@ -49,9 +49,9 @@ export default async function facilityPage({
             {address} <ExternalLink className="inline-block scale-75" />
           </Link>
 
-          {imagePath ? (
+          {imagepath ? (
             <Image
-              src={imagePath}
+              src={imagepath}
               alt={name}
               width={600}
               height={600}
@@ -86,8 +86,8 @@ export default async function facilityPage({
           </div>
           <div className="p-4 border-4 my-3 mr-4 max-w-md items-end justify-between">
             <h1 className="font-bold text-2xl border-b-2">Pricing</h1>
-            {Category &&
-              Category.map((category: Category) => (
+            {category &&
+              category.map((category: category) => (
                 <div key={category.id} className="grid grid-cols-3   p-4">
                   <Tooltip>
                     <TooltipTrigger className="font-semibold text-left col-start-1  col-span-2 text-lg truncate">
@@ -112,14 +112,14 @@ export default async function facilityPage({
               ))}
           </div>
           <ScrollArea className="h-[400px] w-[480px] rounded-md border p-4">
-            <h1 className="font-bold text-2xl border-b-2">Upcoming Events</h1>
-            {Events &&
-              [...Events]
+            <h1 className="font-bold text-2xl border-b-2">Upcoming events</h1>
+            {events &&
+              [...events]
                 .sort(
                   (a, b) =>
                     new Date(a.start).getTime() - new Date(b.start).getTime()
                 )
-                .map((event: Events) => (
+                .map((event: events) => (
                   <div key={event.id}>
                     <div className="grid grid-cols-2 border-b   p-4">
                       <h3 className=" col-start-1">{event.title}</h3>

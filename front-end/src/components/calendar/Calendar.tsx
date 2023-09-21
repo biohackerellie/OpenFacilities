@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import ReactModal from 'react-modal';
 import { CalendarInfo } from '../ui';
-import { Events } from '@prisma/client';
+import { events } from '@prisma/client';
 import { useTheme } from 'next-themes';
 import { Button } from '../ui/buttons';
 import { Separator } from '@/components/ui/separator';
@@ -22,7 +22,7 @@ const buildingColors: any = {
   'Administration Building': 'orange',
 };
 
-function EventComponent({ event }: { event: Events }) {
+function eventComponent({ event }: { event: events }) {
   return (
     <div
       className={`rbc-event-content ${
@@ -55,8 +55,8 @@ export default function CalendarMain() {
       'https://calendar.google.com/calendar/embed?src=c_188f41n72e9d0h33l3n96tt6jg9t6%40resource.calendar.google.com&ctz=America%2FDenver',
   };
 
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [events, setEvents] = useState([]);
+  const [selectedevent, setSelectedevent] = useState(null);
+  const [events, setevents] = useState([]);
   const [selectedBuilding, setSelectedBuilding] = useState('Master');
   const handleSetSelectedBuilding = (building: string) => {
     setSelectedBuilding(building);
@@ -75,12 +75,12 @@ export default function CalendarMain() {
   };
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchevents = async () => {
       const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events');
-      const fetchedEvents = await res.json();
+      const fetchedevents = await res.json();
 
-      setEvents(
-        fetchedEvents.map((event) => ({
+      setevents(
+        fetchedevents.map((event) => ({
           title: event.title,
           start: new Date(event.start),
           end: new Date(event.end),
@@ -90,18 +90,18 @@ export default function CalendarMain() {
       );
     };
 
-    fetchEvents();
+    fetchevents();
   }, []);
 
   useEffect(() => {
-    if (selectedEvent) {
+    if (selectedevent) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
     }
-  }, [selectedEvent]);
+  }, [selectedevent]);
 
-  const filteredEvents =
+  const filteredevents =
     selectedBuilding === 'Master'
       ? events
       : events.filter((event) => event.building === selectedBuilding);
@@ -117,7 +117,7 @@ export default function CalendarMain() {
             }`}
             onClick={() => handleSetSelectedBuilding('Master')}
           >
-            All Events
+            All events
           </Button>
         </div>
         <Separator orientation="vertical" />
@@ -222,8 +222,8 @@ export default function CalendarMain() {
           </div>
           <Calendar
             localizer={localizer}
-            events={filteredEvents}
-            onSelectEvent={(event) => setSelectedEvent(event)}
+            events={filteredevents}
+            onSelectevent={(event) => setSelectedevent(event)}
             popup
             eventPropGetter={(event, start, end, isSelected) => ({
               style: {
@@ -235,32 +235,32 @@ export default function CalendarMain() {
             // className="z-0 bg-transparent  font-normal m-auto border-solid border-4 backdrop-blur-lg object-center rounded-lg max-h-auto sm:max-h-auto    text-black max-w-[1080px] dark:text-white"
             style={calendarStyle}
             components={{
-              event: EventComponent,
+              event: eventComponent,
             }}
           />
         </div>
         <div className="items-center align-middle justify-center drop-shadow-md">
           <ReactModal
-            isOpen={!!selectedEvent}
-            onRequestClose={() => setSelectedEvent(null)}
+            isOpen={!!selectedevent}
+            onRequestClose={() => setSelectedevent(null)}
             className="fixed inset-0 flex items-center text-black dark:text-black justify-center z-50 transition-opacity ease-out duration-500"
             overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
           >
             <div className="bg-white rounded-lg p-8">
-              <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
-              <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-              <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
+              <h3 className="text-xl font-bold mb-4">{selectedevent?.title}</h3>
+              <h4 className="text-lg mb-2">{selectedevent?.building}</h4>
+              <h4 className="text-lg mb-2">{selectedevent?.facility}</h4>
               <p className="mb-2">
                 {' '}
-                Starts at {selectedEvent?.start.toLocaleString()}
+                Starts at {selectedevent?.start.toLocaleString()}
               </p>
               <p className="mb-4">
                 {' '}
-                Ends at {selectedEvent?.end.toLocaleString()}
+                Ends at {selectedevent?.end.toLocaleString()}
               </p>
               <button
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                onClick={() => setSelectedEvent(null)}
+                onClick={() => setSelectedevent(null)}
               >
                 Close
               </button>

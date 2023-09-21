@@ -12,13 +12,13 @@ export async function GET(
   const res = await prisma.reservation.findUnique({
     where: { id },
     include: {
-      Facility: true,
-      User: true,
-      Event: true,
-      ReservationDate: true,
-      InsuranceFiles: true,
-      additionalFees: true,
-      Category: true,
+      facility: true,
+      user: true,
+      event: true,
+      reservationdate: true,
+      insurancefiles: true,
+      reservationfees: true,
+      category: true,
     },
   });
   return NextResponse.json(res);

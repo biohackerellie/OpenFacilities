@@ -7,7 +7,7 @@ export async function changeCat(id: number, category: any) {
     await prisma.reservation.update({
       where: { id: id },
       data: {
-        categoryId: parseInt(category),
+        categoryid: parseInt(category),
       },
     });
   } catch (error) {

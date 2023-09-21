@@ -1,36 +1,36 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
-import { User } from '@prisma/client';
+import { user } from '@prisma/client';
 import { columns } from './columns';
 
-interface TableUsers {
-  User: string;
+interface Tableusers {
+  user: string;
   Email: string;
   Role: string;
   Details: string;
 }
 
-async function getUsers(): Promise<TableUsers[]> {
+async function getusers(): Promise<Tableusers[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users`);
-  const users: User[] = await res.json();
+  const users: user[] = await res.json();
 
-  const mappedUsers: TableUsers[] = users.map((user) => {
+  const mappedusers: Tableusers[] = users.map((user) => {
     return {
-      User: user.name,
+      user: user.name,
       Email: user.email,
       Role: user.role,
       Details: user.id.toString(),
     };
   });
-  return mappedUsers;
+  return mappedusers;
 }
 
-export default async function Users() {
-  const data = await getUsers();
+export default async function users() {
+  const data = await getusers();
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        Users
+        users
       </h1>
       <DataTable columns={columns} data={data} />
     </div>

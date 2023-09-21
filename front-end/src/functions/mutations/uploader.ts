@@ -5,7 +5,7 @@ export default async function Uploader(file: File, id: any) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        fileName: file.name as string,
+        filename: file.name as string,
         fileType: file.type,
         fileSize: file.size,
         id: id,

@@ -6,23 +6,23 @@ import Link from 'next/link';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import moment from 'moment';
 
-interface TableUsers {
-  User: string;
+interface Tableusers {
+  user: string;
   Email: string;
   Role: string;
   Details: string | number;
 }
 
-export const columns: ColumnDef<TableUsers>[] = [
+export const columns: ColumnDef<Tableusers>[] = [
   {
-    accessorKey: 'User',
+    accessorKey: 'user',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          User
+          user
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

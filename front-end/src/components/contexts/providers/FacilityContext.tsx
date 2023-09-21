@@ -1,39 +1,39 @@
 'use client';
 
-import { Facility } from '@/lib/types';
+import { facility } from '@/lib/types';
 
 import React, { createContext, useContext, useState } from 'react';
 
-interface FacilityContextProps {
-  facility: Facility | null | undefined | undefined;
-  setFacility: React.Dispatch<
-    React.SetStateAction<Facility | null | undefined>
+interface facilityContextProps {
+  facility: facility | null | undefined | undefined;
+  setfacility: React.Dispatch<
+    React.SetStateAction<facility | null | undefined>
   >;
 }
 
-const FacilityContext = createContext<FacilityContextProps | undefined>(
+const facilityContext = createContext<facilityContextProps | undefined>(
   undefined
 );
 
 export const useFacility = () => {
-  const context = useContext(FacilityContext);
+  const context = useContext(facilityContext);
   if (!context) {
-    throw new Error('useFacility must be used within a FacilityProvider');
+    throw new Error('useFacility must be used within a facilityProvider');
   }
   return context;
 };
 
-interface FacilityProviderProps {
+interface facilityProviderProps {
   children: React.ReactNode;
 }
 
-export const FacilityProvider: React.FC<FacilityProviderProps> = ({
+export const facilityProvider: React.FC<facilityProviderProps> = ({
   children,
 }) => {
-  const [facility, setFacility] = useState<Facility | null | undefined>(null);
+  const [facility, setfacility] = useState<facility | null | undefined>(null);
   return (
-    <FacilityContext.Provider value={{ facility, setFacility }}>
+    <facilityContext.Provider value={{ facility, setfacility }}>
       {children}
-    </FacilityContext.Provider>
+    </facilityContext.Provider>
   );
 };

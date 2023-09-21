@@ -29,10 +29,10 @@ import EditDates from '@/components/forms/EditDates';
 
 interface TableDates {
   Options: any;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
   ReservationID: any;
 }
@@ -69,7 +69,7 @@ const DeleteDate = async (id: number) => {
 
 export const columns: ColumnDef<TableDates>[] = [
   {
-    accessorKey: 'startDate',
+    accessorKey: 'startdate',
     header: ({ column }) => {
       return (
         <Button
@@ -82,13 +82,13 @@ export const columns: ColumnDef<TableDates>[] = [
       );
     },
     cell: ({ row }) => {
-      const startDate = row.getValue('startDate') as string;
-      const formatedDate = moment(startDate).format('MM/DD/YY');
+      const startdate = row.getValue('startdate') as string;
+      const formatedDate = moment(startdate).format('MM/DD/YY');
       return <div>{formatedDate}</div>;
     },
   },
   {
-    accessorKey: 'endDate',
+    accessorKey: 'enddate',
     header: ({ column }) => {
       return (
         <Button
@@ -101,17 +101,17 @@ export const columns: ColumnDef<TableDates>[] = [
       );
     },
     cell: ({ row }) => {
-      const endDate = row.getValue('endDate') as string;
-      const formatedDate = moment(endDate).format('MM/DD/YY');
+      const enddate = row.getValue('enddate') as string;
+      const formatedDate = moment(enddate).format('MM/DD/YY');
       return <div>{formatedDate}</div>;
     },
   },
   {
-    accessorKey: 'startTime',
+    accessorKey: 'starttime',
     header: 'Start Time',
   },
   {
-    accessorKey: 'endTime',
+    accessorKey: 'endtime',
     header: 'End Time',
   },
   {
@@ -179,18 +179,18 @@ export const columns: ColumnDef<TableDates>[] = [
     header: 'Edit',
     cell: ({ row }) => {
       const id = row.getValue('Options') as any;
-      const startDate = row.getValue('startDate') as string;
-      const endDate = row.getValue('endDate') as string;
-      const startTime = row.getValue('startTime') as string;
-      const endTime = row.getValue('endTime') as string;
+      const startdate = row.getValue('startdate') as string;
+      const enddate = row.getValue('enddate') as string;
+      const starttime = row.getValue('starttime') as string;
+      const endtime = row.getValue('endtime') as string;
       const reservationID = row.getValue('Edit') as any;
       return (
         <EditDates
           id={id}
-          startDate={startDate}
-          endDate={endDate}
-          startTime={startTime}
-          endTime={endTime}
+          startdate={startdate}
+          enddate={enddate}
+          starttime={starttime}
+          endtime={endtime}
           resID={reservationID}
         />
       );

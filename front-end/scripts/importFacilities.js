@@ -31,9 +31,9 @@ async function populateDBWithFacilities() {
             name: facilityData.name,
             building: facilityData.building,
             address: facilityData.address,
-            imagePath: facilityData.image_path || null,
+            imagepath: facilityData.image_path || null,
             capacity: facilityData.capacity || null,
-            googleCalendarId: facilityData.calendar_id,
+            googlecalendarid: facilityData.calendar_id,
           },
         });
 
@@ -46,7 +46,7 @@ async function populateDBWithFacilities() {
           const category = await prisma.category.create({
             data: {
               ...categoryData,
-              Facility: {
+              facility: {
                 connect: {
                   id: facility.id,
                 },

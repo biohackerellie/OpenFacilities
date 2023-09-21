@@ -10,9 +10,9 @@ export async function GET(
   const res = await prisma.facility.findUnique({
     where: { id },
     include: {
-      Category: true,
-      Reservation: true,
-      Events: {
+      category: true,
+      reservation: true,
+      events: {
         where: {
           AND: [
             {

@@ -1,3 +1,3 @@
-export default function Users() {
-  return <div>Users</div>;
+export default function users() {
+  return <div>users</div>;
 }

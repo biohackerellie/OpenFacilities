@@ -6,7 +6,7 @@ export default function Home() {
       <main className=" flex   bg-transparent  justify-center  text-center gap-10 p-10  z-0  h-full">
         <div className="  ">
           <h1 className=" flex font-bold  text-3xl sm:text-5xl text-black drop-shadow-md border-b dark:text-gold mb-10 justify-center  ">
-            Laurel Public Schools Facility Rentals
+            Laurel Public Schools facility Rentals
           </h1>
           <div className="block flex-1"> </div>
           <div className=" mb-10 flex justify-center max-w-7xl  align-middle">

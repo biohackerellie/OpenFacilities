@@ -10,7 +10,7 @@ export async function GET(
 
   const res = await prisma.events.findMany({
     where: {
-      facilityId: id,
+      facilityid: id,
     },
     include: {
       facility: true,

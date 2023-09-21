@@ -1,6 +1,6 @@
-import CreateUser from './create-user';
+import Createuser from './create-user';
 import Paid from './paid';
-import PayinPerson from './pip';
+import Payinperson from './pip';
 import Uploader from './uploader';
 import addFee from './addFee';
 import verifyDoc from './verifyDoc';
@@ -10,9 +10,9 @@ import modifyDate from './modifyDate';
 
 export {
   modifyDate,
-  CreateUser,
+  Createuser,
   Paid,
-  PayinPerson,
+  Payinperson,
   Uploader,
   verifyDoc,
   addFee,

@@ -6,16 +6,16 @@ import React from 'react';
 
 import { User } from 'next-auth';
 
-interface Reservation {
+interface reservation {
   userId: string;
 }
 
 interface Props {
   children: React.ReactNode;
-  reservation: Reservation;
+  reservation: reservation;
 }
 
-export default function IsUserReserv({ children, reservation }: Props) {
+export default function IsuserReserv({ children, reservation }: Props) {
   const { data: session, status } = useSession();
 
   if (status === 'authenticated') {

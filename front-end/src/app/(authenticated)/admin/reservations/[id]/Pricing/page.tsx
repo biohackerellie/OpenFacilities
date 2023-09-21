@@ -16,20 +16,21 @@ export default async function paymentPage({
     { cache: 'no-store' }
   );
   const reservation = await res.json();
-  const { paid, Category, User, ReservationDate, additionalFees } = reservation;
+  const { paid, category, user, reservationdate, reservationfees } =
+    reservation;
   const categories = await prisma.category.findMany({
     where: {
-      facilityId: reservation.facilityId,
+      facilityid: reservation.facilityid,
     },
   });
 
-  const additionalFeesTotal = additionalFees.reduce(
-    (sum: any, fee: any) => sum + fee.additionalFees,
+  const reservationfeesTotal = reservationfees.reduce(
+    (sum: any, fee: any) => sum + fee.reservationfees,
     0
   );
-  const user = User.name;
-  const totalBasePrice = Category.price * reservation.totalHours;
-  const totalCost: number = additionalFeesTotal + totalBasePrice;
+  const user = user.name;
+  const totalBasePrice = category.price * reservation.totalhours;
+  const totalCost: number = reservationfeesTotal + totalBasePrice;
   return (
     <div className="justify-center flex flex-wrap my-4 ">
       <div className="gap-y-4  drop-shadow-md  m-3 p-4">
@@ -41,7 +42,7 @@ export default async function paymentPage({
             <table>
               <thead>
                 <tr>
-                  <th> Category: </th>
+                  <th> category: </th>
                   <th> Price: </th>
                   <th> Total Hours: </th>
                   <th> Total Base Price: </th>
@@ -51,10 +52,10 @@ export default async function paymentPage({
                 <tr>
                   <td className="text-ellipsis truncate max-w-sm overflow-hidden">
                     {' '}
-                    {Category.name} -{' '}
+                    {category.name} -{' '}
                   </td>
-                  <td> ${Category.price} /hr </td>
-                  <td> {reservation.totalHours}</td>
+                  <td> ${category.price} /hr </td>
+                  <td> {reservation.totalhours}</td>
                   <td> ${totalBasePrice}</td>
                 </tr>
               </tbody>
@@ -73,12 +74,12 @@ export default async function paymentPage({
                 </tr>
               </thead>
               <tbody>
-                {additionalFees.map((fee: any, index: any) => (
+                {reservationfees.map((fee: any, index: any) => (
                   <tr key={index} className="m-2">
                     <td className="text-ellipsis overflow-hidden">
                       {fee.feesType}
                     </td>
-                    <td>${fee.additionalFees}</td>
+                    <td>${fee.reservationfees}</td>
                   </tr>
                 ))}
               </tbody>
@@ -87,7 +88,7 @@ export default async function paymentPage({
           <div className="p-2 m-2 self-end flex justify-end">
             <EditPricingModal
               id={id}
-              {...additionalFees}
+              {...reservationfees}
               {...reservation}
               amount={totalCost}
               user={user}

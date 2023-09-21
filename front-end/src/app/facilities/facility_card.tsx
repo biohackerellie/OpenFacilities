@@ -9,16 +9,16 @@ interface Props {
   address: string | undefined;
   building: string | undefined;
   capacity: number | undefined;
-  imagePath: string | undefined;
+  imagepath: string | undefined;
   id: number | undefined;
 }
 
-export default function FacilityCard({
+export default function facilityCard({
   name,
   address,
   building,
   capacity,
-  imagePath,
+  imagepath,
   id,
 }: Props) {
   const idString = id?.toString();
@@ -26,9 +26,9 @@ export default function FacilityCard({
     <Card className="h-[380px] w-[400px] bg-opacity-10 border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md">
       <Link href={`/facilities/${idString}`}>
         <CardHeader className="drop-shadow-md">
-          {imagePath ? (
+          {imagepath ? (
             <Image
-              src={imagePath}
+              src={imagepath}
               alt={`${name}`}
               width={350}
               height={260}

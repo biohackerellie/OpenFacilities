@@ -4,12 +4,12 @@ import { columns } from './columns';
 
 type DateType = {
   Options?: number;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  reservationId: number;
+  reservationid: number;
   id: any;
 };
 export default async function reservationPage({
@@ -25,26 +25,26 @@ export default async function reservationPage({
   const {
     id,
     name,
-    primaryContact,
+    primarycontact,
     phone,
     details,
-    Category,
-    eventName,
-    Facility,
-    ReservationDate,
+    category,
+    eventname,
+    facility,
+    reservationdate,
   } = reservation;
 
-  const startDate = ReservationDate[0].startDate;
-  const facility = Facility.id;
-  const mappedDates = ReservationDate.map((date: DateType) => {
+  const startdate = reservationdate[0].startdate;
+  const facility = facility.id;
+  const mappedDates = reservationdate.map((date: DateType) => {
     return {
       Options: date.id,
-      startDate: date.startDate,
-      endDate: date.endDate,
-      startTime: date.startTime,
-      endTime: date.endTime,
+      startdate: date.startdate,
+      enddate: date.enddate,
+      starttime: date.starttime,
+      endtime: date.endtime,
       approved: date.approved,
-      ReservationID: date.reservationId,
+      ReservationID: date.reservationid,
     };
   });
   console.log(mappedDates);
@@ -61,7 +61,7 @@ export default async function reservationPage({
           </div>
           <div className="justify-between  my-5  gap-36">
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Primary Contact: {primaryContact} <div> {name}</div>
+              Primary Contact: {primarycontact} <div> {name}</div>
             </div>
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
               Contact Number: <div>{phone}</div>
@@ -70,9 +70,9 @@ export default async function reservationPage({
               Contact Email: <div>{reservation.email}</div>
             </div>
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Requested Category:{' '}
+              Requested category:{' '}
               <div className="truncate overflow-ellipsis max-w-sm">
-                {Category.name}
+                {category.name}
               </div>
             </div>
             <div className="flex flex-row my-10 text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
@@ -84,15 +84,15 @@ export default async function reservationPage({
             <div className="container max-w-[600px] float-left ">
               <h1 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
                 {' '}
-                {Facility.name} calendar{' '}
+                {facility.name} calendar{' '}
               </h1>
-              <SmallCalendar startDate={startDate} facilityId={Facility.id} />
+              <SmallCalendar startdate={startdate} facilityid={facility.id} />
             </div>
           </div>
         </div>
         <div className="max-w-[650px] float-right ">
           <h2 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
-            Reservation Dates
+            reservation Dates
           </h2>
           <DataTable columns={columns} data={mappedDates} />
         </div>

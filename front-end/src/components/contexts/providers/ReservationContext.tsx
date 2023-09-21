@@ -1,13 +1,13 @@
 'use client';
 
-import { Reservation } from '@/lib/types';
+import { reservation } from '@/lib/types';
 
 import React, { createContext, useContext, useState } from 'react';
 
 interface ReservationContextProps {
-  reservation: Reservation | null | undefined;
+  reservation: reservation | null | undefined;
   setReservation: React.Dispatch<
-    React.SetStateAction<Reservation | null | undefined>
+    React.SetStateAction<reservation | null | undefined>
   >;
 }
 
@@ -29,7 +29,7 @@ interface ReservationProviderProps {
 
 export function ReservationProvider({ children }: ReservationProviderProps) {
   const [reservation, setReservation] = useState<
-    Reservation | null | undefined
+    reservation | null | undefined
   >(null);
   return (
     <ReservationContext.Provider value={{ reservation, setReservation }}>

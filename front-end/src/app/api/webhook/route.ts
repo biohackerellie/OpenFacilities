@@ -8,14 +8,14 @@ export async function POST(req: NextRequest) {
 
     const res = await prisma.reservation.update({
       where: {
-        paymentLinkID: body.data.object.payment.order_id,
+        paymentlinkid: body.data.object.payment.order_id,
       },
       data: {
         paid: true,
       },
     });
 
-    return NextResponse.json({ message: 'Reservation updated successfully' });
+    return NextResponse.json({ message: 'reservation updated successfully' });
   } catch (error) {
     console.error('Failed to update reservation: ', error);
     return NextResponse.json(error);

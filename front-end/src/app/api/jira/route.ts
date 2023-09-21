@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, response: NextResponse) {
-  const jiraUser = process.env.JIRA_USER;
+  const jirauser = process.env.JIRA_USER;
   const jiraToken = process.env.JIRA_API;
-  const encodedCredentials = Buffer.from(`${jiraUser}:${jiraToken}`).toString(
+  const encodedCredentials = Buffer.from(`${jirauser}:${jiraToken}`).toString(
     'base64'
   );
   const jiraUrl =
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest, response: NextResponse) {
           summary: formData.summary,
           description: formData.description,
         },
-        //raiseOnBehalfOf: jiraUser,
+        //raiseOnBehalfOf: jirauser,
       }),
     });
     const data = await response.json();

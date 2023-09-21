@@ -5,35 +5,35 @@ import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown } from 'lucide-react';
 
-interface TableUser {
-  eventName: string;
-  Facility?: string;
-  ReservationDate?: any[];
+interface Tableuser {
+  eventname: string;
+  facility?: string;
+  reservationdate?: any[];
   approved: 'pending' | 'approved' | 'denied' | 'cancelled' | 'N/A';
   Details: number;
 }
 
-export const columns: ColumnDef<TableUser>[] = [
+export const columns: ColumnDef<Tableuser>[] = [
   {
-    accessorKey: 'eventName',
-    header: 'Event Name',
+    accessorKey: 'eventname',
+    header: 'event Name',
   },
   {
-    accessorKey: 'Facility',
+    accessorKey: 'facility',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Facility
+          facility
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: 'ReservationDate',
+    accessorKey: 'reservationdate',
 
     header: ({ column }) => {
       return (
@@ -41,7 +41,7 @@ export const columns: ColumnDef<TableUser>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Reservation Date
+          reservation Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

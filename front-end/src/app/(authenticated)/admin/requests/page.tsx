@@ -1,14 +1,14 @@
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables';
-import { Reservation } from '@/lib/types';
+import { reservation } from '@/lib/types';
 import moment from 'moment';
 
 interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
+  eventname: string;
+  facility: string;
+  reservationdate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
+  user: string;
   Details: number;
 }
 
@@ -17,20 +17,20 @@ async function getRequests(): Promise<TableReservation[]> {
     cache: 'no-store',
   });
 
-  const requests: Reservation[] = await res.json();
+  const requests: reservation[] = await res.json();
 
   const mappedRequests: TableReservation[] = requests.map((requests) => {
-    const sortedDates = requests.ReservationDate.sort((a, b) =>
-      moment(a.startDate).diff(moment(b.startDate))
+    const sortedDates = requests.reservationdate.sort((a, b) =>
+      moment(a.startdate).diff(moment(b.startdate))
     );
     return {
-      eventName: requests.eventName,
-      Facility: requests.Facility.name,
+      eventname: requests.eventname,
+      facility: requests.facility.name,
 
-      ReservationDate: sortedDates[0].startDate,
+      reservationdate: sortedDates[0].startdate,
 
       approved: requests.approved,
-      User: requests.User?.name || '',
+      user: requests.user?.name || '',
       Details: requests.id,
     };
   });

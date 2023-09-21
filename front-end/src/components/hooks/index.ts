@@ -1,13 +1,13 @@
-import useCalculateNumberOfEvents from './useCalculateNumberOfEvents';
+import useCalculateNumberOfevents from './useCalculateNumberOfEvents';
 import { useFacilities } from './useFacilities';
 import useHandleAddDate from './useHandleAddDate';
 import ApproveAll from './useApprove';
-import FacilitySelect from './useFacilitiesSelect';
+import facilitySelect from './useFacilitiesSelect';
 
 export {
-  useCalculateNumberOfEvents,
+  useCalculateNumberOfevents,
   useFacilities,
   useHandleAddDate,
-  FacilitySelect,
+  facilitySelect,
   ApproveAll,
 };

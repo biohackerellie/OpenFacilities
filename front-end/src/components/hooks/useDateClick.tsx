@@ -9,14 +9,14 @@ export default function useDateClick(dates: any[]) {
   const datesString = dates
     .map((date) => {
       const start = moment.tz(
-        date.startDate + ' ' + date.startTime,
+        date.startdate + ' ' + date.starttime,
         'America/Denver'
       );
       const end = moment.tz(
-        date.endDate + ' ' + date.endTime,
+        date.enddate + ' ' + date.endtime,
         'America/Denver'
       );
-      return `${date.startDate} ${start.format('h:mm a')} -  ${end.format(
+      return `${date.startdate} ${start.format('h:mm a')} -  ${end.format(
         'h:mm a'
       )}`;
     })

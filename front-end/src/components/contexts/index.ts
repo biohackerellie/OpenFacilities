@@ -2,7 +2,7 @@ import IsApproved from './isApproved';
 import AuthCheck from './AuthCheck';
 import IsAdmin from './isAdmin';
 import IsAdminNav from './isAdminNav';
-import IsUserReserv from './isUserReserv';
+import IsuserReserv from './isUserReserv';
 import MobileWrapper from './mobileWrapper';
 
 import Providers from './providers/Providers';
@@ -19,7 +19,7 @@ export {
   AuthCheck,
   IsAdmin,
   IsAdminNav,
-  IsUserReserv,
+  IsuserReserv,
   MobileWrapper,
   Providers,
 };

@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-export default function FacilityCardSkeleton() {
+export default function facilityCardSkeleton() {
   return (
     <Card className="h-[380px] w-[400px] bg-opacity-10 border-gray-100 ">
       <CardHeader>

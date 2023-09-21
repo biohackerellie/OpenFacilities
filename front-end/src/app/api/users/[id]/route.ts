@@ -10,11 +10,11 @@ export async function GET(
   const res = await prisma.user.findUnique({
     where: { id },
     include: {
-      Reservation: {
+      reservation: {
         include: {
-          ReservationDate: true,
-          additionalFees: true,
-          Facility: true,
+          reservationdate: true,
+          reservationfees: true,
+          facility: true,
         },
       },
     },

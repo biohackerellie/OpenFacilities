@@ -1,6 +1,6 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import { ChangeEvent, useState } from 'react';
+import { Changeevent, useState } from 'react';
 import Link from 'next/link';
 import Error from 'next/error';
 import { useSearchParams } from 'next/navigation';
@@ -14,7 +14,7 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = (searchParams.get('callbackUrl') as string) || '/';
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.Formevent) => {
     e.preventDefault();
     setFormValues({ email: '', password: '' });
     signIn('credentials', {
@@ -28,7 +28,7 @@ export default function LoginForm() {
     });
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: Changeevent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
@@ -44,7 +44,7 @@ export default function LoginForm() {
           size="lg"
           className="w-full"
         >
-          Use District Staff Account
+          Use District Staff account
         </Button>
 
         <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
@@ -53,7 +53,7 @@ export default function LoginForm() {
           </p>
         </div>
         <h1 className="text-center font-bold text-black mx4- mb-0 drop-shadow-md">
-          Public User Sign In
+          Public user Sign In
         </h1>
         <input
           required
