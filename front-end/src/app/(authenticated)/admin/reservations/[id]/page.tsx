@@ -35,16 +35,16 @@ export default async function reservationPage({
   } = reservation;
 
   const startDate = ReservationDate[0].startDate;
-  const facility = Facility.id;
+  const facility = Number(Facility.id);
   const mappedDates = ReservationDate.map((date: DateType) => {
     return {
-      Options: date.id,
+      Options: Number(date.id),
       startDate: date.startDate,
       endDate: date.endDate,
       startTime: date.startTime,
       endTime: date.endTime,
       approved: date.approved,
-      ReservationID: date.reservationId,
+      ReservationID: Number(date.reservationId),
     };
   });
   console.log(mappedDates);

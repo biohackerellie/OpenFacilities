@@ -357,7 +357,7 @@ export default function ReservationForm() {
                     >
                       <option value="">Select a facility</option>
                       {filteredFacilities.map((facility) => (
-                        <option key={facility.id} value={facility.id}>
+                        <option key={facility.id} value={Number(facility.id)}>
                           {facility.name}
                         </option>
                       ))}

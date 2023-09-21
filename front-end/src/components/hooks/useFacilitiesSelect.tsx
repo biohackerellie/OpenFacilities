@@ -51,7 +51,7 @@ export default function FacilitySelect({
       <select id="facility-select" onChange={handleFacilitySelect}>
         <option value="">Select a facility</option>
         {filteredFacilities.map((facility) => (
-          <option key={facility.id} value={facility.id}>
+          <option key={Number(facility.id)} value={Number(facility.id)}>
             {facility.name}
           </option>
         ))}

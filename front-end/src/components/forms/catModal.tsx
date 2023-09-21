@@ -23,7 +23,7 @@ export default function EditCatModal({ id, categories }) {
     hideModal();
     router.refresh();
   };
-
+  const mapped = Number(categories.id);
   return (
     <>
       <Button onClick={showModal}>Change Category</Button>
@@ -39,7 +39,7 @@ export default function EditCatModal({ id, categories }) {
               <label htmlFor="category">Category</label>
               <select id="category" name="category" ref={categoryRef}>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={mapped} value={mapped}>
                     {category.name}
                   </option>
                 ))}
