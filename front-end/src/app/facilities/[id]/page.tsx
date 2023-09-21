@@ -34,7 +34,7 @@ export default async function facilityPage({
   const facility = await res.json();
   const { id, name, address, building, capacity, imagePath, Category, Events } =
     facility;
-
+  const catID = Number(facility.Category.id);
   const map = `https://www.google.com/maps/search/?api=1&query=${address}`;
 
   return (
@@ -88,7 +88,7 @@ export default async function facilityPage({
             <h1 className="font-bold text-2xl border-b-2">Pricing</h1>
             {Category &&
               Category.map((category: Category) => (
-                <div key={category.id} className="grid grid-cols-3   p-4">
+                <div key={catID} className="grid grid-cols-3   p-4">
                   <Tooltip>
                     <TooltipTrigger className="font-semibold text-left col-start-1  col-span-2 text-lg truncate">
                       {category.name}
