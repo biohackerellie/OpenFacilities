@@ -3,7 +3,7 @@ import EditPricingModal from '@/components/forms/paymentModal';
 import EditCatModal from '@/components/forms/catModal';
 import { PaidButton } from '@/components/ui/buttons';
 import prisma from '@/lib/prisma';
-
+import { serializeJSON } from '@/utils/serializeJSON';
 export default async function paymentPage({
   params,
 }: {
@@ -16,14 +16,18 @@ export default async function paymentPage({
     { cache: 'no-store' }
   );
   const reservation = await res.json();
-  const { paid, Category, User, ReservationDate, additionalFees } = reservation;
-  const categories = await prisma.category.findMany({
-    where: {
-      facilityId: reservation.facilityId,
-    },
-  });
+  const { paid, Category, User, ReservationDate, ReservationFees } =
+    reservation;
+  const categories = async () => {
+    await prisma.category.findMany({
+      where: {
+        facilityId: reservation.facilityId,
+      },
+    });
+    return serializeJSON(categories);
+  };
 
-  const additionalFeesTotal = additionalFees.reduce(
+  const additionalFeesTotal = ReservationFees.reduce(
     (sum: any, fee: any) => sum + fee.additionalFees,
     0
   );
@@ -73,7 +77,7 @@ export default async function paymentPage({
                 </tr>
               </thead>
               <tbody>
-                {additionalFees.map((fee: any, index: any) => (
+                {ReservationFees.map((fee: any, index: any) => (
                   <tr key={index} className="m-2">
                     <td className="text-ellipsis overflow-hidden">
                       {fee.feesType}
@@ -87,7 +91,7 @@ export default async function paymentPage({
           <div className="p-2 m-2 self-end flex justify-end">
             <EditPricingModal
               id={id}
-              {...additionalFees}
+              {...ReservationFees}
               {...reservation}
               amount={totalCost}
               user={user}

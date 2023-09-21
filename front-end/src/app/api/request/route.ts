@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { serializeJSON } from '@/utils/serializeJSON';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,5 +15,5 @@ export async function GET(req: Request) {
       User: true,
     },
   });
-  return NextResponse.json(res);
+  return NextResponse.json(serializeJSON(res));
 }

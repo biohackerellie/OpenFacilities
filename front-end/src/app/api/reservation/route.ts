@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import moment from 'moment';
-
+import { serializeJSON } from '@/utils/serializeJSON';
 export const dynamic = 'force-dynamic';
 
 const currentDate = moment().format('YYYY-MM-DD');
@@ -24,5 +24,5 @@ export async function GET(req: Request) {
       User: true,
     },
   });
-  return NextResponse.json(res);
+  return NextResponse.json(serializeJSON(res));
 }

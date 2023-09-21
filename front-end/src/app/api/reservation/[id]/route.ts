@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { revalidateTag } from 'next/cache';
 import prisma from '@/lib/prisma';
-
+import { serializeJSON } from '@/utils/serializeJSON';
 export const dynamic = 'force-dynamic';
 
 export async function GET(
@@ -14,12 +14,12 @@ export async function GET(
     include: {
       Facility: true,
       User: true,
-      Event: true,
+      Events: true,
       ReservationDate: true,
       InsuranceFiles: true,
-      additionalFees: true,
+      ReservationFees: true,
       Category: true,
     },
   });
-  return NextResponse.json(res);
+  return NextResponse.json(serializeJSON(res));
 }

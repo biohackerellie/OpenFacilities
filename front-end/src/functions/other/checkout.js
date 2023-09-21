@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 export default async function Checkout(id) {
   const reservation = await prisma.reservation.findUnique({
     where: {
-      id: parseInt(id),
+      id: BigInt(id),
     },
     include: {
       User: true,
@@ -56,7 +56,7 @@ export default async function Checkout(id) {
 
   const payment = await prisma.reservation.update({
     where: {
-      id: parseInt(id),
+      id: BigInt(id),
     },
     data: {
       paymentUrl: paymentUrl,

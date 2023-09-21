@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { serializeJSON } from '@/utils/serializeJSON';
 
 export async function GET(
   request: Request,
@@ -37,5 +38,5 @@ export async function GET(
       },
     },
   });
-  return NextResponse.json(res);
+  return NextResponse.json(serializeJSON(res));
 }

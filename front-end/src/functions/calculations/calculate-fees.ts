@@ -7,18 +7,19 @@ import {
 
 type ExtendedReservation = Reservation & {
   ReservationDate: ReservationDate[];
-  additionalFees: ReservationFees[];
+  ReservationFees: ReservationFees[];
   Facility: Facility;
+  id: number | BigInt;
 };
 
 export default function calculateFees(
   reservation: ExtendedReservation,
   category: {
-    id: number;
+    id: number | BigInt;
     name: string;
     description: string;
     price: number;
-    facilityId: number;
+    facilityId: number | BigInt;
   } | null
 ) {
   let totalHours = reservation.ReservationDate.reduce(
@@ -35,7 +36,7 @@ export default function calculateFees(
 
   totalHours = Math.round(totalHours * 10) / 10;
 
-  const additionalFees = reservation.additionalFees;
+  const additionalFees = reservation.ReservationFees;
   const charges = additionalFees.reduce(
     (sum: any, fee: any) => sum + fee.additionalFees,
     0

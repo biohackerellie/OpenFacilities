@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { revalidateTag } from 'next/cache';
 import prisma from '@/lib/prisma';
+import { serializeJSON } from '@/utils/serializeJSON';
 
 export async function GET(
   request: NextRequest,
@@ -13,12 +14,12 @@ export async function GET(
       Reservation: {
         include: {
           ReservationDate: true,
-          additionalFees: true,
+          ReservationFees: true,
           Facility: true,
         },
       },
     },
   });
 
-  return NextResponse.json(res);
+  return NextResponse.json(serializeJSON(res));
 }

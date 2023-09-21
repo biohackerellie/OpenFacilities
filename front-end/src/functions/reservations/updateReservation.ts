@@ -30,11 +30,11 @@ export async function updateRes(params: updateParams) {
   } = params;
 
   const reservation = await prisma.reservation.findUnique({
-    where: { id: id },
+    where: { id: BigInt(id) },
     include: {
       Facility: true,
       ReservationDate: true,
-      additionalFees: true,
+      ReservationFees: true,
       Category: true,
       User: true,
     },
@@ -47,19 +47,19 @@ export async function updateRes(params: updateParams) {
 
   if (catID) {
     await prisma.reservation.update({
-      where: { id: id },
+      where: { id: BigInt(id) },
       data: {
-        categoryId: catID,
+        categoryId: BigInt(catID),
       },
     });
     category = await prisma.category.findUnique({
-      where: { id: catID },
+      where: { id: BigInt(catID) },
     });
   }
 
   if (dateID && startTime && startDate && endTime && endDate) {
     await prisma.reservationDate.update({
-      where: { id: dateID },
+      where: { id: BigInt(dateID) },
       data: {
         startTime: startTime,
         startDate: startDate,
@@ -71,7 +71,7 @@ export async function updateRes(params: updateParams) {
 
   if (facilityiD) {
     await prisma.reservation.update({
-      where: { id: id },
+      where: { id: BigInt(id) },
       data: {
         facilityId: facilityiD,
       },
@@ -81,7 +81,7 @@ export async function updateRes(params: updateParams) {
   const totalCost = calculateFees(reservation, category);
 
   const res = await prisma.reservation.update({
-    where: { id: id },
+    where: { id: BigInt(id) },
     data: {
       fees: totalCost,
     },
@@ -109,7 +109,7 @@ export async function addFee(
     include: {
       Category: true,
       ReservationDate: true,
-      additionalFees: true,
+      ReservationFees: true,
     },
   });
   const category = reservation.Category.price;
@@ -145,7 +145,7 @@ export async function addFee(
   fees = Math.round(fees * 100) / 100;
   const totalCost = (fees + charges) as number;
   await prisma.reservation.update({
-    where: { id: id },
+    where: { id: BigInt(id) },
     data: {
       fees: totalCost,
     },
@@ -155,9 +155,9 @@ export async function addFee(
 export async function changeCat(id: number, category: any) {
   try {
     await prisma.reservation.update({
-      where: { id: id },
+      where: { id: BigInt(id) },
       data: {
-        categoryId: parseInt(category),
+        categoryId: BigInt(category),
       },
     });
   } catch (error) {
@@ -169,6 +169,6 @@ export async function changeCat(id: number, category: any) {
 
 export async function removeFee(feeId: any) {
   await prisma.reservationFees.delete({
-    where: { id: feeId },
+    where: { id: BigInt(feeId) },
   });
 }
