@@ -78,14 +78,14 @@ export default function CalendarMain() {
     const fetchEvents = async () => {
       const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events');
       const fetchedEvents = await res.json();
-
+      console.log('fetch', fetchedEvents);
       setEvents(
         fetchedEvents.map((event) => ({
           title: event.title,
           start: new Date(event.start),
           end: new Date(event.end),
-          building: event.facility.building,
-          facility: event.facility.name,
+          building: event.Facility.building,
+          facility: event.Facility.name,
         }))
       );
     };

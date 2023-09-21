@@ -37,7 +37,7 @@ export default async function createReservation(data: IFormInput) {
       eventName: data.eventName,
       Category: {
         connect: {
-          id: parseInt(data.Category),
+          id: BigInt(data.Category),
         },
       },
       name: data.name,
@@ -51,7 +51,7 @@ export default async function createReservation(data: IFormInput) {
       techDetails: data.techDetails,
       Facility: {
         connect: {
-          id: parseInt(data.facilityName),
+          id: BigInt(data.facilityName),
         },
       },
       insurance: false,

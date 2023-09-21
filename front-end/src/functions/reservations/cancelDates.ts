@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 export async function cancelDate(id: number) {
   const cancelledDate = await prisma.reservationDate.update({
     where: {
-      id: id,
+      id: BigInt(id),
     },
     data: {
       approved: 'canceled',

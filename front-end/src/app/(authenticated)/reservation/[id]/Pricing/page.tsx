@@ -18,7 +18,7 @@ export default async function paymentPage({
   const user = reservation.User.name;
   const url = reservation.paymentUrl;
 
-  const additionalFees = reservation.additionalFees;
+  const additionalFees = reservation.ReservationFees;
   // const additionalFeesTotal = additionalFees.reduce(
   //   (sum: any, fee: any) => sum + fee.additionalFees,
   //   0

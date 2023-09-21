@@ -15,7 +15,7 @@ interface TableReservation {
 }
 
 const currentDate = moment().format('YYYY-MM-DD');
-
+console.log('currentDate', currentDate);
 async function getData(): Promise<TableReservation[]> {
   const session = await getServerSession(authOptions);
   const user = session?.user;
@@ -26,15 +26,18 @@ async function getData(): Promise<TableReservation[]> {
   const userSession = await res.json();
 
   const reservations: Reservation[] = userSession?.Reservation;
+  console.log(reservations);
   const Facility = userSession?.Facility;
   const mappedReservations: TableReservation[] = reservations.map(
     (reservation) => {
       const sortedDates = reservation.ReservationDate.sort((a, b) =>
         moment(a.startDate).diff(moment(b.startDate))
       );
+      console.log('sorted', sortedDates);
       const nextUpcomingDate = sortedDates.find((date) =>
         moment(date.startDate).isSameOrAfter(currentDate)
       );
+      console.log('upcoming', nextUpcomingDate);
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,

@@ -1,3 +1,4 @@
+'use server';
 import prisma from '@/lib/prisma';
 
 export default async function addFee(
@@ -9,18 +10,18 @@ export default async function addFee(
     data: {
       additionalFees: parseInt(additionalFees),
       feesType: additionalFeesDetails,
-      reservationId: id,
+      reservationId: BigInt(id),
     },
     include: {
       Reservation: true,
     },
   });
   const reservation: any = await prisma.reservation.findUnique({
-    where: { id: id },
+    where: { id: BigInt(id) },
     include: {
       Category: true,
       ReservationDate: true,
-      additionalFees: true,
+      ReservationFees: true,
     },
   });
   const category = reservation.Category.price;
@@ -56,7 +57,7 @@ export default async function addFee(
   fees = Math.round(fees * 100) / 100;
   const totalCost = (fees + charges) as number;
   await prisma.reservation.update({
-    where: { id: id },
+    where: { id: BigInt(id) },
     data: {
       fees: totalCost,
     },

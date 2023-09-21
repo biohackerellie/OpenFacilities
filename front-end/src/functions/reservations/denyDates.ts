@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 export default async function denyDate(id: number) {
   const deniedDate = await prisma.reservationDate.update({
     where: {
-      id: id,
+      id: BigInt(id),
     },
     data: {
       approved: 'denied',

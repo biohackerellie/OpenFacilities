@@ -23,7 +23,7 @@ export async function approveReservation(id: number) {
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
   const reservation: any = await prisma.reservation.findUnique({
-    where: { id: id },
+    where: { id: BigInt(id) },
     include: {
       User: true,
       Facility: true,

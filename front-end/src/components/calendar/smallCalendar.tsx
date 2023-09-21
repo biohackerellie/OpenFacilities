@@ -36,8 +36,8 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
           title: event.title,
           start: new Date(event.start),
           end: new Date(event.end),
-          building: event.facility.building,
-          facility: event.facility.name,
+          building: event.Facility.building,
+          facility: event.Facility.name,
         }))
       );
     };
