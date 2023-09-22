@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id(map: "idx_30089_PRIMARY") @db.VarChar(191)
+  id                String  @id(map: "idx_30089_PRIMARY") @db.VarChar(191) @default(cuid())
   userId            String  @db.VarChar(191)
   type              String  @db.VarChar(191)
   provider          String  @db.VarChar(191)
@@ -22,7 +22,7 @@ model Account {
   id_token          String?
   session_state     String? @db.VarChar(191)
   ext_expires_in    Int?
-  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId], map: "idx_30089_Account_provider_providerAccountId_key")
   @@index([userId], map: "idx_30089_Account_userId_fkey")
@@ -68,7 +68,7 @@ model Facility {
   Category         Category[]
   Events           Events[]
   Reservation      Reservation[]
-  Option           Option[]
+  Option           Option[]      @relation("FacilityToOption")
 }
 
 model InsuranceFiles {
@@ -85,7 +85,7 @@ model InsuranceFiles {
 model Option {
   id       BigInt     @id(map: "idx_30121_PRIMARY") @default(autoincrement())
   name     String     @db.VarChar(191)
-  Facility Facility[]
+  Facility Facility[] @relation("FacilityToOption")
 }
 
 model Reservation {
@@ -165,7 +165,7 @@ model Session {
 }
 
 model User {
-  id            String        @id(map: "idx_30156_PRIMARY") @db.VarChar(191) @default(cuid())
+  id            String        @id(map: "idx_30156_PRIMARY") @default(cuid()) @db.VarChar(191)
   name          String        @db.VarChar(191)
   image         String?       @db.VarChar(191)
   email         String        @unique(map: "idx_30156_User_email_key") @db.VarChar(191)

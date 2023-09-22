@@ -45,40 +45,40 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    // ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
-    //   ? [
-    //       AzureADProvider({
-    //         clientId: process.env.AZURE_AD_CLIENT_ID,
-    //         clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-    //         tenantId: process.env.AZURE_TENANT_ID,
-    //         authorizationUrl: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
+    ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
+      ? [
+          AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+            tenantId: process.env.AZURE_TENANT_ID,
+            authorizationUrl: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
 
-    //         async authorize(credentials: { email: any }) {
-    //           const user = await prisma.user.findFirst({
-    //             where: {
-    //               email: credentials.email,
-    //             },
-    //           });
-    //           if (user) {
-    //             return {
-    //               id: user.id,
-    //               name: user.name,
-    //               email: user.email,
-    //               role: user.role,
-    //             };
-    //           }
-    //           return null;
-    //         },
-    //       }),
-    //     ]
-    //   : []),
+            async authorize(credentials: { email: any }) {
+              const user = await prisma.user.findFirst({
+                where: {
+                  email: credentials.email,
+                },
+              });
+              if (user) {
+                return {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  role: user.role,
+                };
+              }
+              return null;
+            },
+          }),
+        ]
+      : []),
     ...(process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH?.toLowerCase() === 'true'
       ? [
           GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-            async authroize(credentials: { email: any }) {
+            async authorize(credentials: { email: any }) {
               const user = await prisma.user.findFirst({
                 where: {
                   email: credentials.email,
