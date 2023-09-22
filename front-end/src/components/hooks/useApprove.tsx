@@ -1,8 +1,9 @@
 'use client';
 import { approveReservation, denyReservation } from '@/functions/reservations';
 import { multiChoiceAlert } from '../ui/alerts';
+import { revalidatePath } from 'next/cache';
 
-export default async function ApproveAll(id: number) {
+export default async function ApproveAll(id: number, path: string) {
   multiChoiceAlert({
     title: 'Confirm or Deny All Dates',
     id: id,
@@ -15,11 +16,11 @@ export default async function ApproveAll(id: number) {
     cancelButtonText: 'Cancel',
     onConfirm: async (id: any) => {
       await approveReservation(id);
-      location.reload;
+      revalidatePath(path);
     },
     onDeny: async (id: any) => {
       await denyReservation(id);
-      location.reload;
+      revalidatePath(path);
     },
     onConfirmText: {
       title: 'Approved!',

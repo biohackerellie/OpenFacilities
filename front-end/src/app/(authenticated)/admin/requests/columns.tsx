@@ -57,7 +57,7 @@ export const columns: ColumnDef<TableReservations>[] = [
         <Button
           variant="outline"
           onClick={() => {
-            ApproveAll(id);
+            ApproveAll(id, '/admin/requests');
           }}
         >
           Approve/Deny
