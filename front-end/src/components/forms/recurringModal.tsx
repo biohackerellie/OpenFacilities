@@ -22,7 +22,12 @@ export const ModalInput = (props: {
   };
   return (
     <>
-      <Button type="button" onClick={showModal}>
+      <Button
+        className="hover:cursor-pointer"
+        size={'sm'}
+        type="button"
+        onClick={showModal}
+      >
         Add Reoccurring Dates
       </Button>
       {isVisible && (
