@@ -10,7 +10,7 @@ The project is still under active development, and I'm super excited about the u
 
 ### Roadmap 🗺️
 - [x] UI Cleanup
-- [ ] Migrate database to Supabase
+- [x] Migrate database to Supabase
 - [ ] Convert all customizable options into env variables
 - [ ] Migrate all calendar events to Google Calendar
 - [ ] Customizable Docker Compose
