@@ -113,7 +113,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'Master' ? 'text-blue-500' : ''
+              selectedBuilding === 'Master'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Master')}
           >
@@ -125,7 +127,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'Graff Elementary' ? 'text-blue-500' : ''
+              selectedBuilding === 'Graff Elementary'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Graff Elementary')}
           >
@@ -137,7 +141,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'Laurel High School' ? 'text-blue-500' : ''
+              selectedBuilding === 'Laurel High School'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Laurel High School')}
           >
@@ -150,7 +156,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'Laurel Middle School' ? 'text-blue-500' : ''
+              selectedBuilding === 'Laurel Middle School'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Laurel Middle School')}
           >
@@ -162,7 +170,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'West Elementary' ? 'text-blue-500' : ''
+              selectedBuilding === 'West Elementary'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('West Elementary')}
           >
@@ -174,7 +184,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'South Elementary' ? 'text-blue-500' : ''
+              selectedBuilding === 'South Elementary'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('South Elementary')}
           >
@@ -188,7 +200,7 @@ export default function CalendarMain() {
             className={`${
               selectedBuilding === 'Administration Building'
                 ? 'text-blue-500'
-                : ''
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Administration Building')}
           >
@@ -200,7 +212,9 @@ export default function CalendarMain() {
           <Button
             variant="link"
             className={`${
-              selectedBuilding === 'Laurel Stadium' ? 'text-blue-500' : ''
+              selectedBuilding === 'Laurel Stadium'
+                ? 'text-blue-500'
+                : 'text-foreground'
             }`}
             onClick={() => handleSetSelectedBuilding('Laurel Stadium')}
           >

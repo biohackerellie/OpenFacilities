@@ -1,6 +1,7 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
 import { User } from '@prisma/client';
 import { columns } from './columns';
+import prisma from '@/lib/prisma';
 
 interface TableUsers {
   User: string;
@@ -9,9 +10,9 @@ interface TableUsers {
   Details: string;
 }
 
-async function getUsers(): Promise<TableUsers[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users`);
-  const users: User[] = await res.json();
+async function getUsers() {
+  'use server';
+  const users = await prisma.user.findMany({});
 
   const mappedUsers: TableUsers[] = users.map((user) => {
     return {

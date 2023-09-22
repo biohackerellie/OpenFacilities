@@ -14,7 +14,9 @@ export default function SubNav() {
       <div className="flex h-5 items-center space-x-4 text-sm">
         <div>
           <Button
-            className={`${isActive('/facilities') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/facilities') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -27,7 +29,9 @@ export default function SubNav() {
 
         <div>
           <Button
-            className={`${isActive('/Admin') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/Admin') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -39,7 +43,9 @@ export default function SubNav() {
         <Separator orientation="vertical" />
         <div>
           <Button
-            className={`${isActive('/Graff') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/Graff') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -51,7 +57,9 @@ export default function SubNav() {
         <Separator orientation="vertical" />
         <div>
           <Button
-            className={`${isActive('/High') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/High') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -63,7 +71,9 @@ export default function SubNav() {
         <Separator orientation="vertical" />
         <div>
           <Button
-            className={`${isActive('/Middle') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/Middle') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -75,7 +85,9 @@ export default function SubNav() {
         <Separator orientation="vertical" />
         <div>
           <Button
-            className={`${isActive('/West') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/West') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >
@@ -87,7 +99,9 @@ export default function SubNav() {
         <Separator orientation="vertical" />
         <div>
           <Button
-            className={`${isActive('/South') ? 'text-blue-500' : ''}`}
+            className={`${
+              isActive('/South') ? 'text-blue-500' : 'text-foreground'
+            }`}
             variant="link"
             asChild
           >

@@ -7,9 +7,7 @@ export default function authLayout({
 }) {
   return (
     <section>
-      <IsAdmin>
-        <MobileWrapper>{children}</MobileWrapper>
-      </IsAdmin>
+      <IsAdmin>{children}</IsAdmin>
     </section>
   );
 }
