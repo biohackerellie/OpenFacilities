@@ -9,6 +9,7 @@ export default async function ApproveAll(id: number) {
     text: 'If Confirmed, all requested dates will be added, if denied, all dates will be removed.',
     icon: 'warning',
     showCancelButton: true,
+    showDenyButton: true,
     confirmButtonText: 'Yes, approve request!',
     denyButtonText: 'No, deny request!',
     cancelButtonText: 'Cancel',
