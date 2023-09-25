@@ -1,5 +1,5 @@
 export { default } from 'next-auth/middleware';
 
 export const config = {
-  matcher: ['/admin', '/api/users'],
+  matcher: ['/admin', '/api/users', '/api/users/:id'],
 };

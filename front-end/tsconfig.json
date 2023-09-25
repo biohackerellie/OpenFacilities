@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esNext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,17 +23,36 @@
         "name": "next"
       }
     ],
-		"baseUrl": "src/",
+    "baseUrl": "src/",
     "paths": {
-      "@/*": ["./*"],
-			"@/app/*": ["app/*"],
-			"@/components/*": ["components/*"],
-			"@/lib/*": ["lib/*"],
-			"@/utils/*": ["utils/*"],
-			"@/functions/*": ["functions/*"],
-
+      "@/*": [
+        "./*"
+      ],
+      "@/app/*": [
+        "app/*"
+      ],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ],
+      "@/utils/*": [
+        "utils/*"
+      ],
+      "@/functions/*": [
+        "functions/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/actions/newRequests.jss.js", "src/app/components/actions/checkout.js", "src/app/components/forms/SquarePayment.ts", "src/app/components/ui/navbar/mobile/menu.js", "app/components/forms/showPayment.jsx", "src/components/calendar/Calendar2.jsx"],
-  "exclude": ["node_modules", "src/app/api/auth/[...nextauth]/route.tse.ts", "src/app/components/*" ]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+, "src/middleware.js", "src/middleware.js"  ],
+  "exclude": [
+    "node_modules",
+    "node_modules/*"
+  ]
 }

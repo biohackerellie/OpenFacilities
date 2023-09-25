@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
   compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   experimental: {
