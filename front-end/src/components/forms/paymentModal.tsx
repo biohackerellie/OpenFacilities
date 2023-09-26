@@ -6,18 +6,23 @@ import { useRouter } from 'next/navigation';
 import ReactModal from 'react-modal';
 import { addFee, removeFee } from '@/functions/mutations';
 
-export default function EditPricingModal({ id, additionalFees, amount, user }) {
+export default function EditPricingModal({
+  id,
+  ReservationFees,
+  amount,
+  user,
+}) {
   const router = useRouter();
 
-  const additionalFeesRef = useRef();
-  const additionalFeesDetailsRef = useRef();
+  const ReservationFeesRef = useRef();
+  const ReservationFeesDetailsRef = useRef();
   const feeRef = useRef();
 
   const handleSave = async (event) => {
     event.preventDefault();
-    const additionalFees = additionalFeesRef.current.value;
-    const additionalFeesDetails = additionalFeesDetailsRef.current.value;
-    await addFee(id, additionalFees, additionalFeesDetails);
+    const ReservationFees = ReservationFeesRef.current.value;
+    const ReservationFeesDetails = ReservationFeesDetailsRef.current.value;
+    await addFee(id, ReservationFees, ReservationFeesDetails);
     router.refresh();
     hideModal();
   };
@@ -43,12 +48,12 @@ export default function EditPricingModal({ id, additionalFees, amount, user }) {
         <div className="bg-white items-center place-content-center   justify-center flex flex-col rounded-lg w-auto min-w-34 p-4">
           <form onSubmit={handleSave}>
             <div>
-              {additionalFees.map((fee: any, index: any) => (
+              {ReservationFees.map((fee: any, index: any) => (
                 <div key={index} className="m-2" ref={feeRef}>
                   <div className="text-ellipsis overflow-hidden">
                     {fee.feesType}
                   </div>
-                  <div>${fee.additionalFees}</div>
+                  <div>${fee.ReservationFees}</div>
                   <div>
                     <button
                       onClick={() => handleRemoveFee(fee.id)}
@@ -63,21 +68,21 @@ export default function EditPricingModal({ id, additionalFees, amount, user }) {
             </div>
             <h2>Add Fee</h2>
             <div className="flex flex-col">
-              <label htmlFor="additionalFeesDetails">Fee Description</label>
+              <label htmlFor="ReservationFeesDetails">Fee Description</label>
               <input
                 type="text"
-                id="additionalFeesDetails"
-                name="additionalFees"
-                ref={additionalFeesDetailsRef}
+                id="ReservationFeesDetails"
+                name="ReservationFees"
+                ref={ReservationFeesDetailsRef}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="additionalFees">Fee Amount</label>
+              <label htmlFor="ReservationFees">Fee Amount</label>
               <input
                 type="number"
-                id="additionalFees"
-                name="additionalFees"
-                ref={additionalFeesRef}
+                id="ReservationFees"
+                name="ReservationFees"
+                ref={ReservationFeesRef}
               />
             </div>
             <div className="gap-2">
