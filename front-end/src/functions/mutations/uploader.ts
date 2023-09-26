@@ -1,3 +1,6 @@
+'use server';
+import { revalidatePath } from 'next/cache';
+
 export default async function Uploader(file: File, id: any) {
   console.log('file', file);
   try {
@@ -24,5 +27,7 @@ export default async function Uploader(file: File, id: any) {
   } catch (error) {
     console.log(error);
     throw error;
+  } finally {
+    revalidatePath('/reservation/[id]', 'page');
   }
 }

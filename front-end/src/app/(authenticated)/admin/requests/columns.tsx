@@ -58,6 +58,7 @@ export const columns: ColumnDef<TableReservations>[] = [
           variant="outline"
           onClick={() => {
             ApproveAll(id, '/admin/requests');
+            location.reload();
           }}
         >
           Approve/Deny

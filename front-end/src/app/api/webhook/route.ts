@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,5 +20,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Failed to update reservation: ', error);
     return NextResponse.json(error);
+  } finally {
+    revalidatePath('/admin/reservations/[id]', 'page');
   }
 }

@@ -123,5 +123,5 @@ export default async function createReservation(data: IFormInput) {
       text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id}`,
     });
   }
-  revalidatePath('/admin/reservations', 'page');
+  revalidatePath('/');
 }

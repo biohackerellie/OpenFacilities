@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export default async function denyDate(id: number) {
   const deniedDate = await prisma.reservationDate.update({
@@ -63,6 +64,6 @@ export default async function denyDate(id: number) {
       },
     });
   }
-
+  revalidatePath('/');
   return deniedDate;
 }

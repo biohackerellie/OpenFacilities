@@ -6,6 +6,7 @@ import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 import { OAuth2Client } from 'google-auth-library';
 import moment from 'moment-timezone';
+import { revalidatePath } from 'next/cache';
 
 export async function approveReservation(id: number) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
@@ -154,6 +155,7 @@ export async function approveReservation(id: number) {
     text: `Your reservation for ${approvedReservation.eventName} has been approved! You can view the details, upload insurance, and view any fees at https://facilities.laurel.k12.mt.us/reservation/${approvedReservation.id}`,
   });
 
+  revalidatePath('/');
   return approvedReservation;
 }
 
@@ -195,5 +197,6 @@ export async function denyReservation(id: number) {
     subject: 'Your Facility Reservation has been denied',
     text: `Your reservation for ${deniedReservation.eventName} has been denied. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${deniedReservation.id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`,
   });
+  revalidatePath('/');
   return deniedReservation;
 }
