@@ -1,4 +1,3 @@
-import IsApproved from './isApproved';
 import AuthCheck from './AuthCheck';
 import IsAdmin from './isAdmin';
 import IsAdminNav from './isAdminNav';
@@ -15,7 +14,6 @@ export {
   useUser,
   useFacility,
   useReservation,
-  IsApproved,
   AuthCheck,
   IsAdmin,
   IsAdminNav,

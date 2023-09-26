@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import { IFormInput } from '@/lib/types';
 import nodemailer from 'nodemailer';
 import moment from 'moment-timezone';
+import { revalidatePath } from 'next/cache';
 
 moment.tz.setDefault('America/Denver');
 
@@ -122,4 +123,5 @@ export default async function createReservation(data: IFormInput) {
       text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id}`,
     });
   }
+  revalidatePath('/admin/reservations', 'page');
 }

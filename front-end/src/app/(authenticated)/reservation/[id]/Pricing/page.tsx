@@ -10,8 +10,7 @@ export default async function paymentPage({
   const id = params.id;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
-    { cache: 'no-store' }
+    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
   );
   const reservation = await res.json();
   const { Category } = reservation;
