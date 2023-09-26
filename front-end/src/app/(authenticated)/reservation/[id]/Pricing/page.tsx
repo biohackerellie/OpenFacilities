@@ -46,15 +46,15 @@ export default async function paymentPage({
             <div className=" my-2 p-2  justify-between text-xl  border-b-gray-700 dark:border-b-white  ">
               <p> Additional Fees: </p>
               <p> Price: </p>
-							{additionalFees.length > 0 && (
-              {additionalFees.map((fee: any, index: any) => (
-                <div key={index} className="m-2">
-                  <div className="text-ellipsis overflow-hidden">
-                    {fee.feesType}
+              {additionalFees.length > 0 &&
+                additionalFees.map((fee: any, index: any) => (
+                  <div key={index} className="m-2">
+                    <div className="text-ellipsis overflow-hidden">
+                      {fee.feesType}
+                    </div>
+                    <div>${fee.additionalFees}</div>
                   </div>
-                  <div>${fee.additionalFees}</div>
-                </div>
-              ))})}
+                ))}
               <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
                 Total: $ {!paid ? totalCost : 'Paid'}
               </div>
