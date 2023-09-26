@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+		"postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

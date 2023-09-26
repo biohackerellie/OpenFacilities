@@ -47,7 +47,6 @@ export default async function reservationPage({
       ReservationID: Number(date.reservationId),
     };
   });
-  console.log(mappedDates);
 
   return (
     <div className="flex flex-wrap justify-center h-full pb-3 mb-2 ">

@@ -78,7 +78,7 @@ export async function approveReservation(id: number) {
 
   const approvedReservation = await prisma.reservation.update({
     where: {
-      id: id,
+      id: BigInt(id),
     },
     data: {
       approved: 'approved',
@@ -160,14 +160,14 @@ export async function approveReservation(id: number) {
 export async function denyReservation(id: number) {
   const deniedReservation = await prisma.reservation.update({
     where: {
-      id: id,
+      id: BigInt(id),
     },
     data: {
       approved: 'denied',
       ReservationDate: {
         updateMany: {
           where: {
-            reservationId: id,
+            reservationId: BigInt(id),
           },
           data: {
             approved: 'denied',

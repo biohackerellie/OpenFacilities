@@ -26,7 +26,7 @@ async function getData(): Promise<TableReservation[]> {
   const userSession = await res.json();
 
   const reservations: Reservation[] = userSession?.Reservation;
-  console.log(reservations);
+
   const Facility = userSession?.Facility;
   const mappedReservations: TableReservation[] = reservations.map(
     (reservation) => {

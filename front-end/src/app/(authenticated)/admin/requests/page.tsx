@@ -1,6 +1,7 @@
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables';
 import { Reservation } from '@/lib/types';
+import { headers } from 'next/headers';
 import moment from 'moment';
 
 interface TableReservation {
@@ -13,8 +14,12 @@ interface TableReservation {
 }
 
 async function getRequests(): Promise<TableReservation[]> {
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/request`, {
-    cache: 'no-store',
+    headers: {
+      Cookie: auth,
+    },
   });
 
   const requests: Reservation[] = await res.json();

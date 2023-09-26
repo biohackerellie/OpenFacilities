@@ -25,6 +25,7 @@ const currentDate = moment().format('YYYY-MM-DD');
 async function getData(id: string): Promise<TableUser[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${id}`, {
     cache: 'no-store',
+    method: 'GET',
   });
 
   const user: ExtendedUser = await res.json();
