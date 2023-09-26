@@ -1,5 +1,6 @@
 'use server';
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export default async function HandleDelete(id: number) {
   try {
@@ -10,6 +11,8 @@ export default async function HandleDelete(id: number) {
     });
   } catch (error) {
     console.error('An issue has occurred: ', error);
+  } finally {
+    revalidatePath('/admin/reservations');
   }
   return;
 }

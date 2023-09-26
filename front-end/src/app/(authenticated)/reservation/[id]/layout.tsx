@@ -4,8 +4,7 @@ import IsUserReserv from '@/components/contexts/isUserReserv';
 
 async function getReservation(id: number) {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
-    { cache: 'no-store' }
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`
   );
   return res.json();
 }

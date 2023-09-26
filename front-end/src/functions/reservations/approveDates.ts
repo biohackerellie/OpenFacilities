@@ -79,6 +79,6 @@ export async function approveDate(id: number) {
       },
     });
   }
-
+  revalidatePath('/');
   return approvedDate;
 }

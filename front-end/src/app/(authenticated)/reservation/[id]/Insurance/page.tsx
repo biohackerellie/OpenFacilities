@@ -10,8 +10,7 @@ export default async function insurancePage({
     return <div>Loading...</div>;
   }
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
-    { cache: 'no-store' }
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`
   );
 
   const reservation = await res.json();

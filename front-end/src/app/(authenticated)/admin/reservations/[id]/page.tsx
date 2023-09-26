@@ -18,8 +18,7 @@ export default async function reservationPage({
   params: { id: number };
 }) {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
-    { cache: 'no-store' }
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`
   );
   const reservation = await res.json();
   const {

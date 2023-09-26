@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import moment from 'moment';
 import { serializeJSON } from '@/utils/serializeJSON';
-export const dynamic = 'force-dynamic';
 
 const currentDate = moment().format('YYYY-MM-DD');
 

@@ -3,8 +3,7 @@ import ResNav from './reservationNav';
 
 async function getReservation(id: number) {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
-    { cache: 'no-store' }
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`
   );
   return res.json();
 }
