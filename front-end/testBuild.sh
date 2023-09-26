@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKDIR="/home/ellie/github/Laurel-Facilities/front-end"
+WORKDIR="/home/ellie/github/OpenFacilities/front-end"
 
 
 cd $WORKDIR

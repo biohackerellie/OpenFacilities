@@ -16,21 +16,25 @@ export default async function paymentPage({
     { cache: 'no-store' }
   );
   const reservation = await res.json();
-  const { paid, Category, User, ReservationDate, ReservationFees } =
-    reservation;
-  const categories = async () => {
-    await prisma.category.findMany({
+  const { paid, Category, User, ReservationDate } = reservation;
+  async function fetchCategories() {
+    'use server';
+    const res = await prisma.category.findMany({
       where: {
         facilityId: reservation.facilityId,
       },
     });
-    return serializeJSON(categories);
-  };
+    return serializeJSON(res);
+  }
+  const ReservationFees = reservation.ReservationFees;
 
+  const categories = await fetchCategories();
   const additionalFeesTotal = ReservationFees.reduce(
     (sum: any, fee: any) => sum + fee.additionalFees,
     0
   );
+  console.log(additionalFeesTotal);
+  console.log(ReservationFees);
   const user = User.name;
   const totalBasePrice = Category.price * reservation.totalHours;
   const totalCost: number = additionalFeesTotal + totalBasePrice;
@@ -77,14 +81,15 @@ export default async function paymentPage({
                 </tr>
               </thead>
               <tbody>
-                {ReservationFees.map((fee: any, index: any) => (
-                  <tr key={index} className="m-2">
-                    <td className="text-ellipsis overflow-hidden">
-                      {fee.feesType}
-                    </td>
-                    <td>${fee.additionalFees}</td>
-                  </tr>
-                ))}
+                {ReservationFees.length === 0 &&
+                  ReservationFees.map((fee: any, index: any) => (
+                    <tr key={index} className="m-2">
+                      <td className="text-ellipsis overflow-hidden">
+                        {fee.feesType}
+                      </td>
+                      <td>${fee.additionalFees}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

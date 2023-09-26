@@ -78,7 +78,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              onClick={() => ApproveAll(id, `/admin/reservations/`)}
+              onClick={() => ApproveAll(id, '/admin/reservations')}
             >
               Approve/Deny Reservation
             </DropdownMenuItem>
