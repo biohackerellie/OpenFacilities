@@ -4,16 +4,13 @@ import { Separator } from '@/components/ui/separator';
 import { JiraModal } from '@/components/forms';
 import { Facility } from '@/lib/types';
 import { Button } from '@/components/ui/buttons';
+import ReservationOptions from '@/components/ui/tables/reservations/reservation/options';
 import dynamic from 'next/dynamic';
 
 interface ResNavProps {
   id: number;
   facility: Facility;
 }
-
-const ReservationOptions = dynamic(
-  () => import('@/components/ui/tables/reservations/reservation/options')
-);
 
 export default function ResNav({ id, facility }: ResNavProps) {
   return (
@@ -39,6 +36,7 @@ export default function ResNav({ id, facility }: ResNavProps) {
       </div>
       <Separator orientation="vertical" />
       <div>
+        {/* ts-expect-error */}
         <ReservationOptions id={id} facility={facility} />
       </div>
       <Separator orientation="vertical" />

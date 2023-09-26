@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-		"postinstall": "prisma generate",
+    "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -71,7 +71,6 @@
     "react-select": "^5.7.3",
     "react-square-web-payments-sdk": "^3.2.1",
     "react-tooltip": "^5.13.1",
-    "sharp": "^0.32.3",
     "square": "^28.0.1",
     "styled-components": "^6.0.0-rc.3",
     "sweetalert2": "^11.7.11",
