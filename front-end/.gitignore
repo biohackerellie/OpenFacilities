@@ -3,6 +3,7 @@ logfile.log
 # dependencies
 node_modules/
 /node_modules
+prisma/generated/*
 
 /.pnp
 .pnp.js
