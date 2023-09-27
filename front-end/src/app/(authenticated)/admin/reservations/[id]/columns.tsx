@@ -37,19 +37,21 @@ interface TableDates {
   ReservationID: any;
 }
 
-const HandleDeny = async (id: number) => {
+const UpdateStatus = async (id: number, status: string) => {
   try {
-    await denyDate(id);
-  } catch (error) {
-    alert('Error denying reservation');
-    console.log(error);
-  } finally {
-    location.reload();
-  }
-};
-const HandleApprove = async (id: number) => {
-  try {
-    await approveDate(id);
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_HOST + `/api/reservation/date`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          approved: status,
+        }),
+      }
+    );
   } catch (error) {
     alert('Error approving reservation');
   } finally {
@@ -59,7 +61,18 @@ const HandleApprove = async (id: number) => {
 
 const DeleteDate = async (id: number) => {
   try {
-    await HandleDelete(id);
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_HOST + `/api/reservation/date`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      }
+    );
   } catch (error) {
     alert('Error deleting reservation');
   } finally {
@@ -137,14 +150,18 @@ export const columns: ColumnDef<TableDates>[] = [
             <DropdownMenuContent align="end">
               {!isApproved && (
                 <>
-                  <DropdownMenuItem onClick={() => HandleApprove(dateID)}>
+                  <DropdownMenuItem
+                    onClick={() => UpdateStatus(dateID, 'approved')}
+                  >
                     Approve Date
                   </DropdownMenuItem>
                 </>
               )}
               {!isDenied && (
                 <>
-                  <DropdownMenuItem onClick={() => HandleDeny(dateID)}>
+                  <DropdownMenuItem
+                    onClick={() => UpdateStatus(dateID, 'denied')}
+                  >
                     Deny Date
                   </DropdownMenuItem>
                 </>

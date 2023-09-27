@@ -13,6 +13,8 @@ interface TableReservation {
   Details: number;
 }
 
+export const dynamic = 'force-dynamic';
+
 async function getRequests(): Promise<TableReservation[]> {
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
