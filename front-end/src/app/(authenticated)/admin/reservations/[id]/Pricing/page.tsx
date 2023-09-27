@@ -39,6 +39,7 @@ export default async function paymentPage({
       additionalFeesTotal += ReservationFees[i].additionalFees;
     }
   }
+  const CategoryId = Category.id;
   const CategoryPrice = Category.price;
   const mappedFees = ReservationFees.map((fee: feeProps) => {
     return {
@@ -53,7 +54,8 @@ export default async function paymentPage({
   const totalCost = await CostReducer(
     ReservationDate,
     additionalFeesTotal,
-    CategoryPrice
+    CategoryPrice,
+    CategoryId
   );
   console.log('totalCost', totalCost);
 
