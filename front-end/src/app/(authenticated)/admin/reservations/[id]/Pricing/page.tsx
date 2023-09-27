@@ -1,9 +1,27 @@
-import React from 'react';
-import EditPricingModal from '@/components/forms/paymentModal';
-import EditCatModal from '@/components/forms/catModal';
+import React, { cache } from 'react';
+import { DataTable } from '@/components/ui/tables/users/data-table';
 import { PaidButton } from '@/components/ui/buttons';
-import prisma from '@/lib/prisma';
-import { serializeJSON } from '@/utils/serializeJSON';
+import { columns } from './columns';
+import CostReducer from '@/functions/calculations/costCalculator';
+import EditPricing from '@/components/forms/paymentModal';
+
+interface feeProps {
+  id: number;
+  additionalFees: number;
+  feesType: string;
+  reservationId: any;
+}
+
+export const dynamic = 'force-dynamic';
+
+async function getReservation(id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+  );
+
+  return res.json();
+}
+
 export default async function paymentPage({
   params,
 }: {
@@ -11,110 +29,61 @@ export default async function paymentPage({
 }) {
   const id = params.id;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
-  );
-  const reservation = await res.json();
-  const { paid, Category, User, ReservationDate } = reservation;
-  async function fetchCategories() {
-    'use server';
-    const res = await prisma.category.findMany({
-      where: {
-        facilityId: reservation.facilityId,
-      },
-    });
-    return serializeJSON(res);
+  const reservation = await getReservation(id);
+  const { paid, Category, User, ReservationDate, ReservationFees, fees } =
+    reservation;
+
+  let additionalFeesTotal = 0;
+  if (ReservationFees.length > 0) {
+    for (let i = 0; i < ReservationFees.length; i++) {
+      additionalFeesTotal += ReservationFees[i].additionalFees;
+    }
   }
-  const ReservationFees = reservation.ReservationFees;
-
-  const categories = await fetchCategories();
-  const additionalFeesTotal = ReservationFees.reduce(
-    (sum: any, fee: any) => sum + fee.additionalFees,
-    0
+  const CategoryPrice = Category.price;
+  const mappedFees = ReservationFees.map((fee: feeProps) => {
+    return {
+      additionalFees: fee.additionalFees,
+      feesType: fee.feesType,
+      options: fee.id,
+    };
+  });
+  console.log('Additional Fees Total', additionalFeesTotal);
+  console.log(mappedFees);
+  console.log(ReservationDate);
+  const totalCost = await CostReducer(
+    ReservationDate,
+    additionalFeesTotal,
+    CategoryPrice
   );
-  console.log(additionalFeesTotal);
-  console.log(ReservationFees);
-  const user = User.name;
-  const totalBasePrice = Category.price * reservation.totalHours;
-  const totalCost: number = additionalFeesTotal + totalBasePrice;
-  return (
-    <div className="justify-center flex flex-wrap my-4 ">
-      <div className="gap-y-4  drop-shadow-md  m-3 p-4">
-        <h2 className="flex font-bold text-4xl text-gray-600 dark:text-gray-300">
-          Pricing and Payments
-        </h2>
-        <div className=" my-5  gap-36">
-          <div className="flex flex-shrink  my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-            <table>
-              <thead>
-                <tr>
-                  <th> Category: </th>
-                  <th> Price: </th>
-                  <th> Total Hours: </th>
-                  <th> Total Base Price: </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-ellipsis truncate max-w-sm overflow-hidden">
-                    {' '}
-                    {Category.name} -{' '}
-                  </td>
-                  <td> ${Category.price} /hr </td>
-                  <td> {reservation.totalHours}</td>
-                  <td> ${totalBasePrice}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="flex-shrink flex  ">
-            <EditCatModal id={id} categories={categories} {...reservation} />
-          </div>
-          <div className="flex  my-2 p-2  justify-between text-xl  border-b-gray-700 dark:border-b-white text-justify ">
-            <table>
-              <thead>
-                <tr>
-                  <th> Additional Fees: </th>
+  console.log('totalCost', totalCost);
 
-                  <th> Price: </th>
-                </tr>
-              </thead>
-              <tbody>
-                {ReservationFees.length === 0 &&
-                  ReservationFees.map((fee: any, index: any) => (
-                    <tr key={index} className="m-2">
-                      <td className="text-ellipsis overflow-hidden">
-                        {fee.feesType}
-                      </td>
-                      <td>${fee.additionalFees}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="p-2 m-2 self-end flex justify-end">
-            <EditPricingModal
-              id={id}
-              {...ReservationFees}
-              {...reservation}
-              amount={totalCost}
-              user={user}
-            />
-          </div>
-          <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-            Total: ${totalCost}
-          </div>
-          {paid && (
+  const user = User.name;
+
+  return (
+    <div className="flex flex-wrap justify-center h-full pb-3 mb-2 ">
+      <div className="">
+        <div className="w-[1400px] gap-y-4  drop-shadow-md  m-3 p-4 ">
+          <h2 className="font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
+            Pricing and Payments
+          </h2>
+          <div className="container max-w-[600px]">
+            <DataTable columns={columns} data={mappedFees} />
+            <EditPricing id={id} />
             <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-              <span className="text-green-500">Paid</span>
+              Total: ${totalCost}
             </div>
-          )}
-          {!paid && (
-            <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-              <span className="text-red-500">Not Paid</span>
-              <PaidButton id={id} />
-            </div>
-          )}
+            {paid && (
+              <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+                <span className="text-green-500">Paid</span>
+              </div>
+            )}
+            {!paid && (
+              <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+                <span className="text-red-500">Not Paid</span>
+                <PaidButton id={id} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
