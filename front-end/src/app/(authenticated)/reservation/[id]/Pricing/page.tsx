@@ -1,6 +1,24 @@
 import { ShowPayment } from '@/components/forms';
-
+import CostReducer from '@/functions/calculations/costCalculator';
 import React from 'react';
+import { columns } from './columns';
+import { DataTable } from '@/components/ui/tables/users/data-table';
+export const dynamic = 'force-dynamic';
+
+interface feeProps {
+  id: number;
+  additionalFees: number;
+  feesType: string;
+  reservationId: any;
+}
+
+async function getReservation(id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+  );
+
+  return res.json();
+}
 
 export default async function paymentPage({
   params,
@@ -9,55 +27,51 @@ export default async function paymentPage({
 }) {
   const id = params.id;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+  const reservation = await getReservation(id);
+  const { paid, Category, User, ReservationDate, ReservationFees, fees } =
+    reservation;
+
+  let additionalFeesTotal = 0;
+  if (ReservationFees.length > 0) {
+    for (let i = 0; i < ReservationFees.length; i++) {
+      additionalFeesTotal += ReservationFees[i].additionalFees;
+    }
+  }
+  const CategoryPrice = Category.price;
+  const mappedFees = ReservationFees.map((fee: feeProps) => {
+    return {
+      additionalFees: fee.additionalFees,
+      feesType: fee.feesType,
+      options: fee.id,
+    };
+  });
+  console.log('Additional Fees Total', additionalFeesTotal);
+  console.log(mappedFees);
+  console.log(ReservationDate);
+  const totalCost = await CostReducer(
+    ReservationDate,
+    additionalFeesTotal,
+    CategoryPrice
   );
-  const reservation = await res.json();
-  const { Category } = reservation;
-  const user = reservation.User.name;
-  const url = reservation.paymentUrl;
-
-  const additionalFees = reservation.ReservationFees;
-  // const additionalFeesTotal = additionalFees.reduce(
-  //   (sum: any, fee: any) => sum + fee.additionalFees,
-  //   0
-  // );
-
-  const totalBasePrice = Category.price * reservation.totalHours;
-  const totalCost = reservation.fees;
-  const paid: boolean = reservation.paid;
+  console.log('totalCost', totalCost);
 
   return (
-    <div>
-      <div className="justify-center flex flex-col sm:flex-row my-4 ">
-        <div className="flex  flex-col border-gray-600 dark:border-white drop-shadow-xl shadow-xl   w-[800px] m-3 p-4 border-2">
-          <h2 className="flex font-bold text-4xl text-gray-600 dark:text-gray-300">
+    <div className="flex flex-wrap justify-center max-w-[1000px] h-full pb-3 mb-2 ">
+      <div className="">
+        <div className=" gap-y-4  drop-shadow-md  m-3 p-4 ">
+          <h2 className="font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
             Pricing and Payments
           </h2>
-          <div className=" my-5  gap-36">
-            <div className="  my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white ">
-              <p>Category: {Category.name} </p>
-              <p> Price: ${Category.price} /hr </p>
-              <p> Total Hours: {reservation.totalHours} </p>
-              <p> Total Base Price: ${totalBasePrice} </p>
-            </div>
-
-            <div className=" my-2 p-2  justify-between text-xl  border-b-gray-700 dark:border-b-white  ">
-              <p> Additional Fees: </p>
-              <p> Price: </p>
-              {additionalFees.length > 0 &&
-                additionalFees.map((fee: any, index: any) => (
-                  <div key={index} className="m-2">
-                    <div className="text-ellipsis overflow-hidden">
-                      {fee.feesType}
-                    </div>
-                    <div>${fee.additionalFees}</div>
-                  </div>
-                ))}
+          <div className="container max-w-[600px]">
+            <DataTable columns={columns} data={mappedFees} />
+            <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+              Total: ${totalCost}
               <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
                 Total: $ {!paid ? totalCost : 'Paid'}
               </div>
-              {!paid && <ShowPayment id={id} />}
+              <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+                {!paid && <ShowPayment id={id} fees={totalCost} />}
+              </div>
             </div>
           </div>
         </div>

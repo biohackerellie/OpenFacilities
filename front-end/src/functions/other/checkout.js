@@ -2,24 +2,18 @@
 import prisma from '@/lib/prisma';
 import nodemailer from 'nodemailer';
 
-export default async function Checkout(id) {
-  const reservation = await prisma.reservation.findUnique({
-    where: {
-      id: BigInt(id),
-    },
-    include: {
-      User: true,
-    },
-  });
-
-  const fees = reservation.fees;
+export default async function Checkout(id, fees) {
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/reservations/${id}`
+  );
+  const reservation = await res.json();
 
   const response = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/payments', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ amount: fees, user: reservation.User.name }),
+    body: JSON.stringify({ amount: fees, user: reservation.User.name, id: id }),
   });
   if (!response.ok) {
     throw new Error(`Server responded with status code ${response.status}`);
@@ -53,14 +47,4 @@ export default async function Checkout(id) {
   } catch (error) {
     throw new Error('Server responded with empty body');
   }
-
-  const payment = await prisma.reservation.update({
-    where: {
-      id: BigInt(id),
-    },
-    data: {
-      paymentUrl: paymentUrl,
-      paymentLinkID: paymentId,
-    },
-  });
 }
