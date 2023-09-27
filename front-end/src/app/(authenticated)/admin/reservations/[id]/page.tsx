@@ -12,15 +12,23 @@ type DateType = {
   reservationId: number;
   id: any;
 };
+
+async function getReservation(id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+  );
+
+  return res.json();
+}
+
+export const dynamic = 'force-dynamic';
+
 export default async function reservationPage({
   params,
 }: {
   params: { id: number };
 }) {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`
-  );
-  const reservation = await res.json();
+  const reservation = await getReservation(params.id);
   const {
     id,
     name,

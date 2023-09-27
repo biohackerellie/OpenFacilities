@@ -16,11 +16,9 @@ export default async function ApproveAll(id: number, path: string) {
     cancelButtonText: 'Cancel',
     onConfirm: async (id: any) => {
       await approveReservation(id);
-      revalidatePath(path);
     },
     onDeny: async (id: any) => {
       await denyReservation(id);
-      revalidatePath(path);
     },
     onConfirmText: {
       title: 'Approved!',

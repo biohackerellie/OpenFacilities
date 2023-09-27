@@ -1,102 +1,76 @@
-//@ts-nocheck
 'use client';
-import { Button } from '../ui/buttons';
-import React, { useRef, useState } from 'react';
+import { Button } from '@/components/ui/buttons/button';
+import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
-import ReactModal from 'react-modal';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { addFee, removeFee } from '@/functions/mutations';
 
-export default function EditPricingModal({
-  id,
-  ReservationFees,
-  amount,
-  user,
-}) {
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+  SheetClose,
+} from '@/components/ui/sheet';
+import React from 'react';
+
+interface IForminput {
+  additionalFees: number;
+  feesType: string;
+  reservationId: any;
+}
+
+export default function EditPricing(id: any) {
+  const { register, handleSubmit } = useForm<IForminput>();
   const router = useRouter();
-
-  const ReservationFeesRef = useRef();
-  const ReservationFeesDetailsRef = useRef();
-  const feeRef = useRef();
-
-  const handleSave = async (event) => {
-    event.preventDefault();
-    const ReservationFees = ReservationFeesRef.current.value;
-    const ReservationFeesDetails = ReservationFeesDetailsRef.current.value;
-    await addFee(id, ReservationFees, ReservationFeesDetails);
-    router.refresh();
-    hideModal();
+  const reservationID = id.id;
+  console.log('reservationID', reservationID);
+  const onSubmit = async (data: IForminput) => {
+    try {
+      await addFee(data, reservationID);
+    } catch (errors) {
+      console.log(errors);
+    } finally {
+      router.refresh();
+    }
   };
-
-  const [isVisible, setIsVisible] = React.useState(false);
-  const hideModal = () => setIsVisible(false);
-  const showModal = () => setIsVisible(true);
-  const handleRemoveFee = async (feeId) => {
-    await removeFee(feeId);
-    router.refresh();
-    hideModal();
-  };
-
   return (
-    <>
-      <Button onClick={showModal}>Edit Fees</Button>
-      <ReactModal
-        className="fixed inset-0 flex text-lg items-center text-black dark:text-black justify-center z-50 transition-all ease-in-out duration-1000"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
-        isOpen={!!isVisible}
-        onRequestClose={hideModal}
-      >
-        <div className="bg-white items-center place-content-center   justify-center flex flex-col rounded-lg w-auto min-w-34 p-4">
-          <form onSubmit={handleSave}>
-            <div>
-              {ReservationFees.map((fee: any, index: any) => (
-                <div key={index} className="m-2" ref={feeRef}>
-                  <div className="text-ellipsis overflow-hidden">
-                    {fee.feesType}
-                  </div>
-                  <div>${fee.ReservationFees}</div>
-                  <div>
-                    <button
-                      onClick={() => handleRemoveFee(fee.id)}
-                      className="bg-primary  dark:bg-secondary justify-end self-end text-white rounded-md  hover:bg-purple-700 m-2 p-2 drop-shadow-md shadow-md transition-all duration-75 ease-in-out hover:scale-105 hover:-translate-x-1 hover:translate-y-1 "
-                    >
-                      {' '}
-                      Remove Fee
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <h2>Add Fee</h2>
-            <div className="flex flex-col">
-              <label htmlFor="ReservationFeesDetails">Fee Description</label>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Add Fee</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <SheetHeader>
+            <SheetTitle>Add Fee</SheetTitle>
+            <SheetDescription>
+              Add an additional fee to this reservation.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="start-date">Fee Amount</Label>
               <input
-                type="text"
-                id="ReservationFeesDetails"
-                name="ReservationFees"
-                ref={ReservationFeesDetailsRef}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="ReservationFees">Fee Amount</label>
-              <input
+                {...register('additionalFees')}
+                id="additionalFees"
                 type="number"
-                id="ReservationFees"
-                name="ReservationFees"
-                ref={ReservationFeesRef}
               />
             </div>
-            <div className="gap-2">
-              <Button className="mx-2 p-3" type="submit" onClick={handleSave}>
-                Save
-              </Button>
-
-              <Button type="button" onClick={hideModal}>
-                Cancel
-              </Button>
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="feesType">Type of Fee</Label>
+              <input {...register('feesType')} id="feesType" />
             </div>
-          </form>
-        </div>
-      </ReactModal>
-    </>
+          </div>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type="submit">Save Changes</Button>
+            </SheetClose>
+          </SheetFooter>
+        </form>
+      </SheetContent>
+    </Sheet>
   );
 }
