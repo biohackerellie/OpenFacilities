@@ -1,4 +1,4 @@
-import { Category, Events } from '@/../prisma/generated/client';
+import { Category, Events } from '@prisma/client';
 import { ExternalLink } from 'lucide-react';
 
 import Link from 'next/link';

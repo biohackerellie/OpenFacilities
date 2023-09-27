@@ -2,7 +2,7 @@ import React from 'react';
 import { columns } from './columns';
 import moment from 'moment';
 
-import { User, Facility } from '@/../prisma/generated/client';
+import { User, Facility } from '@prisma/client';
 import { Reservation } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
 

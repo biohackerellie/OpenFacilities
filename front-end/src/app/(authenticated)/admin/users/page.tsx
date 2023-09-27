@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
-import { User } from '@/../prisma/generated/client';
+import { User } from '@prisma/client';
 import { columns } from './columns';
 import prisma from '@/lib/prisma';
 
