@@ -1,5 +1,6 @@
 import SubNav from '@/components/ui/subNav';
 import dynamic from 'next/dynamic';
+import FacilityCard from '../facilities/facility_card';
 export default async function buildingPage({
   params,
 }: {
@@ -28,7 +29,6 @@ export default async function buildingPage({
     building = 'Facilities';
   }
 
-  const FacilityCard = dynamic(() => import('../facilities/facility_card'));
   return (
     <div className=" grid sm:place-items-center min-h-screen pb-[50px] scroll-smooth   gap-5 ">
       <h1 className="text-4xl m-2 mb-2 font-bold text-center">{building}</h1>
