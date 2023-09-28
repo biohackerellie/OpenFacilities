@@ -65,22 +65,35 @@ export default function ReservationForm() {
   const onSubmit = async (data: IFormInput) => {
     setIsSubmitting(true);
     try {
-      await createReservation(data);
-
-      Swal.fire({
-        title: 'Success!',
-        text: 'Your request has been submitted',
-        icon: 'success',
-        showCancelButton: true,
-        confirmButtonText: 'Create Another Request? ',
-        cancelButtonText: 'Return to Home Page',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          window.location.href = '/';
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_HOST + '/api/reservation',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...data,
+          }),
         }
-      });
+      );
+      const reservation = await res.json();
+      if (reservation.status === 200) {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your request has been submitted',
+          icon: 'success',
+          showCancelButton: true,
+          confirmButtonText: 'Create Another Request? ',
+          cancelButtonText: 'Return to Home Page',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            window.location.href = '/';
+          }
+        });
+      }
     } catch (errors) {
       alert('Something went wrong', errors);
       console.log(errors);

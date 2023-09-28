@@ -3,7 +3,7 @@ import {
   Reservation,
   ReservationDate,
   ReservationFees,
-} from '@/../prisma/generated/client';
+} from '@prisma/client';
 
 type ExtendedReservation = Reservation & {
   ReservationDate: ReservationDate[];

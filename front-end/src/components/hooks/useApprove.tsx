@@ -1,36 +1,46 @@
-'use client';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { multiChoiceAlert } from '../ui/alerts';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { revalidatePath } from 'next/cache';
 
 export default async function ApproveAll(id: number, path: string) {
-  multiChoiceAlert({
-    title: 'Confirm or Deny All Dates',
-    id: id,
-    text: 'If Confirmed, all requested dates will be added, if denied, all dates will be removed.',
-    icon: 'warning',
-    showCancelButton: true,
-    showDenyButton: true,
-    confirmButtonText: 'Yes, approve request!',
-    denyButtonText: 'No, deny request!',
-    cancelButtonText: 'Cancel',
-    onConfirm: async (id: any) => {
-      await approveReservation(id);
-      revalidatePath(path);
-    },
-    onDeny: async (id: any) => {
-      await denyReservation(id);
-      revalidatePath(path);
-    },
-    onConfirmText: {
-      title: 'Approved!',
-      text: 'The request has been approved.',
-      icon: 'success',
-    },
-    onDenyText: {
-      title: 'Denied',
-      text: 'The request has been denied.',
-      icon: 'error',
-    },
-  });
+  <AlertDialog>
+    <AlertDialogTrigger>Approve or Deny All</AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Approve All</AlertDialogTitle>
+      </AlertDialogHeader>
+      <AlertDialogDescription>
+        This action will notify the user of their reservation status.
+      </AlertDialogDescription>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction
+          onClick={() => {
+            approveReservation(id);
+            revalidatePath(path);
+          }}
+        >
+          Approve
+        </AlertDialogAction>
+        <AlertDialogAction
+          onClick={() => {
+            denyReservation(id);
+            revalidatePath(path);
+          }}
+        >
+          Deny
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>;
 }

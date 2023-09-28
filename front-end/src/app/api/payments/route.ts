@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
 import { randomUUID } from 'crypto';
+import prisma from '@/lib/prisma';
 
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
@@ -35,6 +36,19 @@ export async function POST(req: NextRequest) {
     },
     prePopulatedData: {},
     paymentNote: 'Facility Rental for ' + body.user,
+  });
+  const data = await response.json();
+  const paymentUrl = data.paymentLink.url;
+  const paymentId = data.paymentLink.id;
+  const id = body.id;
+  const payment = await prisma.reservation.update({
+    where: {
+      id: BigInt(id),
+    },
+    data: {
+      paymentUrl: paymentUrl,
+      paymentLinkID: paymentId,
+    },
   });
 
   console.log(response.result);

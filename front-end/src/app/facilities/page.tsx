@@ -3,8 +3,7 @@ import dynamic from 'next/dynamic';
 import SubNav from '@/components/ui/subNav';
 import { Suspense } from 'react';
 import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
-
-const FacilityCard = dynamic(() => import('./facility_card'));
+import FacilityCard from './facility_card';
 
 async function getFacilities() {
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/facilities');

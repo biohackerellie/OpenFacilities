@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import ReactModal from 'react-modal';
 import { CalendarInfo } from '../ui';
-import { Events } from '@/../prisma/generated/client';
+import { Events } from '@prisma/client';
 import { useTheme } from 'next-themes';
 import { Button } from '../ui/buttons';
 import { Separator } from '@/components/ui/separator';

@@ -9,7 +9,12 @@ import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
-export default function ShowPayment({ id }: { id: number }) {
+interface feeProps {
+  id: number;
+  fees: any;
+}
+
+export default function ShowPayment({ id, fees }: feeProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inPerson = async (id: number) => {
     await PayinPerson(id);
@@ -23,7 +28,7 @@ export default function ShowPayment({ id }: { id: number }) {
   const online = async (id: number) => {
     setIsSubmitting(true);
     try {
-      await Checkout(id);
+      await Checkout(id, fees);
       MySwal.fire({
         title: 'You have selected to pay online',
         text: 'A checkout link has been sent to your accounts email address',
