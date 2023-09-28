@@ -22,6 +22,7 @@ export async function approveReservation(id: number) {
   // const updated = await res.json();
   if (res.status === 200) {
     alert('Reservation Approved!');
+    revalidatePath('/admin/reservations');
     return res.json();
   } else {
     throw new Error('Something went wrong');
@@ -40,7 +41,7 @@ export async function denyReservation(id: number) {
     }
   );
 
-  revalidatePath('/');
+  revalidatePath('/admin/reservations');
   if (res.status === 200) {
     return res.json();
   } else {

@@ -8,7 +8,7 @@ import { useFacilities, ApproveAll } from '@/components/hooks';
 import { updateRes } from '@/functions/reservations';
 import { useRouter } from 'next/navigation';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { useToast } from '@/components/ui/use-toast';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -73,8 +73,6 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     router.refresh();
   };
 
-  const { toast } = useToast();
-
   const sendEmail = async () => {
     try {
       await updateEmail(id);
@@ -127,11 +125,6 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
               <AlertDialogAction
                 onClick={() => {
                   approveReservation(id);
-                  toast({
-                    title: 'Reservation Approved',
-                    description: 'The reservation has been approved.',
-                    duration: 5000,
-                  });
                 }}
               >
                 Approve
@@ -139,11 +132,6 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
               <AlertDialogAction
                 onClick={() => {
                   denyReservation(id);
-                  toast({
-                    title: 'Reservation Denied',
-                    description: 'The reservation has been denied.',
-                    duration: 5000,
-                  });
                 }}
               >
                 Deny
