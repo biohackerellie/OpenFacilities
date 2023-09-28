@@ -5,7 +5,6 @@ import { serializeJSON } from '@/utils/serializeJSON';
 import reservationEmail from '@/functions/emails/reservationEmail';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
 
 export async function GET(
   request: NextRequest,

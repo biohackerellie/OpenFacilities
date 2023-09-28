@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const bucketName = 'documents';
     const fileUrl = `https://s3.laurel.k12.mt.us/${bucketName}/${fileName}`;
     const putUrl = await minioClient.presignedPutObject(bucketName, fileName);
-    console.log('putUrl', putUrl);
+
     const getUrl = await minioClient.presignedGetObject(
       bucketName,
       fileName,
