@@ -5,6 +5,8 @@ import { Client } from 'square';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 
+export const runtime = 'nodejs';
+
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
   environment: 'production',
