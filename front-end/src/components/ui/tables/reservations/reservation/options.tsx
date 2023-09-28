@@ -7,6 +7,19 @@ import { updateEmail } from '@/functions/emails';
 import { useFacilities, ApproveAll } from '@/components/hooks';
 import { updateRes } from '@/functions/reservations';
 import { useRouter } from 'next/navigation';
+import { approveReservation, denyReservation } from '@/functions/reservations';
+import { useToast } from '@/components/ui/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,6 +73,8 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     router.refresh();
   };
 
+  const { toast } = useToast();
+
   const sendEmail = async () => {
     try {
       await updateEmail(id);
@@ -72,33 +87,71 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
   return (
     <>
       <Sheet>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">Options</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => ApproveAll(id, '/admin/reservations')}
-            >
-              Approve/Deny Reservation
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-            <SheetTrigger asChild>
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">Options</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                <Button asChild variant="ghost">
-                  <ChangeFacility id={id} facility={facility} />
-                </Button>
+                <AlertDialogTrigger asChild>
+                  Approve or Deny All
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Approve All</AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogDescription>
+                    This action will notify the user of their reservation
+                    status.
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        approveReservation(id);
+                        toast({
+                          title: 'Reservation Approved',
+                          description: 'The reservation has been approved.',
+                          duration: 5000,
+                        });
+                      }}
+                    >
+                      Approve
+                    </AlertDialogAction>
+                    <AlertDialogAction
+                      onClick={() => {
+                        denyReservation(id);
+                        toast({
+                          title: 'Reservation Denied',
+                          description: 'The reservation has been denied.',
+                          duration: 5000,
+                        });
+                      }}
+                    >
+                      Deny
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
               </DropdownMenuItem>
-            </SheetTrigger>
-            <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => sendEmail()}>
-              Send update email
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuSeparator />
+              <SheetTrigger asChild>
+                <DropdownMenuItem>
+                  <Button asChild variant="ghost">
+                    <ChangeFacility id={id} facility={facility} />
+                  </Button>
+                </DropdownMenuItem>
+              </SheetTrigger>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => sendEmail()}>
+                Send update email
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </AlertDialog>
         <SheetContent>
           <SheetHeader>Change Facility</SheetHeader>
           <SheetDescription>

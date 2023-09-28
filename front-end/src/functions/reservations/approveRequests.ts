@@ -7,7 +7,6 @@ export async function approveReservation(id: number) {
   //   method: 'POST',
   //   body: JSON.stringify({ id: id }),
   // });
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
     {
@@ -18,10 +17,14 @@ export async function approveReservation(id: number) {
       }),
     }
   );
+
   // const event = await response.json();
   // const updated = await res.json();
-
-  return res.json();
+  if (res.status === 200) {
+    return res.json();
+  } else {
+    throw new Error('Something went wrong');
+  }
 }
 
 export async function denyReservation(id: number) {
@@ -37,5 +40,9 @@ export async function denyReservation(id: number) {
   );
 
   revalidatePath('/');
-  return res.json();
+  if (res.status === 200) {
+    return res.json();
+  } else {
+    throw new Error('Something went wrong');
+  }
 }

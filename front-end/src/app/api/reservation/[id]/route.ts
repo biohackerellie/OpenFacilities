@@ -32,32 +32,35 @@ export async function PUT(
 ) {
   const id = BigInt(params.id);
   const body = await request.json();
-  const res = await prisma.reservation.update({
-    where: { id: id },
-    data: {
-      approved: body.approved,
-      ReservationDate: {
-        updateMany: {
-          where: {
-            reservationId: id,
-          },
-          data: {
-            approved: body.approved,
+  try {
+    const res = await prisma.reservation.update({
+      where: { id: id },
+      data: {
+        approved: body.approved,
+        ReservationDate: {
+          updateMany: {
+            where: {
+              reservationId: id,
+            },
+            data: {
+              approved: body.approved,
+            },
           },
         },
       },
-    },
-    include: {
-      User: true,
-      ReservationDate: true,
-    },
-  });
-  const user = res.User.email;
-  let to = user;
-  let subject = body.subject;
-  let message = `Your reservation for ${res.eventName} has been ${body.approved}. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
-  let data = { to, subject, message };
-  await reservationEmail(data);
-
-  return NextResponse.json({ message: 'success' });
+      include: {
+        User: true,
+        ReservationDate: true,
+      },
+    });
+    const user = res.User.email;
+    let to = user;
+    let subject = body.subject;
+    let message = `Your reservation for ${res.eventName} has been ${body.approved}. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+    let data = { to, subject, message };
+    await reservationEmail(data);
+  } catch (error) {
+    return NextResponse.json({ status: 500, message: error });
+  }
+  return NextResponse.json({ status: 200, message: 'success' });
 }
