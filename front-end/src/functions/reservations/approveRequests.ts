@@ -7,25 +7,28 @@ export async function approveReservation(id: number) {
     method: 'POST',
     body: JSON.stringify({ id: id }),
   });
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify({
-        approved: 'approved',
-        subject: 'Your Facility Reservation has been approved!',
-      }),
-    }
-  );
-
-  // const event = await response.json();
-  // const updated = await res.json();
-  if (res.status === 200) {
-    alert('Reservation Approved!');
-    revalidatePath('/admin/reservations');
-    return res.json();
+  if (response.status !== 200) {
+    throw new Error('google event failed to create');
   } else {
-    throw new Error('Something went wrong');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
+          approved: 'approved',
+          subject: 'Your Facility Reservation has been approved!',
+        }),
+      }
+    );
+
+    // const event = await response.json();
+    // const updated = await res.json();
+    if (res.status === 200) {
+      revalidatePath('/admin/reservations');
+      return res.json();
+    } else {
+      throw new Error('Something went wrong');
+    }
   }
 }
 

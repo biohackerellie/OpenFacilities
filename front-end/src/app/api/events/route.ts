@@ -6,6 +6,8 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import moment from 'moment-timezone';
 
+export const runtime = 'edge';
+
 export async function GET(request: Request) {
   const res = await prisma.events.findMany({
     include: {
@@ -38,6 +40,7 @@ export async function POST(request: Request) {
       Facility: true,
       ReservationDate: true,
     },
+    cacheStrategy: { swr: 10, ttl: 10 },
   });
 
   console.log('approvedReservation', approvedReservation);
@@ -86,5 +89,8 @@ export async function POST(request: Request) {
     }
     console.log('Event created: ', Response);
   }
-  return NextResponse.json({ status: 200, message: 'success' });
+  return NextResponse.json({
+    status: 200,
+    message: 'google cal event created',
+  });
 }
