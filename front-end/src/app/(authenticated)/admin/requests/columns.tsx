@@ -66,7 +66,7 @@ export const columns: ColumnDef<TableReservations>[] = [
     header: 'Approve or Deny',
     cell: ({ row }) => {
       const id = parseInt(row.getValue('Details'));
-      const { toast } = useToast();
+
       return (
         <AlertDialog>
           <AlertDialogTrigger>Approve or Deny All</AlertDialogTrigger>
@@ -82,11 +82,6 @@ export const columns: ColumnDef<TableReservations>[] = [
               <AlertDialogAction
                 onClick={() => {
                   approveReservation(id);
-                  toast({
-                    title: 'Reservation Approved',
-                    description: 'The reservation has been approved.',
-                    duration: 5000,
-                  });
                 }}
               >
                 Approve
@@ -94,11 +89,6 @@ export const columns: ColumnDef<TableReservations>[] = [
               <AlertDialogAction
                 onClick={() => {
                   denyReservation(id);
-                  toast({
-                    title: 'Reservation Denied',
-                    description: 'The reservation has been denied.',
-                    duration: 5000,
-                  });
                 }}
               >
                 Deny
