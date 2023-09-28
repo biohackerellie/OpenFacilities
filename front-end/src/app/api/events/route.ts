@@ -11,6 +11,7 @@ export async function GET(request: Request) {
     include: {
       Facility: true,
     },
+    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
 
   return NextResponse.json(serializeJSON(res));

@@ -12,7 +12,9 @@ interface TableUsers {
 
 async function getUsers() {
   'use server';
-  const users = await prisma.user.findMany({});
+  const users = await prisma.user.findMany({
+    cacheStrategy: { swr: 3600, ttl: 3600 },
+  });
 
   const mappedUsers: TableUsers[] = users.map((user) => {
     return {

@@ -11,6 +11,7 @@ export default async function updateEmail(id: number) {
       Facility: true,
       User: true,
     },
+    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
 
   const transporter = NodeMailer.createTransport({

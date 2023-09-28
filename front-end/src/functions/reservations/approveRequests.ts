@@ -3,10 +3,10 @@
 import { revalidatePath } from 'next/cache';
 
 export async function approveReservation(id: number) {
-  // const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({ id: id }),
-  // });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events`, {
+    method: 'POST',
+    body: JSON.stringify({ id: id }),
+  });
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
     {
@@ -21,6 +21,7 @@ export async function approveReservation(id: number) {
   // const event = await response.json();
   // const updated = await res.json();
   if (res.status === 200) {
+    alert('Reservation Approved!');
     return res.json();
   } else {
     throw new Error('Something went wrong');

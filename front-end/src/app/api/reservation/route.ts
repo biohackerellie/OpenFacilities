@@ -25,6 +25,7 @@ export async function GET(req: Request) {
       ReservationDate: true,
       User: true,
     },
+    cacheStrategy: { swr: 60, ttl: 10 },
   });
   return NextResponse.json(serializeJSON(res));
 }

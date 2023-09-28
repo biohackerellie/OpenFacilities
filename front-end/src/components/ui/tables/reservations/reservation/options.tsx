@@ -95,44 +95,8 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
                 <AlertDialogTrigger asChild>
-                  Approve or Deny All
+                  <span>Approve or Deny All</span>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Approve All</AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription>
-                    This action will notify the user of their reservation
-                    status.
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        approveReservation(id);
-                        toast({
-                          title: 'Reservation Approved',
-                          description: 'The reservation has been approved.',
-                          duration: 5000,
-                        });
-                      }}
-                    >
-                      Approve
-                    </AlertDialogAction>
-                    <AlertDialogAction
-                      onClick={() => {
-                        denyReservation(id);
-                        toast({
-                          title: 'Reservation Denied',
-                          description: 'The reservation has been denied.',
-                          duration: 5000,
-                        });
-                      }}
-                    >
-                      Deny
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
@@ -151,6 +115,41 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
               <DropdownMenuSeparator />
             </DropdownMenuContent>
           </DropdownMenu>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Approve All</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              This action will notify the user of their reservation status.
+            </AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  approveReservation(id);
+                  toast({
+                    title: 'Reservation Approved',
+                    description: 'The reservation has been approved.',
+                    duration: 5000,
+                  });
+                }}
+              >
+                Approve
+              </AlertDialogAction>
+              <AlertDialogAction
+                onClick={() => {
+                  denyReservation(id);
+                  toast({
+                    title: 'Reservation Denied',
+                    description: 'The reservation has been denied.',
+                    duration: 5000,
+                  });
+                }}
+              >
+                Deny
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         </AlertDialog>
         <SheetContent>
           <SheetHeader>Change Facility</SheetHeader>
