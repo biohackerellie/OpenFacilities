@@ -37,6 +37,7 @@ export async function GET(
         },
       },
     },
+    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
   return NextResponse.json(serializeJSON(res));
 }

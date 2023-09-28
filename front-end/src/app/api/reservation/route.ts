@@ -8,6 +8,8 @@ import nodemailer from 'nodemailer';
 import { revalidatePath } from 'next/cache';
 const currentDate = moment().format('YYYY-MM-DD');
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   const res = await prisma.reservation.findMany({
     where: {
@@ -25,6 +27,7 @@ export async function GET(req: Request) {
       ReservationDate: true,
       User: true,
     },
+    cacheStrategy: { swr: 60, ttl: 10 },
   });
   return NextResponse.json(serializeJSON(res));
 }

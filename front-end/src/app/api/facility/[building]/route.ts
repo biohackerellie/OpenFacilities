@@ -14,6 +14,7 @@ export async function GET(
         contains: facilityBuilding,
       },
     },
+    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
   return NextResponse.json(serializeJSON(res));
 }

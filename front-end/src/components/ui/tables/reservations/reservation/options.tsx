@@ -8,7 +8,7 @@ import { useFacilities, ApproveAll } from '@/components/hooks';
 import { updateRes } from '@/functions/reservations';
 import { useRouter } from 'next/navigation';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { useToast } from '@/components/ui/use-toast';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -73,8 +73,6 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     router.refresh();
   };
 
-  const { toast } = useToast();
-
   const sendEmail = async () => {
     try {
       await updateEmail(id);
@@ -95,44 +93,8 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
                 <AlertDialogTrigger asChild>
-                  Approve or Deny All
+                  <span>Approve or Deny All</span>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Approve All</AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription>
-                    This action will notify the user of their reservation
-                    status.
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        approveReservation(id);
-                        toast({
-                          title: 'Reservation Approved',
-                          description: 'The reservation has been approved.',
-                          duration: 5000,
-                        });
-                      }}
-                    >
-                      Approve
-                    </AlertDialogAction>
-                    <AlertDialogAction
-                      onClick={() => {
-                        denyReservation(id);
-                        toast({
-                          title: 'Reservation Denied',
-                          description: 'The reservation has been denied.',
-                          duration: 5000,
-                        });
-                      }}
-                    >
-                      Deny
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
@@ -151,6 +113,31 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
               <DropdownMenuSeparator />
             </DropdownMenuContent>
           </DropdownMenu>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Approve All</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              This action will notify the user of their reservation status.
+            </AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  approveReservation(id);
+                }}
+              >
+                Approve
+              </AlertDialogAction>
+              <AlertDialogAction
+                onClick={() => {
+                  denyReservation(id);
+                }}
+              >
+                Deny
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         </AlertDialog>
         <SheetContent>
           <SheetHeader>Change Facility</SheetHeader>

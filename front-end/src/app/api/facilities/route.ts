@@ -7,6 +7,7 @@ export async function GET(request: Request) {
     include: {
       Category: true,
     },
+    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
   return NextResponse.json(serializeJSON(res));
 }

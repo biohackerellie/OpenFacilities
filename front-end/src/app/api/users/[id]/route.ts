@@ -20,6 +20,7 @@ export async function GET(
         },
       },
     },
+    cacheStrategy: { swr: 60, ttl: 60 },
   });
 
   return NextResponse.json(serializeJSON(res));
