@@ -37,7 +37,7 @@ COPY . .
 # Disable Next Telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
 # Generate the prisma client
-RUN npx prisma generate
+RUN npx prisma generate --no-engine
 # Build the application
 RUN npx next build && mkdir -p .next/cache/images 
 
