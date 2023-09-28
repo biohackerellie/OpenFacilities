@@ -14,10 +14,6 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   experimental: {
     serverActions: true,
-    esmExternals: true,
-    turbotrace: {
-      enabled: true,
-    },
   },
 };
 
