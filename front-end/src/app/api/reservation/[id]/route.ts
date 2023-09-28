@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 import { serializeJSON } from '@/utils/serializeJSON';
 import reservationEmail from '@/functions/emails/reservationEmail';
 
-const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
