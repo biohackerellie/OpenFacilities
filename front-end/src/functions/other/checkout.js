@@ -1,8 +1,7 @@
-'use server';
 import prisma from '@/lib/prisma';
 import nodemailer from 'nodemailer';
 
-export default async function Checkout(id, fees) {
+export default async function Checkout(id, fees, descri) {
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservations/${id}`
   );
@@ -13,7 +12,7 @@ export default async function Checkout(id, fees) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ amount: fees, user: reservation.User.name, id: id }),
+    body: JSON.stringify({ amount: fees, description: description, id: id }),
   });
   if (!response.ok) {
     throw new Error(`Server responded with status code ${response.status}`);

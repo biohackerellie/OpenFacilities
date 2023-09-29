@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
-
-export const runtime = 'nodejs';
+import nodemailer from 'nodemailer';
 
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
@@ -19,42 +18,63 @@ BigInt.prototype.toJSON = function () {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   console.log('request: ', body);
-  const response = await checkoutApi.createPaymentLink({
-    idempotencyKey: randomUUID(),
-    description: 'Facility Rental',
-    quickPay: {
-      name: 'Facility Reservation',
-      priceMoney: {
-        amount: BigInt(Math.round(body.amount * 100)),
-        currency: 'USD',
+  try {
+    const res = await checkoutApi.createPaymentLink({
+      idempotencyKey: randomUUID(),
+      description: 'Facility Rental',
+      quickPay: {
+        name: body.description,
+        priceMoney: {
+          amount: BigInt(Math.round(body.fees * 100)),
+          currency: 'USD',
+        },
+        locationId: process.env.SQUARE_LOCATION_ID,
       },
-      locationId: process.env.SQUARE_LOCATION_ID,
-    },
-    checkoutOptions: {
-      allowTipping: false,
-      askForShippingAddress: false,
-      enableCoupon: false,
-      enableLoyalty: false,
-    },
-    prePopulatedData: {},
-    paymentNote: 'Facility Rental for ' + body.user,
-  });
-  const data = await response.json();
-  const paymentUrl = data.paymentLink.url;
-  const paymentId = data.paymentLink.id;
-  const id = body.id;
-  const payment = await prisma.reservation.update({
-    where: {
-      id: BigInt(id),
-    },
-    data: {
-      paymentUrl: paymentUrl,
-      paymentLinkID: paymentId,
-    },
-  });
+      checkoutOptions: {
+        allowTipping: false,
+        askForShippingAddress: false,
+        enableCoupon: false,
+        enableLoyalty: false,
+      },
+      prePopulatedData: {},
+      paymentNote: body.description,
+    });
 
-  console.log(response.result);
-  return NextResponse.json(response.result.paymentLink);
+    const paymentUrl = res.result.paymentLink.url;
+    const paymentId = res.result.paymentLink.id;
+    const id = body.id;
+
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = await transporter.sendMail({
+      from: '"Facility Rental" no_reply@laurel.k12.mt.us',
+      to: body.email,
+      subject: 'Facility Rental Payment Link',
+      text:
+        'Click the link below to pay for your reservation: \n \n ' +
+        paymentUrl +
+        '\n \n If you have any questions, please contact the Activities Director at lpsactivites@laurel.k12.mt.us',
+    });
+    const update = await prisma.reservation.update({
+      where: {
+        id: BigInt(id),
+      },
+      data: {
+        paymentUrl: paymentUrl,
+        paymentLinkID: paymentId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ status: 500, body: error });
+  }
+  return NextResponse.json({ status: 200, body: 'Payment Link Created' });
 }
 
 // const { result } = await paymentsApi.createPayment({
