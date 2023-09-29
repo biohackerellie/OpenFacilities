@@ -5,6 +5,7 @@ import { Providers } from '@/components/contexts';
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
 import moment from 'moment-timezone';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 moment.tz.setDefault('America/Denver');
@@ -36,6 +37,7 @@ export default function RootLayout({
               <Footer />
             </Providers>
           </ThemeProviders>
+          <Analytics />
         </body>
       </html>
     </AuthProvider>
