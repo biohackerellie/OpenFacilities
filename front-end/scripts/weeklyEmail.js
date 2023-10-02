@@ -57,7 +57,7 @@ async function main() {
       where: {
         AND: [
           {
-            facility: {
+            Facility: {
               building: school.name,
             },
           },
@@ -69,9 +69,7 @@ async function main() {
           },
         ],
       },
-      include: {
-        facility: true,
-      },
+
       orderBy: {
         start: 'asc',
       },
@@ -90,7 +88,7 @@ async function main() {
     const eventList = eventsInMST
       .map(
         (event) =>
-          `<li>"${event.title}" at ${event.facility.name} on ${event.start} to ${event.end}</li>`
+          `<li>"${event.title}" at ${event.location} on ${event.start} to ${event.end}</li>`
       )
       .join('');
 

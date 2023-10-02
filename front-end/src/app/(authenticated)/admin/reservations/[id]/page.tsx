@@ -41,19 +41,25 @@ export default async function reservationPage({
     ReservationDate,
   } = reservation;
 
-  const startDate = ReservationDate[0].startDate;
+  console.log(reservation);
+
+  const startDate = ReservationDate[0]?.startDate;
   const facility = Number(Facility.id);
-  const mappedDates = ReservationDate.map((date: DateType) => {
-    return {
-      Options: Number(date.id),
-      startDate: date.startDate,
-      endDate: date.endDate,
-      startTime: date.startTime,
-      endTime: date.endTime,
-      approved: date.approved,
-      ReservationID: Number(date.reservationId),
-    };
-  });
+  let mappedDates;
+  if (ReservationDate.length === 0) {
+    mappedDates = ReservationDate.map((date: DateType) => {
+      return {
+        Options: Number(date.id) || null,
+        startDate: date.startDate || '',
+        endDate: date.endDate || '',
+        startTime: date.startTime || '',
+        endTime: date.endTime || '',
+        approved: date.approved || '',
+        ReservationID: Number(date.reservationId),
+      };
+    });
+    return mappedDates;
+  }
 
   return (
     <div className="flex flex-wrap justify-center h-full pb-3 mb-2 ">
@@ -92,7 +98,9 @@ export default async function reservationPage({
                 {' '}
                 {Facility.name} calendar{' '}
               </h1>
-              <SmallCalendar startDate={startDate} facilityId={Facility.id} />
+              {startDate && (
+                <SmallCalendar startDate={startDate} facilityId={Facility.id} />
+              )}
             </div>
           </div>
         </div>
@@ -100,7 +108,10 @@ export default async function reservationPage({
           <h2 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
             Reservation Dates
           </h2>
-          <DataTable columns={columns} data={mappedDates} />
+          {!mappedDates && (
+            <div>User did not submit reservation dates on request.</div>
+          )}
+          {mappedDates && <DataTable columns={columns} data={mappedDates} />}
         </div>
       </div>
     </div>

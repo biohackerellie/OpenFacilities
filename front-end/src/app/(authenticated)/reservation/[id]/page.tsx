@@ -36,7 +36,10 @@ export default async function reservationPage({
 
   const startDate = ReservationDate[0].startDate;
   const facility = Facility.id;
-  const mappedDates = ReservationDate.map((date: DateType) => {
+	let mappedDates;
+
+  if (ReservationDate.length === 0) {
+    mappedDates = ReservationDate.map((date: DateType) => {
     return {
       Options: date.id,
       startDate: date.startDate,
@@ -85,14 +88,19 @@ export default async function reservationPage({
                 {' '}
                 {Facility.name} calendar{' '}
               </h1>
+							{!startDate && <div>User did not submit reservation dates on request. Please resubmit</div>}
+							{startDate &&
+
               <SmallCalendar startDate={startDate} facilityId={Facility.id} />
+							}
             </div>
           </div>
           <div className="max-w-[650px] float-right ">
             <h2 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
               Reservation Dates
             </h2>
-            <DataTable columns={columns} data={mappedDates} />
+						{!mappedDates && <div>Loading...</div>}
+          {mappedDates && <DataTable columns={columns} data={mappedDates} />}
           </div>
         </div>
       </div>

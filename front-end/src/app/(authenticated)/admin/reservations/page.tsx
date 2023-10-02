@@ -31,13 +31,13 @@ async function getReservations(): Promise<TableReservation[]> {
       const sortedDates = reservation.ReservationDate.sort((a, b) =>
         moment(a.startDate).diff(moment(b.startDate))
       );
-      const nextUpcomingDate = sortedDates.find((date) =>
+      const nextUpcomingDate = sortedDates?.find((date) =>
         moment(date.startDate).isSameOrAfter(currentDate)
       );
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
+        ReservationDate: nextUpcomingDate ? nextUpcomingDate?.startDate : 'N/A',
         approved: reservation.approved,
         User: reservation.User?.name || '',
         Details: reservation.id,

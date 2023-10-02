@@ -34,7 +34,7 @@ async function getRequests(): Promise<TableReservation[]> {
       eventName: requests.eventName,
       Facility: requests.Facility.name,
 
-      ReservationDate: sortedDates[0].startDate,
+      ReservationDate: sortedDates[0]?.startDate,
 
       approved: requests.approved,
       User: requests.User?.name || '',
