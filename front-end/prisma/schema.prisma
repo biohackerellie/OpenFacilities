@@ -110,6 +110,7 @@ model Reservation {
   techDetails      String?              @db.VarChar(191)
   techSupport      Boolean?
   phone            String?              @db.VarChar(191)
+	insuranceLink		String?              @db.VarChar(191)
   categoryId       BigInt
   totalHours       Float?
   inPerson         Boolean              @default(false)

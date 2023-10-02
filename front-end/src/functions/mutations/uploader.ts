@@ -1,8 +1,9 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 
-export default async function Uploader(file: File, id: any) {
-  console.log('file', file);
+export default async function Uploader(body: any, id: any) {
+  console.log('file', body);
+  const file = body.files[0];
   try {
     const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/files', {
       method: 'POST',

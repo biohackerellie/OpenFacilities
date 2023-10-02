@@ -22,7 +22,7 @@ export async function GET(
       ReservationFees: true,
       Category: true,
     },
-    cacheStrategy: { swr: 60, ttl: 60 },
+    cacheStrategy: { swr: 60, ttl: 10 },
   });
   return NextResponse.json(serializeJSON(res));
 }

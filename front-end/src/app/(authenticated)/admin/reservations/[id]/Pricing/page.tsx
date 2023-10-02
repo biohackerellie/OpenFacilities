@@ -49,7 +49,7 @@ export default async function paymentPage({
     };
   });
   console.log('Additional Fees Total', additionalFeesTotal);
-  console.log(mappedFees);
+  console.log('mapped fees', mappedFees);
   console.log(ReservationDate);
   const totalCost = await CostReducer(
     ReservationDate,
