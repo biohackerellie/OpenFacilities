@@ -8,7 +8,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
