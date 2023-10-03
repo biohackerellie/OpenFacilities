@@ -75,6 +75,12 @@ export default function LoginForm() {
             placeholder="Password"
             className={`${input_style}`}
           />
+          <Link
+            className="text-blue-500 hover:underline hover:cursor-pointer italic text-sm"
+            href="/login/reset"
+          >
+            Forgot my password
+          </Link>
         </div>
         <button
           type="submit"
