@@ -73,7 +73,7 @@ export default async function reservationPage({
               Contact Number: <div>{phone}</div>
             </div>
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Contact Email: <div>{reservation.email}</div>
+              Contact Email: <div>{reservation.User.email}</div>
             </div>
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
               Requested Category:{' '}
