@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       await prisma.reservationDate.create({
         data: {
           startDate: moment(event.startDate).format('YYYY-MM-DD'),
-          endDate: moment(event.endDate).format('YYYY-MM-DD'),
+          endDate: moment(event.startDate).format('YYYY-MM-DD'),
 
           startTime: event.startTime,
 
