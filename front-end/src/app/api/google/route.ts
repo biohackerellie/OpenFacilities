@@ -15,28 +15,40 @@ export async function POST(request: NextRequest) {
 
 
 	const databaseEvents = await prisma.events.findMany({
-		cacheStrategy: { swr: 86400, ttl: 86400 }
+		cacheStrategy: { swr: 60, ttl: 60 }
 	});
 
-	const deleteOldEvents = databaseEvents
-	.filter(event => new Date(event.start || '') < oneMonthAgo)
-	.map(event => prisma.events.delete({ where: { id: event.id } }));
+	const eventsToDelete = databaseEvents
+  .filter(event => new Date(event.start || '') < oneMonthAgo)
+  .map(event => event.id);
 
-const createNewEvents = events.map((eventData: Events) => {
-	if (!databaseEvents.some(e => e.id === eventData.id)) {
-		return prisma.events.create({
-			data: {
-				id: eventData.id,
-				title: eventData.title,
-				start: eventData.start,
-				end: eventData.end,
-				facilityId: BigInt(eventData.facilityId),
-			}
-		});
-	}
-}).filter(Boolean);
-	await prisma.$transaction([...deleteOldEvents, ...createNewEvents]);
-	return NextResponse.json({ status: 200, message: 'success' });
+	await prisma.events.deleteMany({
+		where: {
+			id: {
+				in: eventsToDelete,
+			},
+		}
+	})
+
+const eventsToCreate = events
+  .filter((eventData : Events) => !databaseEvents.some(e => e.id === eventData.id))
+  .map((eventData : Events) => ({
+    id: eventData.id,
+    title: eventData.title,
+    start: eventData.start,
+    end: eventData.end,
+    facilityId: BigInt(eventData.facilityId),
+  }));
+
+	const response = await prisma.events.createMany({
+		data: eventsToCreate,
+		skipDuplicates: true,
+	});
+
+
+
+	
+	return NextResponse.json(response);
 	} catch (error) {
 		console.error(error);
 		return NextResponse.json(error);
