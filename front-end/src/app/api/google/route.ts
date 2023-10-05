@@ -48,7 +48,7 @@ const eventsToCreate = events
 
 
 	
-	return NextResponse.json(response);
+	return NextResponse.json({response: 200, message: response });
 	} catch (error) {
 		console.error(error);
 		return NextResponse.json(error);
