@@ -9,6 +9,7 @@ Hey there! 👋 I'm working on Open Facilities, an open-source facilities reserv
 The project is still under active development, and I'm super excited about the updates that are coming soon. Stay tuned for the official release!
 
 ### Roadmap 🗺️
+
 - [x] UI Cleanup
 - [x] Migrate database to Supabase
 - [ ] Convert all customizable options into env variables

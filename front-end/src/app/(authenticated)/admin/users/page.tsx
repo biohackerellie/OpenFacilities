@@ -13,6 +13,12 @@ interface TableUsers {
 async function getUsers() {
   'use server';
   const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
     cacheStrategy: { swr: 3600, ttl: 3600 },
   });
 

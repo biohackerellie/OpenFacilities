@@ -1,5 +1,6 @@
 import { UploadFile } from '@/components/forms/uploadFile';
-
+import Link from 'next/link';
+import { Button } from '@/components/ui/buttons';
 import React from 'react';
 import { VerifyButton } from '@/components/ui/navbar/buttons';
 
@@ -18,9 +19,10 @@ export default async function insurancePage({
 
   const reservation = await res.json();
 
-  const { InsuranceFiles } = reservation;
-
-  const files = InsuranceFiles || [];
+  let link;
+  if (reservation.insuranceLink) {
+    link = encodeURI(reservation.insuranceLink);
+  }
 
   return (
     <div>
@@ -76,48 +78,13 @@ export default async function insurancePage({
                   as an additional insured.{' '}
                 </h3>
                 <div className="w-full">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th> Document</th>
-                        <th> Verified? </th>
-                      </tr>
-                    </thead>
-                    {files.length > 0 ? (
-                      <tbody>
-                        {files.map((file: any) => {
-                          return (
-                            <tr key={file.id}>
-                              <td>
-                                <a
-                                  href={file.path}
-                                  target="_blank"
-                                  className="hover:underline font-bold text-black dark:text-white hover:text-blue-500"
-                                >
-                                  {file.fileName}
-                                </a>
-                              </td>
-                              {!file.varified ? (
-                                <VerifyButton id={file.id} />
-                              ) : (
-                                <td>
-                                  <p>Verified</p>
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    ) : (
-                      <tbody>
-                        <tr>
-                          <td>
-                            <p>No files uploaded yet</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    )}
-                  </table>
+                  {link && (
+                    <div className="flex flex-row justify-between">
+                      <Button variant="outline" asChild>
+                        <Link href={link}>View Uploaded File</Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
                 <div className="my-3">
                   <UploadFile params={params} />

@@ -55,6 +55,7 @@ export default function ReservationForm() {
       setIsButtonDisabled(true);
     }
   }, [fields]);
+
   const hideModal = () => setIsVisible(false);
   const formatDate = (date: Date) => {
     return date.toISOString().split('T')[0];
@@ -288,7 +289,9 @@ export default function ReservationForm() {
                       <label className="text-black">End Time</label>
                     </div>
                     <div>
-                      <Button onClick={() => remove(index)}>Delete Date</Button>
+                      <Button type="button" onClick={() => remove(index)}>
+                        Delete Date
+                      </Button>
                     </div>
                   </div>
                 );
@@ -297,6 +300,7 @@ export default function ReservationForm() {
               <Button
                 className="hover:cursor-pointer"
                 size={'sm'}
+                type="button"
                 onClick={() =>
                   append({
                     startDate: formatDate(new Date()),
@@ -318,6 +322,7 @@ export default function ReservationForm() {
               <Button
                 className="hover:cursor-pointer"
                 size={'sm'}
+                type="button"
                 onClick={() => remove()}
               >
                 Clear All

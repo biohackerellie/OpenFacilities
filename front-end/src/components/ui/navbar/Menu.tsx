@@ -8,14 +8,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
 import IsAdminNav from '@/components/contexts/isAdminNav';
 import React from 'react';
 import { cn } from '@/lib/utils';
-
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export function AuthenticatedMenu() {
@@ -24,7 +23,10 @@ export function AuthenticatedMenu() {
   if (status === 'loading') {
     return (
       <NavigationMenuItem>
-        <Button disabled>Please Wait</Button>
+        <Button disabled>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Please Wait
+        </Button>
       </NavigationMenuItem>
     );
   }
@@ -104,11 +106,21 @@ export default function Menu() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/facilities" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Facilities
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuTrigger>Facilities</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+              <Link href="/reservation" legacyBehavior passHref>
+                <ListItem title="Reservation Form">
+                  Reserve a space now
+                </ListItem>
+              </Link>
+              <Link href="/facilities" legacyBehavior passHref>
+                <ListItem title="Find a Space">
+                  View all of our available facilities
+                </ListItem>
+              </Link>
+            </ul>
+          </NavigationMenuContent>
         </NavigationMenuItem>
 
         <AuthenticatedMenu />

@@ -38,6 +38,7 @@ export async function POST(request: Request) {
       Facility: true,
       ReservationDate: true,
     },
+    cacheStrategy: { swr: 10, ttl: 10 },
   });
 
   console.log('approvedReservation', approvedReservation);
@@ -86,5 +87,8 @@ export async function POST(request: Request) {
     }
     console.log('Event created: ', Response);
   }
-  return NextResponse.json({ status: 200, message: 'success' });
+  return NextResponse.json({
+    status: 200,
+    message: 'google cal event created',
+  });
 }

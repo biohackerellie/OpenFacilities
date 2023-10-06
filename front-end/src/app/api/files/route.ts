@@ -2,7 +2,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-
+import nextConnect from 'next-conenct';
+import multer from 'multer';
 import { Client } from 'minio';
 
 const minioClient = new Client({
@@ -12,40 +13,45 @@ const minioClient = new Client({
   secretKey: process.env.S3_SECRET as string,
 });
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
+  const data = await request.formData();
+  const file: File | null = data.get('file') as unknown as File;
+  const id = data.get('id') as unknown as any;
+
+  const fileName = file.name;
+  if (!file) {
+    return NextRespones.json({ success: false, message: 'No file uploaded' });
+  }
+
+  const bucketName = 'documents';
+  const fileUrl = `https://s3.laurel.k12.mt.us/${bucketName}/${file.name}`;
   try {
-    const { fileName, fileType, fileSize, id } = await req.json();
-    console.log('request: ', req);
-    if (!fileName || !fileType || !fileSize || !id) {
-      return NextResponse.badRequest('Missing required parameters');
-    }
-    const bucketName = 'documents';
-    const fileUrl = `https://s3.laurel.k12.mt.us/${bucketName}/${fileName}`;
     const putUrl = await minioClient.presignedPutObject(bucketName, fileName);
-    console.log('putUrl', putUrl);
+
     const getUrl = await minioClient.presignedGetObject(
       bucketName,
       fileName,
       24 * 60 * 60
     );
     console.log('getUrl', getUrl);
-    await prisma.insuranceFiles.create({
+    const uploadResponse = await fetch(putUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': file.type },
+      body: file,
+    });
+
+    if (!uploadResponse.ok) {
+      return NextResponse.json({ status: 500, message: 'Upload failed' });
+    }
+
+    await prisma.reservation.update({
+      where: { id: BigInt(id) },
       data: {
-        path: fileUrl,
-        fileName: fileName,
-        reservation: {
-          connect: {
-            id: parseInt(id),
-          },
-        },
-      },
-      include: {
-        reservation: true,
+        insuranceLink: fileUrl,
       },
     });
-    return NextResponse.json({ putUrl, getUrl }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    throw error;
+    return NextResponse.json({ status: 500, message: error.message });
   }
+  return NextResponse.json({ status: 200, message: 'Upload Complete' });
 }

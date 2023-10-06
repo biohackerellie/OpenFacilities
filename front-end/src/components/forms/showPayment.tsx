@@ -1,62 +1,119 @@
 'use client';
 
-import { Button } from '../ui/buttons';
 import React, { useState } from 'react';
-import { PayinPerson } from '@/functions/mutations';
-import { Checkout } from '@/functions/other';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-
-const MySwal = withReactContent(Swal);
-
+import { useToast } from '@/components/ui/use-toast';
+import { Button } from '../ui/buttons';
+import { Loader2 } from 'lucide-react';
 interface feeProps {
   id: number;
   fees: any;
+  description: string;
+  email: string;
 }
 
-export default function ShowPayment({ id, fees }: feeProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const inPerson = async (id: number) => {
-    await PayinPerson(id);
-    MySwal.fire({
-      title: 'You have selected to pay in person',
-      text: 'Please pay in person before your reservation date',
-      icon: 'success',
-      confirmButtonText: 'Close',
+export default function ShowPayment({
+  id,
+  fees,
+  description,
+  email,
+}: feeProps) {
+  const { toast } = useToast();
+  const [loading, isLoading] = useState(false);
+
+  const PayOnline = async (
+    id: number,
+    fees: any,
+    description: string,
+    email: string
+  ) => {
+    isLoading(true);
+    const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/payments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+        description: description,
+        fees: fees,
+        email: email,
+      }),
     });
-  };
-  const online = async (id: number) => {
-    setIsSubmitting(true);
-    try {
-      await Checkout(id, fees);
-      MySwal.fire({
-        title: 'You have selected to pay online',
-        text: 'A checkout link has been sent to your accounts email address',
-        icon: 'success',
-        confirmButtonText: 'Close',
+    const response = await res.json();
+    console.log('response', response);
+    if (response.status != 200) {
+      isLoading(false);
+      return toast({
+        title: 'Error occurred: ',
+        description: response.message,
       });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      isLoading(false);
+      return toast({
+        title: 'Success',
+        description: 'A payment link has been sent to your email address',
+      });
+    }
+  };
+
+  const PayinPerson = async (id: number) => {
+    isLoading(true);
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_HOST + '/api/payments/pip',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      }
+    );
+    const response = await res.json();
+    if (response.status != 200) {
+      isLoading(false);
+      return toast({
+        title: 'Error occurred: ',
+        description: response.message,
+      });
+    } else {
+      isLoading(false);
+      return toast({
+        title: 'Success',
+        description: 'You have selected to pay in person.',
+      });
     }
   };
   return (
-    <>
-      <div className="flex m-2 gap-2">
-        <div>
-          <Button onClick={() => inPerson(id)}>Pay in Person</Button>
-        </div>
-        <div>
-          <Button onClick={() => online(id)} disabled={isSubmitting}>
+    <div className=" block gap-x-2 p-2">
+      {!loading && (
+        <>
+          <Button
+            variant="outline"
+            onClick={() => {
+              PayinPerson(id);
+            }}
+          >
+            Pay in Person
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => {
+              PayOnline(id, fees, description, email);
+            }}
+          >
             Pay Online
           </Button>
-          <p className="font-extralight italic">
-            {' '}
-            A Square checkout link will be sent to your account's email address{' '}
-          </p>
-        </div>
-      </div>
-    </>
+        </>
+      )}
+      {loading && (
+        <Button disabled>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Please wait
+        </Button>
+      )}
+    </div>
   );
 }

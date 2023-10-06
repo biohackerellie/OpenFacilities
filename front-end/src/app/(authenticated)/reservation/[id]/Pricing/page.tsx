@@ -28,8 +28,18 @@ export default async function paymentPage({
   const id = params.id;
 
   const reservation = await getReservation(id);
-  const { paid, Category, User, ReservationDate, ReservationFees, fees } =
-    reservation;
+  const {
+    eventName,
+    paid,
+    Category,
+    User,
+    Facility,
+    ReservationDate,
+    ReservationFees,
+  } = reservation;
+
+  const description = `${eventName} at ${Facility.building} ${Facility.name} by ${User.name}`;
+  const email = User.email;
 
   let additionalFeesTotal = 0;
   if (ReservationFees.length > 0) {
@@ -37,6 +47,7 @@ export default async function paymentPage({
       additionalFeesTotal += ReservationFees[i].additionalFees;
     }
   }
+
   const CategoryId = Category.id;
   const CategoryPrice = Category.price;
   const mappedFees = ReservationFees.map((fee: feeProps) => {
@@ -46,35 +57,45 @@ export default async function paymentPage({
       options: fee.id,
     };
   });
-  console.log('Additional Fees Total', additionalFeesTotal);
-  console.log(mappedFees);
-  console.log(ReservationDate);
+
   const totalCost = await CostReducer(
     ReservationDate,
     additionalFeesTotal,
     CategoryPrice,
     CategoryId
   );
-  console.log('totalCost', totalCost);
 
   return (
-    <div className="flex flex-wrap justify-center max-w-[1000px] h-full pb-3 mb-2 ">
-      <div className="">
-        <div className=" gap-y-4  drop-shadow-md  m-3 p-4 ">
-          <h2 className="font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
-            Pricing and Payments
-          </h2>
-          <div className="container max-w-[600px]">
-            <DataTable columns={columns} data={mappedFees} />
-            <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-              Total: ${totalCost}
-              <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-                Total: $ {!paid ? totalCost : 'Paid'}
-              </div>
-              <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
-                {!paid && <ShowPayment id={id} fees={totalCost} />}
-              </div>
-            </div>
+    <div className="flex  justify-center gap-y-4 my-3 w-[1000px] h-full pb-3 mb-2 ">
+      <div className=" gap-y-4  drop-shadow-md  m-3 p-4 ">
+        <h2 className="font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
+          Pricing and Payments
+        </h2>
+        <h3 className="mt-1 font-bold text-gray-600 dark:text-gray-300 ">
+          Added Fees:
+        </h3>
+        <div className="container w-[600px]  ">
+          <div className=" border-b">
+            {additionalFeesTotal > 0 ? (
+              <DataTable columns={columns} data={mappedFees} />
+            ) : (
+              <h4 className="font-thin italic text-center">
+                No additional fees have been added
+              </h4>
+            )}
+          </div>
+          <div className="flex  my-2 p-2  justify-end text-xl border-b text-justify ">
+            Total: $ {!paid ? totalCost : 'Paid'}
+          </div>
+          <div className="flex   justify-end text-xl    text-justify ">
+            {!paid && (
+              <ShowPayment
+                id={id}
+                fees={totalCost}
+                description={description}
+                email={email}
+              />
+            )}
           </div>
         </div>
       </div>
