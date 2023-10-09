@@ -61,6 +61,7 @@ model Facility {
   name             String        @unique(map: "idx_30107_Facility_name_key") @db.VarChar(191)
   building         String        @db.VarChar(191)
   address          String        @db.VarChar(191)
+
   imagePath        String?       @db.VarChar(191)
   capacity         Int?
   createdAt        DateTime?     @default(now()) @db.Timestamptz(3)
@@ -69,25 +70,9 @@ model Facility {
   Category         Category[]
   Events           Events[]
   Reservation      Reservation[]
-  Option           Option[]      @relation("FacilityToOption")
 }
 
-model InsuranceFiles {
-  id            BigInt      @id(map: "idx_30115_PRIMARY") @default(autoincrement())
-  path          String?     @db.VarChar(191)
-  fileName      String?     @db.VarChar(191)
-  reservationId BigInt
-  varified      Boolean     @default(false)
-  Reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
 
-  @@index([reservationId], map: "idx_30115_InsuranceFiles_reservationId_fkey")
-}
-
-model Option {
-  id       BigInt     @id(map: "idx_30121_PRIMARY") @default(autoincrement())
-  name     String     @db.VarChar(191)
-  Facility Facility[] @relation("FacilityToOption")
-}
 
 model Reservation {
   id               BigInt               @id(map: "idx_30126_PRIMARY") @default(autoincrement())
@@ -115,11 +100,6 @@ model Reservation {
   totalHours       Float?
   inPerson         Boolean              @default(false)
   paid             Boolean              @default(false)
-  paymentUrl       String?              @db.VarChar(191)
-  paymentLinkID    String?              @unique(map: "idx_30126_Reservation_paymentLinkID_key") @db.VarChar(191)
-  ticketMade       Boolean              @default(false)
-  conflicts        Boolean              @default(false)
-  InsuranceFiles   InsuranceFiles[]
   Category         Category             @relation(fields: [categoryId], references: [id])
   Events           Events?              @relation(fields: [eventId], references: [id], onDelete: Cascade)
   Facility         Facility             @relation(fields: [facilityId], references: [id])
@@ -206,13 +186,7 @@ enum Reservation_approved {
 }
 
 enum User_role {
-  CAL_ADMIN
-  ADMIN_ADMIN
-  GR_ADMIN
-  LHS_ADMIN
-  LMS_ADMIN
-  WE_ADMIN
-  SO_ADMIN
-  SUP_ADMIN
+	ADMIN
+	MANAGER
   USER
 }

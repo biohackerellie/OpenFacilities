@@ -26,14 +26,14 @@ async function populateDBWithFacilities() {
       const facilities = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
       for (const facilityData of facilities) {
-        const facility = await prisma.facility.create({
+        const facility = await prisma.Facility.create({
           data: {
             name: facilityData.name,
             building: facilityData.building,
             address: facilityData.address,
             imagePath: facilityData.image_path || null,
             capacity: facilityData.capacity || null,
-            googleCalendarId: facilityData.calendar_id,
+            googleCalendarId: facilityData.calendar_id || null,
           },
         });
 
@@ -43,41 +43,12 @@ async function populateDBWithFacilities() {
           categoryData.price = parseFloat(
             categoryData.price.replace('$', '').split('/hr')[0]
           );
-          const category = await prisma.category.create({
+          const category = await prisma.Category.create({
             data: {
               ...categoryData,
               Facility: {
                 connect: {
                   id: facility.id,
-                },
-              },
-            },
-          });
-        }
-
-        for (const optionName of commonOptions) {
-          let option = await prisma.option.findFirst({
-            where: {
-              name: optionName,
-            },
-          });
-
-          if (!option) {
-            option = await prisma.option.create({
-              data: {
-                name: optionName,
-              },
-            });
-          }
-
-          await prisma.facility.update({
-            where: {
-              id: facility.id,
-            },
-            data: {
-              Option: {
-                connect: {
-                  id: option.id,
                 },
               },
             },
