@@ -107,7 +107,7 @@ export default async function paymentPage({
 						{!paid && (
 							<ShowPayment
 								id={id}
-								fees={totalCost}
+								fees={costOverride ? costOverride : totalCost}
 								description={description}
 								email={email}
 							/>
