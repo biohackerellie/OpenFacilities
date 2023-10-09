@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import nextConnect from 'next-conenct';
 import multer from 'multer';
 import { Client } from 'minio';
+import { revalidatePath } from 'next/cache';
 
 const minioClient = new Client({
   endPoint: 's3.laurel.k12.mt.us',
@@ -14,6 +15,8 @@ const minioClient = new Client({
 });
 
 export async function POST(request: NextRequest) {
+  const path = request.nextUrl.searchParams.get('path');
+  console.log('path', path);
   const data = await request.formData();
   const file: File | null = data.get('file') as unknown as File;
   const id = data.get('id') as unknown as any;
@@ -53,5 +56,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ status: 500, message: error.message });
   }
+  revalidatePath(path, 'page');
   return NextResponse.json({ status: 200, message: 'Upload Complete' });
 }
