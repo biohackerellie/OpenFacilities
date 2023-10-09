@@ -4,7 +4,7 @@ import { PaidButton } from '@/components/ui/buttons';
 import { columns } from './columns';
 import CostReducer from '@/functions/calculations/costCalculator';
 import EditPricing from '@/components/forms/paymentModal';
-import { Input } from '@/components/ui/input';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { Button } from '@/components/ui/buttons/button';
 
@@ -20,6 +20,7 @@ export const dynamic = 'force-dynamic';
 async function getReservation(id: number) {
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+
 	);
 
 	return res.json();
@@ -49,6 +50,8 @@ export default async function paymentPage({
 				costOverride: value,
 			},
 		});
+		revalidatePath(`/admin/reservations/${id}/Pricing`)
+		location.reload()
 	}
 
 	const reservation = await getReservation(id);
