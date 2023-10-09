@@ -51,7 +51,6 @@ export default async function paymentPage({
 			},
 		});
 		revalidatePath(`/admin/reservations/${id}/Pricing`)
-		location.reload()
 	}
 
 	const reservation = await getReservation(id);
