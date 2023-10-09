@@ -102,7 +102,7 @@ model Reservation {
   fees             Float?
   insurance        Boolean
   primaryContact   String?              @db.VarChar(191)
-  responsibleParty String?              @db.VarChar(191)
+  costOverride		 Float?             	
   doorAccess       Boolean?
   doorsDetails     String?              @db.VarChar(191)
   name             String?              @db.VarChar(191)

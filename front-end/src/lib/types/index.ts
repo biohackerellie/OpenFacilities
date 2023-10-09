@@ -90,7 +90,6 @@ export interface Reservation {
   techSupport?: boolean;
   techDetails?: string;
 
-  responsibleParty?: string;
   primaryContact?: string;
   insurance?: string;
   phone?: string;
