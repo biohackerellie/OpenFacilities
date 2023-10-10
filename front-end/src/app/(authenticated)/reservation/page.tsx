@@ -1,4 +1,4 @@
-import ReservationForm from '@/components/forms/reservationForm';
+import ReservationForm from '@/components/forms/reservationForm2';
 
 export default function reservationPage() {
   return (

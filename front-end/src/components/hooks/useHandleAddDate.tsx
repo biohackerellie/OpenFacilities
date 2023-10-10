@@ -90,6 +90,10 @@ export default function useHandleAddDate(
         currentStartDate = addDays(currentStartDate, 1);
       }
 
+      if (currentStartDate > moment(data.startDate)) {
+        currentStartDate = moment(data.startDate);
+      }
+
       let currentEndDate = moment(data.repeatUntil);
       currentEndDate.set({
         hour: 23,

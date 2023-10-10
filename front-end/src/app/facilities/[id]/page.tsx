@@ -74,8 +74,6 @@ export default async function facilityPage({
 								pathname: '/reservation',
 								query: {
 									id: id,
-									facilityName: name,
-									facilityBuilding: building,
 								},
 							}}
 							className="font-bold text-xl drop-shadow-lg hover:animate-bounce"
