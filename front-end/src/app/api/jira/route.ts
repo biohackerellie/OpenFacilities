@@ -42,7 +42,7 @@ export async function POST(req: NextRequest, response: NextResponse) {
       }),
     });
     const data = await response.json();
-
+		console.log('data: ', data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(error);
