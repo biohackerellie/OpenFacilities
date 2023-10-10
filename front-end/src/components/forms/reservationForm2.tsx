@@ -139,7 +139,7 @@ export default function ReservationForm() {
 		}
 	};
 	return (
-		<div className="  min-h-screen border-4 p-4 overflow-y-scroll w-[850px]  justify-center drop-shadow-md shadow-md  flex flex-col ">
+		<div className="  min-h-screen border-4 p-4  w-[850px]  justify-center drop-shadow-md shadow-md  flex flex-col ">
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-10 w-[800px]">
 					<div >
