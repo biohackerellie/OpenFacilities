@@ -16,32 +16,32 @@ async function main() {
     {
       name: 'Laurel High School',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, elliana_kerns@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us, tamara_raty@laurel.k12.mt.us, wendi_clark@laurel.k12.mt.us, paul_damjanovich@laurel.k12.mt.us, austin_anderson@laurel.k12.mt.us, mischele_miller@laurel.k12.mt.us, hsmessage@laurel.k12.mt.us  ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, elliana_kerns@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us, tamara_raty@laurel.k12.mt.us, wendi_clark@laurel.k12.mt.us, paul_damjanovich@laurel.k12.mt.us, austin_anderson@laurel.k12.mt.us, mischele_miller@laurel.k12.mt.us, hsmessage@laurel.k12.mt.us  ',
     },
     {
       name: 'Laurel Middle School',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, justin_klebe@laurel.k12.mt.us, allyson_robertus@laurel.k12.mt.us, amanda_nelson@laurel.k12.mt.us, gayle_wisecup@laurel.k12.mt.us, sam_spitzer@laurel.k12.mt.us, nigel_oloughlin@laurel.k12.mt.us ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, justin_klebe@laurel.k12.mt.us, allyson_robertus@laurel.k12.mt.us, amanda_nelson@laurel.k12.mt.us, gayle_wisecup@laurel.k12.mt.us, sam_spitzer@laurel.k12.mt.us, nigel_oloughlin@laurel.k12.mt.us ',
     },
     {
       name: 'Graff Elementary',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, lynne_peterson@laurel.k12.mt.us, roberto_holloway@laurel.k12.mt.us ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, lynne_peterson@laurel.k12.mt.us, roberto_holloway@laurel.k12.mt.us ',
     },
     {
       name: 'West Elementary',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, bethany_fuchs@laurel.k12.mt.us, marla_adams@laurel.k12.mt.us, jordan_white@laurel.k12.mt.us ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, bethany_fuchs@laurel.k12.mt.us, marla_adams@laurel.k12.mt.us, jordan_white@laurel.k12.mt.us ',
     },
     {
       name: 'South Elementary',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, tom_williams@laurel.k12.mt.us, katherine_dawe@laurel.k12.mt.us ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, tom_williams@laurel.k12.mt.us, katherine_dawe@laurel.k12.mt.us ',
     },
     {
       name: 'Laurel Stadium',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us, tamara_raty@laurel.k12.mt.us, wendi_clark@laurel.k12.mt.us, paul_damjanovich@laurel.k12.mt.us, austin_anderson@laurel.k12.mt.us, mischele_miller@laurel.k12.mt.us, hsmessage@laurel.k12.mt.us',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us, tamara_raty@laurel.k12.mt.us, wendi_clark@laurel.k12.mt.us, paul_damjanovich@laurel.k12.mt.us, austin_anderson@laurel.k12.mt.us, mischele_miller@laurel.k12.mt.us, hsmessage@laurel.k12.mt.us',
     },
   ];
   const transporter = nodemailer.createTransport({

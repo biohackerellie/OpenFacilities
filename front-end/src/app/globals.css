@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
  
-* {
-	-webkit-font-smoothing: auto;
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	
 	
 }
 
@@ -34,6 +36,9 @@
 	
 }
 
+
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -44,16 +49,16 @@
     --popover-foreground: 224 71.4% 4.1%;
     --primary: 286 100% 21%;
     --primary-foreground: 210 20% 98%;
-    --secondary: 43, 93%, 52%;
+    --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 43, 93%, 52%;
+    --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
-    --accent: 43, 93%, 52%;
+    --accent: 220 14.3% 95.9%;
     --accent-foreground: 220.9 39.3% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
     --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    --input:0, 0%, 70%;
     --ring: 286 100% 21%;
     --radius: 1rem;
   }
@@ -67,95 +72,23 @@
     --popover-foreground: 210 20% 98%;
     --primary: 286 100% 21%;
     --primary-foreground: 210 20% 98%;
-    --secondary: 43, 93%, 52%;
+    --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
-    --muted: 43, 93%, 52%;
+    --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 43, 93%, 52%;
+    --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
-    --border: 43, 93%, 52%;
-    --input: 0, 0%, 100%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
     --ring: 286 100% 21%;
   }
 }
 
 
+
   
-	.nav-link {
-		color: azure;
-		font-size: large;
-		font-weight: bold;
-	
-	}
-
-	
-	.grow {
-		transition: all .2s ease-in-out;
-	}
-	.grow:hover {
-		transform: scale(1.1);
-	}
-	
-	.nav-item {
-		border-radius: 15px;
-		background-color: transparent;
-		width: auto;
-		scale: 1.2;
-		padding-left: 10px;
-		padding-right: 10px;
-		font-weight: bold;
-		transition: all .2s ease-in-out;
-		
-	}
-	
-	
-	.nav-item:hover {
-		
-		transform: scale(1.3);
-		transition: all .2s ease-in-out;
-		
-	
-	}
-	
-	.input {
-		border: 2px solid #000000;
-		background-color: #e9e8e8;
-		color: black;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	
-	.form-button {
-		border: 2px solid #000000;
-		background-color: #f7b512;
-		color: black;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	
-	
-	
-	
-	
-	
-	
-	label {
-		display: block;
-	}
-	
-	input {
-		border: 2px solid #ccc;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	/* body {
-		height: 100%;
-		@apply bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-gray-100 to-gray-300 dark:bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] dark:from-gray-900 dark:to-gray-600  bg-no-repeat bg-fixed 
-
-	
-	} */
  
 .ReactModal__Overlay {
 	opacity: 0;
@@ -304,8 +237,3 @@
   background: #4d436e8c !important;
 }
 
-.form-select:not(:focus) option {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}

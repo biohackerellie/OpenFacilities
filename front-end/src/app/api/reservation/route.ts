@@ -43,19 +43,30 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const data = await req.json();
+  console.log(data);
   let conflicts = false;
+  const categories = await prisma.category.findFirst({
+    where: {
+      facilityId: BigInt(data.facility),
+      name: {
+        contains: data.category,
+      },
+    },
+  });
+
+  console.log(categories);
+
   try {
     const res = await prisma.reservation.create({
       data: {
         eventName: data.eventName,
         Category: {
           connect: {
-            id: BigInt(data.Category),
+            id: categories?.id,
           },
         },
         name: data.name,
         conflicts: conflicts,
-        people: data.people as any,
         details: data.details,
         doorAccess: data.doorAccess,
         doorsDetails: data.doorDetails,
@@ -64,7 +75,7 @@ export async function POST(req: Request) {
         techDetails: data.techDetails,
         Facility: {
           connect: {
-            id: BigInt(data.facilityName),
+            id: BigInt(data.facility),
           },
         },
         insurance: false,
@@ -137,10 +148,13 @@ export async function POST(req: Request) {
         text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${res.id}`,
       });
     }
-    revalidatePath('/');
+    revalidatePath('/admin/requests', 'page');
+    return NextResponse.json({
+      status: 200,
+      message: 'reservation request submitted',
+    });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ message: 'error', status: 500 });
+    return NextResponse.json({ message: error, status: 500 });
   }
-  return NextResponse.json({ status: 200 });
 }
