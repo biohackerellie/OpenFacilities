@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from '@/components/ui/buttons/button';
 import { Checkbox } from "@/components/ui/checkbox";
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 import {
 	Command,
 	CommandEmpty,
@@ -48,7 +48,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { categoryOptions, locations } from '@/lib/formOptions';
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, ChevronsUpDown, ScrollText, Loader, Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, ScrollText, Loader2 } from "lucide-react";
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import {
@@ -100,7 +100,7 @@ export default function ReservationForm() {
 	});
 
 	//@ts-expect-error
-	const handleAddDate = useHandleAddDate(append, hideModal);
+	const handleAddDate = useHandleAddDate(append);
 
 	const watchTechSupport = form.watch('techSupport', false)
 	const watchDoorAccess = form.watch('doorAccess', false)
@@ -139,7 +139,7 @@ export default function ReservationForm() {
 		}
 	};
 	return (
-		<div className="  min-h-screen border-4 p-4  w-[850px]  justify-center drop-shadow-md shadow-md  flex flex-col ">
+		<div className="     w-[850px]  justify-center drop-shadow-md  flex flex-col ">
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-10 w-[800px]">
 					<div >
@@ -235,12 +235,8 @@ export default function ReservationForm() {
 								Add Date
 							</Button>
 							<ModalInput
-								isVisible={isVisible}
-								setIsVisible={setIsVisible}
 								onSave={handleAddDate}
-								//@ts-expect-error
-								onClose={hideModal}
-								selectedData={selectedData}
+
 							/>
 							<Button
 								className="hover:cursor-pointer h-8"
