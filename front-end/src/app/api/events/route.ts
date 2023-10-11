@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   const approvedReservation = await prisma.reservation.findUnique({
-    where: { id: body.id },
+    where: { id: BigInt(body.id) },
     include: {
       Facility: true,
       ReservationDate: true,
