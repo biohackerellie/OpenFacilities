@@ -11,6 +11,7 @@ import {
 	DialogContent,
 	DialogFooter,
 	DialogTrigger,
+	DialogClose
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,10 +23,13 @@ export const ModalInput = (props: {
 }) => {
 	const { onSave } = props;
 	const { register, handleSubmit, control } = useForm();
-
+	const dialogClose = () => {
+		document.getElementById('closeDialog')?.click();
+	}
 	const animatedComponents = makeAnimated();
 	const forwardChange = (data: any) => {
 		onSave(data);
+		dialogClose();
 	};
 	return (
 		<Dialog>
@@ -97,12 +101,14 @@ export const ModalInput = (props: {
 								</div>
 							</div>
 							<DialogFooter>
+								<DialogClose asChild>
+									<Button
+										className="h-10"
 
-								<Button
-									className="h-4"
-									onClick={handleSubmit(forwardChange)}
-								>Save
-								</Button>
+										onClick={handleSubmit(forwardChange)}
+									>Save
+									</Button>
+								</DialogClose>
 							</DialogFooter>
 						</div>
 					</form>
