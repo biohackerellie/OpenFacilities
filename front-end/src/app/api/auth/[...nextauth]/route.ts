@@ -12,39 +12,6 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
-    CredentialsProvider({
-      name: 'Non LPS Staff Login',
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'text',
-          placeholder: 'person@email.com',
-        },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials: any) {
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email,
-          },
-        });
-        console.log('user', user);
-        if (
-          user &&
-          (await bcrypt.compare(credentials.password, user.password))
-        ) {
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          };
-        } else {
-          return null;
-        }
-      },
-    }),
-
     ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
       ? [
           AzureADProvider({
@@ -90,6 +57,7 @@ export const authOptions: NextAuthOptions = {
                   name: user.name,
                   email: user.email,
                   role: user.role,
+                  token: credentials.accessToken,
                 };
               }
               return null;
@@ -106,9 +74,9 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
-  pages: {
-    signIn: '/login',
-  },
+  // pages: {
+  //   signIn: '/login',
+  // },
 
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {

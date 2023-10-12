@@ -60,6 +60,7 @@ model Facility {
   name             String        @unique(map: "idx_30107_Facility_name_key") @db.VarChar(191)
   building         String        @db.VarChar(191)
   address          String        @db.VarChar(191)
+
   imagePath        String?       @db.VarChar(191)
   capacity         Int?
   createdAt        DateTime?     @default(now()) @db.Timestamptz(3)
