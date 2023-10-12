@@ -46,8 +46,7 @@ module.exports = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        // darkMode: '#121212',
-        darkText: '#555555',
+
         ...mauve,
         ...violet,
         ...green,

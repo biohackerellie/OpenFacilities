@@ -23,7 +23,7 @@ export default function FacilityCard({
 }: Props) {
 	const idString = id?.toString();
 	return (
-		<Card className="h-[380px] w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md dark:shadow-gold">
+		<Card className="h-[380px] w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md ">
 			<Link href={`/facilities/${idString}`}>
 				<CardHeader className="drop-shadow-md">
 					{imagePath ? (
