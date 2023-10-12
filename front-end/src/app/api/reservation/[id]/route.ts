@@ -66,7 +66,7 @@ export async function PUT(
     const user = res.User.email;
     let to = user;
     let subject = body.subject;
-    let message = `Your reservation for ${res.eventName} has been ${body.approved}. You can view the details at https://open-facilities.com/reservation/${id} . If you have any questions, please contact the Activities Director at email;
+    let message = `Your reservation for ${res.eventName} has been ${body.approved}. You can view the details at https://open-facilities.com/reservation/${id} . If you have any questions, please contact the Activities Director at email`;
     let data = { to, subject, message };
     await reservationEmail(data);
   } catch (error) {

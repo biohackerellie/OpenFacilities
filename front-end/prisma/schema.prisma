@@ -65,7 +65,7 @@ model Facility {
   capacity         Int?
   createdAt        DateTime?     @default(now()) @db.Timestamptz(3)
   updatedAt        DateTime?     @db.Timestamptz(3)
-  googleCalendarId String        @unique(map: "idx_30107_Facility_calendarId_key") @db.VarChar(191)
+  googleCalendarId String         @db.VarChar(191)
   Category         Category[]
   Events           Events[]
   Reservation      Reservation[]

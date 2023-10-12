@@ -4,17 +4,6 @@ const path = require('path');
 
 const prisma = new PrismaClient();
 
-const commonOptions = [
-  'chairs',
-  'computers',
-  'microphones',
-  'speakers',
-  'projector / TV',
-  'tables',
-  'Custodian',
-  'Tech Support',
-];
-
 async function populateDBWithFacilities() {
   const facilitiesDirectory = path.join(__dirname, '..', '/src/lib/facilities');
 
