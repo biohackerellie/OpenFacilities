@@ -55,7 +55,6 @@ export default async function createReservation(data: IFormInput) {
           id: BigInt(data.facilityName),
         },
       },
-      insurance: false,
 
       User: {
         connect: {
@@ -66,7 +65,7 @@ export default async function createReservation(data: IFormInput) {
     include: {
       User: true,
       Facility: true,
-      InsuranceFiles: true,
+
       Category: true,
     },
   });

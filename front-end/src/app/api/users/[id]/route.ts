@@ -21,7 +21,7 @@ export async function GET(
       Reservation: {
         select: {
           id: true,
-          insurance: true,
+
           userId: true,
           facilityId: true,
           categoryId: true,
@@ -38,7 +38,7 @@ export async function GET(
           totalHours: true,
           inPerson: true,
           paid: true,
-          insuranceLink: true,
+
           Facility: {
             select: {
               id: true,

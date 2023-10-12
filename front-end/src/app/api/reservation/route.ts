@@ -54,7 +54,6 @@ export async function POST(req: Request) {
           },
         },
         name: data.name,
-        conflicts: conflicts,
         people: data.people as any,
         details: data.details,
         doorAccess: data.doorAccess,
@@ -67,7 +66,6 @@ export async function POST(req: Request) {
             id: BigInt(data.facilityName),
           },
         },
-        insurance: false,
 
         User: {
           connect: {
@@ -78,7 +76,6 @@ export async function POST(req: Request) {
       include: {
         User: true,
         Facility: true,
-        InsuranceFiles: true,
         Category: true,
       },
     });

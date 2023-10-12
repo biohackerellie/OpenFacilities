@@ -92,7 +92,7 @@ export interface Reservation {
 
   responsibleParty?: string;
   primaryContact?: string;
-  insurance?: string;
+
   phone?: string;
   details?: string;
   fees?: string;
