@@ -9,15 +9,15 @@ async function main() {
   const allEvents = [];
   for (const facility of facilities) {
     try {
-			const currentEvents = await prisma.events.findMany({
-				where: { facilityId: facility.id },
-				select: { id: true },
-			})
+      const currentEvents = await prisma.events.findMany({
+        where: { facilityId: facility.id },
+        select: { id: true },
+      });
 
-			const currentEventIds = currentEvents.map((event) => event.id)
+      const currentEventIds = currentEvents.map((event) => event.id);
 
       const result = await fetch(
-        `https://facilities.laurel.k12.mt.us/api/calendars/${facility.googleCalendarId}`
+        `https://open-facilities/api/calendars/${facility.googleCalendarId}`
       );
       if (!result.ok) {
         console.error(
@@ -70,15 +70,15 @@ async function main() {
           })
           .filter((event) => event !== null);
 
-				const fetchedEventIds = fetchedEvents.map ((event) => event.id)
+        const fetchedEventIds = fetchedEvents.map((event) => event.id);
 
-				const eventsToRemove = currentEventIds.filter(
-					(id) => !fetchedEventIds.includes(id)
-				);
+        const eventsToRemove = currentEventIds.filter(
+          (id) => !fetchedEventIds.includes(id)
+        );
 
-				for (const id of eventsToRemove) {
-					await prisma.events.delete({ where: { id } })
-				}
+        for (const id of eventsToRemove) {
+          await prisma.events.delete({ where: { id } });
+        }
 
         for (const event of fetchedEvents) {
           const existingEvent = await prisma.events.findUnique({
@@ -98,7 +98,7 @@ async function main() {
             });
           }
         }
-				allEvents.push(...fetchedEvents);
+        allEvents.push(...fetchedEvents);
       }
     } catch (error) {
       console.error(error);

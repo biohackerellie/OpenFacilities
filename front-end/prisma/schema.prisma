@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -10,7 +9,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id(map: "idx_30089_PRIMARY") @db.VarChar(191) @default(cuid())
+  id                String  @id(map: "idx_30089_PRIMARY") @default(cuid()) @db.VarChar(191)
   userId            String  @db.VarChar(191)
   type              String  @db.VarChar(191)
   provider          String  @db.VarChar(191)
@@ -69,24 +68,6 @@ model Facility {
   Category         Category[]
   Events           Events[]
   Reservation      Reservation[]
-  Option           Option[]      @relation("FacilityToOption")
-}
-
-model InsuranceFiles {
-  id            BigInt      @id(map: "idx_30115_PRIMARY") @default(autoincrement())
-  path          String?     @db.VarChar(191)
-  fileName      String?     @db.VarChar(191)
-  reservationId BigInt
-  varified      Boolean     @default(false)
-  Reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
-
-  @@index([reservationId], map: "idx_30115_InsuranceFiles_reservationId_fkey")
-}
-
-model Option {
-  id       BigInt     @id(map: "idx_30121_PRIMARY") @default(autoincrement())
-  name     String     @db.VarChar(191)
-  Facility Facility[] @relation("FacilityToOption")
 }
 
 model Reservation {
@@ -100,7 +81,6 @@ model Reservation {
   details          String?              @db.VarChar(2000)
   eventId          String?              @db.VarChar(191)
   fees             Float?
-  insurance        Boolean
   primaryContact   String?              @db.VarChar(191)
   responsibleParty String?              @db.VarChar(191)
   doorAccess       Boolean?
@@ -110,16 +90,10 @@ model Reservation {
   techDetails      String?              @db.VarChar(191)
   techSupport      Boolean?
   phone            String?              @db.VarChar(191)
-	insuranceLink		String?              @db.VarChar(191)
   categoryId       BigInt
   totalHours       Float?
   inPerson         Boolean              @default(false)
   paid             Boolean              @default(false)
-  paymentUrl       String?              @db.VarChar(191)
-  paymentLinkID    String?              @unique(map: "idx_30126_Reservation_paymentLinkID_key") @db.VarChar(191)
-  ticketMade       Boolean              @default(false)
-  conflicts        Boolean              @default(false)
-  InsuranceFiles   InsuranceFiles[]
   Category         Category             @relation(fields: [categoryId], references: [id])
   Events           Events?              @relation(fields: [eventId], references: [id], onDelete: Cascade)
   Facility         Facility             @relation(fields: [facilityId], references: [id])
@@ -206,13 +180,7 @@ enum Reservation_approved {
 }
 
 enum User_role {
-  CAL_ADMIN
-  ADMIN_ADMIN
-  GR_ADMIN
-  LHS_ADMIN
-  LMS_ADMIN
-  WE_ADMIN
-  SO_ADMIN
-  SUP_ADMIN
+  ADMIN
+  MANAGER
   USER
 }

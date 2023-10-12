@@ -120,7 +120,7 @@ export default async function createReservation(data: IFormInput) {
       from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
       to: to as string,
       subject: 'New Facility Reservation',
-      text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${reservation.id}`,
+      text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://open-facilities.com/admin/reservations/${reservation.id}`,
     });
   }
   revalidatePath('/');

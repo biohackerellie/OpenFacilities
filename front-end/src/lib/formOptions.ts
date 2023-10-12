@@ -71,3 +71,16 @@ export const dayOptions = [
     label: 'Saturday',
   },
 ];
+
+export const locations = [
+  { label: 'Administration Auditorium', value: 1 },
+  { label: 'High School Hallway', value: 2 },
+  { label: 'Middle School Gym', value: 3 },
+];
+
+export const categoryOptions = [
+  { label: 'Category 1', value: 'Category 1' },
+  { label: 'Category 2', value: 'Category 2' },
+  { label: 'Category 3', value: 'Category 3' },
+  { label: 'Staff', value: ' Staff' },
+];

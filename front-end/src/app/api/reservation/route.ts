@@ -134,7 +134,7 @@ export async function POST(req: Request) {
         from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
         to: to as string,
         subject: 'New Facility Reservation',
-        text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${res.id}`,
+        text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://open-facilities.com/admin/reservations/${res.id}`,
       });
     }
     revalidatePath('/');

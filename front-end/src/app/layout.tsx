@@ -12,37 +12,37 @@ import './globals.css';
 moment.tz.setDefault('America/Denver');
 
 const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto-mono',
+	subsets: ['latin'],
+	display: 'swap',
+	variable: '--font-roboto-mono',
 });
 
 export const metadata = {
-  title: 'LPS Facilities',
-  description: 'Laurel Public Schools Facility Rentals',
+	title: 'Open Facilities',
+	description: 'Open Source Facility Rental Software',
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <AuthProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${roboto_mono.variable}`}>
-          <ThemeProviders>
-            <Providers>
-              <Navbar />
-              {children}
+	return (
+		<AuthProvider>
+			<html lang="en" suppressHydrationWarning>
+				<body className={`${roboto_mono.variable}`}>
+					<ThemeProviders>
+						<Providers>
+							<Navbar />
+							{children}
 
-              <Footer />
-              <Toaster />
-            </Providers>
-          </ThemeProviders>
-          <Analytics />
-        </body>
-      </html>
-    </AuthProvider>
-  );
+							<Footer />
+							<Toaster />
+						</Providers>
+					</ThemeProviders>
+					<Analytics />
+				</body>
+			</html>
+		</AuthProvider>
+	);
 }
