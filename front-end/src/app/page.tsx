@@ -9,7 +9,7 @@ export default function Home() {
 						Laurel Public Schools Facility Rentals
 					</h1>
 					<div className="block flex-1"> </div>
-					<div className=" mb-10 flex justify-center max-w-7xl  align-middle">
+					<div className=" mb-10 hidden sm:flex justify-center max-w-7xl  align-middle">
 						<p className=" bg-transparent text-xl sm:text-3xl drop-shadow-md mt-4 mb-10 dark:text-white p-3 text-black ">
 							Welcome! The facilities at Laurel Public Schools are available to
 							the community for educational, civic, cultural, and other
@@ -18,8 +18,8 @@ export default function Home() {
 							activities.
 						</p>
 					</div>
-					<div className=" sm:flex flex-row hidden sm:visible justify-between my-10">
-						<div className=" border hover:scale-105 border-gray-200 bg-opacity-60 bg-clip-padding backdrop-blur-md animate-enterFromLeftOne ease-in-out  w-60 h-20 bg-white dark:bg-slate-700  rounded-full font-bold shadow-lg shadow-primary  dark:bg-opacity-20 text-2xl  flex justify-center items-center">
+					<div className=" flex flex-col sm:flex-row  sm:visible justify-center sm:justify-between gap-y-4 items-center my-10">
+						<div className=" border hover:scale-105 border-gray-200 bg-opacity-60 bg-clip-padding backdrop-blur-md animate-enterFromLeftOne ease-in-out  w-60 h-20 bg-white dark:bg-slate-700  rounded-full font-bold shadow-lg shadow-primary  dark:bg-opacity-20 text-2xl hidden sm:flex justify-center items-center">
 							<Link href="/calendar" className="drop-shadow-sm">
 								{' '}
 								View the Calendar{' '}

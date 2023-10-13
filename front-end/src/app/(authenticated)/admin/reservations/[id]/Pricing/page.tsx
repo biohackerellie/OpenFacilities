@@ -109,7 +109,7 @@ export default async function paymentPage({
 						</div>
 						<form action={costChange}>
 							<label htmlFor="newCost">Manually Set Total</label>
-							<input type="number" name="newCost" />
+							<input className="text-black" type="number" name="newCost" />
 							<Button type="submit">Submit</Button>
 						</form>
 						{paid && (

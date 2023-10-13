@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import MobileNav from '@/components/ui/navbar/mobile/menu';
 import NavMenu from './Menu';
+import { ModeToggle } from '../buttons';
 export default function Navbar() {
 	return (
 		<>
@@ -21,6 +21,9 @@ export default function Navbar() {
 				</div>
 				<div className="justify-end" >
 					<NavMenu />
+				</div>
+				<div className="flex sm:hidden">
+					<ModeToggle />
 				</div>
 			</nav>
 		</>

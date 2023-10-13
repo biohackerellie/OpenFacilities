@@ -67,7 +67,7 @@ export default async function paymentPage({
 	);
 
 	return (
-		<div className="flex  justify-center gap-y-4 my-3 w-[1000px] h-full pb-3 mb-2 ">
+		<div className="flex flex-col sm:flex-row  justify-center gap-y-4 my-3 w-auto lg:w-[1000px] h-full pb-3 mb-2 ">
 			<div className=" gap-y-4  drop-shadow-md  m-3 p-4 ">
 				<h2 className="font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
 					Pricing and Payments
@@ -75,7 +75,7 @@ export default async function paymentPage({
 				<h3 className="mt-1 font-bold text-gray-600 dark:text-gray-300 ">
 					Added Fees:
 				</h3>
-				<div className="container w-[600px]  ">
+				<div className="sm:container sm:w-[600px]  ">
 					<div className=" border-b">
 						{additionalFeesTotal > 0 ? (
 							<DataTable columns={columns} data={mappedFees} />
