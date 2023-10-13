@@ -139,9 +139,9 @@ export default function ReservationForm() {
 		}
 	};
 	return (
-		<div className="     w-[850px]  justify-center drop-shadow-md  flex flex-col ">
+		<div className="   w-screen  sm:w-[850px]  justify-center drop-shadow-md  flex flex-col ">
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-10 w-[800px]">
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-2 sm:p-0 mt-10 mb-10 sm:w-[800px]">
 					<div >
 						<FormField
 							control={form.control}
@@ -158,7 +158,7 @@ export default function ReservationForm() {
 							)}
 						/>
 					</div>
-					<div className="flex gap-y-2 justify-between">
+					<div className="flex flex-col sm:flex-row gap-y-2 justify-between">
 						<FormField
 							control={form.control}
 							name={'name'}
@@ -256,7 +256,6 @@ export default function ReservationForm() {
 										className="flex flex-row  border-b-2   p-2 gap-2 gap-x-4  grid-rows-6  justify-start sm:justify-between flex-wrap flex-shrink sm:flex-nowrap"
 									>
 										<FormField
-
 											control={form.control}
 											name={`events.${index}.startDate`}
 											render={({ field }) => (
@@ -270,7 +269,6 @@ export default function ReservationForm() {
 															{...field}
 														/>
 													</FormControl>
-
 													<FormMessage />
 												</FormItem>
 											)}
@@ -311,7 +309,7 @@ export default function ReservationForm() {
 										<Button
 											type="button"
 											size="sm"
-											className="self-center"
+											className="self-end sm:self-center"
 											onClick={() => remove(index)}
 										>
 											Delete Date
@@ -321,14 +319,14 @@ export default function ReservationForm() {
 							})}
 						</div >
 					</div>
-					<div className="flex justify-between">
-						<div>
+					<div className="flex flex-col place-items-center sm:flex-row justify-center sm:justify-between">
+						<div className="text-center sm:text-start">
 							<FormField
 								control={form.control}
 								name={'facility'}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-lg" >Select A Facility</FormLabel>
+										<FormLabel className="text-lg text-center sm:text-start" >Select A Facility</FormLabel>
 										<div />
 										<Popover>
 											<PopoverTrigger asChild>
@@ -381,62 +379,65 @@ export default function ReservationForm() {
 								)}
 							/>
 						</div>
-						<FormField
-							control={form.control}
-							name="category"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className="text-lg">Pricing Category</FormLabel>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Select a Category" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{categoryOptions.map((option) => (
-												<SelectItem key={option.value} value={option.value}>
-													{option.label}
-												</SelectItem>
-											))
-											}
-										</SelectContent>
-									</Select>
-									<FormDescription>
-										<AlertDialog>
-											<AlertDialogTrigger asChild>
-												<p className="flex">Category Descriptions <ScrollText className="animate-pulse hover:stroke-blue-500 cursor-pointer" size={16} strokeWidth={1.5} /> </p>
-											</AlertDialogTrigger>
-											<AlertDialogContent>
-												<AlertDialogHeader>
-													<AlertDialogTitle>Pricing Category Descriptions</AlertDialogTitle>
-													<AlertDialogDescription>
-														<h1 className="font-bold text-lg my-1">Category 1</h1>
-														Groups in this category are basically community groups (church or secular) whose memberships
-														involve Laurel school age children whose leaders or advisors are generally non-paid adults and
-														whose main purpose is to in some way educate the youngster member. These groups will not be
-														charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.
-														<h1 className="font-bold text-lg my-1">Category 2</h1>
-														This category includes all community non-profit organizations (IRS numbers) and community groups
-														of people who wish to use facilities owned by the school district for lectures, promotional activities,
-														political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups,
-														church services or other activities for which public halls or commercial facilities generally are rented.
-														<h1 className="font-bold text-lg my-1">Category 3</h1>
-														This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.
-														<h1 className="font-bold text-lg my-1">LPS Staff</h1>
-														For all LPS Staff members to reserve space for school related activities, sports, and groups
-													</AlertDialogDescription>
-												</AlertDialogHeader>
-												<AlertDialogFooter>
-													<AlertDialogCancel>Close</AlertDialogCancel>
-												</AlertDialogFooter>
-											</AlertDialogContent>
-										</AlertDialog>
-									</FormDescription>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						<div className="w-[200px] text-center sm:text-start mt-2">
+							<FormField
+								control={form.control}
+								name="category"
+
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="text-lg">Pricing Category</FormLabel>
+										<Select onValueChange={field.onChange} defaultValue={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a Category" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{categoryOptions.map((option) => (
+													<SelectItem key={option.value} value={option.value}>
+														{option.label}
+													</SelectItem>
+												))
+												}
+											</SelectContent>
+										</Select>
+										<FormDescription>
+											<AlertDialog>
+												<AlertDialogTrigger asChild>
+													<p className="flex">Category Descriptions <ScrollText className="animate-pulse hover:stroke-blue-500 cursor-pointer" size={16} strokeWidth={1.5} /> </p>
+												</AlertDialogTrigger>
+												<AlertDialogContent>
+													<AlertDialogHeader>
+														<AlertDialogTitle>Pricing Category Descriptions</AlertDialogTitle>
+														<AlertDialogDescription>
+															<h1 className="font-bold text-lg my-1">Category 1</h1>
+															Groups in this category are basically community groups (church or secular) whose memberships
+															involve Laurel school age children whose leaders or advisors are generally non-paid adults and
+															whose main purpose is to in some way educate the youngster member. These groups will not be
+															charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.
+															<h1 className="font-bold text-lg my-1">Category 2</h1>
+															This category includes all community non-profit organizations (IRS numbers) and community groups
+															of people who wish to use facilities owned by the school district for lectures, promotional activities,
+															political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups,
+															church services or other activities for which public halls or commercial facilities generally are rented.
+															<h1 className="font-bold text-lg my-1">Category 3</h1>
+															This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.
+															<h1 className="font-bold text-lg my-1">LPS Staff</h1>
+															For all LPS Staff members to reserve space for school related activities, sports, and groups
+														</AlertDialogDescription>
+													</AlertDialogHeader>
+													<AlertDialogFooter>
+														<AlertDialogCancel>Close</AlertDialogCancel>
+													</AlertDialogFooter>
+												</AlertDialogContent>
+											</AlertDialog>
+										</FormDescription>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 					</div>
 					<div className="flex justify-center">
 						<div>

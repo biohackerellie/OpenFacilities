@@ -1,6 +1,6 @@
 import { Category, Events } from '@prisma/client';
 import { ExternalLink } from 'lucide-react';
-
+import { Button } from '@/components/ui/buttons/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -39,36 +39,56 @@ export default async function facilityPage({
 
 	return (
 		<TooltipProvider>
-			<div className="flex h-full mb-10  justify-center p-5 m-5 gap-2 ">
-				<div>
-					<h1 className="font-bold text-4xl drop-shadow">{name}</h1>
-					<h2 className="font-bold text-xl drop-shadow text-gold">
+			<div className="flex flex-col sm:flex-row w-auto h-full mb-10  justify-center p-2 m-1 mt-7 sm:p-5 sm:m-5 gap-2 ">
+				<div className="flex flex-col">
+					<h1 className="font-bold text-2xl text-center sm:text-start sm:text-4xl drop-shadow">{name}</h1>
+					<h2 className="font-bold text-md text-center sm:text-start sm:text-xl drop-shadow text-gold">
 						{building} ⋅ Max Capacity: {capacity}{' '}
 					</h2>
-					<Link href={map} target="_blank">
+					<Link href={map} target="_blank" className="text-center sm:text-start">
 						{address} <ExternalLink className="inline-block scale-75" />
 					</Link>
-
-					{imagePath ? (
-						<Image
-							src={imagePath}
-							alt={name}
-							width={600}
-							height={600}
-							className="drop-shadow-md shadow-md"
-						/>
-					) : (
-						<Image
-							src="/logo.jpg"
-							alt={name}
-							width={480}
-							height={480}
-							className=" drop-shadow-xl"
-						/>
-					)}
+					<div className="hidden sm:flex">
+						{imagePath ? (
+							<Image
+								src={imagePath}
+								alt={name}
+								width={600}
+								height={600}
+								className="drop-shadow-md shadow-md "
+							/>
+						) : (
+							<Image
+								src="/logo.jpg"
+								alt={name}
+								width={480}
+								height={480}
+								className=" drop-shadow-xl"
+							/>
+						)}
+					</div>
+					<div className="flex justify-center sm:hidden">
+						{imagePath ? (
+							<Image
+								src={imagePath}
+								alt={name}
+								width={300}
+								height={300}
+								className="drop-shadow-md shadow-md "
+							/>
+						) : (
+							<Image
+								src="/logo.jpg"
+								alt={name}
+								width={240}
+								height={240}
+								className=" drop-shadow-xl"
+							/>
+						)}
+					</div>
 				</div>
-				<div className=" p-4 gap-3  ">
-					<div className=" bg-gold text-white text-center hover:bg-secondaryDark sm:transition ease-in-out sm:hover:scale-110 font-bold py-2 px-4 border-b-4 shadow-sm drop-shadow-lg w-[220px] border-secondaryDark rounded ">
+				<div className="  p-4 gap-3 flex flex-col justify-center items-center  ">
+					<Button asChild className="font-bold text-xl drop-shadow-lg ">
 						<Link
 							href={{
 								pathname: '/reservation',
@@ -76,13 +96,13 @@ export default async function facilityPage({
 									id: id,
 								},
 							}}
-							className="font-bold text-xl drop-shadow-lg hover:animate-bounce"
 						>
 							{' '}
 							Request a rental{' '}
 						</Link>
-					</div>
-					<div className="p-4 border-4 my-3 mr-4 max-w-md items-end justify-between">
+					</Button>
+
+					<div className="p-4 border-4 my-3 mr-4 max-w-sm sm:max-w-md items-end justify-center sm:justify-between">
 						<h1 className="font-bold text-2xl border-b-2">Pricing</h1>
 						{Category &&
 							Category.map((category: Category) => (
@@ -109,7 +129,7 @@ export default async function facilityPage({
 								</div>
 							))}
 					</div>
-					<ScrollArea className="h-[400px] w-[480px] rounded-md border p-4">
+					<ScrollArea className=" h-[400px] w-[340px] sm:h-[400px] sm:w-[480px] rounded-md border p-4">
 						<h1 className="font-bold text-2xl border-b-2">Upcoming Events</h1>
 						{Events &&
 							[...Events]
@@ -133,6 +153,6 @@ export default async function facilityPage({
 					</ScrollArea>
 				</div>
 			</div>
-		</TooltipProvider>
+		</TooltipProvider >
 	);
 }

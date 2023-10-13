@@ -1,6 +1,5 @@
 'use client';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Menu, Navigation } from 'lucide-react';
 import {
 	NavigationMenu,
 	NavigationMenuContent,
@@ -14,7 +13,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
 import IsAdminNav from '@/components/contexts/isAdminNav';
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -85,17 +84,6 @@ export function AuthenticatedMenu() {
 					<Link href="/account" legacyBehavior passHref>
 						<ListItem title="My Reservations" />
 					</Link>
-					<IsAdminNav>
-						<Link href="/admin/reservations" legacyBehavior passHref>
-							<ListItem title="Reservations" />
-						</Link>
-						<Link href="/admin/requests" legacyBehavior passHref>
-							<ListItem title="Requests" />
-						</Link>
-						<Link href="/admin/users" legacyBehavior passHref>
-							<ListItem title="Users" />
-						</Link>
-					</IsAdminNav>
 					<ListItem title="Sign Out" onClick={() => signOut()} />
 				</div>
 			</>
