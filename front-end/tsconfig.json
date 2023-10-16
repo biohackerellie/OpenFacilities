@@ -51,7 +51,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/middleware.js", "src/middleware.js"  ],
+, "src/middleware.js", "src/middleware.js", "scripts/manualGoogleSync.js"  ],
   "exclude": [
     "node_modules",
     "node_modules/*"
