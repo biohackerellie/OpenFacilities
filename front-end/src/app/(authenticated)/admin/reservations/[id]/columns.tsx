@@ -37,7 +37,7 @@ interface TableDates {
 	ReservationID: any;
 }
 
-const UpdateStatus = async (id: number, status: string) => {
+const UpdateStatus = async (id: number, status: string, reservationID?: number) => {
 	try {
 		const res = await fetch(
 			process.env.NEXT_PUBLIC_HOST + `/api/reservation/date`,
@@ -49,6 +49,7 @@ const UpdateStatus = async (id: number, status: string) => {
 				body: JSON.stringify({
 					id: id,
 					approved: status,
+					reservationID: reservationID,
 				}),
 			}
 		);
@@ -153,7 +154,7 @@ export const columns: ColumnDef<TableDates>[] = [
 		header: 'Options',
 		cell: ({ row }) => {
 			const dateID = row.getValue('Options') as any;
-
+			const ReservationID = row.getValue('Edit') as number;
 			const isApproved = row.getValue('approved') === 'approved';
 			const isDenied = row.getValue('approved') === 'denied';
 
@@ -167,7 +168,7 @@ export const columns: ColumnDef<TableDates>[] = [
 							{!isApproved && (
 								<>
 									<DropdownMenuItem
-										onClick={() => UpdateStatus(dateID, 'approved')}
+										onClick={() => UpdateStatus(dateID, 'approved', ReservationID)}
 									>
 										Approve Date
 									</DropdownMenuItem>
