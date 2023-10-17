@@ -4,9 +4,9 @@ import { PaidButton } from '@/components/ui/buttons';
 import { columns } from './columns';
 import CostReducer from '@/functions/calculations/costCalculator';
 import EditPricing from '@/components/forms/paymentModal';
-import { revalidatePath } from 'next/cache';
-import prisma from '@/lib/prisma';
+import Options from './options';
 import { Button } from '@/components/ui/buttons/button';
+
 
 interface feeProps {
 	id: number;
@@ -33,36 +33,19 @@ export default async function paymentPage({
 }) {
 	const id = params.id;
 
-	async function costChange(formData: FormData) {
-		'use server'
-		let value;
-		const cost = formData.get("newCost")
-		if (cost === null || cost === undefined) {
-			value = null
-		} else {
-			//@ts-expect-error
-			value = parseInt(cost)
-		}
-		console.log(value)
-		const res = await prisma.reservation.update({
-			where: { id: BigInt(id) },
-			data: {
-				costOverride: value,
-			},
-		});
-		revalidatePath(`/admin/reservations/${id}/Pricing`)
-	}
+
 
 	const reservation = await getReservation(id);
-	const { paid, Category, User, ReservationDate, ReservationFees, costOverride } =
+	const { paid, Category, User, ReservationDate, ReservationFees, costOverride, facilityId } =
 		reservation;
-
+	console.log(facilityId)
 	let additionalFeesTotal = 0;
 	if (ReservationFees.length > 0) {
 		for (let i = 0; i < ReservationFees.length; i++) {
 			additionalFeesTotal += ReservationFees[i].additionalFees;
 		}
 	}
+
 	const CategoryId = Category.id;
 	const CategoryPrice = Category.price;
 	const mappedFees = ReservationFees.map((fee: feeProps) => {
@@ -107,11 +90,9 @@ export default async function paymentPage({
 
 							</div>
 						</div>
-						<form action={costChange}>
-							<label htmlFor="newCost">Manually Set Total</label>
-							<input className="text-black" type="number" name="newCost" />
-							<Button type="submit">Submit</Button>
-						</form>
+						<div className="flex justify-center border-b-2">
+							<Options id={id} facilityID={facilityId} />
+						</div>
 						{paid && (
 							<div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
 								<span className="text-green-500">Paid</span>
