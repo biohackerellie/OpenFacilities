@@ -1,45 +1,34 @@
 "use client"
 
+import { formSchema } from '@/components/forms/schemas/reservationForm';
 import { Button } from '@/components/ui/buttons/button';
 import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card"
+	Card
+} from "@/components/ui/card";
 import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+	Form, FormField,
+	FormItem
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select"
-import { categoryOptions, locations } from '@/lib/formOptions';
+} from "@/components/ui/select";
 import {
 	Tabs,
 	TabsContent,
 	TabsList,
 	TabsTrigger,
-} from "@/components/ui/tabs"
-import { costChange, facilityChange, categoryChange } from '@/functions/mutations/overrides';
-import React, { useState } from 'react';
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { formSchema } from '@/components/forms/schemas/reservationForm';
+} from "@/components/ui/tabs";
+import { categoryChange, costChange, facilityChange } from '@/functions/mutations/overrides';
+import { categoryOptions, locations } from '@/lib/formOptions';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 
 type formValues = z.infer<typeof formSchema>;
@@ -50,17 +39,10 @@ type Props = {
 	facilityID: number;
 }
 
-
-
-
 export default function Options({ id, facilityID }: Props) {
-
-
 	const form = useForm<formValues>({
 		resolver: zodResolver(formSchema),
 	})
-
-
 	const costChangeID = costChange.bind(null, id);
 	const facilityChangeID = facilityChange.bind(null, id, form.watch("facility"));
 	const categoryChangeID = categoryChange.bind(null, id, facilityID, form.watch("category"));

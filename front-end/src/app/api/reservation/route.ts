@@ -98,11 +98,8 @@ export async function POST(req: Request) {
         data: {
           startDate: moment(event.startDate).format('YYYY-MM-DD'),
           endDate: moment(event.startDate).format('YYYY-MM-DD'),
-
           startTime: event.startTime,
-
           endTime: event.endTime,
-
           reservationId: BigInt(res.id),
         },
       });
