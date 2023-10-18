@@ -155,7 +155,7 @@ export default function NavMenu() {
 						<ModeToggle />
 					</NavigationMenuList>
 				</div>
-				<div className=' flex flex-1 sm:hidden'>
+				<div className=' flex flex-1 ml-4 sm:hidden'>
 					<NavigationMenuList>
 						<NavigationMenuItem>
 							<NavigationMenuMobileTrigger />

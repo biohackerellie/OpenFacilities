@@ -83,7 +83,6 @@ export default function Options({ id, facilityID }: Props) {
 													<SelectItem key={location.value} value={location.value.toString()}   >
 														{location.label}
 													</SelectItem>
-
 												))}
 											</SelectContent>
 										</Select>
@@ -114,7 +113,6 @@ export default function Options({ id, facilityID }: Props) {
 													<SelectItem key={category.value} value={category.value.toString()}   >
 														{category.label}
 													</SelectItem>
-
 												))}
 											</SelectContent>
 										</Select>

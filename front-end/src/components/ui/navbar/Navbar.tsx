@@ -22,7 +22,7 @@ export default function Navbar() {
 				<div className="justify-end" >
 					<NavMenu />
 				</div>
-				<div className="flex sm:hidden">
+				<div className="flex sm:hidden mr-4">
 					<ModeToggle />
 				</div>
 			</nav>
