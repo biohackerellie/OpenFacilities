@@ -3,6 +3,8 @@ import prisma from '@/lib/prisma';
 import moment from 'moment-timezone';
 import nodemailer from 'nodemailer';
 
+export const runtime = 'node';
+
 export async function GET(req: NextRequest, res: NextResponse) {
   if (
     req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`
