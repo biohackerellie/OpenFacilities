@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import moment from 'moment-timezone';
 import nodemailer from 'nodemailer';
 
-export const runtime = 'node';
+export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest, res: NextResponse) {
   if (
