@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/buttons';
 import { updateEmail } from '@/functions/emails';
 
 import { useRouter } from 'next/navigation';
-import { approveReservation, denyReservation } from '@/functions/reservations';
+import { approveReservation, denyReservation, HandleDelete } from '@/functions/reservations';
 
 import {
 	AlertDialog,
@@ -73,6 +73,14 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
 						Send update email
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
+					<DropdownMenuItem
+						onClick={() => {
+							HandleDelete(id);
+							router.push('/admin/reservations');
+						}}
+					>
+						Delete Reservation
+					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<AlertDialogContent>
