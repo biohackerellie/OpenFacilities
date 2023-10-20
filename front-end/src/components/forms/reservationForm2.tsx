@@ -9,7 +9,8 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger
+	AlertDialogTrigger,
+	AlertDialogAction
 } from "@/components/ui/alert-dialog";
 import { Button } from '@/components/ui/buttons/button';
 import { Checkbox } from "@/components/ui/checkbox";
@@ -59,6 +60,10 @@ import * as z from 'zod';
 import { ToastAction } from '../ui/toast';
 import { formSchema } from './schemas/reservationForm';
 
+import { useRouter } from "next/navigation";
+
+
+
 type formValues = z.infer<typeof formSchema>;
 
 
@@ -67,18 +72,18 @@ type formValues = z.infer<typeof formSchema>;
 export default function ReservationForm() {
 	const [isVisible, setIsVisible] = React.useState(false);
 	const [selectedData, setSelectedData] = React.useState(null);
+	const [open, setOpen] = React.useState(false);
 	const [isSubmitting, setIsSubmitting] = React.useState(false);
 	const hideModal = () => setIsVisible(false);
 	const { data: session } = useSession();
 	const email = session?.user?.email;
 	let selectedFacility = 0;
-
+	const router = useRouter();
 	const { toast } = useToast();
 	const searchParams = useSearchParams();
 	if (searchParams.has('id')) {
 		selectedFacility = Number(searchParams.get('id'));
 	}
-	console.log('selectedFacility', selectedFacility)
 	const form = useForm<formValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -101,7 +106,6 @@ export default function ReservationForm() {
 
 	//@ts-expect-error
 	const handleAddDate = useHandleAddDate(append);
-
 	const watchTechSupport = form.watch('techSupport', false)
 	const watchDoorAccess = form.watch('doorAccess', false)
 
@@ -121,11 +125,7 @@ export default function ReservationForm() {
 			)
 			const response = await res.json();
 			if (response.status === 200) {
-				toast({
-					title: "Success",
-					description: "Your reservation has been submitted",
-					action: <ToastAction onClick={() => location.reload()} altText="retry">close</ToastAction>,
-				})
+				setOpen(true);
 
 			}
 		} catch (error) {
@@ -532,6 +532,22 @@ export default function ReservationForm() {
 					</div>
 				</form>
 			</Form>
+			<AlertDialog open={open} onOpenChange={setOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Success!</AlertDialogTitle>
+					</AlertDialogHeader>
+					<AlertDialogDescription>
+						Your request has been submitted and is now pending approval.
+					</AlertDialogDescription>
+					<AlertDialogFooter>
+						Submit another request?
+						<AlertDialogCancel onClick={() => router.push('/')} >No</AlertDialogCancel>
+						<AlertDialogAction onClick={() => location.reload()} >Yes</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+
 		</div >
 	);
 }
