@@ -1,12 +1,12 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Facility } from '@/lib/types';
 import { Button } from '@/components/ui/buttons';
-
+import { useToast } from '@/components/ui/use-toast';
 import { updateEmail } from '@/functions/emails';
-
 import { useRouter } from 'next/navigation';
 import { approveReservation, denyReservation, HandleDelete } from '@/functions/reservations';
+import { Loader2 } from 'lucide-react';
 
 import {
 	AlertDialog,
@@ -35,9 +35,11 @@ interface ResNavProps {
 
 export default function ReservationOptions({ id, facility }: ResNavProps) {
 
-
+	const { toast } = useToast();
 
 	const router = useRouter();
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const sendEmail = async () => {
 		try {
@@ -48,6 +50,46 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
 		}
 	};
 
+	const approveAll = async (id: number) => {
+		setIsSubmitting(true);
+		try {
+			await approveReservation(id);
+			toast({
+				title: 'Reservation Approved',
+				description: 'Reservation has been approved',
+			});
+
+		} catch (error) {
+			toast({
+				title: 'Something went wrong',
+				description: 'Reservation failed to approve',
+			})
+		} finally {
+			setIsSubmitting(false);
+			router.refresh();
+		}
+	}
+
+	const denyAll = async (id: number) => {
+		setIsSubmitting(true);
+		try {
+			await denyReservation(id);
+			toast({
+				title: 'Reservation Denied',
+				description: 'Reservation has been denied',
+			});
+
+		} catch (error) {
+			toast({
+				title: 'Something went wrong',
+				description: 'Reservation failed to deny',
+			})
+		} finally {
+			setIsSubmitting(false);
+			router.refresh();
+		}
+	}
+
 	return (
 		<AlertDialog>
 			<DropdownMenu>
@@ -56,15 +98,18 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuItem asChild>
-						<AlertDialogTrigger >
-
-							<span>Approve or Deny All</span>
-
-						</AlertDialogTrigger>
+						{!isSubmitting ? (
+							<AlertDialogTrigger >
+								<span>Approve or Deny All</span>
+							</AlertDialogTrigger>
+						) : (
+							<Button disabled>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								Please Wait
+							</Button>
+						)}
 					</DropdownMenuItem>
-
 					<DropdownMenuSeparator />
-
 					<DropdownMenuItem
 						onClick={() => {
 							sendEmail();
@@ -94,14 +139,14 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={() => {
-							approveReservation(id);
+							approveAll(id);
 						}}
 					>
 						Approve
 					</AlertDialogAction>
 					<AlertDialogAction
 						onClick={() => {
-							denyReservation(id);
+							denyAll(id);
 						}}
 					>
 						Deny
