@@ -1,7 +1,5 @@
 'use server';
 
-import nodemailer from 'nodemailer';
-
 type emailData = {
   to: string;
   message: string;
@@ -9,18 +7,22 @@ type emailData = {
 };
 
 export default async function reservationEmail(data: emailData) {
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASSWORD,
-    },
-  });
-
-  const info = await transporter.sendMail({
-    from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
-    to: data.to,
-    subject: data.subject,
-    text: data.message,
-  });
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        key: process.env.EMAIL_API_KEY,
+        to: data.to as string,
+        from: 'Laurel Facility Rental',
+        subject: data.subject as string,
+        html: `<p>${data.message}</p>`,
+      }),
+    });
+    return Response.json({ ok: true, status: 200 });
+  } catch (error) {
+    return Response.json({ ok: false, status: 500, body: error });
+  }
 }

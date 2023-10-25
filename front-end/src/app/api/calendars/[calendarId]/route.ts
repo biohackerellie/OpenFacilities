@@ -3,6 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { NextResponse, NextRequest } from 'next/server';
 
 const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export async function GET(req: NextRequest, response: NextResponse) {
   const scopes = ['https://www.googleapis.com/auth/calendar.readonly'];

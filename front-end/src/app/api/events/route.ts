@@ -6,6 +6,7 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import moment from 'moment-timezone';
 
+export const runtime = 'edge';
 export async function GET(request: Request) {
   const res = await prisma.events.findMany({
     include: {
