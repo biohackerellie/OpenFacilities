@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
-import nodemailer from 'nodemailer';
 
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
@@ -44,23 +43,27 @@ export async function POST(req: NextRequest) {
     const paymentId = res.result.paymentLink.id;
     const id = body.id;
 
-    let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASSWORD,
-      },
-    });
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          key: process.env.EMAIL_API_KEY,
+          to: body.email,
+          from: 'Facility Rental',
+          subject: 'Facility Rental Payment Link',
+          html:
+            'Click the link below to pay for your reservation: \n \n ' +
+            paymentUrl +
+            '\n \n If you have any questions, please contact the Activities Director at lpsactivites@laurel.k12.mt.us',
+        }),
+      });
+    } catch (error) {
+      return NextResponse.json({ status: 500, body: error });
+    }
 
-    const mailOptions = await transporter.sendMail({
-      from: '"Facility Rental" no_reply@laurel.k12.mt.us',
-      to: body.email,
-      subject: 'Facility Rental Payment Link',
-      text:
-        'Click the link below to pay for your reservation: \n \n ' +
-        paymentUrl +
-        '\n \n If you have any questions, please contact the Activities Director at lpsactivites@laurel.k12.mt.us',
-    });
     const update = await prisma.reservation.update({
       where: {
         id: BigInt(id),
