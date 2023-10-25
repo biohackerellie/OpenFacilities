@@ -96,7 +96,7 @@ async function main() {
       from: '"Weekly Events" no_reply@laurel.k12.mt.us',
       to: school.email,
       subject: 'Weekly Events',
-      html: `<p>Here are the events happening in your building this week:</p><ul>${eventList}</ul>`,
+      html: `<p>Here are the events happening in your building this week: </p><ul>${eventList}</ul>`,
     });
   }
 }
