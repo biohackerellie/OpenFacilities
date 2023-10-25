@@ -3,13 +3,12 @@ import prisma from '@/lib/prisma';
 import moment from 'moment';
 import { serializeJSON } from '@/utils/serializeJSON';
 import { IFormInput } from '@/lib/types';
-import nodemailer from 'nodemailer';
 
 import { revalidatePath } from 'next/cache';
 const currentDate = moment().format('YYYY-MM-DD');
 
 export const dynamic = 'force-dynamic';
-
+export const runtime = 'edge';
 export async function GET(req: Request) {
   const res = await prisma.reservation.findMany({
     where: {
@@ -105,14 +104,6 @@ export async function POST(req: Request) {
       });
     }
     if (process.env.NODE_ENV === 'production') {
-      let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASSWORD,
-        },
-      });
-
       let to = '';
 
       if (res.Facility.building === 'Laurel High School') {
@@ -138,12 +129,23 @@ export async function POST(req: Request) {
       } else
         to = 'geralyn_hill@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us';
 
-      const info = await transporter.sendMail({
-        from: '"Facility Reservation" no_reply@laurel.k12.mt.us',
-        to: to as string,
-        subject: 'New Facility Reservation',
-        text: `A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${res.id}`,
-      });
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            key: process.env.EMAIL_API_KEY,
+            to: to as string,
+            from: 'Facility Rental',
+            subject: 'New Facility Reservation',
+            html: `<h1> New Facility Reservation </h1> <p>A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${res.id}</p>`,
+          }),
+        });
+      } catch (error) {
+        return NextResponse.json({ status: 500, body: error });
+      }
     }
     revalidatePath('/admin/requests', 'page');
     return NextResponse.json({
