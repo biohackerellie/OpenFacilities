@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt, { Secret } from 'jsonwebtoken';
 import { Buffer } from 'buffer';
 
-export const runtime = 'edge';
-
 export async function POST(request: NextRequest) {
   const { email } = await request.json();
   console.log('email', email);
