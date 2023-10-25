@@ -6,7 +6,6 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import moment from 'moment-timezone';
 
-export const runtime = 'edge';
 export async function POST(request: Request) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
   const oauth2Client = new OAuth2Client({

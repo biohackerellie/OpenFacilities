@@ -6,7 +6,6 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import moment from 'moment-timezone';
 
-export const runtime = 'edge';
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: any } }
@@ -89,7 +88,6 @@ export async function POST(
         requestBody: event,
       });
       datecount++;
-      console.log('re', response, datecount);
     } catch (error) {
       return NextResponse.json({ message: 'error' });
       console.error('Failed to create event: ', error);
