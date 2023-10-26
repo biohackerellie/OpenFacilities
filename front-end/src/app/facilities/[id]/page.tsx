@@ -12,14 +12,14 @@ import {
 import moment from 'moment';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export async function generateStaticParams() {
-	const facilities = await fetch(
-		process.env.NEXT_PUBLIC_HOST + `/api/facilities`
-	).then((res) => res.json());
-	return facilities.map((facility: any) => ({
-		id: facility.id.toString(),
-	}));
-}
+// export async function generateStaticParams() {
+// 	const facilities = await fetch(
+// 		process.env.NEXT_PUBLIC_HOST + `/api/facilities`
+// 	).then((res) => res.json());
+// 	return facilities.map((facility: any) => ({
+// 		id: facility.id.toString(),
+// 	}));
+// }
 
 export default async function facilityPage({
 	params,
