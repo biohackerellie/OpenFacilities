@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -10,7 +9,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id(map: "idx_30089_PRIMARY") @db.VarChar(191) @default(cuid())
+  id                String  @id(map: "idx_30089_PRIMARY") @default(cuid()) @db.VarChar(191)
   userId            String  @db.VarChar(191)
   type              String  @db.VarChar(191)
   provider          String  @db.VarChar(191)
@@ -42,16 +41,17 @@ model Category {
 }
 
 model Events {
-  id               String        @id(map: "idx_30101_PRIMARY") @unique(map: "idx_30101_Events_id_key") @db.VarChar(191)
-  calendarId       String?       @db.VarChar(191)
-  title            String?       @db.VarChar(191)
-  start            DateTime?     @db.Timestamptz(3)
-  end              DateTime?     @db.Timestamptz(3)
-  location         String?       @db.VarChar(191)
-  recurringEventId String?       @db.VarChar(191)
-  facilityId       BigInt
-  Facility         Facility      @relation(fields: [facilityId], references: [id], onDelete: Cascade)
-  Reservation      Reservation[]
+  id               String            @id(map: "idx_30101_PRIMARY") @unique(map: "idx_30101_Events_id_key") @db.VarChar(191)
+  calendarId       String?           @db.VarChar(191)
+  title            String?           @db.VarChar(191)
+  start            DateTime?         @db.Timestamptz(3)
+  end              DateTime?         @db.Timestamptz(3)
+  location         String?           @db.VarChar(191)
+  recurringEventId String?           @db.VarChar(191)
+  facilityId       BigInt?
+  placeholder      Boolean?          @default(false)
+  Facility         Facility?         @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  ReservationDate  ReservationDate[]
 
   @@index([facilityId], map: "idx_30101_Events_facilityId_fkey")
 }
@@ -69,7 +69,6 @@ model Facility {
   Category         Category[]
   Events           Events[]
   Reservation      Reservation[]
-  Option           Option[]      @relation("FacilityToOption")
 }
 
 model InsuranceFiles {
@@ -83,52 +82,43 @@ model InsuranceFiles {
   @@index([reservationId], map: "idx_30115_InsuranceFiles_reservationId_fkey")
 }
 
-model Option {
-  id       BigInt     @id(map: "idx_30121_PRIMARY") @default(autoincrement())
-  name     String     @db.VarChar(191)
-  Facility Facility[] @relation("FacilityToOption")
-}
-
 model Reservation {
-  id               BigInt               @id(map: "idx_30126_PRIMARY") @default(autoincrement())
-  userId           String               @db.VarChar(191)
-  eventName        String               @db.VarChar(191)
-  facilityId       BigInt
-  approved         Reservation_approved @default(pending)
-  createdAt        DateTime?            @default(now()) @db.Timestamptz(3)
-  updatedAt        DateTime?            @db.Timestamptz(3)
-  details          String?              @db.VarChar(2000)
-  eventId          String?              @db.VarChar(191)
-  fees             Float?
-  insurance        Boolean
-  primaryContact   String?              @db.VarChar(191)
-  costOverride		 Float?             	
-  doorAccess       Boolean?
-  doorsDetails     String?              @db.VarChar(191)
-  name             String?              @db.VarChar(191)
-  people           String?              @db.VarChar(191)
-  techDetails      String?              @db.VarChar(191)
-  techSupport      Boolean?
-  phone            String?              @db.VarChar(191)
-	insuranceLink		String?              @db.VarChar(191)
-  categoryId       BigInt
-  totalHours       Float?
-  inPerson         Boolean              @default(false)
-  paid             Boolean              @default(false)
-  paymentUrl       String?              @db.VarChar(191)
-  paymentLinkID    String?              @unique(map: "idx_30126_Reservation_paymentLinkID_key") @db.VarChar(191)
-  ticketMade       Boolean              @default(false)
-  conflicts        Boolean              @default(false)
-  InsuranceFiles   InsuranceFiles[]
-  Category         Category             @relation(fields: [categoryId], references: [id])
-  Events           Events?              @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  Facility         Facility             @relation(fields: [facilityId], references: [id])
-  User             User                 @relation(fields: [userId], references: [id])
-  ReservationDate  ReservationDate[]
-  ReservationFees  ReservationFees[]
+  id              BigInt               @id(map: "idx_30126_PRIMARY") @default(autoincrement())
+  userId          String               @db.VarChar(191)
+  eventName       String               @db.VarChar(191)
+  facilityId      BigInt
+  approved        Reservation_approved @default(pending)
+  createdAt       DateTime?            @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime?            @db.Timestamptz(3)
+  details         String?              @db.VarChar(2000)
+  fees            Float?
+  insurance       Boolean
+  primaryContact  String?              @db.VarChar(191)
+  doorAccess      Boolean?
+  doorsDetails    String?              @db.VarChar(191)
+  name            String?              @db.VarChar(191)
+  people          String?              @db.VarChar(191)
+  techDetails     String?              @db.VarChar(191)
+  techSupport     Boolean?
+  phone           String?              @db.VarChar(191)
+  categoryId      BigInt
+  totalHours      Float?
+  inPerson        Boolean              @default(false)
+  paid            Boolean              @default(false)
+  paymentUrl      String?              @db.VarChar(191)
+  paymentLinkID   String?              @unique(map: "idx_30126_Reservation_paymentLinkID_key") @db.VarChar(191)
+  ticketMade      Boolean              @default(false)
+  conflicts       Boolean              @default(false)
+  insuranceLink   String?              @db.VarChar(191)
+  costOverride    Float?
+  InsuranceFiles  InsuranceFiles[]
+  Category        Category             @relation(fields: [categoryId], references: [id])
+  Facility        Facility             @relation(fields: [facilityId], references: [id])
+  User            User                 @relation(fields: [userId], references: [id])
+  ReservationDate ReservationDate[]
+  ReservationFees ReservationFees[]
 
   @@index([categoryId], map: "idx_30126_Reservation_categoryId_fkey")
-  @@index([eventId], map: "idx_30126_Reservation_eventId_fkey")
   @@index([facilityId], map: "idx_30126_Reservation_facilityId_fkey")
   @@index([userId], map: "idx_30126_Reservation_userId_fkey")
 }
@@ -141,6 +131,8 @@ model ReservationDate {
   endTime       String                   @db.VarChar(191)
   reservationId BigInt
   approved      ReservationDate_approved @default(pending)
+  gcal_eventid  String?                  @db.VarChar
+  Events        Events?                  @relation(fields: [gcal_eventid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Reservation   Reservation              @relation(fields: [reservationId], references: [id], onDelete: Cascade)
 
   @@index([reservationId], map: "idx_30139_ReservationDate_reservationId_fkey")

@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import moment from 'moment';
 import { serializeJSON } from '@/utils/serializeJSON';
-import { IFormInput } from '@/lib/types';
+import generateId from '@/functions/calculations/generate-id';
 
 import { revalidatePath } from 'next/cache';
+
 const currentDate = moment().format('YYYY-MM-DD');
 
 export const dynamic = 'force-dynamic';
@@ -93,12 +94,20 @@ export async function POST(req: Request) {
       },
     });
     for (const event of data.events) {
+      const eventId = generateId();
+      await prisma.events.create({
+        data: {
+          id: eventId,
+          placeholder: true,
+        },
+      });
       await prisma.reservationDate.create({
         data: {
           startDate: moment(event.startDate).format('YYYY-MM-DD'),
           endDate: moment(event.startDate).format('YYYY-MM-DD'),
           startTime: event.startTime,
           endTime: event.endTime,
+          gcal_eventid: eventId,
           reservationId: BigInt(res.id),
         },
       });

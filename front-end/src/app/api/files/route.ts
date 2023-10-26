@@ -2,8 +2,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import nextConnect from 'next-conenct';
-import multer from 'multer';
 import { Client } from 'minio';
 import { revalidatePath } from 'next/cache';
 
@@ -23,7 +21,7 @@ export async function POST(request: NextRequest) {
 
   const fileName = file.name;
   if (!file) {
-    return NextRespones.json({ success: false, message: 'No file uploaded' });
+    return NextResponse.json({ success: false, message: 'No file uploaded' });
   }
 
   const bucketName = 'documents';
