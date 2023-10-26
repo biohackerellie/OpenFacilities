@@ -61,10 +61,11 @@ export async function POST(request: Request) {
       .toISOString();
 
     const event = {
-      //@ts-expect-error
-      summary: approvedReservation.eventName,
-      //@ts-expect-error
-      description: approvedReservation.details,
+      id: reservationDate.gcal_eventid,
+
+      summary: approvedReservation?.eventName,
+
+      description: approvedReservation?.details,
       start: {
         dateTime: startDateTime,
         timeZone: 'America/Denver',
@@ -76,8 +77,7 @@ export async function POST(request: Request) {
     };
     try {
       const response = await calendar.events.insert({
-        //@ts-expect-error
-        calendarId: approvedReservation.Facility.googleCalendarId,
+        calendarId: approvedReservation?.Facility.googleCalendarId,
         requestBody: event,
       });
       console.log('re', response);

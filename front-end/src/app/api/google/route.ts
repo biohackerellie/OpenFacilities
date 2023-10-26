@@ -27,25 +27,29 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const eventsToCreate = events
-      .filter(
-        (eventData: Events) =>
-          !databaseEvents.some((e) => e.id === eventData.id)
-      )
-      .map((eventData: Events) => ({
-        id: eventData.id,
-        title: eventData.title,
-        start: eventData.start,
-        end: eventData.end,
-        facilityId: eventData.facilityId ? BigInt(eventData.facilityId) : null,
-      }));
+    const placeholderEvents = databaseEvents.filter(
+      (event) => event.placeholder === true
+    );
 
-    const response = await prisma.events.createMany({
-      data: eventsToCreate,
-      skipDuplicates: true,
-    });
+    for (const eventData of events) {
+      // If this event is a placeholder, update it
+      if (placeholderEvents.some((e) => e.id === eventData.id)) {
+        await prisma.events.update({
+          where: { id: eventData.id },
+          data: {
+            title: eventData.title,
+            start: eventData.start,
+            end: eventData.end,
+            facilityId: eventData.facilityId
+              ? BigInt(eventData.facilityId)
+              : null,
+            placeholder: false, // Set placeholder to false now that it's updated
+          },
+        });
+      }
+    }
 
-    return NextResponse.json({ response: 200, message: response });
+    return NextResponse.json({ response: 200, message: 'success' });
   } catch (error) {
     console.error(error);
     return NextResponse.json(error);
