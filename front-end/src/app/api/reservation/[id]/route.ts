@@ -26,7 +26,6 @@ export async function GET(
           tos: true,
         },
       },
-      Events: true,
       ReservationDate: true,
       InsuranceFiles: true,
       ReservationFees: true,

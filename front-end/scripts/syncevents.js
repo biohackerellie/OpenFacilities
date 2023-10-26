@@ -1,68 +1,76 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const moment = require('moment-timezone');
+const { google } = require('googleapis');
+const { OAuth2Client } = require('google-auth-library');
+require('dotenv').config();
 
 async function linkResDates() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  console.log('Fetching ReservationDates without gcal_eventid...');
-  const reservationDates = await prisma.reservationDate.findMany({
+  let datecount = 0;
+  const oauth2Client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  });
+  oauth2Client.setCredentials({
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+  });
+
+  const approvedDates = await prisma.reservationDate.findMany({
     where: {
       gcal_eventid: null,
-      approved: {
-        in: ['approved', 'pending'],
-      },
+      approved: 'approved',
       startDate: {
         gte: today.toISOString().split('T')[0],
       },
     },
     include: {
-      Reservation: true,
-    },
-  });
-
-  console.log('Fetching all Events...');
-  const events = await prisma.events.findMany({
-    where: {
-      start: {
-        gte: today,
+      Reservation: {
+        include: {
+          Facility: true,
+        },
       },
     },
   });
+  console.log('approvedDate', approvedDates);
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+  for (const approvedDate of approvedDates) {
+    const startDateTime = moment
+      .tz(
+        `${approvedDate.startDate} ${approvedDate.startTime}`,
+        'America/Denver'
+      )
+      .toISOString();
 
-  console.log('Starting the comparison...');
-  for (const rDate of reservationDates) {
-    let foundMatch = false;
-    for (const event of events) {
-      const reservationStart = moment
-        .tz(
-          `${rDate.startDate} ${rDate.startTime}`,
-          'YYYY-MM-DD HH:mm',
-          'America/Denver' // Mountain Standard Time
-        )
-        .utc();
-      const eventStart = moment(event.start).utc();
-      if (
-        rDate.Reservation.eventName === event.title &&
-        reservationStart.isSame(eventStart)
-      ) {
-        console.log(
-          `Found a match for ReservationDate ID ${rDate.id} with Event ID ${event.id}. Updating...`
-        );
-        await prisma.reservationDate.update({
-          where: { id: rDate.id },
-          data: { gcal_eventid: event.id },
-        });
-        console.log(`Updated ReservationDate ID ${rDate.id}.`);
-        foundMatch = true;
-        break;
-      }
-    }
-    if (!foundMatch) {
-      console.log(
-        `No match found for ReservationDate ID ${rDate.id} for the ${rDate.Reservation.eventName} reservation.`
-      );
+    const endDateTime = moment
+      .tz(`${approvedDate.endDate} ${approvedDate.endTime}`, 'America/Denver')
+      .toISOString();
+
+    const event = {
+      summary: approvedDate.Reservation.eventName,
+
+      description: approvedDate.Reservation.details,
+      start: {
+        dateTime: startDateTime,
+        timeZone: 'America/Denver',
+      },
+      end: {
+        dateTime: endDateTime,
+        timeZone: 'America/Denver',
+      },
+    };
+    try {
+      await calendar.events.insert({
+        calendarId: approvedDate.Reservation.Facility.googleCalendarId,
+        requestBody: event,
+      });
+      datecount++;
+      console.log('datecount', datecount);
+    } catch (error) {
+      console.log('failed to create event: ', error);
     }
   }
 }
@@ -71,7 +79,4 @@ linkResDates()
   .catch((e) => {
     console.log('An error occurred:', e);
   })
-  .finally(async () => {
-    await prisma.$disconnect();
-    console.log('Disconnected from database.');
-  });
+  .finally(console.log('All done'));
