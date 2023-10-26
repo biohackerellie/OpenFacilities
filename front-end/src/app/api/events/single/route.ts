@@ -49,6 +49,7 @@ export async function POST(request: Request) {
     .toISOString();
 
   const event = {
+    id: approvedDate?.gcal_eventid,
     summary: approvedDate?.Reservation.eventName,
 
     description: approvedDate?.Reservation.details,
