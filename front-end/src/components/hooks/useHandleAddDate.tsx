@@ -85,9 +85,11 @@ export default function useHandleAddDate(
 
 		// Loop through each day of the week selected in the form
 		daysOfWeek.forEach((day) => {
+
+			const momentDay = day === 0 ? 7 : day;
 			// Find the first occurrence of the day of the week on or after the start date
 			let currentStartDate = moment(data.startDate);
-			while (currentStartDate.isoWeekday() !== day) {
+			while (currentStartDate.isoWeekday() !== momentDay) {
 				currentStartDate = addDays(currentStartDate, 1);
 			}
 
@@ -99,7 +101,7 @@ export default function useHandleAddDate(
 				second: 59,
 				millisecond: 999,
 			});
-			while (currentEndDate.isoWeekday() !== day) {
+			while (currentEndDate.isoWeekday() !== momentDay) {
 				currentEndDate = addDays(currentEndDate, -1);
 			}
 

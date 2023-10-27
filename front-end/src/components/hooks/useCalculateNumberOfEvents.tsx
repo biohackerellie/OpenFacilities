@@ -5,9 +5,8 @@ export default function useCalculateNumberOfEvents() {
 		console.log('calculating events from', startDate, 'to', repeatUntil, 'on', dayOfWeek)
 		let count = 0;
 		let current = new Date(startDate);
-		while (current <= repeatUntil) {
-
-			if (dayOfWeek === current.getDay()) {
+		while (current.getTime() <= repeatUntil.getTime()) {
+			if (Number(dayOfWeek) === current.getDay()) {
 				console.log('Match found on', current)
 				count++;
 			}
