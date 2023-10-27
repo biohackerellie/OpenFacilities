@@ -1,6 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 interface IFormInput {
   startDate: string;
@@ -9,7 +10,11 @@ interface IFormInput {
   endTime: string;
   id: any;
 }
-export default async function modifyDate(data: IFormInput, id: any) {
+export default async function modifyDate(
+  data: IFormInput,
+  id: number,
+  reservationID: number
+) {
   await prisma.reservationDate.update({
     where: {
       id: id,
@@ -21,4 +26,5 @@ export default async function modifyDate(data: IFormInput, id: any) {
       endTime: data.endTime,
     },
   });
+  return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
 }

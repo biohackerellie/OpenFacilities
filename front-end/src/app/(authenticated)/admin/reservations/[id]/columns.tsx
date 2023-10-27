@@ -1,18 +1,16 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/buttons';
-import React from 'react';
+import { Button } from '@/components/ui/buttons/button';
 import HandleDelete from '@/functions/reservations/deleteDates';
-import { approveDate, denyDate } from '@/functions/reservations';
+import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
+
 import moment from 'moment';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -37,65 +35,9 @@ interface TableDates {
 	ReservationID: any;
 }
 
-const UpdateStatus = async (id: number, status: string, reservationID?: number) => {
-	try {
-		const res = await fetch(
-			process.env.NEXT_PUBLIC_HOST + `/api/reservation/date`,
-			{
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					id: id,
-					approved: status,
-					reservationID: reservationID,
-				}),
-			}
-		);
-		const response = await res.json();
-		if (response.status === 200) {
-			if (status === 'approved') {
-				const googleRes = await fetch(
-					process.env.NEXT_PUBLIC_HOST + '/api/events/single', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						id: id,
-					})
-				}
-				)
-			}
-		}
-	} catch (error) {
-		alert('Error approving reservation');
-	} finally {
-		location.reload();
-	}
-};
 
-const DeleteDate = async (id: number) => {
-	try {
-		const res = await fetch(
-			process.env.NEXT_PUBLIC_HOST + `/api/reservation/date`,
-			{
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					id: id,
-				}),
-			}
-		);
-	} catch (error) {
-		alert('Error deleting reservation');
-	} finally {
-		location.reload();
-	}
-};
+
+
 
 export const columns: ColumnDef<TableDates>[] = [
 	{
@@ -153,7 +95,7 @@ export const columns: ColumnDef<TableDates>[] = [
 		accessorKey: 'Options',
 		header: 'Options',
 		cell: ({ row }) => {
-			const dateID = row.getValue('Options') as any;
+			const dateID = row.getValue('Options') as number;
 			const ReservationID = row.getValue('Edit') as number;
 			const isApproved = row.getValue('approved') === 'approved';
 			const isDenied = row.getValue('approved') === 'denied';
@@ -168,7 +110,7 @@ export const columns: ColumnDef<TableDates>[] = [
 							{!isApproved && (
 								<>
 									<DropdownMenuItem
-										onClick={() => UpdateStatus(dateID, 'approved', ReservationID)}
+										onClick={() => UpdateStatus({ id: dateID, status: 'approved', reservationID: ReservationID })}
 									>
 										Approve Date
 									</DropdownMenuItem>
@@ -177,7 +119,7 @@ export const columns: ColumnDef<TableDates>[] = [
 							{!isDenied && (
 								<>
 									<DropdownMenuItem
-										onClick={() => UpdateStatus(dateID, 'denied')}
+										onClick={() => UpdateStatus({ id: dateID, status: 'denied', reservationID: ReservationID })}
 									>
 										Deny Date
 									</DropdownMenuItem>
@@ -198,7 +140,7 @@ export const columns: ColumnDef<TableDates>[] = [
 							</DialogDescription>
 						</DialogHeader>
 						<DialogFooter>
-							<Button variant="outline" onClick={() => DeleteDate(dateID)}>
+							<Button variant="outline" onClick={() => HandleDelete(dateID, ReservationID)}>
 								Delete
 							</Button>
 						</DialogFooter>
@@ -218,6 +160,7 @@ export const columns: ColumnDef<TableDates>[] = [
 			const startTime = row.getValue('startTime') as string;
 			const endTime = row.getValue('endTime') as string;
 			const reservationID = row.getValue('Edit') as any;
+
 			return (
 				<EditDates
 					id={id}
