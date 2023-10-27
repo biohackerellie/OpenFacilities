@@ -8,10 +8,11 @@ const nextConfig = {
   swcMinify: true,
   webpack(config, { nextRuntime }) {
     if (typeof nextRuntime === 'undefined') {
-      const { IgnorePlugin } = require('webpack');
-      const ignoreFs = new IgnorePlugin({ resourceRegExp: /fs/ });
-      const ignorePath = new IgnorePlugin({ resourceRegExp: /path/ });
-      config.plugins.push(ignoreFs, ignorePath);
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
     }
     return config;
   },
