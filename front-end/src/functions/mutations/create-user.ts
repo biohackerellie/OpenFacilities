@@ -1,6 +1,6 @@
 'use server';
 import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 interface IFormInput {
   email: string;

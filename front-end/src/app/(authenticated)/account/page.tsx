@@ -5,6 +5,8 @@ import { columns } from './columns';
 import React from 'react';
 import { Reservation } from '@/lib/types';
 import moment from 'moment';
+import LoadingScreen from '@/components/ui/loadingScreen';
+import { Suspense } from 'react';
 
 interface TableReservation {
 	eventName: string;
@@ -58,7 +60,9 @@ export default async function Account() {
 			<h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
 				My Reservations
 			</h1>
-			<DataTable columns={columns} data={data} />
+			<Suspense fallback={<LoadingScreen />}>
+				<DataTable columns={columns} data={data} />
+			</Suspense>
 		</div>
 	);
 }

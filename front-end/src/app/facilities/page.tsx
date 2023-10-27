@@ -1,5 +1,4 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import SubNav from '@/components/ui/subNav';
 import { Suspense } from 'react';
 import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
