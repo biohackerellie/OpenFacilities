@@ -29,15 +29,15 @@ export default async function reservationAdminLayout({
 	} = reservation;
 	const facility = Facility.id;
 	return (
-		<section className="flex mt-16 flex-wrap relative justify-center h-full p-3 transition-all ease-in-out">
-			<div className="container pb-3 flex justify-between border-b-2 border-b-slate-500 ">
+		<section className="flex flex-col sm:flex-row flex-wrap mt-10 sm:relative w-full justify-center h-full p-3 transition-all ease-in-out">
+			<div className=" sm:container pb-3 flex flex-col sm:flex-row sm:justify-between border-b-2 border-b-slate-500 ">
 				<div className="">
 					<h1 className="font-bold   drop-shadow-lg text-2xl">{eventName}</h1>
 					<h2 className=" font-light  drop-shadow-lg text-xl">
 						{Facility.building} {Facility.name}
 					</h2>
 				</div>
-				<div className=" self-end right-0">
+				<div className=" p-4 sm:p-0 self-start sm:self-end sm:right-0">
 					<ResNav id={id} facility={Facility} />
 				</div>
 			</div>

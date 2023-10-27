@@ -76,14 +76,15 @@ export async function POST(request: Request) {
       },
     };
     try {
+      console.log('calendar', approvedReservation?.Facility.googleCalendarId);
       const response = await calendar.events.insert({
-        calendarId: approvedReservation?.Facility.googleCalendarId,
+        calendarId: approvedReservation?.Facility.googleCalendarId as string,
         requestBody: event,
       });
       console.log('re', response);
     } catch (error) {
-      return NextResponse.json({ message: 'error' });
       console.error('Failed to create event: ', error);
+      return NextResponse.json({ message: error });
     }
     console.log('Event created: ', Response);
   }
