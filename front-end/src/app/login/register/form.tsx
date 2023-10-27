@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TosModal } from '@/components/forms';
-import { CreateUser } from '@/functions/mutations';
+import CreateUser from '@/functions/mutations/create-user';
 import { redirect } from 'next/navigation';
 import Swal from 'sweetalert2';
 
@@ -14,7 +14,7 @@ interface IFormInput {
 	terms: boolean;
 }
 
-export const runtime = 'nodejs';
+
 
 export default function CreateAccount() {
 	const {
