@@ -8,8 +8,6 @@ interface IFormInput {
   name: string;
 }
 
-export const runtime = 'nodejs';
-
 export default async function CreateUser(formData: IFormInput) {
   const password = formData.password as string;
   const newHash = bcrypt.hashSync(password, 10);
