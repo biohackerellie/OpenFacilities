@@ -2,6 +2,8 @@ import React from 'react';
 import UserResNav from './userResNav';
 import IsUserReserv from '@/components/contexts/isUserReserv';
 
+export const runtime = 'edge';
+
 async function getReservation(id: number) {
 	const res = await fetch(
 		process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`

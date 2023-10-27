@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
-import { randomUUID } from 'crypto';
+import generateId from '@/functions/calculations/generate-id';
 import prisma from '@/lib/prisma';
 
 const { checkoutApi } = new Client({
@@ -16,10 +16,12 @@ BigInt.prototype.toJSON = function () {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+
+  const uuid = generateId();
   console.log('request: ', body);
   try {
     const res = await checkoutApi.createPaymentLink({
-      idempotencyKey: randomUUID(),
+      idempotencyKey: uuid,
       description: 'Facility Rental',
       quickPay: {
         name: body.description,

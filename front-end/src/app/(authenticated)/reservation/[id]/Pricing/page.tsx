@@ -3,6 +3,8 @@ import CostReducer from '@/functions/calculations/costCalculator';
 import React from 'react';
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables/users/data-table';
+
+
 export const dynamic = 'force-dynamic';
 
 interface feeProps {
