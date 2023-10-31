@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/buttons/button';
 import HandleDelete from '@/functions/reservations/deleteDates';
 import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
-
+import { Checkbox } from "@/components/ui/checkbox"
 import moment from 'moment';
 import {
 	DropdownMenu,
@@ -62,6 +62,7 @@ export const columns: ColumnDef<TableDates>[] = [
 	{
 		accessorKey: 'endDate',
 		header: ({ column }) => {
+			column.toggleVisibility(false)
 			return (
 				<Button
 					variant="ghost"

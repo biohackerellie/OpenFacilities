@@ -88,7 +88,7 @@ export default async function reservationPage({
 							<SmallCalendar startDate={startDate} facilityId={Facility.id} />
 						</div>
 					</div>
-					<div className="max-w-[300px] sm:max-w-[650px] xl:float-right  ">
+					<div className="max-w-[300px] sm:max-w-[550px] xl:float-right  ">
 						<h2 className="font-bold text-xl m-3 text-gray-600 dark:text-gray-300">
 							Reservation Dates
 						</h2>
