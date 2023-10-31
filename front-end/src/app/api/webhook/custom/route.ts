@@ -4,8 +4,19 @@ import moment from 'moment-timezone';
 
 export const runtime = 'edge';
 
+export async function GET(req: NextRequest) {
+  return NextResponse.error();
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  if (!body) {
+    return NextResponse.json({
+      ok: false,
+      status: 400,
+      message: 'Bad Request',
+    });
+  }
   const bodyKey = body.key;
   if (bodyKey !== process.env.EMAIL_API_KEY) {
     return NextResponse.json({
@@ -40,7 +51,7 @@ export async function POST(req: NextRequest) {
     {
       name: 'West Elementary',
       email:
-        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, bethany_fuchs@laurel.k12.mt.us, marla_adams@laurel.k12.mt.us, jordan_white@laurel.k12.mt.us ',
+        'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, bethany_fuchs@laurel.k12.mt.us, marla_adams@laurel.k12.mt.us, ',
     },
     {
       name: 'South Elementary',
@@ -71,7 +82,9 @@ export async function POST(req: NextRequest) {
           },
         ],
       },
-
+      include: {
+        Facility: true,
+      },
       orderBy: {
         start: 'asc',
       },
@@ -84,6 +97,7 @@ export async function POST(req: NextRequest) {
           .tz('America/Denver')
           .format('dddd, MMMM Do, h:mm a'),
         end: moment(event.end).tz('America/Denver').format('h:mm a'),
+        location: event.Facility?.name,
       };
     });
 
@@ -104,14 +118,9 @@ export async function POST(req: NextRequest) {
           key: process.env.EMAIL_API_KEY,
           to: school.email,
           from: 'Weekly Events',
-          subject: 'Weekly Events',
-          html: `<p>Here are the events happening in your building this week: </p><ul>${eventList}</ul>`,
+          subject: 'Weekly Events - Corrected location information',
+          html: `<h1>Here are the events happening in your building this week: </h1><ul>${eventList}</ul>`,
         }),
-      });
-      return NextResponse.json({
-        ok: true,
-        status: 200,
-        message: 'Email sent successfully',
       });
     } catch (error) {
       return NextResponse.json({
@@ -121,4 +130,9 @@ export async function POST(req: NextRequest) {
       });
     }
   }
+  return NextResponse.json({
+    ok: true,
+    status: 200,
+    message: 'Success',
+  });
 }
