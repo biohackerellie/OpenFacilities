@@ -63,10 +63,18 @@ export async function PUT(
         ReservationDate: true,
       },
     });
+
+    let message = '';
+
+    if (body.approved === 'approved') {
+      message = `<H1>Reservation Approved</H1><p>Your reservation for ${res.eventName} has been approved.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If applicable, please provide any and all payments and insurance information in person or in the link above prior to your event dates. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+    } else {
+      message = `<H1>Reservation ${body.approved}</H1><p>Your reservation for ${res.eventName} has been denied.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+    }
     const user = res.User.email;
     let to = user;
     let subject = body.subject;
-    let message = `Your reservation for ${res.eventName} has been ${body.approved}. You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id} . If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+
     let data = { to, subject, message };
     await reservationEmail(data);
   } catch (error) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import { columns } from './columns';
 import moment from 'moment';
-
+import { Suspense } from 'react';
+import TableSkeleton from './skeleton';
 import { User, Facility } from '@prisma/client';
 import { Reservation } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
@@ -69,7 +70,9 @@ export default async function accountPage({
       {data.length === 0 ? (
         <p className="text-center">No reservations found.</p>
       ) : (
-        <DataTable columns={columns} data={data} />
+        <Suspense fallback={<TableSkeleton />}>
+          <DataTable columns={columns} data={data} />
+        </Suspense>
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { useToast } from '@/components/ui/use-toast';
+import { TableReservation } from '@/lib/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,16 +18,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-interface TableReservations {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
-  Details: number;
-}
-
-export const columns: ColumnDef<TableReservations>[] = [
+export const columns: ColumnDef<TableReservation>[] = [
   {
     accessorKey: 'eventName',
     header: 'Event Name',

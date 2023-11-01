@@ -131,3 +131,12 @@ export interface IAlert {
     icon?: any;
   };
 }
+
+interface TableReservation {
+  eventName: string;
+  Facility: string;
+  ReservationDate: any[];
+  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  User: string;
+  Details: number;
+}

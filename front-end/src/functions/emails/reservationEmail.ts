@@ -18,7 +18,7 @@ export default async function reservationEmail(data: emailData) {
         to: data.to as string,
         from: 'Laurel Facility Rental',
         subject: data.subject as string,
-        html: `<p>${data.message}</p>`,
+        html: `${data.message}`,
       }),
     });
     return Response.json({ ok: true, status: 200 });

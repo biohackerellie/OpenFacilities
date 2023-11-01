@@ -1,20 +1,9 @@
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
-import moment from 'moment';
+import { mapReservations } from '@/functions/calculations/tableData';
 import { headers } from 'next/headers';
-import { Reservation } from 'lib/types';
-
-interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
-  Details: number;
-}
-
-const currentDate = moment().format('YYYY-MM-DD');
+import { Reservation, TableReservation } from 'lib/types';
 
 async function getReservations(): Promise<TableReservation[]> {
   const headersInstance = headers();
@@ -26,26 +15,7 @@ async function getReservations(): Promise<TableReservation[]> {
   });
   const Reservations: Reservation[] = await res.json();
 
-  const mappedReservations: TableReservation[] = Reservations.map(
-    (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
-      );
-      const nextUpcomingDate = sortedDates?.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
-      );
-      return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate?.startDate : 'N/A',
-        approved: reservation.approved,
-        User: reservation.User?.name || '',
-        Details: reservation.id,
-      };
-    }
-  );
-
-  return mappedReservations;
+  return mapReservations(Reservations);
 }
 
 export default async function Reservations() {
