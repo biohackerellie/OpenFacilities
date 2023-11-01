@@ -6,7 +6,6 @@ import { google } from 'googleapis';
 import oauth2Client from '@/lib/googleAuth';
 import moment from 'moment-timezone';
 
-export const runtime = 'edge';
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: any } }
