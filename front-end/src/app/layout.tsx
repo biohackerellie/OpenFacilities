@@ -4,47 +4,47 @@ import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
 import { Providers } from '@/components/contexts';
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
-import moment from 'moment-timezone';
+import { GeistSans } from 'geist/font';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
-moment.tz.setDefault('America/Denver');
-
-const roboto_mono = Roboto_Mono({
-	subsets: ['latin'],
-	display: 'swap',
-	variable: '--font-roboto-mono',
-});
+// const roboto_mono = Roboto_Mono({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-roboto-mono',
+// });
 
 export const metadata = {
-	title: 'LPS Facilities',
-	description: 'Laurel Public Schools Facility Rentals',
+  title: 'LPS Facilities',
+  description: 'Laurel Public Schools Facility Rentals',
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<AuthProvider>
-			<html lang="en" suppressHydrationWarning>
-				<GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string} />
-				<body className={`${roboto_mono.variable}`}>
-					<ThemeProviders>
-						<Providers>
-							<Navbar />
-							{children}
+  return (
+    <AuthProvider>
+      <html lang="en" className={GeistSans.className}>
+        <GoogleAnalytics
+          GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string}
+        />
+        <body>
+          <ThemeProviders>
+            <Providers>
+              <Navbar />
+              {children}
 
-							<Footer />
-							<Toaster />
-						</Providers>
-					</ThemeProviders>
-					<Analytics />
-				</body>
-			</html>
-		</AuthProvider>
-	);
+              <Footer />
+              <Toaster />
+            </Providers>
+          </ThemeProviders>
+          <Analytics />
+        </body>
+      </html>
+    </AuthProvider>
+  );
 }

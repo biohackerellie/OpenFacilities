@@ -78,20 +78,8 @@ export async function POST(request: Request) {
       console.log('re', response);
     } catch (error) {
       console.error('Failed to create event: ', error);
-      await fetch(process.env.NEXT_PUBLIC_EMAIL_API as string, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          key: process.env.EMAIL_API_KEY,
-          to: 'ellie@epklabs.com',
-          from: 'Yur Mom',
-          subject: 'Error creating event',
-          html: `${error}`,
-        }),
-      });
-      return NextResponse.error;
+
+      return NextResponse.json({ message: error });
     }
   }
   return NextResponse.json({

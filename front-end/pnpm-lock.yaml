@@ -122,6 +122,9 @@ dependencies:
   fs:
     specifier: 0.0.1-security
     version: 0.0.1-security
+  geist:
+    specifier: ^1.0.0
+    version: 1.0.0
   googleapis:
     specifier: ^118.0.0
     version: 118.0.0(encoding@0.1.13)
@@ -1216,6 +1219,10 @@ packages:
     resolution: {integrity: sha512-LBlI3iQvlzRE7Y6AfIyHKuM4T6REGmFgweN2tBqEUVEfgxERBLOutV2xckXEp3Y3VbfJBBXKZNfDzs20gHimSg==}
     dependencies:
       glob: 7.1.7
+    dev: false
+
+  /@next/font@13.5.6:
+    resolution: {integrity: sha512-urmUq05uCVJsBqAAJEV+xK5OTTodrSxdiG+351SOSjlWctywdBM6qX+K9pIe3K48RxjfnxlBbXjGyOJAji+pfw==}
     dev: false
 
   /@next/swc-darwin-arm64@14.0.1:
@@ -4479,6 +4486,12 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /geist@1.0.0:
+    resolution: {integrity: sha512-7hqXZqIdSiFbXjlMZ8Ag0fBAW8RzUjIXPkh160rT4m4ECMtsKdFX+06e0mK28oRCpU+lOB1C5Es8qxzvv7H2Hg==}
+    dependencies:
+      '@next/font': 13.5.6
     dev: false
 
   /gensync@1.0.0-beta.2:
