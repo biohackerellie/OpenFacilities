@@ -18,7 +18,7 @@ export default function IsAdmin({ children }: { children: React.ReactNode }) {
     return <> {children} </>;
   } else {
     return (
-      <div className="justify-center align-middle text-center flex flex-wrap flex-col">
+      <div className="justify-center mt-16 align-middle text-center flex flex-wrap flex-col">
         <h1 className="font-bold text-2xl">
           You dont have permission to view this page
         </h1>
