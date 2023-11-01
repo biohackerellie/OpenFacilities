@@ -94,15 +94,15 @@ export default async function reservationPage({
               </div>
             </div>
             {techSupport && (
-              <div className="flex flex-row my-10 text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
+              <div className="flex flex-row my-10 max-w-[500px] text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
                 Tech Support Requested:
-                <div className="text-left ml-10 flex text-md text-ellipsis">
+                <div className="text-left ml-10 max-w-[500px] flex text-md text-ellipsis">
                   {techDetails}{' '}
                 </div>
               </div>
             )}
             {doorAccess && (
-              <div className="flex flex-row my-10 text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
+              <div className="flex flex-row my-10 max-w-[500px] text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
                 Door Access Requested:
                 <div className="text-left ml-10 flex text-md text-ellipsis">
                   {doorsDetails}{' '}

@@ -4,6 +4,8 @@ import React from 'react';
 import { mapReservations } from '@/functions/calculations/tableData';
 import { headers } from 'next/headers';
 import { Reservation, TableReservation } from 'lib/types';
+import TableSkeleton from '../requests/skeleton';
+import { Suspense } from 'react';
 
 async function getReservations(): Promise<TableReservation[]> {
   const headersInstance = headers();
@@ -26,7 +28,9 @@ export default async function Reservations() {
       <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
         Reservations
       </h1>
-      <DataTable columns={columns} data={data} />
+      <Suspense fallback={<TableSkeleton />}>
+        <DataTable columns={columns} data={data} />
+      </Suspense>
     </div>
   );
 }
