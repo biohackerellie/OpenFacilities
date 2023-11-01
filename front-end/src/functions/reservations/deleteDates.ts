@@ -9,8 +9,8 @@ export default async function HandleDelete(id: number, reservationID: number) {
         id: id,
       },
     });
+    return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
   } catch (error) {
     console.error('An issue has occurred: ', error);
   }
-  return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
 }

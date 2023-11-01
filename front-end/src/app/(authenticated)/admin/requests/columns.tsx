@@ -1,9 +1,9 @@
 'use client';
-import { ApproveAll } from '@/components/hooks';
+
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { approveReservation, denyReservation } from '@/functions/reservations';
 import { TableReservation } from '@/lib/types';
 import {

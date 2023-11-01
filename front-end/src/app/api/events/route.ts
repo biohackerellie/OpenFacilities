@@ -3,8 +3,10 @@ import prisma from '@/lib/prisma';
 import { serializeJSON } from '@/utils/serializeJSON';
 import { google } from 'googleapis';
 
-import { OAuth2Client } from 'google-auth-library';
+import oauth2Client from '@/lib/googleAuth';
 import moment from 'moment-timezone';
+
+export const runtime = 'edge';
 
 export async function GET(request: Request) {
   const res = await prisma.events.findMany({
@@ -19,12 +21,6 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
-
-  const oauth2Client = new OAuth2Client({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    redirectUri: process.env.GOOGLE_REDIRECT_URI,
-  });
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
@@ -84,9 +80,21 @@ export async function POST(request: Request) {
       console.log('re', response);
     } catch (error) {
       console.error('Failed to create event: ', error);
-      return NextResponse.json({ message: error });
+      await fetch(process.env.NEXT_PUBLIC_EMAIL_API as string, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          key: process.env.EMAIL_API_KEY,
+          to: 'ellie@epklabs.com',
+          from: 'Yur Mom',
+          subject: 'Error creating event',
+          html: `${error}`,
+        }),
+      });
+      return NextResponse.error;
     }
-    console.log('Event created: ', Response);
   }
   return NextResponse.json({
     status: 200,

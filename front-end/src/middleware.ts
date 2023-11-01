@@ -14,5 +14,8 @@ export const config = {
     '/api/reservation/:id',
     '/api/reservation',
     '/api/request',
+    '/reservation',
+    '/reservation/:path*',
+    '/account',
   ],
 };

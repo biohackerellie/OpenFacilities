@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { AnyARecord } from 'dns';
+
 import { serializeJSON } from '@/utils/serializeJSON';
 import { google } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
+import oauth2Client from '@/lib/googleAuth';
 import moment from 'moment-timezone';
 
+export const runtime = 'edge';
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: any } }
@@ -31,11 +32,6 @@ export async function POST(
 ) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
   let datecount = 0;
-  const oauth2Client = new OAuth2Client({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    redirectUri: process.env.GOOGLE_REDIRECT_URI,
-  });
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
