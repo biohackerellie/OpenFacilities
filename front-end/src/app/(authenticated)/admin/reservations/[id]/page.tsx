@@ -65,7 +65,7 @@ export default async function reservationPage({
     <div className="flex flex-col xl:flex-row sm:flex-wrap sm:justify-center h-full pb-3 mb-2 ">
       <div key={facility} className="     ">
         <div className="  xl:w-[1300px] w-auto  gap-y-4  drop-shadow-md  m-3 p-4 ">
-          <div className="hidden sm:inline-block justify-between border-r-2 mr-2 float-left   my-5  gap-36">
+          <div className="hidden sm:inline-block justify-between border-r-2  p-2 float-left   my-5  gap-36">
             <div className="hidden sm:flex pb-4">
               <h2 className="   font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
                 {' '}
@@ -81,9 +81,9 @@ export default async function reservationPage({
             <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
               Contact Email: <div>{reservation.User.email}</div>
             </div>
-            <div className="flex flex-row  sm:justify-between text-lg border-b-2   text-justify ">
+            <div className="flex flex-row  sm:justify-between text-lg border-b-2 max-w-[600px]  text-justify ">
               Requested Category:{' '}
-              <div className="truncate overflow-ellipsis text max-w-md ml-4">
+              <div className="truncate overflow-ellipsis text max-w-xs ml-2">
                 {Category.name}
               </div>
             </div>
