@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   try {

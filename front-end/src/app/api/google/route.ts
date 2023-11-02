@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { Events } from '@prisma/client';
 import { revalidateTag } from 'next/cache';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
