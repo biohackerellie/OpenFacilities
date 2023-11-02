@@ -5,10 +5,13 @@ import reservationEmail from '@/functions/emails/reservationEmail';
 import prisma from '@/lib/prisma';
 
 export async function approveReservation(id: number) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events`, {
-    method: 'POST',
-    body: JSON.stringify({ id: id }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/events/POST`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ id: id }),
+    }
+  );
   if (response.status !== 200) {
     throw new Error('google event failed to create');
   } else {

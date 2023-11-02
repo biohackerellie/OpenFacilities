@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
   for (const school of schools) {
     const events = await prisma.events.findMany({
       where: {
+        placeholder: false,
         AND: [
           {
             Facility: {

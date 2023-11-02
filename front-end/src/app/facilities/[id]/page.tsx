@@ -29,7 +29,8 @@ export default async function facilityPage({
   };
 }) {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`
+    process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`,
+    { next: { tags: ['events'] } }
   );
   const facility = await res.json();
   const { id, name, address, building, capacity, imagePath, Category, Events } =
