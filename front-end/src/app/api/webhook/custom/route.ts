@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import moment from 'moment-timezone';
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {
   return NextResponse.error();

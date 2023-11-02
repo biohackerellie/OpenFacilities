@@ -1,6 +1,6 @@
 import ReservationForm from '@/components/forms/reservationForm2';
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export default function reservationPage() {
   return (

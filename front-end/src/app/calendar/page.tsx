@@ -3,7 +3,7 @@ import CalendarMain from '@/components/calendar/Calendar';
 import prisma from '@/lib/prisma';
 import { Events, Facility } from '@prisma/client';
 
-// export const runtime = 'edge'
+export const runtime = 'edge';
 
 interface extendedEvent extends Events {
   Facility: Facility;

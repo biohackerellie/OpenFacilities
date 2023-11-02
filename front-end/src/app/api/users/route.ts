@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { serializeJSON } from '@/utils/serializeJSON';
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export async function GET(request: NextRequest, response: NextResponse) {
   const users = await prisma.user.findMany({
