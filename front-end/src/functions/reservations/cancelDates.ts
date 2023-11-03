@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 
 export async function cancelDate(id: number) {
-  const cancelledDate = await prisma.reservationDate.update({
+  const canceledDate = await prisma.reservationDate.update({
     where: {
       id: BigInt(id),
     },
@@ -12,7 +12,7 @@ export async function cancelDate(id: number) {
     },
   });
   const reservation = await prisma.reservation.findUnique({
-    where: { id: cancelledDate.reservationId },
+    where: { id: canceledDate.reservationId },
     include: { ReservationDate: true, Category: true, Facility: true },
   });
 
@@ -66,5 +66,5 @@ export async function cancelDate(id: number) {
       },
     });
   }
-  return cancelledDate;
+  return canceledDate;
 }

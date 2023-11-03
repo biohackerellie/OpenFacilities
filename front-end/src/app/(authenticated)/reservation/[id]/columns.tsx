@@ -12,7 +12,7 @@ interface TableDates {
   endDate: string;
   startTime: string;
   endTime: string;
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
   ReservationID: any;
 }
 
