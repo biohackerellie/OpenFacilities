@@ -49,8 +49,8 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
     height: 450,
-    width: 600,
-    border: 5,
+    width: 500,
+    border: 2,
     ...(isDarkMode && {
       WebkitTextFillColor: 'white',
       WebkitTextStrokeColor: 'white',
@@ -81,7 +81,7 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
 
   return (
     <>
-      <div className="flex  h-35 max-h-35 p-3 mb-10">
+      <div className="max-w-[550px] float-left mr-10  h-35 max-h-35 p-3 mb-10">
         <Calendar
           defaultDate={defaultDate}
           views={views}

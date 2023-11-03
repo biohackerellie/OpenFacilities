@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/buttons/button';
 import HandleDelete from '@/functions/reservations/deleteDates';
 import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
+import { DateType } from '@/lib/types';
 import moment from 'moment';
 import {
   DropdownMenu,
@@ -25,17 +25,7 @@ import {
 
 import EditDates from '@/components/forms/EditDates';
 
-interface TableDates {
-  Options: any;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  ReservationID: any;
-}
-
-export const columns: ColumnDef<TableDates>[] = [
+export const columns: ColumnDef<DateType>[] = [
   {
     accessorKey: 'startDate',
     header: ({ column }) => {
