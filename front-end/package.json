@@ -9,7 +9,7 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "prisma generate --no-engine",
+    "postinstall": "drizzle-kit generate:pg",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

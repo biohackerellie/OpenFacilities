@@ -1,11 +1,16 @@
 import type { Config } from 'drizzle-kit';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export default {
-  schema: './src/lib/schema/schema.ts',
-  out: './drizzle',
+  schema: './src/lib/db/schema.ts',
+  out: './src/lib/db',
   driver: 'pg',
   dbCredentials: {
-    connectionString:
-      'postgresql://postgres:ypDZomiu1cQopRRt@db.xzcuquyhlnudqrfwnbsm.supabase.co:5432/postgres?schema=facilities_db',
+    connectionString: process.env.DATABASE_URL as string,
   },
+  introspect: {
+    casing: 'preserve',
+  },
+  schemaFilter: 'facilities_db',
 } satisfies Config;
