@@ -46,7 +46,6 @@ model Events {
   title            String?           @db.VarChar(191)
   start            DateTime?         @db.Timestamptz(3)
   end              DateTime?         @db.Timestamptz(3)
-  location         String?           @db.VarChar(191)
   recurringEventId String?           @db.VarChar(191)
   facilityId       BigInt?
   placeholder      Boolean?          @default(false)

@@ -1,4 +1,3 @@
-import { Roboto_Mono } from 'next/font/google';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
 import { Providers } from '@/components/contexts';
@@ -8,14 +7,8 @@ import { GeistSans } from 'geist/font';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
-import OutageAlert from '@/components/ui/alerts/alert-banner';
-import './globals.css';
 
-// const roboto_mono = Roboto_Mono({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-roboto-mono',
-// });
+import './globals.css';
 
 export const metadata = {
   title: 'LPS Facilities',
@@ -37,7 +30,7 @@ export default function RootLayout({
           <ThemeProviders>
             <Providers>
               <Navbar />
-              <OutageAlert />
+
               {children}
 
               <Footer />

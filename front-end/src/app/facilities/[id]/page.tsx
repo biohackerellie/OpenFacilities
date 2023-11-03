@@ -11,15 +11,18 @@ import {
 } from '@/components/ui/tooltip';
 import moment from 'moment';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Suspense } from 'react';
 
-// export async function generateStaticParams() {
-//   const facilities = await fetch(
-//     process.env.NEXT_PUBLIC_HOST + `/api/facilities`
-//   ).then((res) => res.json());
-//   return facilities.map((facility: any) => ({
-//     id: facility.id.toString(),
-//   }));
-// }
+import LoadingScreen from '@/components/ui/loadingScreen';
+
+export async function generateStaticParams() {
+  const facilities = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/facilities`
+  ).then((res) => res.json());
+  return facilities.map((facility: any) => ({
+    id: facility.id.toString(),
+  }));
+}
 
 export default async function facilityPage({
   params,
@@ -45,7 +48,7 @@ export default async function facilityPage({
           <h1 className="font-bold text-2xl text-center sm:text-start sm:text-4xl drop-shadow">
             {name}
           </h1>
-          <h2 className="font-bold text-md text-center sm:text-start sm:text-xl drop-shadow text-slate-400">
+          <h2 className="font-bold text-md text-center sm:text-start sm:text-xl drop-shadow text-gray-600 dark:text-gray-300">
             {building} ⋅ Max Capacity: {capacity}{' '}
           </h2>
           <Link
@@ -136,28 +139,30 @@ export default async function facilityPage({
                 </div>
               ))}
           </div>
-          <ScrollArea className=" h-[400px] w-[340px] sm:h-[400px] sm:w-[480px] rounded-md border p-4">
-            <h1 className="font-bold text-2xl border-b-2">Upcoming Events</h1>
-            {Events &&
-              [...Events]
-                .sort(
-                  (a, b) =>
-                    new Date(a.start).getTime() - new Date(b.start).getTime()
-                )
-                .map((event: Events) => (
-                  <div key={event.id}>
-                    <div className="grid grid-cols-2 border-b   p-4">
-                      <h3 className=" col-start-1">{event.title}</h3>
-                      <p className="bg-transparent text-sm">
-                        {moment(event.start).format(
-                          'ddd, MMM Do YYYY,  h:mm a'
-                        )}{' '}
-                        {' to '} {moment(event.end).format('h:mm a')}
-                      </p>
+          <Suspense fallback={<LoadingScreen />}>
+            <ScrollArea className=" h-[400px] w-[340px] sm:h-[400px] sm:w-[480px] rounded-md border p-4">
+              <h1 className="font-bold text-2xl border-b-2">Upcoming Events</h1>
+              {Events &&
+                [...Events]
+                  .sort(
+                    (a, b) =>
+                      new Date(a.start).getTime() - new Date(b.start).getTime()
+                  )
+                  .map((event: Events) => (
+                    <div key={event.id}>
+                      <div className="grid grid-cols-2 border-b   p-4">
+                        <h3 className=" col-start-1">{event.title}</h3>
+                        <p className="bg-transparent text-sm">
+                          {moment(event.start).format(
+                            'ddd, MMM Do YYYY,  h:mm a'
+                          )}{' '}
+                          {' to '} {moment(event.end).format('h:mm a')}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-          </ScrollArea>
+                  ))}
+            </ScrollArea>
+          </Suspense>
         </div>
       </div>
     </TooltipProvider>
