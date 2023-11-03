@@ -132,7 +132,7 @@ model ReservationDate {
   reservationId BigInt
   approved      ReservationDate_approved @default(pending)
   gcal_eventid  String?                  @db.VarChar
-  Events        Events?                  @relation(fields: [gcal_eventid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Events        Events?                  @relation(fields: [gcal_eventid], references: [id], onDelete: NoAction)
   Reservation   Reservation              @relation(fields: [reservationId], references: [id], onDelete: Cascade)
 
   @@index([reservationId], map: "idx_30139_ReservationDate_reservationId_fkey")
