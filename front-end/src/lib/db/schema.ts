@@ -16,6 +16,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
+import { sql } from 'drizzle-orm';
 export const key_status = pgEnum('key_status', [
   'default',
   'valid',
@@ -184,6 +185,13 @@ export const Events = facilities_db.table(
   }
 );
 
+export const eventsRelations = relations(Events, ({ one, many }) => ({
+  Facility: one(Facility, {
+    fields: [Events.facilityId],
+    references: [Facility.id],
+  }),
+}));
+
 export const InsuranceFiles = facilities_db.table(
   'InsuranceFiles',
   {
@@ -255,7 +263,7 @@ export const Reservation = facilities_db.table(
         onUpdate: 'cascade',
       }),
 
-    approved: Reservation_approved('approved').notNull(),
+    approved: Reservation_approved('approved').default('pending').notNull(),
     createdAt: timestamp('createdAt', {
       precision: 3,
       withTimezone: true,
@@ -312,6 +320,13 @@ export const Reservation = facilities_db.table(
   }
 );
 
+export const reservationRelations = relations(Reservation, ({ one, many }) => ({
+  Facility: one(Facility, {
+    fields: [Reservation.facilityId],
+    references: [Facility.id],
+  }),
+}));
+
 export const ReservationDate = facilities_db.table(
   'ReservationDate',
   {
@@ -327,8 +342,7 @@ export const ReservationDate = facilities_db.table(
         onDelete: 'cascade',
         onUpdate: 'cascade',
       }),
-
-    approved: ReservationDate_approved('approved').notNull(),
+    approved: ReservationDate_approved('approved').default('pending').notNull(),
     gcal_eventid: varchar('gcal_eventid').references(() => Events.id, {
       onUpdate: 'cascade',
     }),
@@ -377,6 +391,8 @@ export const Facility = facilities_db.table(
 
 export const facilityRelations = relations(Facility, ({ one, many }) => ({
   Category: many(Category),
+  Events: many(Events),
+  Reservation: many(Reservation),
 }));
 
 export const User = facilities_db.table(
@@ -395,7 +411,7 @@ export const User = facilities_db.table(
     provider: varchar('provider', { length: 191 }),
     externalUser: boolean('externalUser').default(false).notNull(),
 
-    role: User_role('role').notNull(),
+    role: User_role('role').default('USER').notNull(),
     createdAt: timestamp('createdAt', {
       precision: 3,
       withTimezone: true,

@@ -17,6 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^0.3.5",
     "@emotion/react": "^11.11.1",
     "@google-cloud/local-auth": "^2.1.1",
     "@hookform/error-message": "^2.0.1",
