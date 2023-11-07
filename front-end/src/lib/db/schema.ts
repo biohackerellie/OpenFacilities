@@ -14,7 +14,11 @@ import {
   boolean,
   integer,
 } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
+import {
+  relations,
+  type InferSelectModel,
+  type InferInsertModel,
+} from 'drizzle-orm';
 
 import { sql } from 'drizzle-orm';
 export const key_status = pgEnum('key_status', [
@@ -185,6 +189,9 @@ export const Events = facilities_db.table(
   }
 );
 
+export type SelectEvents = typeof Events.$inferSelect;
+export type InsertEvents = typeof Events.$inferInsert;
+
 export const eventsRelations = relations(Events, ({ one, many }) => ({
   Facility: one(Facility, {
     fields: [Events.facilityId],
@@ -320,10 +327,18 @@ export const Reservation = facilities_db.table(
   }
 );
 
+export type NewReservation = typeof Reservation.$inferInsert;
+export type SelectReservation = typeof Reservation.$inferSelect;
+
 export const reservationRelations = relations(Reservation, ({ one, many }) => ({
   Facility: one(Facility, {
     fields: [Reservation.facilityId],
     references: [Facility.id],
+  }),
+  ReservationDate: many(ReservationDate),
+  User: one(User, {
+    fields: [Reservation.userId],
+    references: [User.id],
   }),
 }));
 
@@ -354,6 +369,18 @@ export const ReservationDate = facilities_db.table(
       ).on(table.reservationId),
     };
   }
+);
+export type InsertReservationDate = typeof ReservationDate.$inferInsert;
+export type SelectReservationDate = typeof ReservationDate.$inferSelect;
+
+export const reservationDateRelations = relations(
+  ReservationDate,
+  ({ one, many }) => ({
+    Reservation: one(Reservation, {
+      fields: [ReservationDate.reservationId],
+      references: [Reservation.id],
+    }),
+  })
 );
 
 export const Facility = facilities_db.table(
@@ -427,6 +454,10 @@ export const User = facilities_db.table(
     };
   }
 );
+
+export const UserRelations = relations(User, ({ one, many }) => ({
+  Reservation: many(Reservation),
+}));
 
 export const VerificationToken = facilities_db.table(
   'VerificationToken',

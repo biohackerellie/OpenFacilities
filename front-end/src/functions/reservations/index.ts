@@ -1,5 +1,5 @@
 import { cancelDate } from './cancelDates';
-import NewRequest from './newRequests';
+
 import HandleDelete from './delete-reservation';
 
 import { approveReservation, denyReservation } from './approveRequests';
@@ -10,6 +10,5 @@ export {
   denyReservation,
   HandleDelete,
   cancelDate,
-  NewRequest,
   updateRes,
 };

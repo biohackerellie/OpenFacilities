@@ -3,7 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
 import generateId from '@/functions/calculations/generate-id';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { Reservation } from '@/lib/db/schema';
 
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
@@ -66,14 +67,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 500, body: error });
     }
 
-    const update = await prisma.reservation.update({
-      where: {
-        id: BigInt(id),
-      },
-      data: {
-        paymentUrl: paymentUrl,
-        paymentLinkID: paymentId,
-      },
+    const update = await db.update(Reservation).set({
+      paymentLinkID: paymentId,
+      paymentUrl: paymentUrl,
     });
   } catch (error) {
     console.log(error);

@@ -8,7 +8,7 @@ import { GeistSans } from 'geist/font';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
-import OutageAlert from '@/components/ui/alerts/alert-banner';
+
 import './globals.css';
 
 // const roboto_mono = Roboto_Mono({
@@ -37,7 +37,7 @@ export default function RootLayout({
           <ThemeProviders>
             <Providers>
               <Navbar />
-              <OutageAlert />
+
               {children}
 
               <Footer />

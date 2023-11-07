@@ -140,3 +140,16 @@ interface TableReservation {
   User: string;
   Details: number;
 }
+
+export type Events = {
+  id: string;
+  calendarId: string | null;
+  title: string | null;
+  start: string | number | Date;
+  end: string | number | Date;
+  location: string | null;
+  recurringEventId: string | null;
+  facilityId: bigint | number;
+  Facility: Facility;
+  placeholder: boolean;
+};

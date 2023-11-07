@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import moment from 'moment';
+import { GetReservations } from '@/lib/db/queries/reservations';
+
 import { serializeJSON } from '@/utils/serializeJSON';
 import generateId from '@/functions/calculations/generate-id';
 
@@ -9,35 +9,9 @@ import { revalidatePath } from 'next/cache';
 const currentDate = moment().format('YYYY-MM-DD');
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
+
 export async function GET(req: Request) {
-  const res = await prisma.reservation.findMany({
-    where: {
-      approved: 'approved',
-      ReservationDate: {
-        some: {
-          startDate: {
-            gte: currentDate,
-          },
-        },
-      },
-    },
-    include: {
-      Facility: true,
-      ReservationDate: true,
-      User: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          role: true,
-          createdAt: true,
-          tos: true,
-        },
-      },
-    },
-    cacheStrategy: { swr: 60, ttl: 10 },
-  });
+  const res = await GetReservations.execute();
   return NextResponse.json(serializeJSON(res));
 }
 
