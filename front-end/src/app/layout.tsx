@@ -11,12 +11,6 @@ import { Toaster } from '@/components/ui/toaster';
 
 import './globals.css';
 
-// const roboto_mono = Roboto_Mono({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-roboto-mono',
-// });
-
 export const metadata = {
   title: 'LPS Facilities',
   description: 'Laurel Public Schools Facility Rentals',
@@ -29,7 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <AuthProvider>
-      <html lang="en" suppressHydrationWarning className={GeistSans.className}>
+      <html
+        lang="en"
+        suppressHydrationWarning={true}
+        className={GeistSans.className}
+      >
         <GoogleAnalytics
           GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string}
         />
@@ -37,9 +35,7 @@ export default function RootLayout({
           <ThemeProviders>
             <Providers>
               <Navbar />
-
               {children}
-
               <Footer />
               <Toaster />
             </Providers>

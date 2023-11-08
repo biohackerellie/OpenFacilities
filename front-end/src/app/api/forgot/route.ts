@@ -1,16 +1,14 @@
-import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import jwt, { Secret } from 'jsonwebtoken';
 import { Buffer } from 'buffer';
+import { UserByEmail } from '@/lib/db/queries/users';
 
 export async function POST(request: NextRequest) {
   const { email } = await request.json();
+  const userEmail = email.email;
   console.log('email', email);
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true, email: true, name: true },
-  });
+  const user = await UserByEmail.execute({ email: email });
 
   if (!user) {
     return NextResponse.json({ status: 404, message: 'User not found' });

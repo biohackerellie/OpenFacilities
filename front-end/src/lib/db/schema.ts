@@ -154,6 +154,7 @@ export const categoryRelations = relations(Category, ({ one, many }) => ({
     fields: [Category.facilityId],
     references: [Facility.id],
   }),
+  Reservation: many(Reservation),
 }));
 
 export const Events = facilities_db.table(
@@ -333,6 +334,10 @@ export const reservationRelations = relations(Reservation, ({ one, many }) => ({
   Facility: one(Facility, {
     fields: [Reservation.facilityId],
     references: [Facility.id],
+  }),
+  Category: one(Category, {
+    fields: [Reservation.categoryId],
+    references: [Category.id],
   }),
   ReservationDate: many(ReservationDate),
   User: one(User, {

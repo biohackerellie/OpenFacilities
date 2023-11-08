@@ -1,13 +1,6 @@
 import { db } from '@/lib/db';
-import {
-  Reservation,
-  type NewReservation,
-  ReservationDate,
-  type InsertReservationDate,
-  Events,
-  type InsertEvents,
-} from '../schema';
-import { eq } from 'drizzle-orm';
+import { Reservation, ReservationDate, Facility, Category } from '../schema';
+import { eq, sql, and } from 'drizzle-orm';
 
 export const GetRequests = db.query.Reservation.findMany({
   where: eq(Reservation.approved, 'pending'),
@@ -32,6 +25,7 @@ export const GetReservations = db.query.Reservation.findMany({
   with: {
     Facility: true,
     ReservationDate: true,
+    Category: true,
     User: {
       columns: {
         id: true,
@@ -45,21 +39,41 @@ export const GetReservations = db.query.Reservation.findMany({
   },
 }).prepare('reservations');
 
-export const PostReservations = async (NReservation: any) => {
-  const res = await db.insert(Reservation).values(NReservation).returning();
-  const response = res[0];
-  return response;
-};
+export const GetReservationbyID = db.query.Reservation.findFirst({
+  where: eq(Reservation.id, sql.placeholder('id')),
+  with: {
+    Facility: true,
+    ReservationDate: true,
+    Category: true,
+    User: {
+      columns: {
+        password: false,
+      },
+    },
+  },
+}).prepare('reservationByID');
 
-export const PostReservationDate = async (NReservationDate: any) => {
-  const res = await db
-    .insert(ReservationDate)
-    .values(NReservationDate)
-    .returning();
-  return res;
-};
+export const GetApprovedDates = db.query.ReservationDate.findMany({
+  where: and(
+    eq(ReservationDate.approved, 'approved'),
+    eq(ReservationDate.reservationId, sql.placeholder('reservationId'))
+  ),
+  with: {
+    Reservation: {
+      with: {
+        Facility: true,
+      },
+    },
+  },
+}).prepare('approvedDates');
 
-export const PostEvents = async (NEvents: any) => {
-  const res = await db.insert(Events).values(NEvents).returning();
-  return res;
-};
+export const GetDateByID = db.query.ReservationDate.findFirst({
+  where: eq(ReservationDate.id, sql.placeholder('id')),
+  with: {
+    Reservation: {
+      with: {
+        Facility: true,
+      },
+    },
+  },
+}).prepare('dateByID');

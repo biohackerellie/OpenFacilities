@@ -1,25 +1,20 @@
+'use server';
+
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { GetReservationbyID } from '@/lib/db/queries/reservations';
 import oauth2Client from '@/lib/googleAuth';
 import moment from 'moment-timezone';
 
-export async function POST(request: Request) {
+export default async function CreateGoogleEvents(id: Number | BigInt) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
   });
 
-  const body = await request.json();
-
-  const approvedReservation = await prisma.reservation.findUnique({
-    where: { id: BigInt(body.id) },
-    include: {
-      Facility: true,
-      ReservationDate: true,
-    },
-    cacheStrategy: { swr: 10, ttl: 10 },
+  const approvedReservation = await GetReservationbyID.execute({
+    id: BigInt(id as number),
   });
 
   console.log('approvedReservation', approvedReservation);
@@ -66,11 +61,11 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error('Failed to create event: ', error);
 
-      return NextResponse.json({ message: error });
+      return NextResponse.json({ response: 500, message: error });
     }
   }
   return NextResponse.json({
-    status: 200,
+    response: 200,
     message: 'google cal event created',
   });
 }

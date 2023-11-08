@@ -3,6 +3,7 @@ import { DataTable } from '@/components/ui/tables/reservations/reservation/data-
 import { columns } from './columns';
 import { Suspense } from 'react';
 import LoadingScreen from '@/components/ui/loadingScreen';
+import { SelectReservation } from '@/lib/db/schema';
 
 type DateType = {
   Options?: number;
@@ -84,7 +85,7 @@ export default async function reservationPage({
             <div className="flex flex-row  sm:justify-between text-lg border-b-2 max-w-[600px]  text-justify ">
               Requested Category:{' '}
               <div className="truncate overflow-ellipsis text max-w-xs ml-2">
-                {Category.name}
+                {reservation.Category.name}
               </div>
             </div>
             <div className="flex flex-row  max-w-[500px] my-10 text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">

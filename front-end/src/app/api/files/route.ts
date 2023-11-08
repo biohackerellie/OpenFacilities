@@ -1,9 +1,10 @@
 //@ts-nocheck
 
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
 import { Client } from 'minio';
 import { revalidatePath } from 'next/cache';
+import { Reservation } from '@/lib/db/schema';
 
 const minioClient = new Client({
   endPoint: 's3.laurel.k12.mt.us',
@@ -45,12 +46,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ status: 500, message: 'Upload failed' });
     }
 
-    await prisma.reservation.update({
-      where: { id: BigInt(id) },
-      data: {
+    await db
+      .update(Reservation)
+      .set({
         insuranceLink: fileUrl,
-      },
-    });
+      })
+      .where({ id: BigInt(id) });
   } catch (error) {
     return NextResponse.json({ status: 500, message: error.message });
   }

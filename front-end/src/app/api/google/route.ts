@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { Events } from '@prisma/client';
+import { AllEventsQuery } from '@/lib/db/queries/events';
+import { db } from '@/lib/db';
+import { Events } from '@/lib/db/schema';
 import { revalidateTag } from 'next/cache';
-
-export const runtime = 'edge';
+import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,21 +12,14 @@ export async function POST(request: NextRequest) {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    const databaseEvents = await prisma.events.findMany({
-      cacheStrategy: { swr: 60, ttl: 60 },
-    });
+    const databaseEvents = await AllEventsQuery.execute();
 
     const eventsToDelete = databaseEvents
       .filter((event) => new Date(event.start || '') < oneMonthAgo)
       .map((event) => event.id);
-
-    await prisma.events.deleteMany({
-      where: {
-        id: {
-          in: eventsToDelete,
-        },
-      },
-    });
+    for (const event of eventsToDelete) {
+      await db.delete(Events).where(eq(Events.id, event));
+    }
 
     const placeholderEvents = databaseEvents.filter(
       (event) => event.placeholder === true
@@ -35,18 +28,16 @@ export async function POST(request: NextRequest) {
     for (const eventData of events) {
       // If this event is a placeholder, update it
       if (placeholderEvents.some((e) => e.id === eventData.id)) {
-        await prisma.events.update({
-          where: { id: eventData.id },
-          data: {
+        await db
+          .update(Events)
+          .set({
             title: eventData.title,
             start: eventData.start,
             end: eventData.end,
-            facilityId: eventData.facilityId
-              ? BigInt(eventData.facilityId)
-              : null,
-            placeholder: false, // Set placeholder to false now that it's updated
-          },
-        });
+            facilityId: eventData.facilityId ? eventData.facilityId : null,
+            placeholder: false,
+          })
+          .where(eq(Events.id, eventData.id));
       }
     }
     revalidateTag('events');

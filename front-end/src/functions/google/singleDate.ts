@@ -1,32 +1,20 @@
+'use server';
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { serializeJSON } from '@/utils/serializeJSON';
+
 import { google } from 'googleapis';
 import oauth2Client from '@/lib/googleAuth';
-
+import { GetDateByID } from '@/lib/db/queries/reservations';
 import moment from 'moment-timezone';
 
-export async function POST(request: Request) {
+export async function CreateGoogleEvent(id: Number | BigInt) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
   });
 
-  const body = await request.json();
-
-  const approvedDate = await prisma.reservationDate.findUnique({
-    where: {
-      id: BigInt(body.id),
-    },
-    include: {
-      Reservation: {
-        include: {
-          Facility: true,
-        },
-      },
-    },
-    cacheStrategy: { swr: 10, ttl: 10 },
+  const approvedDate = await GetDateByID.execute({
+    id: BigInt(id as number),
   });
 
   console.log('approvedDate', approvedDate);
