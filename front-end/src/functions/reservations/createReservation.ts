@@ -1,35 +1,50 @@
 'use server';
+/**
+ * Serverless function for creating a new reservation from form data
+ */
+
 import { formSchema } from '@/components/forms/schemas/reservationForm';
 import { UserByEmail } from '@/lib/db/queries/users';
 import { CategoryByFacility } from '@/lib/db/queries/categories';
-import moment from 'moment';
-import {
-  PostReservations,
-  PostEvents,
-  PostReservationDate,
-} from '@/lib/db/queries/reservations';
+import { FacilityQuery } from '@/lib/db/queries/facility';
 import generateId from '../calculations/generate-id';
 import { z } from 'zod';
+import {
+  Events,
+  NewReservation,
+  Reservation,
+  ReservationDate,
+} from '@/lib/db/schema';
+import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { newReservationEmail } from '../emails/reservationEmail';
 
+// Validate form data values against the form schema
 type formValues = z.infer<typeof formSchema>;
 
 export default async function submitReservation(data: formValues) {
   try {
-    console.log('data: ', data);
+    // Helper database function to find a category by facility and category name
     const categoryId = await CategoryByFacility.execute({
       facilityId: data.facility,
       name: `%${data.category}%`,
     });
-    const UserID = await UserByEmail.execute({ email: data.email });
 
-    const NReservation = {
-      userId: UserID?.id,
+    // Helper database function to find a user by email
+    const UserID = await UserByEmail.execute({ email: data.email });
+    // Helper database function to find a facility by id
+    const Facility = await FacilityQuery.execute({ id: data.facility });
+    // Helper database function to find a building by id
+    const Building = Facility?.building;
+
+    // Create a new reservation object with strict typing from the database schema
+    const NReservation: NewReservation = {
+      userId: UserID?.id || '',
       eventName: data.eventName,
-      facilityId: BigInt(data.facility),
+      facilityId: data.facility,
       details: data.details,
       insurance: false,
-      categoryId: categoryId?.id,
+      categoryId: Number(categoryId?.id) || 0,
       name: data.name,
       phone: data.phone,
       techSupport: data.techSupport,
@@ -38,29 +53,52 @@ export default async function submitReservation(data: formValues) {
       doorsDetails: data.doorsDetails,
     };
 
-    const res = await PostReservations(NReservation);
-    console.log('res: ', res);
-    let dateCount = 0;
+    // Create the new reservation in the database and return the id
+    const [NewId] = await db
+      .insert(Reservation)
+      .values(NReservation)
+      .returning({ NewId: Reservation.id });
 
+    // Extract the id from the returned object
+    const reservationId = NewId.NewId;
+
+    // Create new empy arrays for the events and reservation dates table inserts
+    const eventsToInsert = [];
+    const reservationDatesToInsert = [];
+
+    // Loop through each event in the form data and create a new event and reservation date object and add them to the arrays
     for (const event of data.events) {
       const eventId = generateId();
-      await PostEvents([{ id: eventId }, { placeholder: true }]);
-      console.log('posted event', event);
-      await PostReservationDate({
-        startDate: moment(event.startDate).format('YYYY-MM-DD'),
-        endDate: moment(event.startDate).format('YYYY-MM-DD'),
+      eventsToInsert.push({ id: eventId, placeholder: true });
+
+      reservationDatesToInsert.push({
+        startDate: event.startDate,
+        endDate: event.startDate,
         startTime: event.startTime,
         endTime: event.endTime,
         gcal_eventid: eventId,
-        reservationId: res.id,
+        reservationId: Number(reservationId),
       });
-      dateCount++;
-      console.log('Date');
     }
-    revalidatePath('/admin/requests', 'page');
+
+    // Insert the events and reservation dates into the database
+    await db.insert(Events).values(eventsToInsert);
+    await db.insert(ReservationDate).values(reservationDatesToInsert);
+
+    // Send an email to building admins, prevents action while testing
+    if (process.env.NODE_ENV === 'production') {
+      newReservationEmail({
+        building: Building,
+        name: data.name,
+        eventName: data.eventName,
+        reservationId: Number(reservationId),
+      });
+    }
+
+    // Revalidate the admin page to update the cache
+    revalidatePath('/(authenticated)/admin', 'layout');
     return 'Success';
   } catch (error) {
-    console.log('error: ', error);
     throw new Error('Error creating reservation');
   }
 }

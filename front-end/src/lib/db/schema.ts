@@ -269,7 +269,6 @@ export const Reservation = facilities_db.table(
         onDelete: 'restrict',
         onUpdate: 'cascade',
       }),
-
     approved: Reservation_approved('approved').default('pending').notNull(),
     createdAt: timestamp('createdAt', {
       precision: 3,
