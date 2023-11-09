@@ -1,6 +1,8 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { ReservationDate } from '@/lib/db/schema';
+import { eq, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 interface IFormInput {
@@ -15,16 +17,15 @@ export default async function modifyDate(
   id: number,
   reservationID: number
 ) {
-  await prisma.reservationDate.update({
-    where: {
-      id: id,
-    },
-    data: {
+  await db
+    .update(ReservationDate)
+    .set({
       startDate: data.startDate,
       endDate: data.endDate,
       startTime: data.startTime,
       endTime: data.endTime,
-    },
-  });
+    })
+    .where(eq(ReservationDate.id, BigInt(id)));
+
   return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
 }

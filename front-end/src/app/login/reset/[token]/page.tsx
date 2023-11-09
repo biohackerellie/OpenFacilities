@@ -3,15 +3,18 @@ import React from 'react';
 import ResetForm from './form';
 
 async function decodeToken(token: string) {
-  const data = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reset`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ token: token }),
-  });
-  const res = await data.json();
-  return res;
+  'use server';
+
+  const publicKey: string = Buffer.from(
+    process.env.RSA_PUBLIC_KEY as string,
+    'base64'
+  ).toString('utf-8');
+  const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+  if (!decoded) {
+    throw new Error('Invalid token');
+  }
+
+  return decoded;
 }
 
 export default async function ResetPage({
@@ -24,7 +27,9 @@ export default async function ResetPage({
   if (!data) {
     return <div>Invalid token</div>;
   } else {
-    const userID = data.userId.id;
+    // @ts-expect-error
+    const { id: userID } = data;
+    console.log('userID', userID);
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen py-12 sm:px-6 lg:px-8">

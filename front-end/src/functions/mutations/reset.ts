@@ -1,6 +1,8 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { User } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import jwt, { Secret } from 'jsonwebtoken';
 import { Buffer } from 'buffer';
@@ -9,10 +11,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export default async function Reset(id: any, password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  await prisma.user.update({
-    where: { id: String(id) },
-    data: { password: hashedPassword },
-  });
+  await db
+    .update(User)
+    .set({
+      password: hashedPassword,
+    })
+    .where(eq(User.id, String(id)));
 }
 
 export async function Email(formData: FormData) {
@@ -45,7 +49,7 @@ export async function Email(formData: FormData) {
         to: email,
         from: 'Laurel Public Schools',
         subject: 'Password Reset',
-        html: `<h1> Password Reset </h1> <p>Click <a href="${url}">here</a> to reset your password.</p>`,
+        html: `<h1> Password Reset </h1> <p>Click <a href="${url}">here</a> to reset your password. \n If you did not request a password reset, you can disregard this email</p>`,
       }),
     });
   } catch (error) {

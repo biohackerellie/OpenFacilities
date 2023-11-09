@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '../ui/buttons';
+import PiP from '@/functions/mutations/pip';
 import { Loader2 } from 'lucide-react';
 interface feeProps {
   id: number;
@@ -58,18 +59,7 @@ export default function ShowPayment({
 
   const PayinPerson = async (id: number) => {
     isLoading(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_HOST + '/api/payments/pip',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: id,
-        }),
-      }
-    );
+    const res = await PiP(id);
     const response = await res.json();
     if (response.status != 200) {
       isLoading(false);

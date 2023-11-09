@@ -99,6 +99,16 @@ export const ReservationFees = facilities_db.table(
   }
 );
 
+export const ReservationFeesRelations = relations(
+  ReservationFees,
+  ({ one, many }) => ({
+    Reservation: one(Reservation, {
+      fields: [ReservationFees.reservationId],
+      references: [Reservation.id],
+    }),
+  })
+);
+
 export const Session = facilities_db.table(
   'Session',
   {
@@ -344,6 +354,7 @@ export const reservationRelations = relations(Reservation, ({ one, many }) => ({
     fields: [Reservation.userId],
     references: [User.id],
   }),
+  ReservationFees: many(ReservationFees),
 }));
 
 export const ReservationDate = facilities_db.table(

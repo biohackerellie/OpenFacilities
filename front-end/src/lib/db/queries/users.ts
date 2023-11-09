@@ -20,4 +20,14 @@ export const GetUserById = db.query.User.findFirst({
   columns: {
     password: false,
   },
+  with: {
+    Reservation: {
+      with: {
+        Facility: true,
+        ReservationDate: true,
+        ReservationFees: true,
+        Category: true,
+      },
+    },
+  },
 }).prepare('get_user_by_id');

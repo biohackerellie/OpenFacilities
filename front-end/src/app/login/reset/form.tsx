@@ -5,13 +5,16 @@ import { Email } from '@/functions/mutations/reset';
 export default function ResetPassword() {
   return (
     <form action={Email} className="space-y-8">
-      <label
-        htmlFor="email"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Email address
-      </label>
-      <input type="email" name="email" id="email" required />
+      <h1 className="text-4xl font-bold ">Password Reset</h1>
+
+      <input
+        type="email"
+        name="email"
+        id="email"
+        required
+        placeholder="Email address"
+        className="placeholder:italic placeholder:text-slate-400 block border-slate-300 rounded-md py-2 pl-9 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
+      />
       <div>
         <p>
           If your email is registered with us, you will receive a password reset
