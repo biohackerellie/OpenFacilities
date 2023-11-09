@@ -4,17 +4,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown } from 'lucide-react';
+import { Reservation, TableReservation } from 'lib/types';
 
-interface TableReservations {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
-  Details: number;
-}
-
-export const columns: ColumnDef<TableReservations>[] = [
+export const columns: ColumnDef<TableReservation>[] = [
   {
     accessorKey: 'eventName',
     header: 'Event Name',

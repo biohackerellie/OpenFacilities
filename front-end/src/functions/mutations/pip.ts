@@ -10,7 +10,7 @@ export default async function PiP(id: any) {
       .set({
         inPerson: true,
       })
-      .where(eq(Reservation.id, BigInt(id)));
+      .where(eq(Reservation.id, id));
   } catch (error) {
     throw new Error();
   }

@@ -1,4 +1,3 @@
-import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { serializeJSON } from '@/utils/serializeJSON';
 import { GetUsers } from '@/lib/db/queries/users';

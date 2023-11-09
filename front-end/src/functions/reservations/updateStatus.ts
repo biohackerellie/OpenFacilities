@@ -30,7 +30,7 @@ export default async function UpdateStatus({
           .set({
             approved: status,
           })
-          .where(eq(Reservation.id, BigInt(reservationID)));
+          .where(eq(Reservation.id, reservationID));
       }
     }
 
@@ -39,7 +39,7 @@ export default async function UpdateStatus({
       .set({
         approved: status,
       })
-      .where(eq(ReservationDate.id, BigInt(id)));
+      .where(eq(ReservationDate.id, id));
   } catch (error) {
     return error;
   }

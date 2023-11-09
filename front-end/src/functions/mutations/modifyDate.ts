@@ -25,7 +25,7 @@ export default async function modifyDate(
       startTime: data.startTime,
       endTime: data.endTime,
     })
-    .where(eq(ReservationDate.id, BigInt(id)));
+    .where(eq(ReservationDate.id, id));
 
   return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
 }

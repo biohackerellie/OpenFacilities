@@ -1,4 +1,5 @@
 import NextAuth, { User as NextAuthUser } from 'next-auth';
+import { Category, ReservationDate, ReservationFees } from '../db/schema';
 import { Path, UseFormRegister } from 'react-hook-form';
 
 export interface Facility {
@@ -153,3 +154,7 @@ export type Events = {
   Facility: Facility;
   placeholder: boolean;
 };
+
+export type SelectCategory = typeof Category.$inferSelect;
+export type SelectReservationFees = typeof ReservationFees.$inferSelect;
+export type SelectReservationDate = typeof ReservationDate.$inferSelect;

@@ -44,6 +44,7 @@ export const GetReservationbyID = db.query.Reservation.findFirst({
   with: {
     Facility: true,
     ReservationDate: true,
+    ReservationFees: true,
     Category: true,
     User: {
       columns: {

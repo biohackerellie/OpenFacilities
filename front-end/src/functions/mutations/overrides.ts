@@ -1,6 +1,9 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { CategoryByFacility } from '@/lib/db/queries/categories';
+import { Reservation } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export async function costChange(id: number, formData: FormData) {
@@ -12,45 +15,54 @@ export async function costChange(id: number, formData: FormData) {
     //@ts-expect-error
     value = parseInt(cost);
   }
-  console.log(value);
-  const res = await prisma.reservation.update({
-    where: { id: BigInt(id) },
-    data: {
-      costOverride: value,
-    },
-  });
-  revalidatePath(`/admin/reservations/${id}/Pricing`);
+  try {
+    await db
+      .update(Reservation)
+      .set({
+        costOverride: value,
+      })
+      .where(eq(Reservation.id, id));
+    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+  } catch (error) {
+    throw new Error();
+  }
 }
 
 export async function facilityChange(id: number, data: any) {
   console.log('id', id, 'formData', data);
 
   const facilityID = parseInt(data);
-  const res = await prisma.reservation.update({
-    where: { id: BigInt(id) },
-    data: {
-      facilityId: BigInt(facilityID),
-    },
-  });
-  revalidatePath(`/admin/reservations/${id}/Pricing`);
+  try {
+    await db
+      .update(Reservation)
+      .set({
+        facilityId: facilityID,
+      })
+      .where(eq(Reservation.id, id));
+
+    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+  } catch (error) {
+    throw new Error();
+  }
 }
 
 export async function categoryChange(id: number, facilityID: any, data: any) {
-  const categories = await prisma.category.findFirst({
-    where: {
-      facilityId: BigInt(facilityID),
-      name: {
-        contains: data,
-      },
-    },
+  const categories = await CategoryByFacility.execute({
+    facilityId: BigInt(facilityID),
+    name: data,
   });
 
   const categoryID = categories?.id as unknown as number;
-  const res = await prisma.reservation.update({
-    where: { id: BigInt(id) },
-    data: {
-      categoryId: BigInt(categoryID),
-    },
-  });
-  revalidatePath(`/admin/reservations/${id}/Pricing`);
+  try {
+    await db
+      .update(Reservation)
+      .set({
+        categoryId: categoryID,
+      })
+      .where(eq(Reservation.id, id));
+
+    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+  } catch (error) {
+    throw new Error();
+  }
 }

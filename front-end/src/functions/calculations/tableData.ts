@@ -34,7 +34,7 @@ async function mapReservations(Reservations: Reservation[]) {
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate?.startDate : 'N/A',
+        ReservationDate: nextUpcomingDate?.startDate,
         approved: reservation.approved,
         User: reservation.User?.name || '',
         Details: reservation.id,

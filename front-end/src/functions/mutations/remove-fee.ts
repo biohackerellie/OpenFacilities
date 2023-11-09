@@ -1,10 +1,15 @@
 'use server';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { ReservationFees } from '@/lib/db/schema';
 import { revalidatePath } from 'next/cache';
 
 export default async function removeFee(feeId: any) {
-  await prisma.reservationFees.delete({
-    where: { id: BigInt(feeId) },
-  });
-  revalidatePath('/admin/reservations/[id]/pricing', 'page');
+  try {
+    await db.delete(ReservationFees).where(eq(ReservationFees.id, feeId));
+
+    return revalidatePath(`/admin/reservations/[id]`, 'layout');
+  } catch (error) {
+    throw new Error();
+  }
 }

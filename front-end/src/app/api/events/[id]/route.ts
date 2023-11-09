@@ -10,7 +10,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: any } }
 ) {
-  const id = BigInt(params.id);
+  const id = params.id;
 
   const res = await EventsByFacilityIdQuery.execute({ facilityId: id });
 

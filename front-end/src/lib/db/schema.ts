@@ -13,6 +13,7 @@ import {
   text,
   boolean,
   integer,
+  uuid,
 } from 'drizzle-orm/pg-core';
 import {
   relations,
@@ -79,7 +80,7 @@ export const facilities_db = pgSchema('facilities_db');
 export const ReservationFees = facilities_db.table(
   'ReservationFees',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     additionalFees: doublePrecision('additionalFees'),
     feesType: varchar('feesType', { length: 191 }),
     // You can use { mode: "bigint" } if numbers are exceeding js number limitations
@@ -138,7 +139,7 @@ export const Session = facilities_db.table(
 export const Category = facilities_db.table(
   'Category',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     name: varchar('name', { length: 191 }).notNull(),
     description: text('description').notNull(),
     price: doublePrecision('price').notNull(),
@@ -213,7 +214,7 @@ export const eventsRelations = relations(Events, ({ one, many }) => ({
 export const InsuranceFiles = facilities_db.table(
   'InsuranceFiles',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     path: varchar('path', { length: 191 }),
     fileName: varchar('fileName', { length: 191 }),
     // You can use { mode: "bigint" } if numbers are exceeding js number limitations
@@ -268,7 +269,7 @@ export const Account = facilities_db.table(
 export const Reservation = facilities_db.table(
   'Reservation',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     userId: varchar('userId', { length: 191 })
       .notNull()
       .references(() => User.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
@@ -360,7 +361,7 @@ export const reservationRelations = relations(Reservation, ({ one, many }) => ({
 export const ReservationDate = facilities_db.table(
   'ReservationDate',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     startDate: varchar('startDate', { length: 191 }).notNull(),
     endDate: varchar('endDate', { length: 191 }).notNull(),
     startTime: varchar('startTime', { length: 191 }).notNull(),
@@ -401,7 +402,7 @@ export const reservationDateRelations = relations(
 export const Facility = facilities_db.table(
   'Facility',
   {
-    id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
     name: varchar('name', { length: 191 }).notNull(),
     building: varchar('building', { length: 191 }).notNull(),
     address: varchar('address', { length: 191 }).notNull(),
@@ -440,7 +441,10 @@ export const facilityRelations = relations(Facility, ({ one, many }) => ({
 export const User = facilities_db.table(
   'User',
   {
-    id: varchar('id', { length: 191 }).primaryKey().notNull(),
+    id: varchar('id', { length: 191 })
+      .primaryKey()
+      .notNull()
+      .default(sql`gen_random_uuid()`),
     name: varchar('name', { length: 191 }).notNull(),
     image: varchar('image', { length: 191 }),
     email: varchar('email', { length: 191 }).notNull(),
@@ -469,6 +473,8 @@ export const User = facilities_db.table(
     };
   }
 );
+
+export type InsertUser = typeof User.$inferInsert;
 
 export const UserRelations = relations(User, ({ one, many }) => ({
   Reservation: many(Reservation),

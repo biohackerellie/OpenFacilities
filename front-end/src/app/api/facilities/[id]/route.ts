@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+
 import { serializeJSON } from '@/utils/serializeJSON';
 import { FacilityQuery } from '@/lib/db/queries/facility';
 

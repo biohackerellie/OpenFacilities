@@ -18,7 +18,7 @@ export async function approveReservation(id: number) {
         const [newID] = await tx
           .update(Reservation)
           .set({ approved: 'approved' })
-          .where(eq(Reservation.id, BigInt(id)))
+          .where(eq(Reservation.id, id))
           .returning({
             userID: Reservation.userId,
             eventName: Reservation.eventName,
@@ -60,7 +60,7 @@ export async function denyReservation(id: number) {
       const [newID] = await tx
         .update(Reservation)
         .set({ approved: 'denied' })
-        .where(eq(Reservation.id, BigInt(id)))
+        .where(eq(Reservation.id, id))
         .returning({
           userID: Reservation.userId,
           eventName: Reservation.eventName,

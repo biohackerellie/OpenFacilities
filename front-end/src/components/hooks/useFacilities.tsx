@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Facility } from '@/lib/types';
-import { Category } from '@prisma/client';
+import { Facility, SelectCategory as Category } from '@/lib/types';
 
 export function useFacilities(onFacilitySelect?: (facility: Facility) => void) {
   const [facilities, setFacilities] = useState<Facility[]>([]);
