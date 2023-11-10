@@ -1,4 +1,5 @@
-import { Roboto_Mono } from 'next/font/google';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
 import { Providers } from '@/components/contexts';
@@ -10,17 +11,20 @@ import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 
 import './globals.css';
+import { disableReactDevTools } from '@/utils/disableDevTools';
 
 export const metadata = {
   title: 'LPS Facilities',
   description: 'Laurel Public Schools Facility Rentals',
 };
 
+//layout.tsx
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  if (process.env.NODE_ENV === 'production') disableReactDevTools();
   return (
     <AuthProvider>
       <html

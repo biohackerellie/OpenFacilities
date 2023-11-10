@@ -18,4 +18,5 @@
 	"editor.wordWrap": "on",
 	"editor.cursorBlinking": "phase",
 	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.fontFamily": "FiraCode Nerd Font Mono",
 }
