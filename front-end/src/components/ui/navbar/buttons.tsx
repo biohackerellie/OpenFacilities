@@ -1,24 +1,6 @@
-import { verifyDoc } from '@/functions/mutations';
-
 import Link from 'next/link';
 
 import React from 'react';
-
-export function VerifyButton({ id }: any) {
-  const updateInsurance = async (id: any) => {
-    const res = await verifyDoc(id);
-  };
-  return (
-    <td>
-      <button
-        className="bg-primary  dark:bg-secondary justify-end self-end text-white rounded-md  hover:bg-purple-700 p-2 drop-shadow-md shadow-md transition-all duration-75 ease-in-out hover:scale-105 hover:-translate-x-1 hover:translate-y-1 "
-        onClick={() => updateInsurance(id)}
-      >
-        Verify
-      </button>
-    </td>
-  );
-}
 
 export function ReservationButton() {
   return (

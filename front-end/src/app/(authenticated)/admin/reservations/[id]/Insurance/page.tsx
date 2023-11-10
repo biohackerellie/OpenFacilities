@@ -2,7 +2,6 @@ import { UploadFile } from '@/components/forms/uploadFile';
 import Link from 'next/link';
 import { Button } from '@/components/ui/buttons';
 import React from 'react';
-import { VerifyButton } from '@/components/ui/navbar/buttons';
 
 export default async function insurancePage({
   //@ts-ignore
@@ -39,8 +38,8 @@ export default async function insurancePage({
                 along with any requirement for insurance coverage. If you do not
                 provide the required coverage for the event by the listed
                 deadline (7 days prior to the event), your event might be
-                canceled. If your event requires coverage, your event is subject
-                to the following policy:
+                cancelled. If your event requires coverage, your event is
+                subject to the following policy:
               </p>
 
               <div className="text-sm dark:bg-gray-500 bg-gray-300 p-5 m-2">

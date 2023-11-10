@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-
+import { EventsByFacilityIdQuery } from '@/lib/db/queries/events';
+import { GetApprovedDates } from '@/lib/db/queries/reservations';
 import { serializeJSON } from '@/utils/serializeJSON';
 import { google } from 'googleapis';
 import oauth2Client from '@/lib/googleAuth';
@@ -10,17 +10,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: any } }
 ) {
-  const id = BigInt(params.id);
+  const id = params.id;
 
-  const res = await prisma.events.findMany({
-    where: {
-      facilityId: id,
-    },
-    include: {
-      Facility: true,
-    },
-    cacheStrategy: { swr: 3600, ttl: 3600 },
-  });
+  const res = await EventsByFacilityIdQuery.execute({ facilityId: id });
 
   return NextResponse.json(serializeJSON(res));
 }
@@ -36,19 +28,7 @@ export async function POST(
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
   });
   const id = params.id;
-  const approvedDates = await prisma.reservationDate.findMany({
-    where: { reservationId: BigInt(id), approved: 'approved' },
-    include: {
-      Reservation: {
-        include: {
-          Facility: true,
-        },
-      },
-    },
-    cacheStrategy: { swr: 10, ttl: 10 },
-  });
-
-  console.log('approvedDate', approvedDates);
+  const approvedDates = await GetApprovedDates.execute({ reservationId: id });
 
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 

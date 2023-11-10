@@ -1,8 +1,6 @@
-import prisma from '@/lib/prisma';
+import { SortedEventsQuery } from '@/lib/db/queries/events';
 import { NextRequest, NextResponse } from 'next/server';
 import moment from 'moment-timezone';
-
-export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {
   return NextResponse.error();
@@ -66,29 +64,10 @@ export async function POST(req: NextRequest) {
   ];
 
   for (const school of schools) {
-    const events = await prisma.events.findMany({
-      where: {
-        placeholder: false,
-        AND: [
-          {
-            Facility: {
-              building: school.name,
-            },
-          },
-          {
-            start: {
-              gte: currentDate,
-              lt: sevenDaysFromNow,
-            },
-          },
-        ],
-      },
-      include: {
-        Facility: true,
-      },
-      orderBy: {
-        start: 'asc',
-      },
+    const events = await SortedEventsQuery.execute({
+      building: school.name,
+      start: currentDate,
+      end: sevenDaysFromNow,
     });
 
     const eventsInMST = events.map((event) => {
@@ -119,7 +98,7 @@ export async function POST(req: NextRequest) {
           key: process.env.EMAIL_API_KEY,
           to: school.email,
           from: 'Weekly Events',
-          subject: 'Weekly Events - Corrected location information',
+          subject: 'Weekly Events',
           html: `<h1>Here are the events happening in your building this week: </h1><ul>${eventList}</ul>`,
         }),
       });

@@ -1,26 +1,13 @@
 import React from 'react';
 import CalendarMain from '@/components/calendar/Calendar';
-import prisma from '@/lib/prisma';
-import { Events, Facility } from '@prisma/client';
-
-export const runtime = 'edge';
-
-interface extendedEvent extends Events {
-  Facility: Facility;
-}
 
 async function getEvents() {
-  'use server';
-  const events = await prisma.events.findMany({
-    where: {
-      placeholder: false,
+  const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events', {
+    next: {
+      tags: ['events'],
     },
-    include: {
-      Facility: true,
-    },
-
-    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
+  const events = res.json();
   return events;
 }
 

@@ -43,7 +43,7 @@ export default function ResetForm(id: any) {
   });
 
   const userId = id.id;
-
+  console.log('userId', userId);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await Reset(userId, values.password);

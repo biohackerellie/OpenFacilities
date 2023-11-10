@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-const eventSchema = z.object({
+export const eventSchema = z.object({
   startDate: z.string().nonempty({ message: 'Start date is required' }),
   startTime: z.string().nonempty({ message: 'Start time is required' }),
   endTime: z.string().nonempty({ message: 'End time is required' }),

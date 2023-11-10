@@ -1,8 +1,6 @@
 import React from 'react';
 import ResNav from './reservationNav';
 
-export const runtime = 'edge';
-
 async function getReservation(id: number) {
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`
@@ -17,9 +15,10 @@ export default async function reservationAdminLayout({
   children: React.ReactNode;
   params: { id: number };
 }) {
+  console.log('id', params.id);
   const reservation = await getReservation(params.id);
   const { id, eventName, Facility } = reservation;
-
+  const facility = Facility.id;
   return (
     <section className="flex flex-col sm:flex-row flex-wrap mt-10 sm:relative w-full justify-center h-full p-3 transition-all ease-in-out">
       <div className=" sm:container pb-3 flex flex-col sm:flex-row sm:justify-between border-b-2 border-b-slate-500 ">
@@ -33,7 +32,7 @@ export default async function reservationAdminLayout({
           <ResNav id={id} facility={Facility} />
         </div>
       </div>
-      {children}
+      <div>{children}</div>
     </section>
   );
 }

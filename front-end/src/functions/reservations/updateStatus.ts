@@ -1,7 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { Reservation, ReservationDate } from '@/lib/db/schema';
+import { GetReservationbyID } from '@/lib/db/queries/reservations';
+import { CreateGoogleEvent } from '../google/singleDate';
 
 type props = {
   id: number;
@@ -16,48 +20,32 @@ export default async function UpdateStatus({
 }: props) {
   try {
     if (reservationID) {
-      const reservation = await prisma.reservation.findUnique({
-        where: {
-          id: BigInt(reservationID),
-        },
+      const reservation = await GetReservationbyID.execute({
+        id: reservationID,
       });
+
       if (reservation?.approved === 'pending' && status === 'approved') {
-        await prisma.reservation.update({
-          where: {
-            id: BigInt(reservationID),
-          },
-          data: {
+        await db
+          .update(Reservation)
+          .set({
             approved: status,
-          },
-        });
+          })
+          .where(eq(Reservation.id, reservationID));
       }
     }
 
-    await prisma.reservationDate.update({
-      where: {
-        id: BigInt(id),
-      },
-      data: {
+    await db
+      .update(ReservationDate)
+      .set({
         approved: status,
-      },
-    });
+      })
+      .where(eq(ReservationDate.id, id));
   } catch (error) {
     return error;
   }
   if (status === 'approved') {
     try {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_HOST + '/api/events/single',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: id,
-          }),
-        }
-      );
+      await CreateGoogleEvent(id);
     } catch (error) {
       return { message: 'failed to update event' };
     }

@@ -22,7 +22,7 @@ async function getReservations(): Promise<TableReservation[]> {
 
 export default async function Reservations() {
   const data = await getReservations();
-
+  console.log('data: ', data);
   return (
     <div className="container mx-auto py-10">
       <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">

@@ -1,43 +1,45 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { GetReservationbyID } from '@/lib/db/queries/reservations';
 import reservationEmail from '@/functions/emails/reservationEmail';
-import prisma from '@/lib/prisma';
+import CreateGoogleEvents from '../google/multipleDates';
+import { db } from '@/lib/db';
+import { eq, sql, and } from 'drizzle-orm';
+import { Reservation, ReservationDate, User } from '@/lib/db/schema';
 
 export async function approveReservation(id: number) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/events/POST`,
-    {
-      method: 'POST',
-      body: JSON.stringify({ id: id }),
-    }
-  );
+  const response = await CreateGoogleEvents(id);
   if (response.status !== 200) {
     throw new Error('google event failed to create');
   } else {
     try {
-      const res = await prisma.reservation.update({
-        where: { id: BigInt(id) },
-        data: {
-          approved: 'approved',
-          ReservationDate: {
-            updateMany: {
-              where: {
-                reservationId: id,
-              },
-              data: {
-                approved: 'approved',
-              },
-            },
-          },
-        },
-        include: {
-          User: true,
-          ReservationDate: true,
-        },
+      const res = await db.transaction(async (tx) => {
+        const [newID] = await tx
+          .update(Reservation)
+          .set({ approved: 'approved' })
+          .where(eq(Reservation.id, id))
+          .returning({
+            userID: Reservation.userId,
+            eventName: Reservation.eventName,
+          });
+        await tx
+          .update(ReservationDate)
+          .set({ approved: 'approved' })
+          .where(eq(ReservationDate.reservationId, id));
+
+        const userId = newID.userID;
+        const [email] = await tx
+          .select({ email: User.email })
+          .from(User)
+          .where(eq(User.id, userId));
+        const eventName = newID.eventName;
+        const user = email.email;
+        return { user, eventName };
       });
+
       let message = `<H1>Reservation Approved</H1><p>Your reservation for ${res.eventName} has been approved.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If applicable, please provide any and all payments and insurance information in person or in the link above prior to your event dates. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
-      let user = res.User.email;
+      let user = res.user;
       let to = user;
       let subject = 'Your Facility Reservation has been approved';
       let data = { to, subject, message };
@@ -51,30 +53,34 @@ export async function approveReservation(id: number) {
   }
 }
 
+// Deny a reservation
 export async function denyReservation(id: number) {
   try {
-    const res = await prisma.reservation.update({
-      where: { id: BigInt(id) },
-      data: {
-        approved: 'denied',
-        ReservationDate: {
-          updateMany: {
-            where: {
-              reservationId: id,
-            },
-            data: {
-              approved: 'denied',
-            },
-          },
-        },
-      },
-      include: {
-        User: true,
-        ReservationDate: true,
-      },
+    const res = await db.transaction(async (tx) => {
+      const [newID] = await tx
+        .update(Reservation)
+        .set({ approved: 'denied' })
+        .where(eq(Reservation.id, id))
+        .returning({
+          userID: Reservation.userId,
+          eventName: Reservation.eventName,
+        });
+      await tx
+        .update(ReservationDate)
+        .set({ approved: 'denied' })
+        .where(eq(ReservationDate.reservationId, id));
+
+      const userId = newID.userID;
+      const [email] = await tx
+        .select({ email: User.email })
+        .from(User)
+        .where(eq(User.id, userId));
+      const eventName = newID.eventName;
+      const user = email.email;
+      return { user, eventName };
     });
     let message = `<H1>Reservation Denied</H1><p>Your reservation for ${res.eventName} has been denied.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
-    let user = res.User.email;
+    let user = res.user;
     let to = user;
     let subject = 'Your Facility Reservation has been denied';
     let data = { to, subject, message };

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-export const runtime = 'edge';
 
 export async function POST(req: NextRequest, response: NextResponse) {
   const jiraUser = process.env.JIRA_USER;

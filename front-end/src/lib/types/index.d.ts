@@ -1,4 +1,5 @@
 import NextAuth, { User as NextAuthUser } from 'next-auth';
+import { Category, ReservationDate, ReservationFees } from '../db/schema';
 import { Path, UseFormRegister } from 'react-hook-form';
 import { $Enums, Category } from '@prisma/client';
 
@@ -162,3 +163,20 @@ export type DateType = {
   approved: 'pending' | 'approved' | 'denied' | 'canceled';
   ReservationID: any;
 };
+
+export type Events = {
+  id: string;
+  calendarId: string | null;
+  title: string | null;
+  start: string | number | Date;
+  end: string | number | Date;
+  location: string | null;
+  recurringEventId: string | null;
+  facilityId: bigint | number;
+  Facility: Facility;
+  placeholder: boolean;
+};
+
+export type SelectCategory = typeof Category.$inferSelect;
+export type SelectReservationFees = typeof ReservationFees.$inferSelect;
+export type SelectReservationDate = typeof ReservationDate.$inferSelect;

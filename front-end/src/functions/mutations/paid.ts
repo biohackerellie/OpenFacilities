@@ -1,19 +1,20 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { Reservation } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export default async function Paid(id: any) {
-  const update = await prisma.reservation.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      paid: true,
-    },
-  });
-  if (update) {
-    return update;
-  } else {
-    alert('Error updating reservation');
+  try {
+    await db
+      .update(Reservation)
+      .set({
+        paid: true,
+      })
+      .where(eq(Reservation.id, id));
+    return revalidatePath(`/admin/reservations/${id}`, 'layout');
+  } catch (error) {
+    throw new Error();
   }
 }

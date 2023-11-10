@@ -3,8 +3,8 @@ import { columns } from './columns';
 import moment from 'moment';
 import { Suspense } from 'react';
 import TableSkeleton from './skeleton';
-import { User, Facility } from '@prisma/client';
-import { Reservation } from '@/lib/types';
+
+import { Reservation, User } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
 
 interface TableUser {
@@ -16,11 +16,6 @@ interface TableUser {
   Details: number;
 }
 
-interface ExtendedUser extends User {
-  Reservation?: Reservation[];
-  Facility?: Facility;
-}
-
 const currentDate = moment().format('YYYY-MM-DD');
 
 async function getData(id: string): Promise<TableUser[]> {
@@ -28,7 +23,7 @@ async function getData(id: string): Promise<TableUser[]> {
     method: 'GET',
   });
 
-  const user: ExtendedUser = await res.json();
+  const user = await res.json();
   const reservation: Reservation[] = user.Reservation || [];
 
   const mappedReservations: TableUser[] = reservation.map((reservation) => {
