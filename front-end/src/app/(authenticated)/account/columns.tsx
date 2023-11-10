@@ -9,7 +9,7 @@ interface TableReservations {
   eventName: string;
   Facility: string;
   ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
   Details: number;
 }
 

@@ -12,7 +12,7 @@ interface TableReservation {
   eventName: string;
   Facility: string;
   ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
   Details: number;
 }
 
@@ -26,7 +26,7 @@ async function getData(): Promise<TableReservation[]> {
     `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`
   );
   const userSession = await res.json();
-  console.log('userSession', userSession);
+
   const reservations: Reservation[] = userSession?.Reservation;
 
   const Facility = userSession?.Facility;
@@ -35,11 +35,11 @@ async function getData(): Promise<TableReservation[]> {
       const sortedDates = reservation.ReservationDate.sort((a, b) =>
         moment(a.startDate).diff(moment(b.startDate))
       );
-
+      console.log('sorted', sortedDates);
       const nextUpcomingDate = sortedDates.find((date) =>
         moment(date.startDate).isSameOrAfter(currentDate)
       );
-
+      console.log('upcoming', nextUpcomingDate);
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,

@@ -1,5 +1,11 @@
 'use server';
-import { Reservation, TableReservation } from '@/lib/types';
+import {
+  Reservation,
+  TableReservation,
+  ReservationDate,
+  DateType,
+} from '@/lib/types';
+
 import moment from 'moment';
 
 async function mapRequests(requests: Reservation[]) {
@@ -43,4 +49,20 @@ async function mapReservations(Reservations: Reservation[]) {
   );
   return mappedReservations;
 }
-export { mapRequests, mapReservations };
+
+async function mapDates(ReservationDates: ReservationDate[]) {
+  const mappedDates: DateType[] = ReservationDates.map((date) => {
+    return {
+      Options: Number(date.id),
+      startDate: date.startDate,
+      endDate: date.endDate,
+      startTime: date.startTime,
+      endTime: date.endTime,
+      approved: date.approved,
+      ReservationID: Number(date.reservationId),
+    };
+  });
+  return mappedDates;
+}
+
+export { mapRequests, mapReservations, mapDates };

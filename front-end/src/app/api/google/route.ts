@@ -8,7 +8,13 @@ import { eq } from 'drizzle-orm';
 export async function POST(request: NextRequest) {
   try {
     const { events } = await request.json();
-
+    const headers = request.headers;
+    if (headers.get('x-api-key') !== process.env.EMAIL_API_KEY) {
+      return NextResponse.json(
+        { ok: false, message: 'unauthorized' },
+        { status: 401 }
+      );
+    }
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
@@ -17,9 +23,6 @@ export async function POST(request: NextRequest) {
     const eventsToDelete = databaseEvents
       .filter((event) => new Date(event.start || '') < oneMonthAgo)
       .map((event) => event.id);
-    for (const event of eventsToDelete) {
-      await db.delete(Events).where(eq(Events.id, event));
-    }
 
     const placeholderEvents = databaseEvents.filter(
       (event) => event.placeholder === true
@@ -40,10 +43,17 @@ export async function POST(request: NextRequest) {
           .where(eq(Events.id, eventData.id));
       }
     }
+
     revalidateTag('events');
-    return NextResponse.json({ response: 200, message: 'success' });
+    return NextResponse.json(
+      {
+        ok: true,
+        message: 'success',
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error);
+    return NextResponse.json({ ok: false, message: error }, { status: 500 });
   }
 }

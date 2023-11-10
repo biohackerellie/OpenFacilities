@@ -3,27 +3,21 @@ import { DataTable } from '@/components/ui/tables/reservations/reservation/data-
 import { columns } from './columns';
 import { Suspense } from 'react';
 import LoadingScreen from '@/components/ui/loadingScreen';
-import { SelectReservation } from '@/lib/db/schema';
-
-type DateType = {
-  Options?: number;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  reservationId: number;
-  id: any;
-};
-
+import { DateType, Reservation } from '@/lib/types';
+import { mapDates } from '@/functions/calculations/tableData';
+import { pageSum } from '@/components/ui/tables/reservations/pageSum';
 export const dynamic = 'force-dynamic';
 
 async function getReservation(id: number) {
+  'use server';
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
-  );
+  ).then((res) => res.json());
 
-  return res.json();
+  const reservation: Reservation = res;
+  const { ReservationDate } = reservation;
+  const mappedDates = await mapDates(ReservationDate);
+  return { mappedDates, ...reservation };
 }
 
 export default async function reservationPage({
@@ -31,97 +25,30 @@ export default async function reservationPage({
 }: {
   params: { id: number };
 }) {
-  const reservation = await getReservation(params.id);
-  const {
-    id,
-    name,
-    primaryContact,
-    phone,
-    details,
-    Category,
-    eventName,
-    Facility,
-    techSupport,
-    techDetails,
-    doorAccess,
-    doorsDetails,
-    ReservationDate,
-  } = reservation;
+  const { mappedDates, ...reservation } = await getReservation(params.id);
 
-  const startDate = ReservationDate[0].startDate;
-  const facility = Number(Facility.id);
-  const mappedDates = ReservationDate.map((date: DateType) => {
-    return {
-      Options: Number(date.id),
-      startDate: date.startDate,
-      endDate: date.endDate,
-      startTime: date.startTime,
-      endTime: date.endTime,
-      approved: date.approved,
-      ReservationID: Number(date.reservationId),
-    };
-  });
+  const startDate = reservation.ReservationDate[0].startDate;
+  const facility = Number(reservation.Facility.id);
 
   return (
     <div className="flex flex-col xl:flex-row sm:flex-wrap sm:justify-center h-full pb-3 mb-2 ">
-      <div key={facility} className="     ">
+      <div>
         <div className="  xl:w-[1300px] w-auto  gap-y-4  drop-shadow-md  m-3 p-4 ">
-          <div className="hidden sm:inline-block justify-between border-r-2  p-2 float-left   my-5  gap-36">
-            <div className="hidden sm:flex pb-4">
-              <h2 className="   font-bold gap-y-4 text-xl text-gray-600 dark:text-gray-300">
-                {' '}
-                Summary{' '}
-              </h2>
-            </div>
-            <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Primary Contact: {primaryContact} <div> {name}</div>
-            </div>
-            <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Contact Number: <div>{phone}</div>
-            </div>
-            <div className="flex flex-row  justify-between text-lg border-b-2   text-justify ">
-              Contact Email: <div>{reservation.User.email}</div>
-            </div>
-            <div className="flex flex-row  sm:justify-between text-lg border-b-2 max-w-[600px]  text-justify ">
-              Requested Category:{' '}
-              <div className="truncate overflow-ellipsis text max-w-xs ml-2">
-                {reservation.Category.name}
-              </div>
-            </div>
-            <div className="flex flex-row  max-w-[500px] my-10 text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
-              Description:{' '}
-              <div className="text-left ml-10 flex text-md text-ellipsis">
-                {details}{' '}
-              </div>
-            </div>
-            {techSupport && (
-              <div className="flex flex-row my-10 max-w-[500px] text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
-                Tech Support Requested:
-                <div className="text-left ml-10 max-w-[500px] flex text-md text-ellipsis">
-                  {techDetails}{' '}
-                </div>
-              </div>
-            )}
-            {doorAccess && (
-              <div className="flex flex-row my-10 max-w-[500px] text-ellipsis flex-wrap gap-10 justify-between text-xl border-b-2  text-justify">
-                Door Access Requested:
-                <div className="text-left ml-10 flex text-md text-ellipsis">
-                  {doorsDetails}{' '}
-                </div>
-              </div>
-            )}
-
-            <div className="container  max-w-[550px] px-2 float-left ">
-              <h1 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
-                {' '}
-                {Facility.name} calendar{' '}
-              </h1>
-              <Suspense fallback={<LoadingScreen />}>
-                <SmallCalendar startDate={startDate} facilityId={Facility.id} />
-              </Suspense>
-            </div>
+          {pageSum(reservation)}
+          <div className="  max-w-[550px] px-2 float-right ">
+            <h1 className="font-bold text-xl p-4 m-3 text-gray-600 dark:text-gray-300">
+              {' '}
+              {reservation.Facility.name} calendar{' '}
+            </h1>
+            <Suspense fallback={<LoadingScreen />}>
+              <SmallCalendar
+                startDate={startDate}
+                facilityId={reservation.Facility.id}
+              />
+            </Suspense>
           </div>
-          <div className="max-w-[300px] sm:max-w-[600px] float-right  mr-7  ">
+
+          <div className="max-w-[300px] sm:max-w-[600px] float-left  mr-7  ">
             <h2 className="font-bold text-xl m-3 text-gray-600 dark:text-gray-300">
               Reservation Dates
             </h2>

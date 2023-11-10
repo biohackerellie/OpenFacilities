@@ -6,7 +6,10 @@ import React from 'react';
 export default async function insurancePage({
   //@ts-ignore
   params,
+  //@ts-ignore
+  params,
 }: {
+  params?: { id: number };
   params?: { id: number };
 }) {
   if (!params) {
@@ -16,7 +19,15 @@ export default async function insurancePage({
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
     { cache: 'no-store' }
   );
+  if (!params) {
+    return <div>Loading...</div>;
+  }
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
+    { cache: 'no-store' }
+  );
 
+  const reservation = await res.json();
   const reservation = await res.json();
 
   let link;
@@ -42,6 +53,60 @@ export default async function insurancePage({
                 subject to the following policy:
               </p>
 
+              <div className="text-sm dark:bg-gray-500 bg-gray-300 p-5 m-2">
+                <p>
+                  The user of the facility shall provide the District with a
+                  certificate of insurance and endorsement to their property and
+                  liability policy. Said certificate and policy endorsement
+                  shall name the District as an additional insured. The
+                  certificate and policy shall show coverage for comprehensive
+                  general liability insurance for injuries to or death of any
+                  person or damage to or loss of property arising out of or in
+                  any way resulting from the described use of the facility. The
+                  insurance shall provide for amounts not less than $1,000,000
+                  for bodily injury or death to any one person or resulting from
+                  any one accident, and $1,000,000 for property damage in any
+                  one accident or the policy may provide a combined single limit
+                  for bodily injury and property damage for $1,000,000. The
+                  certificate shall contain a provision that the insurer not
+                  cancel or refuse to renew without giving the District written
+                  notice at least 10 days before the effective date of the
+                  cancellation or non-renewal.
+                </p>
+              </div>
+            </div>
+            <div className="p-2">
+              <h2 className="flex font-bold text-2xl my-3 mb-6  text-gray-600 dark:text-gray-300">
+                Proof of insurance
+              </h2>
+              <div className="flex flex-wrap bg-gray-300 dark:bg-gray-500 p-5 m-3">
+                <h3 className="m-2 border-b-2 mb-5">
+                  You may upload your certificate of liability insurance here.{' '}
+                  <b className=" underline decoration-red-500 decoration-8">
+                    Note:{' '}
+                  </b>{' '}
+                  Your policy must name <strong> Laurel Public Schools </strong>{' '}
+                  as an additional insured.{' '}
+                </h3>
+                <div className="w-full">
+                  {link && (
+                    <div className="flex flex-row justify-between">
+                      <Button variant="outline" asChild>
+                        <Link href={link}>View Uploaded File</Link>
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                <div className="my-3">
+                  <UploadFile params={params} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
               <div className="text-sm dark:bg-gray-500 bg-gray-300 p-5 m-2">
                 <p>
                   The user of the facility shall provide the District with a

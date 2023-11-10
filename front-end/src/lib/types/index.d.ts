@@ -1,6 +1,7 @@
 import NextAuth, { User as NextAuthUser } from 'next-auth';
 import { Category, ReservationDate, ReservationFees } from '../db/schema';
 import { Path, UseFormRegister } from 'react-hook-form';
+import { $Enums, Category } from '@prisma/client';
 
 export interface Facility {
   map(
@@ -79,6 +80,17 @@ export type InputProps = {
   defaultValue?: string;
 };
 
+export type ReservationDate = {
+  id: bigint | number;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  reservationId: bigint;
+  approved: $Enums.ReservationDate_approved;
+  gcal_eventid: string | null;
+};
+
 export interface Reservation {
   id: number;
   name?: string;
@@ -98,12 +110,12 @@ export interface Reservation {
   fees?: string;
   facilityId: number;
   recurrence?: string;
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
   createdAt: Date;
   updatedAt: Date;
   additionalFees: [];
   Event?: any[];
-  Category?: string;
+  Category?: Category;
   Facility: Facility;
   User?: User;
   ReservationDate: any[];
@@ -133,14 +145,24 @@ export interface IAlert {
   };
 }
 
-interface TableReservation {
+export interface TableReservation {
   eventName: string;
   Facility: string;
   ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
   User: string;
   Details: number;
 }
+
+export type DateType = {
+  Options?: number;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
+  ReservationID: any;
+};
 
 export type Events = {
   id: string;
