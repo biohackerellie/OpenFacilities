@@ -47,12 +47,12 @@ export async function facilityChange(id: number, data: any) {
 }
 
 export async function categoryChange(id: number, facilityID: any, data: any) {
+  console.log('id: ', id, 'facilityID: ', facilityID, 'data: ', data);
   const categories = await CategoryByFacility.execute({
-    facilityId: BigInt(facilityID),
-    name: data,
+    facilityId: Number(facilityID),
+    name: `%${data}%`,
   });
-
-  const categoryID = categories?.id as unknown as number;
+  const categoryID = categories?.id;
   try {
     await db
       .update(Reservation)
@@ -60,9 +60,9 @@ export async function categoryChange(id: number, facilityID: any, data: any) {
         categoryId: categoryID,
       })
       .where(eq(Reservation.id, id));
-
     return revalidatePath(`/admin/reservations/${id}/Pricing`);
-  } catch (error) {
+  } catch (error: any) {
+    console.log(error);
     throw new Error();
   }
 }

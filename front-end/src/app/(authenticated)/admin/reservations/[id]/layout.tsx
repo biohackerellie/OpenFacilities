@@ -32,7 +32,7 @@ export default async function reservationAdminLayout({
           <ResNav id={id} facility={Facility} />
         </div>
       </div>
-      {children}
+      <div>{children}</div>
     </section>
   );
 }
