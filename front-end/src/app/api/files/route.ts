@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       .set({
         insuranceLink: fileUrl,
       })
-      .where({ id: BigInt(id) });
+      .where({ id: id });
   } catch (error) {
     return NextResponse.json({ status: 500, message: error.message });
   }

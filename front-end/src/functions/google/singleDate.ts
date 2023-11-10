@@ -14,7 +14,7 @@ export async function CreateGoogleEvent(id: Number | BigInt) {
   });
 
   const approvedDate = await GetDateByID.execute({
-    id: BigInt(id as number),
+    id: id as number,
   });
 
   console.log('approvedDate', approvedDate);

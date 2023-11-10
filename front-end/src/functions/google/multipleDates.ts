@@ -14,7 +14,7 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
   });
 
   const approvedReservation = await GetReservationbyID.execute({
-    id: BigInt(id as number),
+    id: id as number,
   });
 
   console.log('approvedReservation', approvedReservation);

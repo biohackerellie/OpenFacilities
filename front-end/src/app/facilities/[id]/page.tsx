@@ -25,14 +25,17 @@ export default async function facilityPage({
   params,
 }: {
   params: {
-    id: string;
+    id: number;
   };
 }) {
+  console.log('params', params.id);
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`,
     { next: { tags: ['events'] } }
   );
+
   const facility = await res.json();
+  console.log('res', facility);
   const { id, name, address, building, capacity, imagePath, Category, Events } =
     facility;
   const catID = Number(facility.Category.id);
