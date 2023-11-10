@@ -6,6 +6,9 @@ declare global {
 }
 
 export function disableReactDevTools() {
+  if (typeof window === 'undefined') {
+    return;
+  }
   if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ !== 'object') {
     return;
   }
