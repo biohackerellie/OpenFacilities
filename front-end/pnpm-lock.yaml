@@ -23,9 +23,6 @@ dependencies:
   '@next-auth/prisma-adapter':
     specifier: ^1.0.7
     version: 1.0.7(@prisma/client@5.5.2)(next-auth@4.24.4)
-  '@prisma/extension-accelerate':
-    specifier: ^0.6.2
-    version: 0.6.2(@prisma/client@5.5.2)
   '@radix-ui/colors':
     specifier: ^0.1.9
     version: 0.1.9
@@ -179,9 +176,6 @@ dependencies:
   react-calendar:
     specifier: ^4.6.1
     version: 4.6.1(@types/react@18.2.33)(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
-  react-datepicker:
-    specifier: ^4.21.0
-    version: 4.21.0(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
   react-dom:
     specifier: 18.3.0-canary-7508dcd5c-20231108
     version: 18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108)
@@ -194,9 +188,6 @@ dependencies:
   react-hot-toast:
     specifier: ^2.4.1
     version: 2.4.1(csstype@3.1.2)(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
-  react-icons:
-    specifier: ^4.11.0
-    version: 4.11.0(react@18.3.0-canary-7508dcd5c-20231108)
   react-modal:
     specifier: ^3.16.1
     version: 3.16.1(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
@@ -259,9 +250,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.8.10
     version: 20.8.10
-  '@types/nodemailer':
-    specifier: ^6.4.13
-    version: 6.4.13
   '@types/react-big-calendar':
     specifier: ^1.8.3
     version: 1.8.3
@@ -1597,15 +1585,6 @@ packages:
 
   /@prisma/engines-version@5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a:
     resolution: {integrity: sha512-O+qHFnZvAyOFk1tUco2/VdiqS0ym42a3+6CYLScllmnpbyiTplgyLt2rK/B9BTjYkSHjrgMhkG47S0oqzdIckA==}
-    dev: false
-
-  /@prisma/extension-accelerate@0.6.2(@prisma/client@5.5.2):
-    resolution: {integrity: sha512-KIBVPeWt8qaSg7wQ+TXmCVeUDoW75whtXcdS9dbHxRoO2OWFH5I9+qbkHBhx5Wj/h1wQpS8usuxGnsZqiBjUpQ==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      '@prisma/client': '>=4.16.1'
-    dependencies:
-      '@prisma/client': 5.5.2
     dev: false
 
   /@radix-ui/colors@0.1.9:
@@ -3037,12 +3016,6 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/nodemailer@6.4.13:
-    resolution: {integrity: sha512-889Vq/77eEpidCwh52sVWpbnqQmIwL8yVBekNbrztVEaWKOCRH3Eq6hjIJh1jwsGDEAJEH0RR+YhpH9mfELLKA==}
-    dependencies:
-      '@types/node': 20.8.10
-    dev: true
-
   /@types/parse-json@4.0.1:
     resolution: {integrity: sha512-3YmXzzPAdOTVljVMkTMBdBEvlOLg2cDQaDhnnhT3nT9uDbnJzjWhKlzb+desT12Y7tGqaN6d+AbozcKzyL36Ng==}
     dev: false
@@ -3745,10 +3718,6 @@ packages:
       clsx: 1.2.1
     dev: false
 
-  /classnames@2.3.2:
-    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
-    dev: false
-
   /cli-color@2.0.3:
     resolution: {integrity: sha512-OkoZnxyC4ERN3zLzZaY9Emb7f/MhBOIpePv0Ycok0fJYT+Ouo00UBEIwsVsr0yoow++n5YWlSUgST9GKhNHiRQ==}
     engines: {node: '>=0.10'}
@@ -3960,6 +3929,7 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.23.2
+    dev: true
 
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
@@ -7169,22 +7139,6 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
-  /react-datepicker@4.21.0(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108):
-    resolution: {integrity: sha512-z0DtuRrKMz9i7dcTusW29VacbM9pn08g1yw0cG+Y5GpodJDxSWv7zUMxl3IwKN9Ap/AMphiepvmT5P+iNCgEiA==}
-    peerDependencies:
-      react: ^16.9.0 || ^17 || ^18
-      react-dom: ^16.9.0 || ^17 || ^18
-    dependencies:
-      '@popperjs/core': 2.11.8
-      classnames: 2.3.2
-      date-fns: 2.30.0
-      prop-types: 15.8.1
-      react: 18.3.0-canary-7508dcd5c-20231108
-      react-dom: 18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108)
-      react-onclickoutside: 6.13.0(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108)
-    dev: false
-
   /react-dom@18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108):
     resolution: {integrity: sha512-aMf9FXaUx1dt6tyhKSZmywCUqMMECdaDfHl+oB0fQQIgXOVOnPLi9LL7wPu161hp3T7e4ST+DuIf3hX9EEfa2Q==}
     peerDependencies:
@@ -7196,6 +7150,7 @@ packages:
 
   /react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+    dev: true
 
   /react-google-calendar-api@2.3.0:
     resolution: {integrity: sha512-Hzlx2LOYcSLoKobelFOobkU0MqCj5AB2YlnTV5IxlZ4zTuQFsAecefia5wxA0hTQVypfw3+xbx90TFauIBirqg==}
@@ -7224,14 +7179,6 @@ packages:
       - csstype
     dev: false
 
-  /react-icons@4.11.0(react@18.3.0-canary-7508dcd5c-20231108):
-    resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      react: 18.3.0-canary-7508dcd5c-20231108
-    dev: false
-
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -7257,16 +7204,6 @@ packages:
       react-dom: 18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108)
       react-lifecycles-compat: 3.0.4
       warning: 4.0.3
-    dev: false
-
-  /react-onclickoutside@6.13.0(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108):
-    resolution: {integrity: sha512-ty8So6tcUpIb+ZE+1HAhbLROvAIJYyJe/1vRrrcmW+jLsaM+/powDRqxzo6hSh9CuRZGSL1Q8mvcF5WRD93a0A==}
-    peerDependencies:
-      react: ^15.5.x || ^16.x || ^17.x || ^18.x
-      react-dom: ^15.5.x || ^16.x || ^17.x || ^18.x
-    dependencies:
-      react: 18.3.0-canary-7508dcd5c-20231108
-      react-dom: 18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108)
     dev: false
 
   /react-overlays@5.2.1(react-dom@18.3.0-canary-7508dcd5c-20231108)(react@18.3.0-canary-7508dcd5c-20231108):
@@ -7299,6 +7236,7 @@ packages:
       react-dom: 18.3.0-canary-7508dcd5c-20231108(react@18.3.0-canary-7508dcd5c-20231108)
       react-fast-compare: 3.2.2
       warning: 4.0.3
+    dev: true
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.2.33)(react@18.3.0-canary-7508dcd5c-20231108):
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}
