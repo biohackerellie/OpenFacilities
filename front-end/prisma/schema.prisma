@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DIRECT_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                String  @id(map: "idx_30089_PRIMARY") @default(cuid()) @db.VarChar(191)
+  userId            String  @db.VarChar(191)
+  type              String  @db.VarChar(191)
+  provider          String  @db.VarChar(191)
+  providerAccountId String  @db.VarChar(191)
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String? @db.VarChar(191)
+  scope             String? @db.VarChar(191)
+  id_token          String?
+  session_state     String? @db.VarChar(191)
+  ext_expires_in    Int?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId], map: "idx_30089_Account_provider_providerAccountId_key")
+  @@index([userId], map: "idx_30089_Account_userId_fkey")
+}
+
+model Category {
+  id          BigInt        @id(map: "idx_30095_PRIMARY") @default(autoincrement())
+  name        String        @db.VarChar(191)
+  description String
+  price       Float
+  facilityId  BigInt
+  Facility    Facility      @relation(fields: [facilityId], references: [id])
+  Reservation Reservation[]
+
+  @@index([facilityId], map: "idx_30095_Category_facilityId_fkey")
+}
+
+model Events {
+  id               String            @id(map: "idx_30101_PRIMARY") @unique(map: "idx_30101_Events_id_key") @db.VarChar(191)
+  calendarId       String?           @db.VarChar(191)
+  title            String?           @db.VarChar(191)
+  start            DateTime?         @db.Timestamptz(3)
+  end              DateTime?         @db.Timestamptz(3)
+  location         String?           @db.VarChar(191)
+  recurringEventId String?           @db.VarChar(191)
+  facilityId       BigInt?
+  placeholder      Boolean?          @default(false)
+  Facility         Facility?         @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  ReservationDate  ReservationDate[]
+
+  @@index([facilityId], map: "idx_30101_Events_facilityId_fkey")
+}
+
+model Facility {
+  id               BigInt        @id(map: "idx_30107_PRIMARY") @default(autoincrement())
+  name             String        @unique(map: "idx_30107_Facility_name_key") @db.VarChar(191)
+  building         String        @db.VarChar(191)
+  address          String        @db.VarChar(191)
+  imagePath        String?       @db.VarChar(191)
+  capacity         Int?
+  createdAt        DateTime?     @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime?     @db.Timestamptz(3)
+  googleCalendarId String        @unique(map: "idx_30107_Facility_calendarId_key") @db.VarChar(191)
+  Category         Category[]
+  Events           Events[]
+  Reservation      Reservation[]
+}
+
+model InsuranceFiles {
+  id            BigInt      @id(map: "idx_30115_PRIMARY") @default(autoincrement())
+  path          String?     @db.VarChar(191)
+  fileName      String?     @db.VarChar(191)
+  reservationId BigInt
+  varified      Boolean     @default(false)
+  Reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "idx_30115_InsuranceFiles_reservationId_fkey")
+}
+
+model Reservation {
+  id              BigInt               @id(map: "idx_30126_PRIMARY") @default(autoincrement())
+  userId          String               @db.VarChar(191)
+  eventName       String               @db.VarChar(191)
+  facilityId      BigInt
+  approved        Reservation_approved @default(pending)
+  createdAt       DateTime?            @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime?            @db.Timestamptz(3)
+  details         String?              @db.VarChar(2000)
+  fees            Float?
+  insurance       Boolean
+  primaryContact  String?              @db.VarChar(191)
+  doorAccess      Boolean?
+  doorsDetails    String?              @db.VarChar(191)
+  name            String?              @db.VarChar(191)
+  people          String?              @db.VarChar(191)
+  techDetails     String?              @db.VarChar(191)
+  techSupport     Boolean?
+  phone           String?              @db.VarChar(191)
+  categoryId      BigInt
+  totalHours      Float?
+  inPerson        Boolean              @default(false)
+  paid            Boolean              @default(false)
+  paymentUrl      String?              @db.VarChar(191)
+  paymentLinkID   String?              @unique(map: "idx_30126_Reservation_paymentLinkID_key") @db.VarChar(191)
+  ticketMade      Boolean              @default(false)
+  conflicts       Boolean              @default(false)
+  insuranceLink   String?              @db.VarChar(191)
+  costOverride    Float?
+  InsuranceFiles  InsuranceFiles[]
+  Category        Category             @relation(fields: [categoryId], references: [id])
+  Facility        Facility             @relation(fields: [facilityId], references: [id])
+  User            User                 @relation(fields: [userId], references: [id])
+  ReservationDate ReservationDate[]
+  ReservationFees ReservationFees[]
+
+  @@index([categoryId], map: "idx_30126_Reservation_categoryId_fkey")
+  @@index([facilityId], map: "idx_30126_Reservation_facilityId_fkey")
+  @@index([userId], map: "idx_30126_Reservation_userId_fkey")
+}
+
+model ReservationDate {
+  id            BigInt                   @id(map: "idx_30139_PRIMARY") @default(autoincrement())
+  startDate     String                   @db.VarChar(191)
+  endDate       String                   @db.VarChar(191)
+  startTime     String                   @db.VarChar(191)
+  endTime       String                   @db.VarChar(191)
+  reservationId BigInt
+  approved      ReservationDate_approved @default(pending)
+  gcal_eventid  String?                  @db.VarChar
+  Events        Events?                  @relation(fields: [gcal_eventid], references: [id], onDelete: NoAction)
+  Reservation   Reservation              @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "idx_30139_ReservationDate_reservationId_fkey")
+}
+
+model ReservationFees {
+  id             BigInt      @id(map: "idx_30147_PRIMARY") @default(autoincrement())
+  additionalFees Float?
+  feesType       String?     @db.VarChar(191)
+  reservationId  BigInt
+  Reservation    Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId], map: "idx_30147_ReservationFees_reservationId_fkey")
+}
+
+model Session {
+  id           String    @id(map: "idx_30151_PRIMARY") @db.VarChar(191)
+  sessionToken String    @unique(map: "idx_30151_Session_sessionToken_key") @db.VarChar(191)
+  userId       String    @db.VarChar(191)
+  expires      DateTime? @db.Timestamptz(3)
+  User         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_30151_Session_userId_fkey")
+}
+
+model User {
+  id            String        @id(map: "idx_30156_PRIMARY") @default(cuid()) @db.VarChar(191)
+  name          String        @db.VarChar(191)
+  image         String?       @db.VarChar(191)
+  email         String        @unique(map: "idx_30156_User_email_key") @db.VarChar(191)
+  emailVerified DateTime?     @db.Timestamptz(3)
+  password      String?       @db.VarChar(191)
+  provider      String?       @db.VarChar(191)
+  externalUser  Boolean       @default(false)
+  role          User_role     @default(USER)
+  createdAt     DateTime?     @default(now()) @db.Timestamptz(3)
+  tos           Boolean       @default(false)
+  Account       Account[]
+  Reservation   Reservation[]
+  Session       Session[]
+}
+
+model VerificationToken {
+  identifier String    @db.VarChar(191)
+  token      String    @unique(map: "idx_30165_VerificationToken_token_key") @db.VarChar(191)
+  expires    DateTime? @db.Timestamptz(3)
+
+  @@unique([identifier, token], map: "idx_30165_VerificationToken_identifier_token_key")
+}
+
+enum ReservationDate_approved {
+  pending
+  approved
+  denied
+  canceled
+}
+
+enum Reservation_approved {
+  pending
+  approved
+  denied
+  canceled
+}
+
+enum User_role {
+  CAL_ADMIN
+  ADMIN_ADMIN
+  GR_ADMIN
+  LHS_ADMIN
+  LMS_ADMIN
+  WE_ADMIN
+  SO_ADMIN
+  SUP_ADMIN
+  USER
+}

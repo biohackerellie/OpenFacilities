@@ -9,7 +9,7 @@ import { GeistSans } from 'geist/font';
 import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
-import OutageAlert from '@/components/ui/alerts/alert-banner';
+
 import './globals.css';
 import { disableReactDevTools } from '@/utils/disableDevTools';
 
@@ -39,7 +39,7 @@ export default function RootLayout({
           <ThemeProviders>
             <Providers>
               <Navbar />
-              <OutageAlert />
+
               {children}
               <Footer />
               <Toaster />

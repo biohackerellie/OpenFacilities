@@ -1,8 +1,7 @@
 import {
-  pgTable,
   pgSchema,
   index,
-  foreignKey,
+  pgTableCreator,
   pgEnum,
   bigserial,
   doublePrecision,
@@ -14,13 +13,14 @@ import {
   boolean,
   integer,
   uuid,
+  primaryKey,
 } from 'drizzle-orm/pg-core';
 import {
   relations,
   type InferSelectModel,
   type InferInsertModel,
 } from 'drizzle-orm';
-
+import type { AdapterAccount } from 'next-auth/adapters';
 import { sql } from 'drizzle-orm';
 export const key_status = pgEnum('key_status', [
   'default',
@@ -235,14 +235,16 @@ export const InsuranceFiles = facilities_db.table(
   }
 );
 
-export const Account = facilities_db.table(
+export const accounts = facilities_db.table(
   'Account',
   {
     id: varchar('id', { length: 191 }).primaryKey().notNull(),
     userId: varchar('userId', { length: 191 })
       .notNull()
       .references(() => User.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-    type: varchar('type', { length: 191 }).notNull(),
+    type: varchar('type', { length: 191 })
+      .$type<AdapterAccount['type']>()
+      .notNull(),
     provider: varchar('provider', { length: 191 }).notNull(),
     providerAccountId: varchar('providerAccountId', { length: 191 }).notNull(),
     refresh_token: text('refresh_token'),
@@ -254,17 +256,24 @@ export const Account = facilities_db.table(
     session_state: varchar('session_state', { length: 191 }),
     ext_expires_in: integer('ext_expires_in'),
   },
-  (table) => {
+  (account) => {
     return {
       idx_30089_Account_userId_fkey: index('idx_30089_Account_userId_fkey').on(
-        table.userId
+        account.userId
       ),
       idx_30089_Account_provider_providerAccountId_key: uniqueIndex(
         'idx_30089_Account_provider_providerAccountId_key'
-      ).on(table.provider, table.providerAccountId),
+      ).on(account.provider, account.providerAccountId),
     };
   }
 );
+
+export const AccountRelations = relations(accounts, ({ one }) => ({
+  User: one(User, {
+    fields: [accounts.userId],
+    references: [User.id],
+  }),
+}));
 
 export const Reservation = facilities_db.table(
   'Reservation',
@@ -478,6 +487,10 @@ export type InsertUser = typeof User.$inferInsert;
 
 export const UserRelations = relations(User, ({ one, many }) => ({
   Reservation: many(Reservation),
+  Account: one(accounts, {
+    fields: [User.id],
+    references: [accounts.userId],
+  }),
 }));
 
 export const VerificationToken = facilities_db.table(
