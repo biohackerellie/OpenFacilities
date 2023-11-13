@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
