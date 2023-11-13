@@ -1,3 +1,4 @@
+//@ts-nocheck
 import NextAuth, { User as NextAuthUser } from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
@@ -47,9 +48,9 @@ export const authOptions: NextAuthOptions = {
     ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
       ? [
           AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID as string,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
-            tenantId: process.env.AZURE_TENANT_ID as string,
+            clientId: process.env.AZURE_AD_CLIENT_ID,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+            tenantId: process.env.AZURE_TENANT_ID,
             //@ts-expect-error
             authorizationUrl: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
 
