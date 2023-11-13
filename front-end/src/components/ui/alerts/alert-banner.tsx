@@ -5,10 +5,10 @@ export default function OutageAlert() {
   return (
     <Alert variant="destructive" className="sticky mt-10 mb-5">
       <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Database Errors</AlertTitle>
+      <AlertTitle>Microsoft Single Sign On</AlertTitle>
       <AlertDescription>
-        Our database provider is expierencing interruptions and may cause errors
-        on this site. They are working to resolve the issue
+        We are currently expierencing issues with Single Sign On for staff
+        accounts. We are working to resolve this issue as soon as possible.
       </AlertDescription>
     </Alert>
   );
