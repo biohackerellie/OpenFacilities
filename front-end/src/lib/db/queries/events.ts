@@ -28,7 +28,7 @@ export const EventsByFacilityIdQuery = db.query.Events.findMany({
 export const SortedEventsQuery = db.query.Events.findMany({
   where: and(
     eq(Events.placeholder, false),
-    eq(Facility.building, sql.placeholder('building')),
+    eq(Events.facilityId, sql.placeholder('facilityId')),
     gte(Events.start, sql.placeholder('start')),
     lt(Events.start, sql.placeholder('end'))
   ),

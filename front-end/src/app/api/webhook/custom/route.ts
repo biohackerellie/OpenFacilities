@@ -1,4 +1,5 @@
 import { SortedEventsQuery } from '@/lib/db/queries/events';
+import { BuildingQuery } from '@/lib/db/queries/facility';
 import { NextRequest, NextResponse } from 'next/server';
 import moment from 'moment-timezone';
 
@@ -64,8 +65,11 @@ export async function POST(req: NextRequest) {
   ];
 
   for (const school of schools) {
-    const events = await SortedEventsQuery.execute({
+    const schoolBuilding = await BuildingQuery.execute({
       building: school.name,
+    });
+    const events = await SortedEventsQuery.execute({
+      building: schoolBuilding[0].id,
       start: currentDate,
       end: sevenDaysFromNow,
     });
