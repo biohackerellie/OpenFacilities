@@ -1,6 +1,8 @@
 import { SortedEventsQuery } from '@/lib/db/queries/events';
-import { BuildingnameQuery } from '@/lib/db/queries/facility';
 import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { Facility } from '@/lib/db/schema';
 import moment from 'moment-timezone';
 
 export async function GET(req: NextRequest) {
@@ -65,11 +67,13 @@ export async function POST(req: NextRequest) {
   ];
 
   for (const school of schools) {
-    const schoolBuilding = await BuildingnameQuery.execute({
-      building: `%${school.name}%,`,
+    console.log('school', school.name);
+    const schoolBuilding = await db.query.Facility.findFirst({
+      where: eq(Facility.building, school.name),
     });
+    console.log(schoolBuilding);
     const events = await SortedEventsQuery.execute({
-      building: schoolBuilding?.id,
+      facilityId: Number(schoolBuilding?.id),
       start: currentDate,
       end: sevenDaysFromNow,
     });
