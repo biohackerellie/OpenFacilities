@@ -32,24 +32,23 @@ export async function POST(request: NextRequest) {
         deleted++;
       }
     }
-    const placeholderEvents = databaseEvents.filter(
-      (event) => event.placeholder === true
-    );
 
     for (const eventData of events) {
-      // If this event is a placeholder, update it
-      if (placeholderEvents.some((e) => e.id === eventData.id)) {
-        await db
-          .update(Events)
-          .set({
-            title: eventData.title,
-            start: eventData.start,
-            end: eventData.end,
-            facilityId: eventData.facilityId ? eventData.facilityId : null,
-            placeholder: false,
-          })
-          .where(eq(Events.id, eventData.id));
-        updated++;
+      const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
+      if (existingEvent) {
+        if (existingEvent.placeholder) {
+          await db
+            .update(Events)
+            .set({
+              title: eventData.title,
+              start: eventData.start,
+              end: eventData.end,
+              facilityId: eventData.facilityId ? eventData.facilityId : null,
+              placeholder: false,
+            })
+            .where(eq(Events.id, eventData.id));
+          updated++;
+        }
       } else {
         await db.insert(Events).values({
           id: eventData.id,

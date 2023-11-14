@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { Facility, Reservation, Events } from '@/lib/db/schema';
-import { eq, and, gte, or, sql } from 'drizzle-orm';
+import { eq, and, gte, or, sql, like } from 'drizzle-orm';
 
 const today = new Date().toISOString();
 
@@ -18,3 +18,7 @@ export const FacilityQuery = db.query.Facility.findFirst({
 export const BuildingQuery = db.query.Facility.findMany({
   where: eq(Facility.building, sql.placeholder('building')),
 }).prepare('building_Facility');
+
+export const BuildingnameQuery = db.query.Facility.findFirst({
+  where: like(Facility.building, sql.placeholder('building')),
+}).prepare('buildingname_Facility');
