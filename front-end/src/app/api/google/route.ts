@@ -26,11 +26,12 @@ export async function POST(request: NextRequest) {
     const eventsToDelete = databaseEvents
       .filter((event) => new Date(event.start || '') < oneMonthAgo)
       .map((event) => event.id);
-    for (const event of eventsToDelete) {
-      await db.delete(Events).where(eq(Events.id, event as any));
-      deleted++;
+    if (eventsToDelete.length > 0) {
+      for (const event of eventsToDelete) {
+        await db.delete(Events).where(eq(Events.id, event as any));
+        deleted++;
+      }
     }
-
     const placeholderEvents = databaseEvents.filter(
       (event) => event.placeholder === true
     );
