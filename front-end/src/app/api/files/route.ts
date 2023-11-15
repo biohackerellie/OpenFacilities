@@ -15,7 +15,6 @@ const minioClient = new Client({
 
 export async function POST(request: NextRequest) {
   const path = request.nextUrl.searchParams.get('path');
-  console.log('path', path);
   const data = await request.formData();
   const file: File | null = data.get('file') as unknown as File;
   const id = data.get('id') as unknown as any;
@@ -35,7 +34,6 @@ export async function POST(request: NextRequest) {
       fileName,
       24 * 60 * 60
     );
-    console.log('getUrl', getUrl);
     const uploadResponse = await fetch(putUrl, {
       method: 'PUT',
       headers: { 'Content-Type': file.type },

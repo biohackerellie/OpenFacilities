@@ -67,11 +67,9 @@ export async function POST(req: NextRequest) {
   ];
 
   for (const school of schools) {
-    console.log('school', school.name);
     const schoolBuilding = await db.query.Facility.findFirst({
       where: eq(Facility.building, school.name),
     });
-    console.log(schoolBuilding);
     const events = await SortedEventsQuery.execute({
       facilityId: Number(schoolBuilding?.id),
       start: currentDate,

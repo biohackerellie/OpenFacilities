@@ -35,7 +35,6 @@ export async function Email(formData: FormData) {
     expiresIn: '1h',
   });
 
-  console.log('token', token);
   const url = `${process.env.NEXT_PUBLIC_HOST}/login/reset/${token}`;
 
   try {

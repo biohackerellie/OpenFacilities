@@ -1,16 +1,12 @@
 import SubNav from '@/components/ui/subNav';
-import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 import FacilityCard from '../facilities/facility_card';
 export default async function buildingPage({
   params,
 }: {
   params: { building: string };
 }) {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/facility/${params.building}`
-  );
-  const facility = await res.json();
-
   let building = ' ';
 
   if (params.building === 'West') {
@@ -29,6 +25,11 @@ export default async function buildingPage({
     building = 'Facilities';
   }
 
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/facility/${building}`
+  );
+  const facility = await res.json();
+
   return (
     <div className=" grid sm:place-items-center min-h-screen pb-[50px] scroll-smooth   gap-5 ">
       <h1 className="text-4xl m-2 mb-2 font-bold text-center">{building}</h1>
@@ -36,10 +37,20 @@ export default async function buildingPage({
       <div className="grid grid-cols-1 p-0 scale-75 sm:scale-100 sm:grid-cols-3 gap-4 mt-0 pb-[1px] sm:pb-[150px] overflow-auto">
         {facility?.map((facility: any) => (
           <div key={facility.id}>
-            <FacilityCard {...facility} />
+            <Suspense fallback={cardSkeleton()}>
+              <FacilityCard {...facility} />
+            </Suspense>
           </div>
         ))}
       </div>
     </div>
   );
 }
+
+export const cardSkeleton = () => {
+  return (
+    <>
+      <Skeleton className="h-[280px] w-[300px] sm:h-[380px] sm:w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md dark:shadow-gold" />
+    </>
+  );
+};

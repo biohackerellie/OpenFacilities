@@ -67,7 +67,6 @@ export async function POST(
       return NextResponse.json({ message: 'error' });
       console.error('Failed to create event: ', error);
     }
-    console.log('Event created: ', Response);
   }
   return NextResponse.json({
     status: 200,

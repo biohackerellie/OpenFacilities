@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { redirect } from 'next/navigation';
 
 export default function ResetForm(id: any) {
-  console.log('id', id);
   const formSchema = z
     .object({
       password: z.string().min(8, {
@@ -43,7 +42,6 @@ export default function ResetForm(id: any) {
   });
 
   const userId = id.id;
-  console.log('userId', userId);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await Reset(userId, values.password);

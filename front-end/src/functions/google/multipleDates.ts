@@ -17,8 +17,6 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
     id: id as number,
   });
 
-  console.log('approvedReservation', approvedReservation);
-
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
   //@ts-expect-error
   for (const reservationDate of approvedReservation.ReservationDate) {
@@ -52,12 +50,10 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
       },
     };
     try {
-      console.log('calendar', approvedReservation?.Facility.googleCalendarId);
       const response = await calendar.events.insert({
         calendarId: approvedReservation?.Facility.googleCalendarId as string,
         requestBody: event,
       });
-      console.log('re', response);
     } catch (error) {
       console.error('Failed to create event: ', error);
 

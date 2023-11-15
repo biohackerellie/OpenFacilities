@@ -23,7 +23,6 @@ export default async function insurancePage({
   if (reservation.insuranceLink) {
     link = encodeURI(reservation.insuranceLink);
   }
-  console.log(reservation);
   return (
     <div>
       <div className="justify-center flex flex-col sm:flex-row my-4 ">

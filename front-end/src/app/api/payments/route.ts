@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
 
   const uuid = generateId();
-  console.log('request: ', body);
   try {
     const res = await checkoutApi.createPaymentLink({
       idempotencyKey: uuid,
@@ -72,7 +71,6 @@ export async function POST(req: NextRequest) {
       paymentUrl: paymentUrl,
     });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ status: 500, body: error });
   }
   return NextResponse.json({ status: 200, body: 'Payment Link Created' });

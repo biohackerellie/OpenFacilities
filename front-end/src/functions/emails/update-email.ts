@@ -4,7 +4,6 @@ import { GetReservationbyID } from '@/lib/db/queries/reservations';
 
 export default async function updateEmail(id: number) {
   const reservation = await GetReservationbyID.execute({ id: Number(id) });
-  console.log(reservation?.User.email);
 
   const res = await fetch(`https://api.laurel.k12.mt.us/email`, {
     method: 'POST',

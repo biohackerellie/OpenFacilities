@@ -103,7 +103,6 @@ export default function ReservationForm() {
   const watchDoorAccess = form.watch('doorAccess', false);
 
   const onSubmit = async (data: formValues) => {
-    console.log(data);
     setIsSubmitting(true);
     try {
       const res = await submitReservation(data);

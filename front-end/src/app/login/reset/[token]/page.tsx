@@ -29,7 +29,6 @@ export default async function ResetPage({
   } else {
     // @ts-expect-error
     const { id: userID } = data;
-    console.log('userID', userID);
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen py-12 sm:px-6 lg:px-8">

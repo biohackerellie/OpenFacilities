@@ -23,7 +23,6 @@ export default function MobileWrapper({
   const isMobile = width <= 768;
 
   if (isMobile) {
-    console.log('mobile wrapper is working 2: ', isMobile);
     return (
       <div className="justify-center align-middle text-center flex flex-wrap flex-col">
         <h1 className="font-bold text-2xl">

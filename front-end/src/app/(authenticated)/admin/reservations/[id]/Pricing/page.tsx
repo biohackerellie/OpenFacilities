@@ -41,7 +41,6 @@ export default async function paymentPage({
     costOverride,
     facilityId,
   } = reservation;
-  console.log(facilityId);
   let additionalFeesTotal = 0;
   if (ReservationFees.length > 0) {
     for (let i = 0; i < ReservationFees.length; i++) {
@@ -58,14 +57,12 @@ export default async function paymentPage({
       options: fee.id,
     };
   });
-  console.log('costOverride', costOverride);
   const totalCost = await CostReducer(
     ReservationDate,
     additionalFeesTotal,
     CategoryPrice,
     CategoryId
   );
-  console.log('totalCost', totalCost);
 
   const user = User.name;
 

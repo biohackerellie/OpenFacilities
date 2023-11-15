@@ -17,8 +17,6 @@ export async function CreateGoogleEvent(id: Number | BigInt) {
     id: id as number,
   });
 
-  console.log('approvedDate', approvedDate);
-
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
   const startDateTime = moment
@@ -51,10 +49,8 @@ export async function CreateGoogleEvent(id: Number | BigInt) {
       calendarId: approvedDate?.Reservation.Facility.googleCalendarId,
       requestBody: event,
     });
-    console.log('re', response);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: 'error' });
+    return NextResponse.json({ message: 'error' }, { status: 500 });
   }
   return NextResponse.json({
     status: 200,

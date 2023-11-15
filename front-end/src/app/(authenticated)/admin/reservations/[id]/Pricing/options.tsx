@@ -46,7 +46,6 @@ export default function Options({ id, facilityID }: Props) {
 	const costChangeID = costChange.bind(null, id);
 	const facilityChangeID = facilityChange.bind(null, id, form.watch("facility"));
 	const categoryChangeID = categoryChange.bind(null, id, facilityID, form.watch("category"));
-	console.log('facilityID', facilityID)
 
 	return (
 		<Tabs defaultValue="Cost">

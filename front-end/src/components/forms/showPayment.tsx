@@ -41,7 +41,6 @@ export default function ShowPayment({
       }),
     });
     const response = await res.json();
-    console.log('response', response);
     if (response.status != 200) {
       isLoading(false);
       return toast({

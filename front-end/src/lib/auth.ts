@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
             email: credentials.email,
           },
         });
-        console.log('user', user);
+
         if (
           user &&
           (await bcrypt.compare(credentials.password, user.password))

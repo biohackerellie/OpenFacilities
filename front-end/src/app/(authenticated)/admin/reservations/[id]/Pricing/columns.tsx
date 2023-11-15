@@ -22,7 +22,6 @@ const HandleDelete = async (id: number) => {
     await removeFee(id);
   } catch (error) {
     alert('Error deleting fee');
-    console.log(error);
   }
 };
 
@@ -50,7 +49,6 @@ export const columns: ColumnDef<TableFees>[] = [
     cell: ({ row }) => {
       const feeID = row.getValue('options') as number;
 
-      console.log('feeID', feeID);
       return (
         <>
           <DropdownMenu>

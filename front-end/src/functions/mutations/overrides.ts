@@ -29,8 +29,6 @@ export async function costChange(id: number, formData: FormData) {
 }
 
 export async function facilityChange(id: number, data: any) {
-  console.log('id', id, 'formData', data);
-
   const facilityID = parseInt(data);
   try {
     await db
@@ -47,7 +45,6 @@ export async function facilityChange(id: number, data: any) {
 }
 
 export async function categoryChange(id: number, facilityID: any, data: any) {
-  console.log('id: ', id, 'facilityID: ', facilityID, 'data: ', data);
   const categories = await CategoryByFacility.execute({
     facilityId: Number(facilityID),
     name: `%${data}%`,
@@ -62,7 +59,6 @@ export async function categoryChange(id: number, facilityID: any, data: any) {
       .where(eq(Reservation.id, id));
     return revalidatePath(`/admin/reservations/${id}/Pricing`);
   } catch (error: any) {
-    console.log(error);
     throw new Error();
   }
 }

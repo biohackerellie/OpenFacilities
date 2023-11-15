@@ -15,7 +15,6 @@ export default async function reservationAdminLayout({
   children: React.ReactNode;
   params: { id: number };
 }) {
-  console.log('id', params.id);
   const reservation = await getReservation(params.id);
   const { id, eventName, Facility } = reservation;
   const facility = Facility.id;
