@@ -46,8 +46,7 @@ export default async function buildingPage({
     </div>
   );
 }
-
-export const cardSkeleton = () => {
+const cardSkeleton = () => {
   return (
     <>
       <Skeleton className="h-[280px] w-[300px] sm:h-[380px] sm:w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md dark:shadow-gold" />
