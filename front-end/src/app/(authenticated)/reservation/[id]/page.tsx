@@ -1,4 +1,4 @@
-import SmallCalendar from '@/components/calendar/smallCalendar';
+import SmallCallendarComp from '@/components/calendar/pageComponent';
 
 import { DataTable } from '@/components/ui/tables/reservations/reservation/data-table';
 import { columns } from './columns';
@@ -85,7 +85,7 @@ export default async function reservationPage({
                 {' '}
                 {Facility.name} calendar{' '}
               </h1>
-              <SmallCalendar startDate={startDate} facilityId={Facility.id} />
+              <SmallCallendarComp facilityId={Facility.id} />
             </div>
           </div>
           <div className="max-w-[300px] sm:max-w-[550px] xl:float-right  ">
