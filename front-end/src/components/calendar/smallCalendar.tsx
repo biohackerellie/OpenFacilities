@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes';
 const localizer = momentLocalizer(moment);
 
 interface Props {
-  facilityId: number;
+  events: any[];
   startDate: Date;
 }
 
@@ -20,29 +20,14 @@ interface DateProps {
   startDate: Date;
 }
 
-export default function SmallCalendar({ facilityId, startDate }: Props) {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_HOST + `/api/events/${facilityId}`,
-        { next: { tags: ['events'] } }
-      );
-      const fetchedEvents = await res.json();
-
-      setEvents(
-        fetchedEvents.map((event) => ({
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          building: event.Facility.building,
-          facility: event.Facility.name,
-        }))
-      );
-    };
-    fetchEvents();
-  }, []);
+export default function SmallCalendar({ events, startDate }: Props) {
+  const mappedEvents = events.map((event) => ({
+    title: event.title,
+    start: new Date(event.start),
+    end: new Date(event.end),
+    building: event.Facility.building,
+    facility: event.Facility.name,
+  }));
 
   const { theme } = useTheme();
 
@@ -86,7 +71,7 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
           defaultDate={defaultDate}
           views={views}
           localizer={localizer}
-          events={events}
+          events={mappedEvents}
           onSelectEvent={(event) => setSelectedEvent(event)}
           popup
           startAccessor="start"

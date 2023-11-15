@@ -1,4 +1,4 @@
-import SmallCalendar from '@/components/calendar/smallCalendar';
+import SmallCalendarComp from '@/components/calendar/pageComponent';
 import { DataTable } from '@/components/ui/tables/reservations/reservation/data-table';
 import { columns } from './columns';
 import { Suspense } from 'react';
@@ -15,6 +15,7 @@ async function getReservation(id: number) {
   ).then((res) => res.json());
 
   const reservation: Reservation = res;
+
   const { ReservationDate } = reservation;
   const mappedDates = await mapDates(ReservationDate);
   return { mappedDates, ...reservation };
@@ -41,10 +42,7 @@ export default async function reservationPage({
               {reservation.Facility.name} calendar{' '}
             </h1>
             <Suspense fallback={<LoadingScreen />}>
-              <SmallCalendar
-                startDate={startDate}
-                facilityId={reservation.Facility.id}
-              />
+              <SmallCalendarComp facilityId={facility} />
             </Suspense>
           </div>
 

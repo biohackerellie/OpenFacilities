@@ -26,7 +26,12 @@ export default async function buildingPage({
   }
 
   const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/facility/${building}`
+    process.env.NEXT_PUBLIC_HOST + `/api/facility/${building}`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
   );
   const facility = await res.json();
 

@@ -5,6 +5,7 @@ async function getEvents() {
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events', {
     next: {
       tags: ['events'],
+      revalidate: 3600,
     },
   });
   const events = res.json();

@@ -5,7 +5,11 @@ import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
 import FacilityCard from './facility_card';
 
 async function getFacilities() {
-  const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/facilities');
+  const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/facilities', {
+    next: {
+      revalidate: 3600,
+    },
+  });
   const facilities = await res.json();
   return facilities;
 }

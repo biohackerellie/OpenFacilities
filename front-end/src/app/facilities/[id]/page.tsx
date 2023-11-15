@@ -33,7 +33,12 @@ export default async function facilityPage({
 }) {
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`,
-    { next: { tags: ['events'] } }
+    {
+      next: {
+        tags: ['events'],
+        revalidate: 3600,
+      },
+    }
   );
 
   const facility = await res.json();
