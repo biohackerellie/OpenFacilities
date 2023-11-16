@@ -31,3 +31,5 @@ export const GetUserById = db.query.User.findFirst({
     },
   },
 }).prepare('get_user_by_id');
+
+export type CurrentUser = typeof GetUserById;

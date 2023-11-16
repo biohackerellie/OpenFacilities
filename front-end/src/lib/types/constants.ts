@@ -49,5 +49,16 @@ const buildingColors: Record<string, string> = {
   'Administration Building': 'orange',
 };
 
+type SideBarType = {
+	title: string;
+	href: string;
+}[]
 
-export { buildingCalendars, Building, BuildingAll, buildingColors };
+const userSideBar:SideBarType = [
+	{ title: 'Reservations', href: '/account'},
+	{ title: 'Details', href: '/account/details'},
+]
+
+
+
+export { buildingCalendars, Building, BuildingAll, buildingColors, userSideBar };

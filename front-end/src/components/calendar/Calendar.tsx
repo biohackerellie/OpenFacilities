@@ -18,8 +18,6 @@ import {
 } from '@/lib/types/constants';
 const localizer = momentLocalizer(moment);
 
-type BuildingColors = typeof buildingColors;
-
 type Event = {
   title: string;
   start: Date;

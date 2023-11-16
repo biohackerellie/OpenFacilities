@@ -7,6 +7,8 @@ import { Reservation } from '@/lib/types';
 import moment from 'moment';
 import LoadingScreen from '@/components/ui/loadingScreen';
 import { Suspense } from 'react';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface TableReservation {
   eventName: string;
@@ -22,7 +24,12 @@ async function getData(): Promise<TableReservation[]> {
   const user = session?.user;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`
+    `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`,
+    {
+      next: {
+        tags: ['user'],
+      },
+    }
   );
   const userSession = await res.json();
 
@@ -53,11 +60,12 @@ async function getData(): Promise<TableReservation[]> {
 export default async function Account() {
   const data = await getData();
   return (
-    <div className="container mx-auto mt-4 py-10">
-      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        My Reservations
-      </h1>
-      <Suspense fallback={<LoadingScreen />}>
+    <div className="space-y-7">
+      <div>
+        <h3 className="text-lg font-medium">My Reservations</h3>
+      </div>
+      <Separator />
+      <Suspense fallback={<Skeleton className="w-[400px] h-[400px]" />}>
         <DataTable columns={columns} data={data} />
       </Suspense>
     </div>

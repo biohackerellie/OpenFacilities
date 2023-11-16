@@ -1,7 +1,8 @@
 import SmallCallendarComp from '@/components/calendar/pageComponent';
-
+import { Suspense } from 'react';
 import { DataTable } from '@/components/ui/tables/reservations/reservation/data-table';
 import { columns } from './columns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type DateType = {
   Options?: number;
@@ -85,14 +86,18 @@ export default async function reservationPage({
                 {' '}
                 {Facility.name} calendar{' '}
               </h1>
-              <SmallCallendarComp facilityId={Facility.id} />
+              <Suspense fallback={<Skeleton className="w-[400px] h-[400px]" />}>
+                <SmallCallendarComp facilityId={Facility.id} />
+              </Suspense>
             </div>
           </div>
           <div className="max-w-[300px] sm:max-w-[550px] xl:float-right  ">
             <h2 className="font-bold text-xl m-3 text-gray-600 dark:text-gray-300">
               Reservation Dates
             </h2>
-            <DataTable columns={columns} data={mappedDates} />
+            <Suspense fallback={<Skeleton className="w-[400px] h-[400px]" />}>
+              <DataTable columns={columns} data={mappedDates} />
+            </Suspense>
           </div>
         </div>
       </div>

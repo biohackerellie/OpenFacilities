@@ -487,7 +487,7 @@ export const User = facilities_db.table(
 );
 
 export type InsertUser = typeof User.$inferInsert;
-
+export type SelectUser = typeof User.$inferSelect;
 export const UserRelations = relations(User, ({ one, many }) => ({
   Reservation: many(Reservation),
   Account: one(accounts, {
