@@ -441,6 +441,9 @@ export const Facility = facilities_db.table(
   }
 );
 
+export type InsertFacility = typeof Facility.$inferInsert;
+export type SelectFacility = typeof Facility.$inferSelect;
+
 export const facilityRelations = relations(Facility, ({ one, many }) => ({
   Category: many(Category),
   Events: many(Events),

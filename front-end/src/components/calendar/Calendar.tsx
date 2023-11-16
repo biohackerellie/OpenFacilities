@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Key } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -13,30 +13,25 @@ import { useSearchParams } from 'next/navigation';
 
 import {
   buildingCalendars,
-  type BuildingCalendars,
-} from '@/lib/types/calendars';
+  BuildingAll,
+  buildingColors,
+} from '@/lib/types/constants';
 const localizer = momentLocalizer(moment);
 
-const buildingColors: any = {
-  'West Elementary': 'purple',
-  'South Elementary': 'blue',
-  'Laurel Middle School': 'green',
-  'Laurel High School': 'skyblue',
-  'Graff Elementary': 'slate',
-  'Administration Building': 'orange',
-};
+type BuildingColors = typeof buildingColors;
 
-type BuildingColors = keyof typeof buildingColors;
-type SelectFacility = typeof Facility.$inferSelect;
 type Event = {
   title: string;
   start: Date;
   end: Date;
   building: any;
-  facility: string;
+  Facility: {
+    name: string;
+    building: string;
+  };
 } | null;
 
-function EventComponent({ event }: { event: Event }): any {
+function EventComponent(event: Event) {
   return (
     <div
       className={`${buildingColors[event?.building]} rbc-event-label`}
@@ -56,8 +51,7 @@ export default function CalendarMain({
 
   const [selectedEvent, setSelectedEvent] = useState<Event>(null);
 
-  const selectedBuilding: BuildingCalendars =
-    (searchParams.get('building') as BuildingCalendars) || 'All';
+  const selectedBuilding = searchParams.get('building') || 'All';
 
   const { theme } = useTheme();
 
@@ -76,10 +70,9 @@ export default function CalendarMain({
     title: event?.title,
     start: new Date(event?.start as unknown as string),
     end: new Date(event?.end as unknown as string),
-    building: event?.building,
-    facility: event?.facility,
+    building: event?.Facility.building,
+    facility: event?.Facility.name,
   }));
-  type MappedEvents = keyof typeof mappedEvents;
 
   useEffect(() => {
     if (selectedEvent) {
@@ -89,22 +82,24 @@ export default function CalendarMain({
     }
   }, [selectedEvent]);
 
+  console.log(selectedBuilding);
   const filteredEvents =
     selectedBuilding === 'All'
       ? mappedEvents
-      : mappedEvents.filter((event) => event.building === selectedBuilding);
+      : mappedEvents.filter(
+          //@ts-expect-error
+          (event: Event) => event?.building === selectedBuilding
+        );
 
+  const url = buildingCalendars[selectedBuilding as BuildingAll];
+  console.log('filteredEvents', filteredEvents);
   return (
     <div>
       <BuildingFilter />
       <div className=" h-screen block   items-center   mx-auto p-[10px]  align-center  ">
         <div className="drop-shadow-md ">
           <div className=" flex justify-center   ">
-            <a
-              href={buildingCalendars[selectedBuilding]}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={url} target="_blank" rel="noopener noreferrer">
               <Button>Open {selectedBuilding} Google Calendar</Button>
             </a>
             <CalendarInfo />
@@ -112,19 +107,20 @@ export default function CalendarMain({
           <Calendar
             localizer={localizer}
             events={filteredEvents}
-            //@ts-expect-error
+            //@ts-expect-error , this component was not made with ts in mind
             onSelectEvent={(event) => setSelectedEvent(event)}
             popup
             eventPropGetter={(event, start, end, isSelected) => ({
               style: {
-                backgroundColor: buildingColors[event.building],
+                backgroundColor:
+                  buildingColors[event.building || 'Administration Building'],
               },
             })}
             startAccessor="start"
             endAccessor="end"
             style={calendarStyle}
             components={{
-              //@ts-expect-error
+              // @ts-expect-error
               event: EventComponent,
             }}
           />
@@ -139,7 +135,7 @@ export default function CalendarMain({
             <div className="bg-white rounded-lg p-8">
               <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
               <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-
+              {/* @ts-expect-error */}
               <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
               <p className="mb-2">
                 {' '}
