@@ -17,7 +17,7 @@ import {
 } from '@/lib/types/calendars';
 const localizer = momentLocalizer(moment);
 
-const buildingColors: Record<string, string> = {
+const buildingColors: any = {
   'West Elementary': 'purple',
   'South Elementary': 'blue',
   'Laurel Middle School': 'green',
@@ -33,10 +33,10 @@ type Event = {
   start: Date;
   end: Date;
   building: any;
-  Facility: SelectFacility;
-};
+  facility: string;
+} | null;
 
-function EventComponent({ event }: { event: Event }) {
+function EventComponent({ event }: { event: Event }): any {
   return (
     <div
       className={`${buildingColors[event?.building]} rbc-event-label`}
@@ -76,8 +76,8 @@ export default function CalendarMain({
     title: event?.title,
     start: new Date(event?.start as unknown as string),
     end: new Date(event?.end as unknown as string),
-    building: event?.Facility.building,
-    facility: event?.Facility.name,
+    building: event?.building,
+    facility: event?.facility,
   }));
   type MappedEvents = keyof typeof mappedEvents;
 
@@ -111,8 +111,8 @@ export default function CalendarMain({
           </div>
           <Calendar
             localizer={localizer}
-            //@ts-expect-error
             events={filteredEvents}
+            //@ts-expect-error
             onSelectEvent={(event) => setSelectedEvent(event)}
             popup
             eventPropGetter={(event, start, end, isSelected) => ({
@@ -124,6 +124,7 @@ export default function CalendarMain({
             endAccessor="end"
             style={calendarStyle}
             components={{
+              //@ts-expect-error
               event: EventComponent,
             }}
           />
