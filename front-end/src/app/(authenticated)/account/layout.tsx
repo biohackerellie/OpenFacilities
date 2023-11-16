@@ -3,11 +3,11 @@ import { userSideBar } from '@/lib/types/constants';
 import { SidebarNav } from '@/components/ui/sidebar-nav';
 import { Separator } from '@/components/ui/separator';
 
-interface AccountLayoutProps {
+export default function accountLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function accountLayout({ children }: AccountLayoutProps) {
+}) {
   return (
     <div className="container relative">
       <div className="sm:hidden">{children}</div>
