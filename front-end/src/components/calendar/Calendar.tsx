@@ -82,7 +82,6 @@ export default function CalendarMain({
     }
   }, [selectedEvent]);
 
-  console.log(selectedBuilding);
   const filteredEvents =
     selectedBuilding === 'All'
       ? mappedEvents
@@ -92,7 +91,7 @@ export default function CalendarMain({
         );
 
   const url = buildingCalendars[selectedBuilding as BuildingAll];
-  console.log('filteredEvents', filteredEvents);
+
   return (
     <div>
       <BuildingFilter />
