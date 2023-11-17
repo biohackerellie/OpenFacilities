@@ -3,7 +3,7 @@ import { userSideBar } from '@/lib/types/constants';
 import { SidebarNav } from '@/components/ui/sidebar-nav';
 import { Separator } from '@/components/ui/separator';
 
-export default function accountLayout({
+export default async function accountLayout({
   children,
 }: {
   children: React.ReactNode;

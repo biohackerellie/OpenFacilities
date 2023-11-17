@@ -1,27 +1,25 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth';
 import React from 'react';
 import AccountForm from './account-form';
 import { Separator } from '@/components/ui/separator';
+import { headers } from 'next/headers';
 
 import { SelectUser } from '@/lib/db/schema';
 
-export const dynamic = 'force-dynamic';
-
 async function getData() {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const headersInstance = headers();
+  const user = headersInstance.get('user') as string;
+  const auth = headersInstance.get('Cookie') as string;
   if (!user) {
     throw new Error('User not found');
   }
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`,
-    {
-      next: {
-        tags: ['user'],
-      },
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${user}`, {
+    headers: {
+      Cookie: auth,
+    },
+    next: {
+      tags: ['user'],
+    },
+  });
   return res.json();
 }
 

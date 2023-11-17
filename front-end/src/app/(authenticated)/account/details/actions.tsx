@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { User } from '@/lib/db/schema';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function Update(id: string, formData: FormData) {
   let name = formData.get('name') as string;
@@ -26,5 +26,5 @@ export async function Update(id: string, formData: FormData) {
     throw new Error('Failed to update user');
   }
 
-  return revalidateTag('user');
+  return revalidatePath('/account/details', 'page');
 }

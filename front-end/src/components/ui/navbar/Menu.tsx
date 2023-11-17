@@ -39,11 +39,13 @@ export function AuthenticatedMenu() {
             <NavigationMenuTrigger>Account</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <Link href="/account" legacyBehavior passHref>
+                {/* <Link href="/account" legacyBehavior passHref> */}
+                <a href="/account">
                   <ListItem title="My Account">
                     Manage your reservations & account details
                   </ListItem>
-                </Link>
+                </a>
+                {/* </Link> */}
                 <ListItem
                   className="cursor-pointer"
                   title="Sign Out"

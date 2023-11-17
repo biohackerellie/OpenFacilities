@@ -1,11 +1,9 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth';
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
 import { Reservation } from '@/lib/types';
 import moment from 'moment';
-import LoadingScreen from '@/components/ui/loadingScreen';
+import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,41 +18,53 @@ interface TableReservation {
 
 const currentDate = moment().format('YYYY-MM-DD');
 async function getData(): Promise<TableReservation[]> {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  // const session = await getServerSession(authOptions);
+  // const user = session?.user;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`,
-    {
-      next: {
-        tags: ['user'],
-      },
-    }
-  );
-  const userSession = await res.json();
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
+  const user = headersInstance.get('user') as string;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/users/${user}`,
+      {
+        headers: {
+          Cookie: auth,
+        },
+        next: {
+          tags: ['user'],
+        },
+      }
+    );
 
-  const reservations: Reservation[] = userSession?.Reservation;
+    const userSession = await res.json();
 
-  const Facility = userSession?.Facility;
-  const mappedReservations: TableReservation[] = reservations.map(
-    (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
-      );
-      const nextUpcomingDate = sortedDates.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
-      );
-      return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
-        approved: reservation.approved,
-        Details: reservation.id,
-      };
-    }
-  );
+    const reservations: Reservation[] = userSession?.Reservation;
 
-  return mappedReservations;
+    const mappedReservations: TableReservation[] = reservations.map(
+      (reservation) => {
+        const sortedDates = reservation.ReservationDate.sort((a, b) =>
+          moment(a.startDate).diff(moment(b.startDate))
+        );
+        const nextUpcomingDate = sortedDates.find((date) =>
+          moment(date.startDate).isSameOrAfter(currentDate)
+        );
+        return {
+          eventName: reservation.eventName,
+          Facility: reservation.Facility.name,
+          ReservationDate: nextUpcomingDate
+            ? nextUpcomingDate.startDate
+            : 'N/A',
+          approved: reservation.approved,
+          Details: reservation.id,
+        };
+      }
+    );
+
+    return mappedReservations;
+  } catch (error) {
+    return [];
+  }
 }
 
 export default async function Account() {
