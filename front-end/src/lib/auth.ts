@@ -1,15 +1,11 @@
-//@ts-nocheck
-
 import type { NextAuthOptions } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
-
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -32,6 +28,7 @@ export const authOptions: NextAuthOptions = {
 
         if (
           user &&
+          //@ts-expect-error
           (await bcrypt.compare(credentials.password, user.password))
         ) {
           return {
@@ -49,7 +46,9 @@ export const authOptions: NextAuthOptions = {
     ...(process.env.NEXT_PUBLIC_ENABLE_AZURE_AUTH?.toLowerCase() === 'true'
       ? [
           AzureADProvider({
+            //@ts-expect-error
             clientId: process.env.AZURE_AD_CLIENT_ID,
+            //@ts-expect-error
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
             tenantId: process.env.AZURE_TENANT_ID,
             authorizationUrl: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/authorize`,
@@ -75,6 +74,7 @@ export const authOptions: NextAuthOptions = {
       : []),
     ...(process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH?.toLowerCase() === 'true'
       ? [
+          //@ts-expect-error
           GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -105,7 +105,6 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    nbf: 0,
   },
 
   pages: {
@@ -118,8 +117,9 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
+        //@ts-expect-error
         token.role = user.role;
-        token.accessToken = account.access_token;
+        token.accessToken = account?.access_token;
       }
       return token;
     },
@@ -132,8 +132,9 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token, user }) {
       session.user.roles = token.role ? token.role : 'USER';
       session.user.id = token.id;
+      //@ts-expect-error
       session.accessToken = token.accessToken;
       return session;
     },
   },
-};
+} satisfies NextAuthOptions;

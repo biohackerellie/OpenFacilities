@@ -2,19 +2,10 @@ import React from 'react';
 import AccountForm from './account-form';
 import { Separator } from '@/components/ui/separator';
 
-import { SelectUser } from '@/lib/db/schema';
-
-async function getData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${user}`, {
-    next: {
-      tags: ['user'],
-    },
-  });
-  return res.json();
-}
+import { getProfile } from '@/functions/data/users';
 
 export default async function DetailsPage() {
-  const data: SelectUser = await getData();
+  const data = await getProfile();
   const updateUserValues = {
     id: data.id,
     name: data.name,

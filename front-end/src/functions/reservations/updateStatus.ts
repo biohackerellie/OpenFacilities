@@ -50,5 +50,5 @@ export default async function UpdateStatus({
       return { message: 'failed to update event' };
     }
   }
-  return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
+  return revalidatePath('/');
 }

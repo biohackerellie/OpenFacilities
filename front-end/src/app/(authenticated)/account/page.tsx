@@ -2,12 +2,13 @@ import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
 import { Reservation } from '@/lib/types';
+
 import moment from 'moment';
-import { headers } from 'next/headers';
+
 import { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-
+import { getProfile } from '@/functions/data/users';
 interface TableReservation {
   eventName: string;
   Facility: string;
@@ -18,26 +19,8 @@ interface TableReservation {
 
 const currentDate = moment().format('YYYY-MM-DD');
 async function getData(): Promise<TableReservation[]> {
-  // const session = await getServerSession(authOptions);
-  // const user = session?.user;
-
-  const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
-  const user = headersInstance.get('user') as string;
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/users/${user}`,
-      {
-        headers: {
-          Cookie: auth,
-        },
-        next: {
-          tags: ['user'],
-        },
-      }
-    );
-
-    const userSession = await res.json();
+    const userSession = await getProfile();
 
     const reservations: Reservation[] = userSession?.Reservation;
 

@@ -136,6 +136,13 @@ export const Session = facilities_db.table(
   }
 );
 
+export const SessionRelations = relations(Session, ({ one }) => ({
+  User: one(User, {
+    fields: [Session.userId],
+    references: [User.id],
+  }),
+}));
+
 export const Category = facilities_db.table(
   'Category',
   {
@@ -493,6 +500,10 @@ export const UserRelations = relations(User, ({ one, many }) => ({
   Account: one(accounts, {
     fields: [User.id],
     references: [accounts.userId],
+  }),
+  Session: one(Session, {
+    fields: [User.id],
+    references: [Session.userId],
   }),
 }));
 

@@ -7,7 +7,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: Number } }
 ) {
-  console.log('request hit');
   const res = await GetReservationbyID.execute({ id: params.id });
   return NextResponse.json(serializeJSON(res));
 }
