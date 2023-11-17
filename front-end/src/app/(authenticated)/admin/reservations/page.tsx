@@ -7,7 +7,8 @@ import { Reservation, TableReservation } from 'lib/types';
 import TableSkeleton from '../requests/skeleton';
 import { Suspense } from 'react';
 
-async function getReservations(): Promise<TableReservation[]> {
+async function getReservations() {
+  'use server';
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reservation`, {
@@ -15,8 +16,8 @@ async function getReservations(): Promise<TableReservation[]> {
       Cookie: auth,
     },
   });
-  const Reservations: Reservation[] = await res.json();
-
+  const Reservations = await res.json();
+  console.log(Reservations);
   return mapReservations(Reservations);
 }
 

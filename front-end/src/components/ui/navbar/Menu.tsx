@@ -11,6 +11,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
 import IsAdminNav from '@/components/contexts/isAdminNav';
 import React from 'react';
@@ -68,7 +69,8 @@ export function AuthenticatedMenu() {
                   </Link>
                   <Link href="/admin/requests" legacyBehavior passHref>
                     <ListItem title="Requests">
-                      Manage requests <RequestBadge />
+                      Manage requests
+                      <RequestBadge />
                     </ListItem>
                   </Link>
                   <Link href="/admin/users" legacyBehavior passHref>

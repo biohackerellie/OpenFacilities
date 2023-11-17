@@ -5,10 +5,33 @@
 // export { default } from 'next-auth/middleware';
 
 import { withAuth } from 'next-auth/middleware';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function middleware(request: NextRequest) {
+export default withAuth(function middleware(request) {
   const response = NextResponse.next();
+  const token = request.nextauth.token;
+  console.log('token', token);
+  if (request.nextUrl.pathname.includes('/api/users/') && token) {
+    if (!request.nextUrl.pathname.includes(token.id as string)) {
+      return NextResponse.json(
+        { error: 'You are not authorized to view this page.' },
+        { status: 401 }
+      );
+    }
+  }
 
   return response;
-}
+});
+
+export const config = {
+  matcher: [
+    '/admin/:path*',
+    '/api/users',
+    '/api/users/:path*',
+    '/api/reservation/:path*',
+    '/api/reservation',
+    '/api/request',
+    '/reservation',
+    '/reservation/:path*',
+  ],
+};
