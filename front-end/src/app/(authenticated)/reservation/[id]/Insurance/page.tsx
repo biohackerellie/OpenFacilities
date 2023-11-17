@@ -1,6 +1,7 @@
 import { UploadFile } from '@/components/forms/uploadFile';
 import Link from 'next/link';
 import { Button } from '@/components/ui/buttons';
+import { headers } from 'next/headers';
 export default async function insurancePage({
   //@ts-ignore
   params,
@@ -10,9 +11,17 @@ export default async function insurancePage({
   if (!params) {
     return <div>Loading...</div>;
   }
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
-    { cache: 'no-store' }
+
+    {
+      cache: 'no-store',
+      headers: {
+        Cookie: auth,
+      },
+    }
   );
 
   const reservation = await res.json();

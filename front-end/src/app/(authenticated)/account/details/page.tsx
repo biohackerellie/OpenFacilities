@@ -1,21 +1,11 @@
 import React from 'react';
 import AccountForm from './account-form';
 import { Separator } from '@/components/ui/separator';
-import { headers } from 'next/headers';
 
 import { SelectUser } from '@/lib/db/schema';
 
 async function getData() {
-  const headersInstance = headers();
-  const user = headersInstance.get('user') as string;
-  const auth = headersInstance.get('Cookie') as string;
-  if (!user) {
-    throw new Error('User not found');
-  }
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${user}`, {
-    headers: {
-      Cookie: auth,
-    },
     next: {
       tags: ['user'],
     },

@@ -1,8 +1,11 @@
 import React from 'react';
 import UserResNav from './userResNav';
 import IsUserReserv from '@/components/contexts/isUserReserv';
+import { headers } from 'next/headers';
 
 async function getReservation(id: number) {
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`
   );
