@@ -76,4 +76,34 @@ async function mapDates(ReservationDates: ReservationDate[]) {
   return mappedDates;
 }
 
-export { mapRequests, mapReservations, mapDates };
+async function userReservations(Reservations: Reservation[]) {
+  const currentDate = new Date();
+  const mappedReservations: TableReservation[] = Reservations.map(
+    (reservation) => {
+      const sortedDates = reservation.ReservationDate.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+      const nextUpcomingDate = sortedDates?.find(
+        (date) => new Date(date.startDate).getTime() >= currentDate.getTime()
+      );
+
+      const mostRecentPastDate =
+        !nextUpcomingDate && sortedDates.length > 0
+          ? sortedDates[sortedDates.length - 1]
+          : 'No Dates Defined';
+      return {
+        eventName: reservation.eventName,
+        Facility: reservation.Facility.name,
+        ReservationDate: nextUpcomingDate
+          ? nextUpcomingDate.startDate
+          : mostRecentPastDate?.startDate,
+        approved: reservation.approved,
+        Details: reservation.id,
+      };
+    }
+  );
+  return mappedReservations;
+}
+
+export { mapRequests, mapReservations, mapDates, userReservations };

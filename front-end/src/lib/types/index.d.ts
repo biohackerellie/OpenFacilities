@@ -156,7 +156,7 @@ export interface TableReservation {
   Facility: string;
   ReservationDate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'canceled';
-  User: string;
+  User?: string;
   Details: number;
 }
 

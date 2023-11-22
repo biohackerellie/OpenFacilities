@@ -17,7 +17,6 @@ type DateType = {
 };
 
 async function getReservation(id: number) {
-  'use server';
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(
