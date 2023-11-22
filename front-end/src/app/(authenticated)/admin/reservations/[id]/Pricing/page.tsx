@@ -6,7 +6,7 @@ import CostReducer from '@/functions/calculations/costCalculator';
 import EditPricing from '@/components/forms/paymentModal';
 import Options from './options';
 import { Button } from '@/components/ui/buttons/button';
-
+import { headers } from 'next/headers';
 interface feeProps {
   id: number;
   additionalFees: number;
@@ -17,10 +17,16 @@ interface feeProps {
 export const dynamic = 'force-dynamic';
 
 async function getReservation(id: number) {
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
+    {
+      headers: {
+        cookie: auth,
+      },
+    }
   );
-
   return res.json();
 }
 

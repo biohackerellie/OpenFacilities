@@ -3,7 +3,8 @@ import { EventsByFacilityIdQuery } from '@/lib/db/queries/events';
 import { GetApprovedDates } from '@/lib/db/queries/reservations';
 import { serializeJSON } from '@/utils/serializeJSON';
 import { google } from 'googleapis';
-import oauth2Client from '@/lib/googleAuth';
+import { OAuth2Client } from 'google-auth-library';
+
 import moment from 'moment-timezone';
 
 export async function GET(
@@ -23,7 +24,11 @@ export async function POST(
 ) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
   let datecount = 0;
-
+  const oauth2Client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  });
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
   });

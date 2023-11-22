@@ -3,11 +3,18 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 import { GetReservationbyID } from '@/lib/db/queries/reservations';
-import oauth2Client from '@/lib/googleAuth';
+
+import generateId from '../calculations/generate-id';
 import moment from 'moment-timezone';
+import { OAuth2Client } from 'google-auth-library';
 
 export default async function CreateGoogleEvents(id: Number | BigInt) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
+  const oauth2Client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  });
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
@@ -26,6 +33,13 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
         'America/Denver'
       )
       .toISOString();
+    let eventID;
+    if (reservationDate.gcal_eventid) {
+      eventID = reservationDate.gcal_eventid;
+    }
+    if (!reservationDate.gcal_eventid) {
+      eventID = generateId();
+    }
 
     const endDateTime = moment
       .tz(
@@ -35,7 +49,7 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
       .toISOString();
 
     const event = {
-      id: reservationDate.gcal_eventid,
+      id: eventID,
 
       summary: approvedReservation?.eventName,
 
@@ -54,6 +68,7 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
         calendarId: approvedReservation?.Facility.googleCalendarId as string,
         requestBody: event,
       });
+      console.log('google Resposne', response);
     } catch (error) {
       console.error('Failed to create event: ', error);
 

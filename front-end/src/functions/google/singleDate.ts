@@ -2,12 +2,17 @@
 import { NextResponse } from 'next/server';
 
 import { google } from 'googleapis';
-import oauth2Client from '@/lib/googleAuth';
+import { OAuth2Client } from 'google-auth-library';
 import { GetDateByID } from '@/lib/db/queries/reservations';
 import moment from 'moment-timezone';
 
 export async function CreateGoogleEvent(id: Number | BigInt) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
+  const oauth2Client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  });
 
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN,

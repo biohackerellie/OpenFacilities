@@ -2,6 +2,22 @@ import { UploadFile } from '@/components/forms/uploadFile';
 import Link from 'next/link';
 import { Button } from '@/components/ui/buttons';
 import React from 'react';
+import { headers } from 'next/headers';
+
+async function getReservation(id: number) {
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
+    {
+      headers: {
+        cookie: auth,
+      },
+      cache: 'no-store',
+    }
+  );
+  return res.json();
+}
 
 export default async function insurancePage({
   //@ts-ignore
@@ -12,12 +28,8 @@ export default async function insurancePage({
   if (!params) {
     return <div>Loading...</div>;
   }
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + `/api/reservation/${params.id}`,
-    { cache: 'no-store' }
-  );
 
-  const reservation = await res.json();
+  const reservation = await getReservation(params.id);
 
   let link;
   if (reservation.insuranceLink) {

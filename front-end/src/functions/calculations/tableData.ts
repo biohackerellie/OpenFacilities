@@ -8,16 +8,19 @@ import {
 
 import moment from 'moment';
 
+const dateOptions = {};
+
 async function mapRequests(requests: Reservation[]) {
   const mappedRequests: TableReservation[] = requests.map((requests) => {
-    const sortedDates = requests.ReservationDate.sort((a, b) =>
-      moment(a.startDate).diff(moment(b.startDate))
+    const sortedDates = requests.ReservationDate.sort(
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
     return {
       eventName: requests.eventName,
       Facility: requests.Facility.name,
 
-      ReservationDate: sortedDates[0]?.startDate,
+      ReservationDate: sortedDates[0]?.startDate || 'No Dates Defined',
 
       approved: requests.approved,
       User: requests.User?.name || '',
@@ -28,19 +31,27 @@ async function mapRequests(requests: Reservation[]) {
 }
 
 async function mapReservations(Reservations: Reservation[]) {
-  const currentDate = moment().format('YYYY-MM-DD');
+  const currentDate = new Date();
   const mappedReservations: TableReservation[] = Reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
+      const sortedDates = reservation.ReservationDate.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
       );
-      const nextUpcomingDate = sortedDates?.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
+      const nextUpcomingDate = sortedDates?.find(
+        (date) => new Date(date.startDate).getTime() >= currentDate.getTime()
       );
+
+      const mostRecentPastDate =
+        !nextUpcomingDate && sortedDates.length > 0
+          ? sortedDates[sortedDates.length - 1]
+          : 'No Dates Defined';
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate?.startDate,
+        ReservationDate: nextUpcomingDate
+          ? nextUpcomingDate.startDate
+          : mostRecentPastDate?.startDate,
         approved: reservation.approved,
         User: reservation.User?.name || '',
         Details: reservation.id,

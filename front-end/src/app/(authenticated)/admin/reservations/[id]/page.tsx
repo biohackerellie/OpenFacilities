@@ -6,12 +6,19 @@ import LoadingScreen from '@/components/ui/loadingScreen';
 import { DateType, Reservation } from '@/lib/types';
 import { mapDates } from '@/functions/calculations/tableData';
 import { pageSum } from '@/components/ui/tables/reservations/pageSum';
+import { headers } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 async function getReservation(id: number) {
-  'use server';
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`
+    `${process.env.NEXT_PUBLIC_HOST}/api/reservation/${id}`,
+    {
+      headers: {
+        cookie: auth,
+      },
+    }
   ).then((res) => res.json());
 
   const reservation: Reservation = res;

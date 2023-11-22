@@ -10,6 +10,7 @@ import { Reservation, ReservationDate, User } from '@/lib/db/schema';
 
 export async function approveReservation(id: number) {
   const response = await CreateGoogleEvents(id);
+  console.log(response);
   if (response.status !== 200) {
     throw new Error('google event failed to create');
   } else {
