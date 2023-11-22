@@ -20,7 +20,6 @@ interface TableUser {
 const currentDate = moment().format('YYYY-MM-DD');
 
 async function getData(id: string) {
-  'use server';
   const user = await getUser(id);
   const reservation: Reservation[] = user.Reservation || [];
   if (reservation.length === 0) {
@@ -54,7 +53,7 @@ export default async function accountPage({
   const id = params.id;
 
   const data = await getData(id);
-  console.log('data', data);
+
   const name = data[0].Name || data[0].name;
   return (
     <div className="container mx-auto py-10">

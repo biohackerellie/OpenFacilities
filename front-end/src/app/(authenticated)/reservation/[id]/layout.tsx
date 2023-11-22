@@ -5,10 +5,9 @@ import { headers } from 'next/headers';
 import { fetchReservation } from '@/functions/data/reservations';
 
 async function getReservation(id: number) {
-  'use server';
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
-  console.log('auth', auth);
+
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
     {

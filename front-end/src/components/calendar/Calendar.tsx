@@ -56,7 +56,8 @@ export default function CalendarMain({
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
     height: 800,
-    width: '100%',
+    width: 1200,
+    justifyContent: 'center',
     border: 5,
     ...(isDarkMode && {
       WebkitTextFillColor: 'white',
@@ -93,7 +94,7 @@ export default function CalendarMain({
   return (
     <div>
       <BuildingFilter />
-      <div className=" h-screen block   items-center   mx-auto p-[10px]  align-center  ">
+      <div className=" h-screen    items-center  ml-5 p-[10px]  align-center  ">
         <div className="drop-shadow-md ">
           <div className=" flex justify-center   ">
             <a href={url} target="_blank" rel="noopener noreferrer">

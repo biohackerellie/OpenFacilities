@@ -8,16 +8,16 @@ import TableSkeleton from '../requests/skeleton';
 import { Suspense } from 'react';
 
 async function getReservations() {
-  'use server';
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
+
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reservation`, {
     headers: {
       Cookie: auth,
     },
   });
   const Reservations = await res.json();
-  console.log(Reservations);
+
   return mapReservations(Reservations);
 }
 

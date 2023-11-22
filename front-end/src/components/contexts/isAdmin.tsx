@@ -1,10 +1,13 @@
-'use client';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { Button } from '@/components/ui/buttons/button';
+import { getCurrentUser } from '@/functions/data/auth';
 
-export default function IsAdmin({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
-
+export default async function IsAdmin({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await getCurrentUser();
   if (
     session?.user.roles === 'ADMIN_ADMIN' ||
     session?.user.roles === 'CAL_ADMIN' ||
@@ -25,9 +28,9 @@ export default function IsAdmin({ children }: { children: React.ReactNode }) {
         <h2 className="font-bold  text-xl">
           {' '}
           Click{' '}
-          <Link className="text-blue-600" href="/">
-            Here
-          </Link>{' '}
+          <Button asChild>
+            <Link href="/">Here</Link>{' '}
+          </Button>
           to go back
         </h2>
       </div>
