@@ -16,8 +16,10 @@ export async function POST(request: NextRequest) {
   }
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  console.log('oneMonthAgo', oneMonthAgo);
 
   const databaseEvents = await AllEventsQuery.execute();
+
   let deleted = 0;
   let created = 0;
   let updated = 0;
@@ -26,6 +28,7 @@ export async function POST(request: NextRequest) {
   const eventsToDelete = databaseEvents
     .filter((event) => new Date(event.start || '') < oneMonthAgo)
     .map((event) => event.id);
+  console.log('eventsToDelete', eventsToDelete);
   if (eventsToDelete.length > 0) {
     try {
       for (const event of eventsToDelete) {
@@ -37,38 +40,39 @@ export async function POST(request: NextRequest) {
       messageDetails += `Failed to delete ${error} events. `;
     }
   }
-  try {
-    for (const eventData of events) {
-      const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
-      if (existingEvent) {
-        await db
-          .update(Events)
-          .set({
+  if (events !== undefined) {
+    try {
+      for (const eventData of events) {
+        const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
+        if (existingEvent && existingEvent.placeholder) {
+          await db
+            .update(Events)
+            .set({
+              title: eventData.title,
+              start: eventData.start,
+              end: eventData.end,
+              facilityId: eventData.facilityId ? eventData.facilityId : null,
+              placeholder: false,
+            })
+            .where(eq(Events.id, eventData.id));
+          updated++;
+        } else {
+          await db.insert(Events).values({
+            id: eventData.id,
             title: eventData.title,
             start: eventData.start,
             end: eventData.end,
             facilityId: eventData.facilityId ? eventData.facilityId : null,
             placeholder: false,
-          })
-          .where(eq(Events.id, eventData.id));
-        updated++;
-      } else {
-        await db.insert(Events).values({
-          id: eventData.id,
-          title: eventData.title,
-          start: eventData.start,
-          end: eventData.end,
-          facilityId: eventData.facilityId ? eventData.facilityId : null,
-          placeholder: false,
-        });
-        created++;
+          });
+          created++;
+        }
       }
+    } catch (error) {
+      failed++;
+      messageDetails += `Failed to create ${error} events. `;
     }
-  } catch (error) {
-    failed++;
-    messageDetails += `Failed to create ${error} events. `;
   }
-
   revalidateTag('events');
   return NextResponse.json(
     {
