@@ -6,49 +6,46 @@ import { revalidateTag } from 'next/cache';
 import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
+  const { events } = await request.json();
+  const headers = request.headers;
+  if (headers.get('x-api-key') !== process.env.EMAIL_API_KEY) {
+    return NextResponse.json(
+      { ok: false, message: 'unauthorized' },
+      { status: 401 }
+    );
+  }
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const databaseEvents = await AllEventsQuery.execute();
+  let deleted = 0;
+  let created = 0;
+  let updated = 0;
+  let failed = 0;
+  const eventsToDelete = databaseEvents
+    .filter((event) => new Date(event.start || '') < oneMonthAgo)
+    .map((event) => event.id);
+  if (eventsToDelete.length > 0) {
+    for (const event of eventsToDelete) {
+      await db.delete(Events).where(eq(Events.id, event as any));
+      deleted++;
+    }
+  }
   try {
-    const { events } = await request.json();
-    const headers = request.headers;
-    if (headers.get('x-api-key') !== process.env.EMAIL_API_KEY) {
-      return NextResponse.json(
-        { ok: false, message: 'unauthorized' },
-        { status: 401 }
-      );
-    }
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-    const databaseEvents = await AllEventsQuery.execute();
-    let deleted = 0;
-    let created = 0;
-    let updated = 0;
-
-    const eventsToDelete = databaseEvents
-      .filter((event) => new Date(event.start || '') < oneMonthAgo)
-      .map((event) => event.id);
-    if (eventsToDelete.length > 0) {
-      for (const event of eventsToDelete) {
-        await db.delete(Events).where(eq(Events.id, event as any));
-        deleted++;
-      }
-    }
-
     for (const eventData of events) {
       const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
       if (existingEvent) {
-        if (existingEvent.placeholder) {
-          await db
-            .update(Events)
-            .set({
-              title: eventData.title,
-              start: eventData.start,
-              end: eventData.end,
-              facilityId: eventData.facilityId ? eventData.facilityId : null,
-              placeholder: false,
-            })
-            .where(eq(Events.id, eventData.id));
-          updated++;
-        }
+        await db
+          .update(Events)
+          .set({
+            title: eventData.title,
+            start: eventData.start,
+            end: eventData.end,
+            facilityId: eventData.facilityId ? eventData.facilityId : null,
+            placeholder: false,
+          })
+          .where(eq(Events.id, eventData.id));
+        updated++;
       } else {
         await db.insert(Events).values({
           id: eventData.id,
@@ -61,17 +58,16 @@ export async function POST(request: NextRequest) {
         created++;
       }
     }
-
-    revalidateTag('events');
-    return NextResponse.json(
-      {
-        ok: true,
-        message: `Deleted ${deleted} events, created ${created} events, and updated ${updated} events.`,
-      },
-      { status: 200 }
-    );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ ok: false, message: error }, { status: 500 });
+    failed++;
   }
+
+  revalidateTag('events');
+  return NextResponse.json(
+    {
+      ok: true,
+      message: `Deleted ${deleted} events, created ${created} events, and updated ${updated} events. Failed on ${failed} events.`,
+    },
+    { status: 200 }
+  );
 }
