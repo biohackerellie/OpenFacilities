@@ -5,15 +5,9 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { type FacilityWithCategory } from '@/lib/types';
 
-interface Props {
-  name: string | undefined;
-  address: string | undefined;
-  building: string | undefined;
-  capacity: number | undefined;
-  imagePath: string | undefined;
-  id: number | undefined;
-}
+type PartialFacility = Partial<FacilityWithCategory>;
 
 export default function FacilityCard({
   name,
@@ -22,8 +16,9 @@ export default function FacilityCard({
   capacity,
   imagePath,
   id,
-}: Props) {
+}: PartialFacility) {
   const idString = id?.toString();
+  console.log('idString', idString);
   return (
     <Card className=" h-[280px] w-[300px] sm:h-[380px] sm:w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md dark:shadow-gold">
       <Link href={`/facilities/${idString}`}>

@@ -20,7 +20,7 @@ export default function BuildingFilter() {
     [searchParams]
   );
   return (
-    <div className="hidden sm:visible sm:flex h-5 justify-center items-center space-x-4 text-sm">
+    <div className="hidden sm:visible sm:flex relative h-5 align-top  items-center space-x-4 text-sm">
       <div className="">
         <Button
           variant="link"
@@ -33,7 +33,7 @@ export default function BuildingFilter() {
             )
           }
         >
-          All Events
+          All
         </Button>
       </div>
       <Separator orientation="vertical" />

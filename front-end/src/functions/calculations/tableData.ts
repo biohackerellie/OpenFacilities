@@ -1,9 +1,11 @@
 'use server';
+import { SelectFacility } from '@/lib/db/schema';
 import {
   Reservation,
   TableReservation,
   ReservationDate,
   DateType,
+  FacilityWithCategory,
 } from '@/lib/types';
 
 import moment from 'moment';
@@ -106,4 +108,26 @@ async function userReservations(Reservations: Reservation[]) {
   return mappedReservations;
 }
 
-export { mapRequests, mapReservations, mapDates, userReservations };
+async function mappedFacilities(facilities: FacilityWithCategory[]) {
+  const mappedFacilities = facilities.map((facility) => {
+    return {
+      id: facility.id,
+      name: facility.name,
+      building: facility.building,
+      address: facility.address,
+      imagePath: facility.imagePath,
+      capacity: facility.capacity,
+      googleCalendarId: facility.googleCalendarId,
+      Category: [facility.Category],
+    } as const;
+  });
+  return mappedFacilities;
+}
+
+export {
+  mapRequests,
+  mapReservations,
+  mapDates,
+  userReservations,
+  mappedFacilities,
+};

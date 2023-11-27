@@ -19,7 +19,7 @@ class Session {
     name: string;
     email: string;
     image?: string | undefined;
-    roles: string;
+    roles?: string | undefined;
     id: string;
   };
   accessToken?: string | undefined;

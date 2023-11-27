@@ -3,5 +3,5 @@ export default function facilitiesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return <section className="container relative">{children}</section>;
 }

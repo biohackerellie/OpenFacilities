@@ -190,3 +190,7 @@ export type SelectReservationDate = typeof ReservationDate.$inferSelect;
 export type EventsWithFacility = SelectEvents & {
   facility?: SelectFacility;
 };
+
+export type FacilityWithCategory = SelectFacility & {
+  Category?: SelectCategory[];
+};
