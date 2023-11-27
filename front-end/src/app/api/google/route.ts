@@ -22,13 +22,19 @@ export async function POST(request: NextRequest) {
   let created = 0;
   let updated = 0;
   let failed = 0;
+  let messageDetails = '';
   const eventsToDelete = databaseEvents
     .filter((event) => new Date(event.start || '') < oneMonthAgo)
     .map((event) => event.id);
   if (eventsToDelete.length > 0) {
-    for (const event of eventsToDelete) {
-      await db.delete(Events).where(eq(Events.id, event as any));
-      deleted++;
+    try {
+      for (const event of eventsToDelete) {
+        await db.delete(Events).where(eq(Events.id, event as any));
+        deleted++;
+      }
+    } catch (error) {
+      failed++;
+      messageDetails += `Failed to delete ${error} events. `;
     }
   }
   try {
@@ -60,13 +66,14 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     failed++;
+    messageDetails += `Failed to create ${error} events. `;
   }
 
   revalidateTag('events');
   return NextResponse.json(
     {
       ok: true,
-      message: `Deleted ${deleted} events, created ${created} events, and updated ${updated} events. Failed on ${failed} events.`,
+      message: `Deleted ${deleted} events, created ${created} events, and updated ${updated} events. Failed on ${failed} events. ${messageDetails}`,
     },
     { status: 200 }
   );
