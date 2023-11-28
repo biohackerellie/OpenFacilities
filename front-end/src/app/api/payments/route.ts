@@ -1,16 +1,17 @@
-//@ts-nocheck
-
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'square';
 import generateId from '@/functions/calculations/generate-id';
 import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
 import { Reservation } from '@/lib/db/schema';
+import { revalidateTag } from 'next/cache';
 
 const { checkoutApi } = new Client({
   accessToken: process.env.SQUARE_TOKEN,
+  //@ts-expect-error
   environment: 'production',
 });
-
+//@ts-expect-error
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
           amount: BigInt(Math.round(body.fees * 100)),
           currency: 'USD',
         },
-        locationId: process.env.SQUARE_LOCATION_ID,
+        locationId: process.env.SQUARE_LOCATION_ID as string,
       },
       checkoutOptions: {
         allowTipping: false,
@@ -40,10 +41,19 @@ export async function POST(req: NextRequest) {
       prePopulatedData: {},
       paymentNote: body.description,
     });
+    console.log('res', res);
 
-    const paymentUrl = res.result.paymentLink.url;
-    const paymentId = res.result.paymentLink.id;
+    const paymentUrl = res.result.paymentLink?.url;
+    const paymentId = res.result.paymentLink?.id;
     const id = body.id;
+    console.log('id', id);
+    const update = await db
+      .update(Reservation)
+      .set({
+        paymentLinkID: paymentId,
+        paymentUrl: paymentUrl,
+      })
+      .where(eq(Reservation.id, id));
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
@@ -63,17 +73,18 @@ export async function POST(req: NextRequest) {
         }),
       });
     } catch (error) {
-      return NextResponse.json({ status: 500, body: error });
+      return NextResponse.json({ ok: false, body: error }, { status: 500 });
     }
 
-    const update = await db.update(Reservation).set({
-      paymentLinkID: paymentId,
-      paymentUrl: paymentUrl,
-    });
+    console.log('update', update);
   } catch (error) {
-    return NextResponse.json({ status: 500, body: error });
+    return NextResponse.json({ ok: false, body: error }, { status: 500 });
   }
-  return NextResponse.json({ status: 200, body: 'Payment Link Created' });
+  revalidateTag('reservations');
+  return NextResponse.json(
+    { ok: true, body: 'Payment Link Created' },
+    { status: 200 }
+  );
 }
 
 // const { result } = await paymentsApi.createPayment({

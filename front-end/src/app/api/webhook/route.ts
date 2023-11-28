@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { eq, and, gte, or, sql } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { Reservation } from '@/lib/db/schema';
 
 export async function POST(req: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       throw new Error('Reservation not found');
     }
     const resId = res.id;
-    revalidatePath(`/admin/reservations/${resId}`, 'layout');
+    revalidateTag('reservations');
     return NextResponse.json({ message: 'Reservation updated successfully' });
   } catch (error) {
     console.error('Failed to update reservation: ', error);

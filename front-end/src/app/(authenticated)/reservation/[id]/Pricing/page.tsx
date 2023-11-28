@@ -23,6 +23,9 @@ async function getReservation(id: number) {
       headers: {
         Cookie: auth,
       },
+      next: {
+        tags: ['reservations'],
+      },
     }
   );
 
