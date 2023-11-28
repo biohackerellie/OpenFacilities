@@ -353,6 +353,8 @@ export const Reservation = facilities_db.table(
     };
   }
 );
+export type SelectCategory = typeof Category.$inferSelect;
+export type SelectReservationFees = typeof ReservationFees.$inferSelect;
 
 export type NewReservation = typeof Reservation.$inferInsert;
 export type SelectReservation = typeof Reservation.$inferSelect;

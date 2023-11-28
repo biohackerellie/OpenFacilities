@@ -63,8 +63,8 @@ async function mapReservations(Reservations: Reservation[]) {
   return mappedReservations;
 }
 
-async function mapDates(ReservationDates: ReservationDate[]) {
-  const mappedDates: DateType[] = ReservationDates.map((date) => {
+async function mapDates(ReservationDates: any[]) {
+  const mappedDates = ReservationDates.map((date) => {
     return {
       Options: Number(date.id),
       startDate: date.startDate,

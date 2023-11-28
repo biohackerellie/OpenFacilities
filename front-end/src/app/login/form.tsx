@@ -68,7 +68,7 @@ export default function LoginForm() {
         <Button
           asChild
           variant="outline"
-          className="mt-2 justify-center self-center align-middle"
+          className="mt-2 justify-center self-center align-middle sm:font-medium font-light w-auto"
         >
           <Link href="/login/register" className="w-2/3">
             Don't have an account? Register here!

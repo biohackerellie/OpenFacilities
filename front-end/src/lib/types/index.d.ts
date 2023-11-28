@@ -87,7 +87,7 @@ export type InputProps = {
 };
 
 export type ReservationDate = {
-  id: bigint | number;
+  id: number;
   startDate: string;
   endDate: string;
   startTime: string;
