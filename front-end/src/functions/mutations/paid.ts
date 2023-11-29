@@ -3,9 +3,10 @@
 import { db } from '@/lib/db';
 import { Reservation } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
-export default async function Paid(id: any) {
+export default async function Paid(formdata: FormData) {
+  const id = formdata.get('id') as unknown as number;
   try {
     await db
       .update(Reservation)
@@ -13,7 +14,7 @@ export default async function Paid(id: any) {
         paid: true,
       })
       .where(eq(Reservation.id, id));
-    return revalidatePath(`/admin/reservations/${id}`, 'layout');
+    return revalidateTag('reservations');
   } catch (error) {
     throw new Error();
   }

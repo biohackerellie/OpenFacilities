@@ -14,8 +14,19 @@ import { NextRequest, NextResponse } from 'next/server';
 export default withAuth(
   function middleware(request) {
     const response = NextResponse.next();
+
     const token = request.nextauth.token;
-    console.log('token', token);
+    if (request.nextUrl.pathname.startsWith('/admin/reservations/')) {
+      const path = request.nextUrl.pathname;
+      const segments = path.split('/');
+      const index = segments.findIndex((segment) => segment === 'reservations');
+      const paramValue = segments[index + 1];
+      if (paramValue) {
+        return NextResponse.rewrite(
+          new URL(`/reservation/${paramValue}`, request.url)
+        );
+      }
+    }
   },
   {
     callbacks: {
@@ -28,5 +39,11 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/api/reservation', '/api/reservation/:path*'],
+  matcher: [
+    '/api/reservation',
+    '/api/reservation/:path*',
+    '/reservation',
+    '/reservation/:path*',
+    '/admin/reservations/:path*',
+  ],
 };

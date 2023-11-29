@@ -4,6 +4,8 @@ import { columns } from './columns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { headers } from 'next/headers';
 import { mapDates } from '@/functions/calculations/tableData';
+import { adminColumns } from './adminColumns';
+import { getCurrentUser } from '@/functions/data/auth';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
@@ -13,6 +15,9 @@ async function getReservation(id: number) {
     {
       headers: {
         cookie: auth,
+      },
+      next: {
+        tags: ['reservations'],
       },
     }
   );
@@ -27,6 +32,8 @@ export default async function reservationDatesPage({
 }: {
   params: { id: number };
 }) {
+  const session = await getCurrentUser();
+
   const mappedDates = await getReservation(params.id);
   return (
     <div className="space-y-7">
@@ -34,7 +41,13 @@ export default async function reservationDatesPage({
         <h2 className="Text-lg font-medium">Reservation Dates </h2>
       </div>
       <Suspense fallback={<Skeleton className="h-auto w-auto" />}>
-        <DataTable columns={columns} data={mappedDates} />
+        {session.isAdmin() ? (
+          <DataTable columns={adminColumns} data={mappedDates} />
+        ) : (
+          <>
+            <DataTable columns={columns} data={mappedDates} />
+          </>
+        )}
       </Suspense>
     </div>
   );

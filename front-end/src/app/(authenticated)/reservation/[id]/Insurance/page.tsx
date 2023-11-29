@@ -21,6 +21,9 @@ export default async function insurancePage({
       headers: {
         Cookie: auth,
       },
+      next: {
+        tags: ['reservations'],
+      },
     }
   );
 
@@ -35,8 +38,8 @@ export default async function insurancePage({
     <div className="space-y-7">
       <div className=" ">
         <h2 className="text-2xl text-muted-foreground">Insurance</h2>
-        <div className="justify-between my-5  gap-36">
-          <div className="flex flex-col my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+        <div className="justify-between my-5 mx-2 w-auto   gap-36">
+          <div className="flex flex-wrap my-2 p-2  justify-between text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
             <p>
               Upon approval, your event(s) will be shown in the chart below
               along with any requirement for insurance coverage. If you do not

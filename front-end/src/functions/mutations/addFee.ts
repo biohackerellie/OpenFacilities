@@ -2,7 +2,7 @@
 import { db } from '@/lib/db';
 import { ReservationFees } from '@/lib/db/schema';
 import { eq, sql } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 interface IForminput {
   additionalFees: any;
@@ -16,7 +16,7 @@ export default async function addFee(data: IForminput, id: any) {
       feesType: data.feesType,
       reservationId: id,
     });
-    return revalidatePath(`/admin/reservations/${id}/Pricing`, 'page');
+    return revalidateTag('reservations');
   } catch (error) {
     throw new Error();
   }

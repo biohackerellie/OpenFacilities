@@ -10,6 +10,9 @@ async function getReservation(id: number) {
       headers: {
         cookie: auth,
       },
+      next: {
+        tags: ['reservations'],
+      },
     }
   );
   const reservation = await res.json();

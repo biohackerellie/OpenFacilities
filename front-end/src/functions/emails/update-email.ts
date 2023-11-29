@@ -2,7 +2,7 @@
 
 import { GetReservationbyID } from '@/lib/db/queries/reservations';
 
-export default async function updateEmail(id: number) {
+export default async function updateEmail(id: number | BigInt) {
   const reservation = await GetReservationbyID.execute({ id: Number(id) });
 
   const res = await fetch(`https://api.laurel.k12.mt.us/email`, {

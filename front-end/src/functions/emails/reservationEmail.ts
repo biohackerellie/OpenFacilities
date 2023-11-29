@@ -70,7 +70,7 @@ export async function newReservationEmail(data: data) {
         to: to as string,
         from: 'Facility Rental',
         subject: 'New Facility Reservation',
-        html: `<h1> New Facility Reservation </h1> <p>A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/admin/reservations/${data.reservationId}</p>`,
+        html: `<h1> New Facility Reservation </h1> <p>A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/reservation/${data.reservationId}</p>`,
       }),
     });
   } catch (error) {

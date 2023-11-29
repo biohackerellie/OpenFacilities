@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Facility } from '@/lib/types';
+import { SelectFacility as Facility } from '@/lib/db/schema';
 import { Button } from '@/components/ui/buttons';
 import { useToast } from '@/components/ui/use-toast';
 import { updateEmail } from '@/functions/emails';
@@ -32,8 +32,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface ResNavProps {
-  id: number;
-  facility: Facility;
+  id: number | BigInt;
+  facility: Facility | undefined;
 }
 
 export default function ReservationOptions({ id, facility }: ResNavProps) {
@@ -45,17 +45,17 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
 
   const sendEmail = async () => {
     try {
-      await updateEmail(id);
+      await updateEmail(id as number);
       alert('Email sent');
     } catch (error) {
       alert('Email failed to send');
     }
   };
 
-  const approveAll = async (id: number) => {
+  const approveAll = async (id: number | BigInt) => {
     setIsSubmitting(true);
     try {
-      await approveReservation(id);
+      await approveReservation(id as number);
       toast({
         title: 'Reservation Approved',
         description: 'Reservation has been approved',
@@ -71,10 +71,10 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     }
   };
 
-  const denyAll = async (id: number) => {
+  const denyAll = async (id: number | BigInt) => {
     setIsSubmitting(true);
     try {
-      await denyReservation(id);
+      await denyReservation(id as number);
       toast({
         title: 'Reservation Denied',
         description: 'Reservation has been denied',
@@ -120,7 +120,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              HandleDelete(id);
+              HandleDelete(id as number);
               router.push('/admin/reservations');
             }}
           >

@@ -1,4 +1,4 @@
-import { IsAdmin, MobileWrapper } from '@/components/contexts';
+import { IsAdmin } from '@/components/contexts';
 
 export default function authLayout({
   children,

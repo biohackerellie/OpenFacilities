@@ -25,7 +25,7 @@ const HandleDelete = async (id: number) => {
   }
 };
 
-export const columns: ColumnDef<TableFees>[] = [
+export const adminColumns: ColumnDef<TableFees>[] = [
   {
     accessorKey: 'additionalFees',
 

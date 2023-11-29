@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { Reservation, ReservationDate } from '@/lib/db/schema';
@@ -50,5 +50,5 @@ export default async function UpdateStatus({
       return { message: 'failed to update event' };
     }
   }
-  return revalidatePath('/');
+  return revalidateTag('reservations');
 }

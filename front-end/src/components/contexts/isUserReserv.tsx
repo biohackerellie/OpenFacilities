@@ -15,7 +15,7 @@ export default async function IsUserReserv({ children, reservation }: Props) {
   const session = await getCurrentUser();
   const user = session?.user as User;
   if (session.user) {
-    if (user?.id === reservation.userId) {
+    if (user?.id === reservation.userId || session.isAdmin()) {
       return <>{children}</>;
     } else {
       return (

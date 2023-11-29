@@ -1,7 +1,7 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { GetReservationbyID } from '@/lib/db/queries/reservations';
+import { revalidatePath, revalidateTag } from 'next/cache';
+
 import reservationEmail from '@/functions/emails/reservationEmail';
 import CreateGoogleEvents from '../google/multipleDates';
 import { db } from '@/lib/db';
@@ -87,6 +87,7 @@ export async function denyReservation(id: number) {
     let data = { to, subject, message };
     await reservationEmail(data);
     revalidatePath('/admin/requests', 'page');
+    revalidateTag('reservations');
     revalidatePath('/admin/reservations', 'page');
     return 'success';
   } catch (error) {

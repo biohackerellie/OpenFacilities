@@ -1,11 +1,17 @@
 import { ShowPayment } from '@/components/forms';
 
-import React from 'react';
+import React, { Suspense } from 'react';
+import { adminColumns } from './adminColumns';
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables/reservations/data-table';
+import Options from './options';
 import { headers } from 'next/headers';
 import { ReservationClass } from '@/lib/classes';
-
+import { getCurrentUser } from '@/functions/data/auth';
+import EditPricing from '@/components/forms/paymentModal';
+import { Paid } from '@/functions/mutations';
+import { SubmitButton } from '@/components/ui/buttons/submitButton';
+import { Skeleton } from '@/components/ui/skeleton';
 interface feeProps {
   id: number;
   additionalFees: number;
@@ -24,6 +30,7 @@ async function getReservation(id: number) {
       },
       next: {
         tags: ['reservations'],
+        revalidate: 60,
       },
     }
   );
@@ -68,6 +75,7 @@ export default async function paymentPage({
     : [];
 
   const totalCost = reservation.CostReducer();
+  const session = await getCurrentUser();
 
   return (
     <div className="flex flex-col sm:flex-row  justify-center gap-y-4 my-3 w-auto lg:w-[1000px] h-full pb-3 mb-2 ">
@@ -79,9 +87,28 @@ export default async function paymentPage({
           Added Fees:
         </h3>
         <div className="sm:container sm:w-[600px]  ">
-          <div className=" border-b">
-            <DataTable columns={columns} data={mappedFees} />
-          </div>
+          <Suspense
+            fallback={<Skeleton className="w-[600px] h-[600px]"></Skeleton>}
+          >
+            {session.isAdmin() ? (
+              <>
+                <div className=" border-b mb-2 py-2">
+                  <DataTable columns={adminColumns} data={mappedFees} />
+                  <EditPricing id={id} />
+                </div>
+                <div className="flex justify-center border-b-2">
+                  <Options
+                    id={id}
+                    facilityID={reservation.facilityId as number}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className=" border-b">
+                <DataTable columns={columns} data={mappedFees} />
+              </div>
+            )}
+          </Suspense>
           <div className="flex  my-2 p-2  justify-end text-xl border-b text-justify ">
             <div>
               {!paid && !costOverride && (
@@ -97,14 +124,27 @@ export default async function paymentPage({
               {paid && <>Total: Paid!</>}
             </div>
           </div>
+
           <div className="flex   justify-end text-xl    text-justify ">
             {!paid && totalCost > 0 && (
-              <ShowPayment
-                id={id}
-                fees={costOverride ? costOverride : totalCost}
-                description={description}
-                email={email}
-              />
+              <>
+                {session.isAdmin() ? (
+                  <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
+                    <span className="text-red-500">Not Paid</span>
+                    <form action={Paid}>
+                      <input type="hidden" name="id" value={id} />
+                      <SubmitButton>Mark as Paid</SubmitButton>
+                    </form>
+                  </div>
+                ) : (
+                  <ShowPayment
+                    id={id}
+                    fees={costOverride ? costOverride : totalCost}
+                    description={description}
+                    email={email}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

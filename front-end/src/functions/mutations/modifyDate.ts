@@ -3,7 +3,7 @@
 import { db } from '@/lib/db';
 import { ReservationDate } from '@/lib/db/schema';
 import { eq, sql } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 interface IFormInput {
   startDate: string;
@@ -27,5 +27,5 @@ export default async function modifyDate(
     })
     .where(eq(ReservationDate.id, id));
 
-  return revalidatePath(`/admin/reservations/${reservationID}`, 'layout');
+  return revalidateTag('reservations');
 }

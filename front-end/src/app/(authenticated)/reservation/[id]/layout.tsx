@@ -3,8 +3,11 @@ import { SidebarNav } from '@/components/ui/sidebar-nav';
 import IsUserReserv from '@/components/contexts/isUserReserv';
 import { headers } from 'next/headers';
 import { Separator } from '@/components/ui/separator';
-import { SelectReservation } from '@/lib/db/schema';
+import { type SideBarType } from '@/lib/types/constants';
 import { ReservationClass } from '@/lib/classes';
+import AdminPanel from './adminButtons';
+import { getCurrentUser } from '@/functions/data/auth';
+import { Suspense } from 'react';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
@@ -15,6 +18,9 @@ async function getReservation(id: number) {
     {
       headers: {
         cookie: auth,
+      },
+      next: {
+        tags: ['reservations'],
       },
     }
   );
@@ -30,9 +36,11 @@ export default async function reservationLayout({
   children: React.ReactNode;
   params: { id: number };
 }) {
+  const session = await getCurrentUser();
   const reservation = await getReservation(params.id);
   const { id, eventName, Facility } = reservation;
-  const items = [
+
+  const reservationItems: SideBarType = [
     {
       title: 'Summary',
       href: `/reservation/${id}`,
@@ -66,11 +74,18 @@ export default async function reservationLayout({
               {Facility?.building} {Facility?.name}
             </h2>
             <h3 className="text-muted-foreground">{reservation?.range()}</h3>
+            <Suspense fallback={<div></div>}>
+              {session.isAdmin() && (
+                <div className="p-4 sm:p-0 self-start sm:self-end sm:right-0 float-right relative">
+                  <AdminPanel id={id} facility={reservation.Facility} />
+                </div>
+              )}
+            </Suspense>
           </div>
           <Separator className="my-6" />
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
             <aside className="-mx-4 lg:w-1/5">
-              <SidebarNav items={items} />
+              <SidebarNav items={reservationItems} />
             </aside>
             <div className="flex-1 lg:max-w-2xl">{children}</div>
           </div>

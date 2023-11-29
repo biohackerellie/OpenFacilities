@@ -66,7 +66,7 @@ export const columns: ColumnDef<TableReservation>[] = [
 
       return (
         <Button>
-          <Link href={`/admin/reservations/${id}`}>Details</Link>
+          <Link href={`/reservation/${id}`}>Details</Link>
         </Button>
       );
     },

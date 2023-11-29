@@ -58,7 +58,7 @@ export const columns: ColumnDef<TableUser>[] = [
       const id = parseInt(row.getValue('Details'));
       return (
         <Button>
-          <Link href={`/admin/reservations/${id}`}>Details</Link>
+          <Link href={`/reservation/${id}`}>Details</Link>
         </Button>
       );
     },

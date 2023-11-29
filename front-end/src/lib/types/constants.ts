@@ -49,7 +49,7 @@ const buildingColors: Record<string, string> = {
   'Administration Building': 'orange',
 };
 
-type SideBarType = {
+export type SideBarType = {
 	title: string;
 	href: string;
 }[]
@@ -61,4 +61,6 @@ const userSideBar:SideBarType = [
 
 
 
-export { buildingCalendars, Building, BuildingAll, buildingColors, userSideBar };
+
+
+export { buildingCalendars,  Building, BuildingAll, buildingColors, userSideBar };

@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { CategoryByFacility } from '@/lib/db/queries/categories';
 import { Reservation } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 export async function costChange(id: number, formData: FormData) {
   let value;
@@ -22,7 +22,7 @@ export async function costChange(id: number, formData: FormData) {
         costOverride: value,
       })
       .where(eq(Reservation.id, id));
-    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+    return revalidateTag('reservations');
   } catch (error) {
     throw new Error();
   }
@@ -38,7 +38,7 @@ export async function facilityChange(id: number, data: any) {
       })
       .where(eq(Reservation.id, id));
 
-    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+    return revalidateTag('reservations');
   } catch (error) {
     throw new Error();
   }
@@ -57,7 +57,7 @@ export async function categoryChange(id: number, facilityID: any, data: any) {
         categoryId: categoryID,
       })
       .where(eq(Reservation.id, id));
-    return revalidatePath(`/admin/reservations/${id}/Pricing`);
+    return revalidateTag('reservations');
   } catch (error: any) {
     throw new Error();
   }
