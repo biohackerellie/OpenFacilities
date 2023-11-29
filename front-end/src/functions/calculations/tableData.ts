@@ -14,9 +14,8 @@ const dateOptions = {};
 
 async function mapRequests(requests: Reservation[]) {
   const mappedRequests: TableReservation[] = requests.map((requests) => {
-    const sortedDates = requests.ReservationDate.sort(
-      (a, b) =>
-        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    const sortedDates = requests.ReservationDate.sort((a, b) =>
+      moment(a.startDate).diff(moment(b.startDate))
     );
     return {
       eventName: requests.eventName,
@@ -33,15 +32,16 @@ async function mapRequests(requests: Reservation[]) {
 }
 
 async function mapReservations(Reservations: Reservation[]) {
-  const currentDate = new Date();
+  const currentDate = moment();
   const mappedReservations: TableReservation[] = Reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort(
-        (a, b) =>
-          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      const sortedDates = reservation.ReservationDate.sort((a, b) =>
+        moment(a.startDate, 'YYYY-MM-DD').diff(
+          moment(b.startDate, 'YYYY-MM-DD')
+        )
       );
       const nextUpcomingDate = sortedDates?.find(
-        (date) => new Date(date.startDate).getTime() >= currentDate.getTime()
+        (date) => moment(date.startDate, 'YYYY-MM-DD') >= currentDate
       );
 
       const mostRecentPastDate =
@@ -79,15 +79,14 @@ async function mapDates(ReservationDates: any[]) {
 }
 
 async function userReservations(Reservations: Reservation[]) {
-  const currentDate = new Date();
+  const currentDate = moment();
   const mappedReservations: TableReservation[] = Reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort(
-        (a, b) =>
-          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      const sortedDates = reservation.ReservationDate.sort((a, b) =>
+        moment(a.startDate).diff(moment(b.startDate))
       );
       const nextUpcomingDate = sortedDates?.find(
-        (date) => new Date(date.startDate).getTime() >= currentDate.getTime()
+        (date) => moment(date.startDate) >= currentDate
       );
 
       const mostRecentPastDate =

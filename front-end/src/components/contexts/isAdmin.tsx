@@ -8,16 +8,7 @@ export default async function IsAdmin({
   children: React.ReactNode;
 }) {
   const session = await getCurrentUser();
-  if (
-    session?.user.roles === 'ADMIN_ADMIN' ||
-    session?.user.roles === 'CAL_ADMIN' ||
-    session?.user.roles === 'GR_ADMIN' ||
-    session?.user.roles === 'HS_ADMIN' ||
-    session?.user.roles === 'LMS_ADMIN' ||
-    session?.user.roles === 'WE_ADMIN' ||
-    session?.user.roles === 'SO_ADMIN' ||
-    session?.user.roles === 'SUP_ADMIN'
-  ) {
+  if (session.isAdmin()) {
     return <> {children} </>;
   } else {
     return (

@@ -6,7 +6,7 @@ import HandleDelete from '@/functions/reservations/deleteDates';
 import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
 import { DateType } from '@/lib/types';
-import moment from 'moment';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,11 +30,6 @@ export const adminColumns: ColumnDef<DateType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const startDate = row.getValue('startDate') as string;
-      const formatedDate = moment(startDate).format('MM/DD/YY');
-      return <div>{formatedDate}</div>;
-    },
   },
   {
     accessorKey: 'endDate',
@@ -49,11 +44,6 @@ export const adminColumns: ColumnDef<DateType>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => {
-      const endDate = row.getValue('endDate') as string;
-      const formatedDate = moment(endDate).format('MM/DD/YY');
-      return <div>{formatedDate}</div>;
     },
   },
   {

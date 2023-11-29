@@ -56,7 +56,7 @@ export default async function accountPage({
 
   const name = data[0].Name || data[0].name;
   return (
-    <div className="container mx-auto py-10">
+    <div className="space-y-7 space-x-2 ">
       <h1 className="font-bold flex justify-center m-3 border-b p-3 drop-shadow-lg text-4xl">
         {name}
       </h1>

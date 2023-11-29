@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import React from 'react';
 import { ArrowUpDown } from 'lucide-react';
-import moment from 'moment';
 
 interface TableDates {
   Options: any;
@@ -30,11 +29,6 @@ export const columns: ColumnDef<TableDates>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const startDate = row.getValue('startDate') as string;
-      const formatedDate = moment(startDate).format('MM/DD/YY');
-      return <div>{formatedDate}</div>;
-    },
   },
   {
     accessorKey: 'endDate',
@@ -49,14 +43,10 @@ export const columns: ColumnDef<TableDates>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const endDate = row.getValue('endDate') as string;
-      const formatedDate = moment(endDate).format('MM/DD/YY');
-      return <div>{formatedDate}</div>;
-    },
   },
   {
     accessorKey: 'startTime',
+
     header: 'Start Time',
   },
   {

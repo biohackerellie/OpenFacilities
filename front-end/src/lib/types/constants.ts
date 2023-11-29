@@ -59,8 +59,14 @@ const userSideBar:SideBarType = [
 	{ title: 'Details', href: '/account/details'},
 ]
 
+const adminSideBar:SideBarType = [
+	{ title: 'Reservations', href: '/admin/reservations'},
+	{ title: 'Requests', href: '/admin/requests'},
+	{ title: 'Users', href: '/admin/users'},
+]
 
 
 
 
-export { buildingCalendars,  Building, BuildingAll, buildingColors, userSideBar };
+
+export { buildingCalendars, adminSideBar,  Building, BuildingAll, buildingColors, userSideBar };
