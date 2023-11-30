@@ -21,7 +21,7 @@ export default function CardLayout({
 
     return (
       <>
-        <div className="flex flex-col sm:grid  p-0  sm:grid-cols-3 gap-4 mt-0 pb-[1px] sm:pb-[150px] ">
+        <div className="flex flex-col sm:grid  p-0  sm:grid-cols-2 gap-4 mt-0 pb-[1px] sm:pb-[150px] ">
           {filteredFacilities?.map((facility: any) => (
             <div key={facility.id} className="gap-3 m-2 show flex-1">
               <FacilityCard {...facility} />
@@ -37,7 +37,7 @@ export default function CardLayout({
   ) {
     return (
       <>
-        <div className="flex flex-col sm:grid  p-0  sm:grid-cols-3 gap-4 mt-0 pb-[1px] sm:pb-[150px] ">
+        <div className="flex flex-col sm:grid  p-0  sm:grid-cols-2 gap-4 mt-0 pb-[1px] sm:pb-[150px] ">
           {facilities?.map((facility: any) => (
             <div key={facility.id} className="gap-3 m-2 show flex-1">
               <FacilityCard {...(facility as PartialFacility)} />

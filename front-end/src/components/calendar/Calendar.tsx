@@ -55,9 +55,9 @@ export default function CalendarMain({
 
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
-    height: 800,
-    width: 1200,
-    justifyContent: 'center',
+    height: 600,
+    width: 1000,
+    justifyContent: '',
     border: 5,
     ...(isDarkMode && {
       WebkitTextFillColor: 'white',
@@ -92,66 +92,63 @@ export default function CalendarMain({
   const url = buildingCalendars[selectedBuilding as BuildingAll];
 
   return (
-    <div>
-      <BuildingFilter />
-      <div className=" h-screen    items-center  ml-5 p-[10px]  align-center  ">
-        <div className="drop-shadow-md ">
-          <div className=" flex justify-center   ">
-            <a href={url} target="_blank" rel="noopener noreferrer">
-              <Button>Open {selectedBuilding} Google Calendar</Button>
-            </a>
-            <CalendarInfo />
+    <div className=" p-[10px]  ">
+      <div className="drop-shadow-md ">
+        <div className="  inline-flex ">
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            <Button>Open {selectedBuilding} Google Calendar</Button>
+          </a>
+          <CalendarInfo />
+        </div>
+        <Calendar
+          localizer={localizer}
+          events={filteredEvents}
+          //@ts-expect-error , this component was not made with ts in mind
+          onSelectEvent={(event) => setSelectedEvent(event)}
+          popup
+          eventPropGetter={(event, start, end, isSelected) => ({
+            style: {
+              backgroundColor:
+                buildingColors[event.building || 'Administration Building'],
+            },
+          })}
+          startAccessor="start"
+          endAccessor="end"
+          style={calendarStyle}
+          components={{
+            // @ts-expect-error
+            event: EventComponent,
+          }}
+        />
+      </div>
+      <div className="items-center align-middle justify-center drop-shadow-md">
+        <ReactModal
+          isOpen={!!selectedEvent}
+          onRequestClose={() => setSelectedEvent(null)}
+          className="fixed inset-0 flex items-center text-black dark:text-black justify-center z-50 transition-opacity ease-out duration-500"
+          overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
+        >
+          <div className="bg-white rounded-lg p-8">
+            <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
+            <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
+            {/* @ts-expect-error */}
+            <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
+            <p className="mb-2">
+              {' '}
+              Starts at {selectedEvent?.start.toLocaleString()}
+            </p>
+            <p className="mb-4">
+              {' '}
+              Ends at {selectedEvent?.end.toLocaleString()}
+            </p>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={() => setSelectedEvent(null)}
+            >
+              Close
+            </button>
           </div>
-          <Calendar
-            localizer={localizer}
-            events={filteredEvents}
-            //@ts-expect-error , this component was not made with ts in mind
-            onSelectEvent={(event) => setSelectedEvent(event)}
-            popup
-            eventPropGetter={(event, start, end, isSelected) => ({
-              style: {
-                backgroundColor:
-                  buildingColors[event.building || 'Administration Building'],
-              },
-            })}
-            startAccessor="start"
-            endAccessor="end"
-            style={calendarStyle}
-            components={{
-              // @ts-expect-error
-              event: EventComponent,
-            }}
-          />
-        </div>
-        <div className="items-center align-middle justify-center drop-shadow-md">
-          <ReactModal
-            isOpen={!!selectedEvent}
-            onRequestClose={() => setSelectedEvent(null)}
-            className="fixed inset-0 flex items-center text-black dark:text-black justify-center z-50 transition-opacity ease-out duration-500"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
-          >
-            <div className="bg-white rounded-lg p-8">
-              <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
-              <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-              {/* @ts-expect-error */}
-              <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
-              <p className="mb-2">
-                {' '}
-                Starts at {selectedEvent?.start.toLocaleString()}
-              </p>
-              <p className="mb-4">
-                {' '}
-                Ends at {selectedEvent?.end.toLocaleString()}
-              </p>
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                onClick={() => setSelectedEvent(null)}
-              >
-                Close
-              </button>
-            </div>
-          </ReactModal>
-        </div>
+        </ReactModal>
       </div>
     </div>
   );

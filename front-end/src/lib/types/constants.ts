@@ -67,6 +67,17 @@ const adminSideBar:SideBarType = [
 
 
 
+const buildingSideBar = [
+	{ title: 'All'},
+	{ title: 'West Elementary'},
+	{ title: 'South Elementary'},
+	{ title: 'Laurel Middle School'},
+	{ title: 'Laurel High School'},
+	{ title: 'Graff Elementary'},
+	{ title: 'Administration Building'},
+	{ title: 'Laurel Stadium'},
+] 
 
 
-export { buildingCalendars, adminSideBar,  Building, BuildingAll, buildingColors, userSideBar };
+
+export { buildingCalendars, adminSideBar, buildingSideBar,  Building, BuildingAll, buildingColors, userSideBar };

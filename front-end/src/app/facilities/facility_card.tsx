@@ -18,7 +18,6 @@ export default function FacilityCard({
   id,
 }: PartialFacility) {
   const idString = id?.toString();
-  console.log('idString', idString);
   return (
     <Card className=" h-[280px] w-[300px] sm:h-[380px] sm:w-[400px] bg-zinc-100 dark:bg-zinc-800 dark:text-white  border-gray-100 hover:border-black hover:cursor-pointer relative backdrop-blur-md shadow-sm drop-shadow-md dark:shadow-gold">
       <Link href={`/facilities/${idString}`}>

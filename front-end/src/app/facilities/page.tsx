@@ -22,22 +22,10 @@ export default async function FacilitiesPage() {
   const facilities = await getFacilities();
 
   return (
-    <div className=" flex flex-col  ">
-      <h1 className="text-4xl m-2 mb-0 flex sm:mb-4 justify-center  font-bold text-center">
-        Facilities
-      </h1>
-      <Separator orientation="horizontal" />
-      <div className="hidden sm:inline-block py-4">
-        <Suspense fallback={<></>}>
-          <BuildingFilter />
-        </Suspense>
-      </div>
-      <Separator orientation="horizontal" />
-      <div className="sm:grid justify-center  sm:h-screen pb-0 sm:pb-[50px] scroll-smooth sm:gap-5">
-        <Suspense fallback={<FacilityCardSkeleton />}>
-          <CardLayout facilities={facilities as unknown as PartialFacility[]} />
-        </Suspense>
-      </div>
+    <div className=" space-y-7 ">
+      <Suspense fallback={<FacilityCardSkeleton />}>
+        <CardLayout facilities={facilities as unknown as PartialFacility[]} />
+      </Suspense>
     </div>
   );
 }

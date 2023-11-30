@@ -45,7 +45,7 @@ export default function AccountForm({ data }: { data: UserName }) {
         administrator to update your email address on the account.
       </p>
       <Separator />
-      <SubmitButton />
+      <SubmitButton className="float-right" />
     </form>
   );
 }

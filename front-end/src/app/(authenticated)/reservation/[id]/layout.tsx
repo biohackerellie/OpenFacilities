@@ -74,7 +74,7 @@ export default async function reservationLayout({
               {Facility?.building} {Facility?.name}
             </h2>
             <h3 className="text-muted-foreground">{reservation?.range()}</h3>
-            <Suspense fallback={<div></div>}>
+            <Suspense fallback={<></>}>
               {session.isAdmin() && (
                 <div className="p-4 sm:p-0 self-start sm:self-end sm:right-0 float-right relative">
                   <AdminPanel id={id} facility={reservation.Facility} />

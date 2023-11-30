@@ -17,7 +17,7 @@ async function getEvents() {
 export default async function Page() {
   const events = await getEvents();
   return (
-    <div className="mt-16 justify-center flex">
+    <div className="space-y-7">
       <Suspense fallback={<Skeleton className="w-[1200px] h-[800]" />}>
         <CalendarMain fetchedEvents={events} />
       </Suspense>
