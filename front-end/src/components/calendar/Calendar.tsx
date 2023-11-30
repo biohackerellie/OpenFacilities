@@ -1,21 +1,25 @@
 'use client';
-import React, { useEffect, useState, useRef, Key } from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import ReactModal from 'react-modal';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+} from '../ui/alert-dialog';
 import { CalendarInfo } from '../ui';
-import BuildingFilter from './navigation/filterBar';
-import { Facility } from '@/lib/db/schema';
 import { useTheme } from 'next-themes';
 import { Button } from '../ui/buttons';
 import { useSearchParams } from 'next/navigation';
-
 import {
   buildingCalendars,
   BuildingAll,
   buildingColors,
 } from '@/lib/types/constants';
+import { AlertDialogAction } from '@radix-ui/react-alert-dialog';
 const localizer = momentLocalizer(moment);
 
 type Event = {
@@ -27,6 +31,14 @@ type Event = {
     name: string;
     building: string;
   };
+} | null;
+
+type EventComponentProps = {
+  title: string | undefined;
+  start: Date;
+  end: Date;
+  building: any | undefined;
+  facility: any | undefined;
 } | null;
 
 function EventComponent(event: Event) {
@@ -47,7 +59,8 @@ export default function CalendarMain({
 }) {
   const searchParams = useSearchParams();
 
-  const [selectedEvent, setSelectedEvent] = useState<Event>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventComponentProps>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const selectedBuilding = searchParams.get('building') || 'All';
 
@@ -73,14 +86,6 @@ export default function CalendarMain({
     facility: event?.Facility.name,
   }));
 
-  useEffect(() => {
-    if (selectedEvent) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-  }, [selectedEvent]);
-
   const filteredEvents =
     selectedBuilding === 'All'
       ? mappedEvents
@@ -103,8 +108,10 @@ export default function CalendarMain({
         <Calendar
           localizer={localizer}
           events={filteredEvents}
-          //@ts-expect-error , this component was not made with ts in mind
-          onSelectEvent={(event) => setSelectedEvent(event)}
+          onSelectEvent={(event) => {
+            setSelectedEvent(event);
+            setIsOpen(true);
+          }}
           popup
           eventPropGetter={(event, start, end, isSelected) => ({
             style: {
@@ -121,18 +128,13 @@ export default function CalendarMain({
           }}
         />
       </div>
-      <div className="items-center align-middle justify-center drop-shadow-md">
-        <ReactModal
-          isOpen={!!selectedEvent}
-          onRequestClose={() => setSelectedEvent(null)}
-          className="fixed inset-0 flex items-center text-black dark:text-black justify-center z-50 transition-opacity ease-out duration-500"
-          overlayClassName="fixed inset-0 bg-black bg-opacity-50 modal-overlay"
-        >
-          <div className="bg-white rounded-lg p-8">
-            <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
-            <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-            {/* @ts-expect-error */}
-            <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader className="text-xl font-bold mb-4">
+            {selectedEvent?.title} <br />
+            {selectedEvent?.building} {selectedEvent?.facility}
+          </AlertDialogHeader>
+          <AlertDialogDescription>
             <p className="mb-2">
               {' '}
               Starts at {selectedEvent?.start.toLocaleString()}
@@ -141,15 +143,14 @@ export default function CalendarMain({
               {' '}
               Ends at {selectedEvent?.end.toLocaleString()}
             </p>
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              onClick={() => setSelectedEvent(null)}
-            >
-              Close
-            </button>
-          </div>
-        </ReactModal>
-      </div>
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogAction asChild>
+              <Button onClick={() => setSelectedEvent(null)}>Close</Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
