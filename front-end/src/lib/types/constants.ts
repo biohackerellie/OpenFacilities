@@ -20,6 +20,8 @@ enum Building {
 	Stadium = 'Laurel Stadium',
 }
 
+
+
 const buildingCalendars: Readonly <{ [key in BuildingAll]: string}> = {
   [BuildingAll.All]: 'https://calendar.google.com/calendar/embed?src=c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b%40group.calendar.google.com&ctz=America%2FDenver',
   [BuildingAll.West]:
@@ -60,6 +62,7 @@ const userSideBar:SideBarType = [
 ]
 
 const adminSideBar:SideBarType = [
+	{ title: 'Dashboard', href: '/admin/dashboard'},
 	{ title: 'Reservations', href: '/admin/reservations'},
 	{ title: 'Requests', href: '/admin/requests'},
 	{ title: 'Users', href: '/admin/users'},
@@ -80,4 +83,4 @@ const buildingSideBar = [
 
 
 
-export { buildingCalendars, adminSideBar, buildingSideBar,  Building, BuildingAll, buildingColors, userSideBar };
+export { buildingCalendars,  adminSideBar, buildingSideBar,  Building, BuildingAll, buildingColors, userSideBar };

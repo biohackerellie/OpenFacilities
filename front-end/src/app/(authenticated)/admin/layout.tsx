@@ -14,7 +14,7 @@ export default function authLayout({
     <IsAdmin>
       <div className="container relative">
         <div className="sm:hidden">{children}</div>
-        <div className="hidden sm:block space-y-6 p-10 pb-16">
+        <div className="hidden sm:block space-y-6 p-2 pb-16">
           <div className="space-y-0.5">
             <h1 className="text-2xl font-bold">Admin</h1>
             <h2 className="text-muted-foreground">Admin Dashboard</h2>

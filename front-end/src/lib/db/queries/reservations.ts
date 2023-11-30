@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { Reservation, ReservationDate, Facility, Category } from '../schema';
-import { eq, sql, and, gte } from 'drizzle-orm';
+import { eq, sql, and, gte, or } from 'drizzle-orm';
 import moment from 'moment';
 
 const currentDate = moment();
@@ -84,3 +84,16 @@ export const GetDateByID = db.query.ReservationDate.findFirst({
     },
   },
 }).prepare('dateByID');
+
+export const GetAllReservations = db.query.Reservation.findMany({
+  with: {
+    ReservationDate: true,
+    Facility: true,
+    Category: true,
+    User: true,
+  },
+  where: or(
+    eq(Reservation.approved, 'approved'),
+    eq(Reservation.approved, 'pending')
+  ),
+}).prepare('allReservations');

@@ -191,6 +191,23 @@ export type EventsWithFacility = SelectEvents & {
   facility?: SelectFacility;
 };
 
+export type ReservationWithAll = Reservation & {
+  ReservationDate?: SelectReservationDate[];
+  ReservationFees?: SelectReservationFees[];
+  Facility?: SelectFacility;
+  Category?: SelectCategory;
+};
+
 export type FacilityWithCategory = SelectFacility & {
   Category?: SelectCategory[];
 };
+
+export type ChartData =
+  | [
+      {
+        month: string;
+        totalReservations: number;
+        buildingName: string;
+      }
+    ]
+  | [];
