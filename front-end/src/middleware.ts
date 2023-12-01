@@ -68,7 +68,6 @@ export default withAuth(
     callbacks: {
       authorized: ({ req, token }) => {
         if (token) return true;
-
         if (req.nextUrl.pathname.startsWith('/facilities')) return true;
         if (req.nextUrl.pathname.startsWith('/calendar')) return true;
         else return false;
@@ -81,6 +80,8 @@ export const config = {
   matcher: [
     '/facilities',
     '/facilties/:path*',
+    '/account',
+    '/account/:path*',
     '/calendar',
     '/calendar/:path*',
     '/api/reservation',

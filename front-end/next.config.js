@@ -6,7 +6,9 @@ dns.setDefaultResultOrder('ipv4first');
 const nextConfig = {
   reactStrictMode: true,
 
-
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 
   experimental: {
     optimizePackageImports: ['bcryptjs'],
@@ -24,6 +26,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-// compiler: {
-// 	removeConsole: process.env.NODE_ENV === 'production',
-// },

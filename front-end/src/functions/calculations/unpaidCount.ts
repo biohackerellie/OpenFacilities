@@ -1,19 +1,40 @@
 'use server';
 
-import { UnPaidReservations } from '@/lib/db/queries/reservations';
+import { ReservationClass, ReservationClassType } from '@/lib/classes';
 
-export default async function WeeklyUnpaidCount() {
+import moment from 'moment';
+
+interface ChartData {
+  [key: string]: number | string | undefined;
+}
+
+export default async function WeeklyUnpaidCount({
+  data,
+}: {
+  data: ReservationClassType[];
+}) {
   let reservationCount = 0;
 
-  const reservations = await UnPaidReservations.execute();
-  for (const reservation of reservations) {
-    if (
-      reservation.Reservation.Category.price > 0 &&
-      reservation.approved === 'approved' &&
-      reservation.Reservation.paid === false
-    ) {
+  let object = null;
+  let cost = 0;
+  const filteredData = data.filter(
+    (reservation) =>
+      reservation.paid === false &&
+      reservation.ReservationDate?.some(
+        (date) =>
+          date.approved === 'approved' &&
+          moment(date.startDate).isBetween(moment(), moment().add(7, 'days'))
+      )
+  );
+
+  filteredData.forEach((reservation) => {
+    object = new ReservationClass(reservation);
+
+    cost = object.CostReducer();
+    console.log('cost: ', cost);
+    if (cost > 0) {
       reservationCount++;
     }
-  }
+  });
   return Number(reservationCount);
 }

@@ -7,7 +7,7 @@ import {
   type SelectUser,
 } from '../db/schema';
 
-type ReservationClassType = SelectReservation & {
+export type ReservationClassType = SelectReservation & {
   Facility?: SelectFacility;
   Category?: SelectCategory;
   ReservationDate?: SelectReservationDate[];
@@ -119,4 +119,4 @@ class ReservationClass {
   }
 }
 
-export { ReservationClass, type ReservationClassType };
+export { ReservationClass };

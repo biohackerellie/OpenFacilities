@@ -22,7 +22,7 @@ async function getData() {
   const chartData = await aggregateChartData({ data });
   const count = await RequestCount();
   const weeklyCount = await WeeklyCount();
-  const unpaidCount = await WeeklyUnpaidCount();
+  const unpaidCount = await WeeklyUnpaidCount({ data });
   return { chartData, count, weeklyCount, unpaidCount };
 }
 
