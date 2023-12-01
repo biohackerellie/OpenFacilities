@@ -80,8 +80,6 @@ export const config = {
   matcher: [
     '/facilities',
     '/facilties/:path*',
-    '/account',
-    '/account/:path*',
     '/calendar',
     '/calendar/:path*',
     '/api/reservation',
