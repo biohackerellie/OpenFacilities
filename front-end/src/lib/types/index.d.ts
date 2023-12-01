@@ -201,13 +201,8 @@ export type ReservationWithAll = Reservation & {
 export type FacilityWithCategory = SelectFacility & {
   Category?: SelectCategory[];
 };
-
-export type ChartData =
-  | [
-      {
-        month: string;
-        totalReservations: number;
-        buildingName: string;
-      }
-    ]
-  | [];
+export interface ChartData {
+  month?: string;
+  totalReservations?: number;
+  buildingName?: string;
+}

@@ -1,9 +1,10 @@
 import { db } from '@/lib/db';
 import { Reservation, ReservationDate, Facility, Category } from '../schema';
-import { eq, sql, and, gte, or } from 'drizzle-orm';
+import { eq, sql, and, gte, or, lte, like } from 'drizzle-orm';
 import moment from 'moment';
 
 const currentDate = moment();
+const sevenDaysFromNow = moment().add(7, 'days');
 
 export const GetRequests = db.query.Reservation.findMany({
   where: eq(Reservation.approved, 'pending'),
@@ -90,10 +91,43 @@ export const GetAllReservations = db.query.Reservation.findMany({
     ReservationDate: true,
     Facility: true,
     Category: true,
-    User: true,
+    User: {
+      columns: {
+        password: false,
+      },
+    },
   },
   where: or(
     eq(Reservation.approved, 'approved'),
     eq(Reservation.approved, 'pending')
   ),
 }).prepare('allReservations');
+
+export const ReservationCountThisWeek = db.query.ReservationDate.findMany({
+  where: and(
+    gte(ReservationDate.startDate, currentDate.format('YYYY-MM-DD')),
+    lte(ReservationDate.startDate, sevenDaysFromNow.format('YYYY-MM-DD')),
+    eq(ReservationDate.approved, 'approved')
+  ),
+}).prepare('reservationCountThisWeek');
+
+export const UnPaidReservations = db.query.Reservation.findMany({
+  where: and(
+    or(
+      eq(Reservation.approved, 'approved'),
+      eq(Reservation.approved, 'pending')
+    ),
+    eq(Reservation.paid, false),
+    or(like(Category.name, '%Category 2%'), like(Category.name, '%Category 3%'))
+  ),
+  with: {
+    ReservationDate: true,
+    Facility: true,
+    Category: true,
+    User: {
+      columns: {
+        password: false,
+      },
+    },
+  },
+}).prepare('unPaidReservations');

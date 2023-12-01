@@ -24,12 +24,14 @@ const blockedCountries = [
 export default withAuth(
   function middleware(request) {
     const response = NextResponse.next();
-
+    const token = request.nextauth?.token;
+    // GeoIP blocking
     const country = request.geo?.country;
-
     if (country && blockedCountries.includes(country)) {
       return new Response('Access Denied', { status: 451 });
     }
+
+    // Redirects
 
     let pathname = request.nextUrl.pathname;
     let searchParams = new URLSearchParams(request.nextUrl.search);
@@ -54,11 +56,19 @@ export default withAuth(
         );
       }
     }
+
+    //Admin Check
+    if (request.nextUrl.pathname.startsWith('/admin') && token) {
+      if (token.role === 'USER' || token.rull === null) {
+        return NextResponse.redirect(new URL('/404', request.url));
+      }
+    }
   },
   {
     callbacks: {
       authorized: ({ req, token }) => {
         if (token) return true;
+
         if (req.nextUrl.pathname.startsWith('/facilities')) return true;
         if (req.nextUrl.pathname.startsWith('/calendar')) return true;
         else return false;

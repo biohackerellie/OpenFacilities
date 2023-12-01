@@ -1,19 +1,52 @@
-"use server"
-import { ReservationWithAll } from "@/lib/types";
+'use server';
+import { ReservationWithAll } from '@/lib/types';
 
-export default function ({data} : {data: ReservationWithAll[]}) {
-	// calculate 6 months ago
+interface ChartData {
+  [key: string]: number | string | undefined;
+}
 
-	const now = new Date();
-	const sixMonthsAgo = new Date();
+export default async function aggregateChartData({
+  data,
+}: {
+  data: ReservationWithAll[];
+}): Promise<ChartData[]> {
+  // calculate 6 months ago
 
-	//filter data within the last 6 months
-	const recentData = data.filter(reservation => 
-		new Date(reservation.ReservationDate[0].startDate) > sixMonthsAgo)
+  const now = new Date();
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-		// Aggregate Data
-		const aggregateData = {}
-		recentData.forEach(reservation => {
-			const month = new Date(reservation.createdAt).toLocaleString('default', {month: 'long'})
-		})
+  //filter data within the last 6 months
+  const recentData = data.filter(
+    (reservation) => new Date(reservation.createdAt) > sixMonthsAgo
+  );
 
+  // Aggregate Data
+  const aggregateData: any = {};
+  recentData.forEach((reservation: ReservationWithAll) => {
+    const month = new Date(reservation.createdAt).toLocaleString('default', {
+      month: 'long',
+    });
+    const building = reservation.Facility.building;
+
+    if (!aggregateData[month]) {
+      aggregateData[month] = {};
+    }
+    if (!aggregateData[month][building]) {
+      aggregateData[month][building] = 0;
+    }
+    aggregateData[month][building]++;
+  });
+
+  // Prepare final data struct
+  const chartData: ChartData[] = [];
+  Object.keys(aggregateData).forEach((month) => {
+    const dataEntry: ChartData = { month };
+    Object.keys(aggregateData[month]).forEach((building) => {
+      dataEntry[building] = aggregateData[month][building];
+    });
+    chartData.push(dataEntry);
+  });
+
+  return chartData;
+}

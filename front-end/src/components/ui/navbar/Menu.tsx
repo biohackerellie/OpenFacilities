@@ -62,6 +62,11 @@ export function AuthenticatedMenu() {
               <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <Link href="/admin/dashboard" legacyBehavior passHref>
+                    <ListItem title="Dashboard">
+                      View the admin dashboard
+                    </ListItem>
+                  </Link>
                   <Link href="/admin/reservations" legacyBehavior passHref>
                     <ListItem title="Reservations">
                       Manage reservations

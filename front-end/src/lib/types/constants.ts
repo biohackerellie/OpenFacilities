@@ -51,6 +51,8 @@ const buildingColors: Record<string, string> = {
   'Administration Building': 'orange',
 };
 
+
+
 export type SideBarType = {
 	title: string;
 	href: string;
@@ -68,6 +70,16 @@ const adminSideBar:SideBarType = [
 	{ title: 'Users', href: '/admin/users'},
 ]
 
+const buildingNames = [
+	'West Elementary',
+	'South Elementary',
+	'Laurel Middle School',
+	'Laurel High School',
+	'Graff Elementary',
+	'Administration Building',
+	'Laurel Stadium',
+]
+
 
 
 const buildingSideBar = [
@@ -83,4 +95,4 @@ const buildingSideBar = [
 
 
 
-export { buildingCalendars,  adminSideBar, buildingSideBar,  Building, BuildingAll, buildingColors, userSideBar };
+export { buildingCalendars,  adminSideBar, buildingSideBar, buildingNames,  Building, BuildingAll, buildingColors, userSideBar };
