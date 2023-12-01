@@ -7,8 +7,13 @@ export default async function WeeklyUnpaidCount() {
 
   const reservations = await UnPaidReservations.execute();
   for (const reservation of reservations) {
-    reservationCount++;
+    if (
+      reservation.Reservation.Category.price > 0 &&
+      reservation.approved === 'approved' &&
+      reservation.Reservation.paid === false
+    ) {
+      reservationCount++;
+    }
   }
-
   return Number(reservationCount);
 }

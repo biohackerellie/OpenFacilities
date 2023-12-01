@@ -111,22 +111,24 @@ export const ReservationCountThisWeek = db.query.ReservationDate.findMany({
   ),
 }).prepare('reservationCountThisWeek');
 
-export const UnPaidReservations = db.query.Reservation.findMany({
+export const UnPaidReservations = db.query.ReservationDate.findMany({
   where: and(
     or(
-      eq(Reservation.approved, 'approved'),
-      eq(Reservation.approved, 'pending')
+      eq(ReservationDate.approved, 'approved'),
+      eq(ReservationDate.approved, 'pending')
     ),
-    eq(Reservation.paid, false),
-    or(like(Category.name, '%Category 2%'), like(Category.name, '%Category 3%'))
+    gte(ReservationDate.startDate, currentDate.format('YYYY-MM-DD')),
+    lte(ReservationDate.startDate, sevenDaysFromNow.format('YYYY-MM-DD'))
   ),
   with: {
-    ReservationDate: true,
-    Facility: true,
-    Category: true,
-    User: {
-      columns: {
-        password: false,
+    Reservation: {
+      with: {
+        Category: true,
+        User: {
+          columns: {
+            password: false,
+          },
+        },
       },
     },
   },
