@@ -4,7 +4,8 @@ import { Separator } from '@/components/ui/separator';
 import { buildingSideBar } from '@/lib/types/constants';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-export default function calendarLayout({
+
+export default function facilitiesLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -19,9 +20,7 @@ export default function calendarLayout({
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5">
-            <Suspense fallback={<SearchBarSkeleton />}>
-              <SidebarSearchParamsNav items={buildingSideBar} />
-            </Suspense>
+            <SidebarSearchParamsNav items={buildingSideBar} />
           </aside>
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>

@@ -62,7 +62,10 @@ export default function CalendarMain({
   const [selectedEvent, setSelectedEvent] = useState<EventComponentProps>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const selectedBuilding = searchParams.get('building') || 'All';
+  let selectedBuilding: string | null = 'All';
+  if (searchParams && searchParams.has('building')) {
+    selectedBuilding = searchParams.get('building');
+  }
 
   const { theme } = useTheme();
 

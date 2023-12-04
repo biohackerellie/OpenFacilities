@@ -18,10 +18,12 @@ import dynamic from 'next/dynamic';
 async function getData() {
   const data = await getAllReservations();
 
-  const chartData = await aggregateChartData({ data });
-  const count = await RequestCount();
-  const weeklyCount = await WeeklyCount();
-  const unpaidCount = await WeeklyUnpaidCount({ data });
+  const [chartData, count, weeklyCount, unpaidCount] = await Promise.all([
+    aggregateChartData({ data }),
+    RequestCount(),
+    WeeklyCount(),
+    WeeklyUnpaidCount({ data }),
+  ]);
   return { chartData, count, weeklyCount, unpaidCount };
 }
 

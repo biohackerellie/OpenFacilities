@@ -31,7 +31,6 @@ export default async function WeeklyUnpaidCount({
     object = new ReservationClass(reservation);
 
     cost = object.CostReducer();
-    console.log('cost: ', cost);
     if (cost > 0) {
       reservationCount++;
     }

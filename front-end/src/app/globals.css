@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
  
-body {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	
-	
-}
 
 
 
@@ -91,9 +85,22 @@ body {
   }
 }
 
+@layer base {
+	* {
+		@apply border-border;
+	}
+body {
+	@apply bg-background text-foreground;
 
+	font-feature-settings: "rlig" 1, "calt" 1;
+	
+	
+}
 
-  
+}
+
+  	/* -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale; */
  
 .ReactModal__Overlay {
 	opacity: 0;

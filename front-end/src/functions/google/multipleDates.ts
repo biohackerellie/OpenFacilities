@@ -68,7 +68,6 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
         calendarId: approvedReservation?.Facility.googleCalendarId as string,
         requestBody: event,
       });
-      console.log('google Resposne', response);
     } catch (error) {
       console.error('Failed to create event: ', error);
 

@@ -41,12 +41,10 @@ export async function POST(req: NextRequest) {
       prePopulatedData: {},
       paymentNote: body.description,
     });
-    console.log('res', res);
 
     const paymentUrl = res.result.paymentLink?.url;
     const paymentId = res.result.paymentLink?.id;
     const id = body.id;
-    console.log('id', id);
     const update = await db
       .update(Reservation)
       .set({
@@ -75,8 +73,6 @@ export async function POST(req: NextRequest) {
     } catch (error) {
       return NextResponse.json({ ok: false, body: error }, { status: 500 });
     }
-
-    console.log('update', update);
   } catch (error) {
     return NextResponse.json({ ok: false, body: error }, { status: 500 });
   }

@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
   }
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  console.log('oneMonthAgo', oneMonthAgo);
 
   const databaseEvents = await AllEventsQuery.execute();
 
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest) {
   const eventsToDelete = databaseEvents
     .filter((event) => new Date(event.start || '') < oneMonthAgo)
     .map((event) => event.id);
-  console.log('eventsToDelete', eventsToDelete);
   if (eventsToDelete.length > 0) {
     try {
       for (const event of eventsToDelete) {

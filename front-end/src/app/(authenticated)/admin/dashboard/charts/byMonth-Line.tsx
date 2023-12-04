@@ -46,6 +46,7 @@ export default function ByMonthLine({ data }: { data: ChartData[] }) {
           <Legend />
           {buildingColors.map((buildingColor) => (
             <Line
+              connectNulls
               key={buildingColor.building}
               type="monotone"
               dataKey={buildingColor.building}

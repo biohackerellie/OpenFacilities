@@ -33,18 +33,6 @@ export default withAuth(
 
     // Redirects
 
-    let pathname = request.nextUrl.pathname;
-    let searchParams = new URLSearchParams(request.nextUrl.search);
-
-    if (pathname === '/facilities' || pathname === '/calendar') {
-      if (!searchParams.get('building')) {
-        searchParams.set('building', 'All');
-        return NextResponse.redirect(
-          new URL(`${pathname}?${searchParams}`, request.url)
-        );
-      }
-    }
-
     if (request.nextUrl.pathname.startsWith('/admin/reservations/')) {
       const path = request.nextUrl.pathname;
       const segments = path.split('/');
@@ -68,8 +56,6 @@ export default withAuth(
     callbacks: {
       authorized: ({ req, token }) => {
         if (token) return true;
-        if (req.nextUrl.pathname.startsWith('/facilities')) return true;
-        if (req.nextUrl.pathname.startsWith('/calendar')) return true;
         else return false;
       },
     },
@@ -78,12 +64,6 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/facilities',
-    '/facilties/:path*',
-    '/account',
-    '/account/:path*',
-    '/calendar',
-    '/calendar/:path*',
     '/api/reservation',
     '/api/reservation/:path*',
     '/reservation',

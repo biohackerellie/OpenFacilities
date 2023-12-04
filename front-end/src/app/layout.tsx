@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
-import { Providers } from '@/components/contexts';
+
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
 import { GeistSans } from 'geist/font';
@@ -11,7 +11,6 @@ import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 
 import './globals.css';
-import { disableReactDevTools } from '@/utils/disableDevTools';
 
 export const metadata = {
   title: 'LPS Facilities',
@@ -24,26 +23,24 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (process.env.NODE_ENV === 'production') disableReactDevTools();
   return (
     <AuthProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning={true}
-        className={GeistSans.className}
-      >
+      <html lang="en" suppressHydrationWarning className={GeistSans.className}>
         <GoogleAnalytics
           GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string}
         />
         <body>
-          <ThemeProviders>
-            <Providers>
-              <Navbar />
+          <ThemeProviders
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
 
-              {children}
-              <Footer />
-              <Toaster />
-            </Providers>
+            {children}
+            <Footer />
+            <Toaster />
           </ThemeProviders>
           <Analytics />
         </body>

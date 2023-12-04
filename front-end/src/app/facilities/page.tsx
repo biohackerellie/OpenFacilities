@@ -8,10 +8,12 @@ import { type FacilityWithCategory } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 
 type PartialFacility = Partial<FacilityWithCategory>;
+
 async function getFacilities() {
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/facilities', {
     next: {
       revalidate: 3600,
+      tags: ['facilities'],
     },
   });
   const facilities = await res.json();

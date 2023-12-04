@@ -12,7 +12,10 @@ export default function CardLayout({
   facilities: PartialFacility[];
 }) {
   const searchParams = useSearchParams();
-  const selectedBuilding = searchParams.get('building') || 'All';
+  let selectedBuilding: string | null = 'All';
+  if (searchParams && searchParams.has('building')) {
+    selectedBuilding = searchParams.get('building');
+  }
 
   if (selectedBuilding !== 'All') {
     const filteredFacilities = facilities.filter(
@@ -30,11 +33,7 @@ export default function CardLayout({
         </div>
       </>
     );
-  } else if (
-    selectedBuilding === 'All' ||
-    selectedBuilding === null ||
-    searchParams === null
-  ) {
+  } else if (selectedBuilding === 'All' || null) {
     return (
       <>
         <div className="flex flex-col sm:grid  p-0  sm:grid-cols-2 gap-4 mt-0 pb-[1px] sm:pb-[150px] ">
