@@ -14,15 +14,12 @@ export default async function DashboardPage() {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger disabled={true} value="payments">
-                Payments
-              </TabsTrigger>
+              <TabsTrigger value="payments">Payments</TabsTrigger>
             </TabsList>
-            <TabsContent value="overview">
-              <Suspense fallback={<Skeleton className="w-auto h-auto" />}>
-                <Overview />
-              </Suspense>
-            </TabsContent>
+
+            <Suspense fallback={<Skeleton className="w-auto h-auto" />}>
+              <Overview />
+            </Suspense>
           </Tabs>
         </div>
       </div>

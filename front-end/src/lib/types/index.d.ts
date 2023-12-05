@@ -206,3 +206,9 @@ export interface ChartData {
   totalReservations?: number;
   buildingName?: string;
 }
+
+export interface RevenueData {
+  month?: string;
+  Revenue: number;
+  Loss: number;
+}
