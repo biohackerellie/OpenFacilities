@@ -126,7 +126,7 @@ export default async function paymentPage({
           </div>
 
           <div className="flex   justify-end text-xl    text-justify ">
-            {!paid && totalCost > 0 && (
+            {!paid && (totalCost > 0 || (costOverride && costOverride > 0)) && (
               <>
                 {session.isAdmin() ? (
                   <div className="flex  my-2 p-2  justify-end text-xl border-b-2 border-b-gray-700 dark:border-b-white text-justify ">
