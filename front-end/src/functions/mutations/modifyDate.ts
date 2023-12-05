@@ -5,18 +5,18 @@ import { ReservationDate } from '@/lib/db/schema';
 import { eq, sql } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 
-interface IFormInput {
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  id: any;
-}
 export default async function modifyDate(
-  data: IFormInput,
   id: number,
-  reservationID: number
+  reservationID: number,
+  formData: FormData
 ) {
+  const data = {
+    startDate: formData.get('startDate') as unknown as string,
+    endDate: formData.get('endDate') as unknown as string,
+    startTime: formData.get('startTime') as unknown as string,
+    endTime: formData.get('endTime') as unknown as string,
+  };
+
   await db
     .update(ReservationDate)
     .set({
@@ -27,5 +27,25 @@ export default async function modifyDate(
     })
     .where(eq(ReservationDate.id, id));
 
-  return revalidateTag('reservations');
+  revalidateTag('reservations');
+}
+
+export async function modifyDates(ids: number[], formData: FormData) {
+  const data = {
+    startTime: formData.get('startTime') as unknown as string,
+    endTime: formData.get('endTime') as unknown as string,
+  };
+
+  await db.transaction(async (tx) => {
+    for (const id of ids) {
+      await tx
+        .update(ReservationDate)
+        .set({
+          startTime: data.startTime,
+          endTime: data.endTime,
+        })
+        .where(eq(ReservationDate.id, id));
+    }
+  });
+  revalidateTag('reservations');
 }

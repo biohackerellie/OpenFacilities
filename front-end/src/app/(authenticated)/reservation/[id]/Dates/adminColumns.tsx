@@ -6,6 +6,7 @@ import HandleDelete from '@/functions/reservations/deleteDates';
 import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
 import { DateType } from '@/lib/types';
+import { Checkbox } from '@/components/ui/checkbox';
 
 import {
   DropdownMenu,
@@ -17,6 +18,26 @@ import {
 import EditDates from '@/components/forms/EditDates';
 
 export const adminColumns: ColumnDef<DateType>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+  },
   {
     accessorKey: 'startDate',
     header: ({ column }) => {
@@ -118,7 +139,30 @@ export const adminColumns: ColumnDef<DateType>[] = [
 
   {
     accessorKey: 'Edit',
-    header: 'Edit',
+    header: ({ table }) => {
+      if (table.getIsSomeRowsSelected()) {
+        const selectedRows = table.getSelectedRowModel();
+        const selectedData = selectedRows.flatRows.map((row) => row.original);
+        const mappedRowData = selectedData.map((row) => {
+          return {
+            id: row.Options,
+            startDate: row.startDate,
+            endDate: row.endDate,
+            startTime: row.startTime,
+            endTime: row.endTime,
+            resID: row.ReservationID,
+          };
+        });
+        console.log('mappedRowData', mappedRowData);
+        return (
+          <>
+            <EditDates selected={[mappedRowData]} />
+          </>
+        );
+      } else {
+        return <></>;
+      }
+    },
     cell: ({ row }) => {
       const id = row.getValue('Options') as any;
       const startDate = row.getValue('startDate') as string;
@@ -129,12 +173,14 @@ export const adminColumns: ColumnDef<DateType>[] = [
 
       return (
         <EditDates
-          id={id}
-          startDate={startDate}
-          endDate={endDate}
-          startTime={startTime}
-          endTime={endTime}
-          resID={reservationID}
+          date={{
+            id: id,
+            startDate: startDate,
+            endDate: endDate,
+            startTime: startTime,
+            endTime: endTime,
+            resID: reservationID,
+          }}
         />
       );
     },

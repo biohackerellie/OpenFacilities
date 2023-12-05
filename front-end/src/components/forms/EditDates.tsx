@@ -1,8 +1,6 @@
-'use client';
 import { Button } from '@/components/ui/buttons/button';
 import { Label } from '@/components/ui/label';
-import { useRouter } from 'next/navigation';
-import { useForm, SubmitHandler } from 'react-hook-form';
+
 import { modifyDate } from '@/functions/mutations';
 import {
   Sheet,
@@ -16,43 +14,24 @@ import {
 } from '@/components/ui/sheet';
 import React from 'react';
 
-interface DateProps {
+type DateProps = {
   id: any;
   startDate: string;
   endDate: string;
   startTime: string;
   endTime: string;
   resID: any;
-}
+} | null;
 
-interface IForminput {
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  id: any;
-}
-
-export default function EditDates(date: DateProps) {
-  const { register, handleSubmit } = useForm<IForminput>();
-  const router = useRouter();
-  const onSubmit = async (data: IForminput) => {
-    const id = date.id;
-
-    try {
-      await modifyDate(data, date.id, date.resID);
-    } catch (errors) {
-    } finally {
-      router.refresh();
-    }
-  };
+export default function EditDates({ date }: { date?: DateProps }) {
+  const updateDatewithProps = modifyDate.bind(null, date?.id, date?.resID);
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline">Edit</Button>
       </SheetTrigger>
       <SheetContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={updateDatewithProps}>
           <SheetHeader>
             <SheetTitle>Edit Dates</SheetTitle>
             <SheetDescription>
@@ -63,37 +42,37 @@ export default function EditDates(date: DateProps) {
             <div className="flex flex-col space-y-2">
               <Label htmlFor="start-date">Start Date</Label>
               <input
-                {...register('startDate')}
+                name="startDate"
                 id="startDate"
                 type="date"
-                defaultValue={date.startDate}
+                defaultValue={date?.startDate}
               />
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="endDate">End Date</Label>
               <input
-                {...register('endDate')}
+                name="endDate"
                 id="endDate"
                 type="date"
-                defaultValue={date.endDate}
+                defaultValue={date?.endDate}
               />
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="startTime">Start Time</Label>
               <input
-                {...register('startTime')}
+                name="startTime"
                 id="startTime"
                 type="time"
-                defaultValue={date.startTime}
+                defaultValue={date?.startTime}
               />
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="endTime">End Time</Label>
               <input
-                {...register('endTime')}
+                name="endTime"
                 id="endTime"
                 type="time"
-                defaultValue={date.endTime}
+                defaultValue={date?.endTime}
               />
             </div>
           </div>

@@ -25,7 +25,11 @@ export default function RootLayout({
 }) {
   return (
     <AuthProvider>
-      <html lang="en" suppressHydrationWarning className={GeistSans.className}>
+      <html
+        lang="en"
+        suppressHydrationWarning={true}
+        className={GeistSans.className}
+      >
         <GoogleAnalytics
           GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string}
         />

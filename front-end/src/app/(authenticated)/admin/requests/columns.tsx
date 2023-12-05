@@ -60,7 +60,9 @@ export const columns: ColumnDef<TableReservation>[] = [
 
       return (
         <AlertDialog>
-          <AlertDialogTrigger>Approve or Deny All</AlertDialogTrigger>
+          <AlertDialogTrigger className="hover:text-secondary">
+            Approve?
+          </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Approve All</AlertDialogTitle>
