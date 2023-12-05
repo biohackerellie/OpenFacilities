@@ -37,21 +37,19 @@ export default async function reservationDatesPage({
   const mappedDates = await getReservation(params.id);
   return (
     <div className="space-y-7" suppressHydrationWarning>
-      <div>
-        <h2 className="Text-lg font-medium">Reservation Dates </h2>
-      </div>
+      <Suspense fallback={<Skeleton className="h-auto w-auto" />}>
+        <div>
+          <h2 className="Text-lg font-medium">Reservation Dates </h2>
+        </div>
 
-      {session.isAdmin() ? (
-        <Suspense fallback={<Skeleton className="h-auto w-auto" />}>
+        {session.isAdmin() ? (
           <DataTable columns={adminColumns} data={mappedDates} />
-        </Suspense>
-      ) : (
-        <>
-          <Suspense fallback={<Skeleton className="h-auto w-auto" />}>
+        ) : (
+          <>
             <DataTable columns={columns} data={mappedDates} />
-          </Suspense>
-        </>
-      )}
+          </>
+        )}
+      </Suspense>
     </div>
   );
 }

@@ -37,7 +37,9 @@ export async function modifyDates(ids: number[], formData: FormData) {
   };
 
   await db.transaction(async (tx) => {
+    if (!ids) return;
     for (const id of ids) {
+      if (!id) continue;
       await tx
         .update(ReservationDate)
         .set({

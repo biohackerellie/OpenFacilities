@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sheet';
 import React from 'react';
 
-export default function EditDates(ids: number[]) {
+export default function EditMultipleDates({ ids }: { ids: number[] }) {
   const updateDatewithProps = modifyDates.bind(null, ids);
   return (
     <Sheet>

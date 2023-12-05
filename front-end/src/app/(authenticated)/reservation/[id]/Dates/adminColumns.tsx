@@ -7,7 +7,7 @@ import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
 import { DateType } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
-
+import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import EditDates from '@/components/forms/EditDates';
+import EditMultipleDates from '@/components/forms/EditMultipleDays';
 
 export const adminColumns: ColumnDef<DateType>[] = [
   {
@@ -140,28 +141,14 @@ export const adminColumns: ColumnDef<DateType>[] = [
   {
     accessorKey: 'Edit',
     header: ({ table }) => {
-      if (table.getIsSomeRowsSelected()) {
-        const selectedRows = table.getSelectedRowModel();
-        const selectedData = selectedRows.flatRows.map((row) => row.original);
-        const mappedRowData = selectedData.map((row) => {
-          return {
-            id: row.Options,
-            startDate: row.startDate,
-            endDate: row.endDate,
-            startTime: row.startTime,
-            endTime: row.endTime,
-            resID: row.ReservationID,
-          };
-        });
-        console.log('mappedRowData', mappedRowData);
-        return (
-          <>
-            <EditDates selected={[mappedRowData]} />
-          </>
-        );
-      } else {
-        return <></>;
-      }
+      const selectedRows = table.getSelectedRowModel();
+      const selectedData = selectedRows.flatRows.map((row) => row.original);
+      const SelectedRowIds = selectedData.map((row) => row.Options!);
+      return (
+        <>
+          <EditMultipleDates ids={SelectedRowIds} />
+        </>
+      );
     },
     cell: ({ row }) => {
       const id = row.getValue('Options') as any;
