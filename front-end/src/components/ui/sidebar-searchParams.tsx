@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/buttons/button';
 import { buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -17,7 +17,6 @@ export function SidebarSearchParamsNav({
   items,
   ...props
 }: SidebarNavProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   let selectedBuilding: string | null = 'All';
@@ -44,9 +43,11 @@ export function SidebarSearchParamsNav({
       {...props}
     >
       {items.map((item) => (
-        <Button
+        <Link
           key={item.title}
-          variant="link"
+          href={
+            pathname + '?' + handleSetSelectedBuilding('building', item.title)
+          }
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             selectedBuilding === item.title
@@ -54,14 +55,9 @@ export function SidebarSearchParamsNav({
               : 'hover:bg-transparent hover:underline',
             'justify-start'
           )}
-          onClick={() =>
-            router.push(
-              pathname + '?' + handleSetSelectedBuilding('building', item.title)
-            )
-          }
         >
           {item.title}
-        </Button>
+        </Link>
       ))}
     </nav>
   );

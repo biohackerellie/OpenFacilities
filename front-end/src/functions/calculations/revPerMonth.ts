@@ -38,9 +38,9 @@ export default async function MonthlyRevenue({
   const reducedData = data.filter(
     (reservation) =>
       reservation.ReservationDate &&
-      reservation.ReservationDate.reduce((a, b) => {
-        return new Date(a.startDate) > new Date(b.startDate) ? a : b;
-      }).approved === 'approved' &&
+      reservation.ReservationDate.some(
+        (date) => date.approved === 'approved'
+      ) &&
       isAfter(
         new Date(
           reservation.ReservationDate.reduce((a, b) => {
