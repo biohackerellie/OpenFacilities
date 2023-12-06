@@ -6,7 +6,6 @@ import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
 import { GeistSans } from 'geist/font';
-import GoogleAnalytics from '@/lib/GoogleAnalytics';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -30,9 +29,6 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={GeistSans.className}
       >
-        <GoogleAnalytics
-          GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_TRACKING_ID as string}
-        />
         <body>
           <ThemeProviders
             attribute="class"

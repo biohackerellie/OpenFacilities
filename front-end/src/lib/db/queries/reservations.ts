@@ -29,9 +29,7 @@ export const GetReservations = db.query.Reservation.findMany({
 
   with: {
     Facility: true,
-    ReservationDate: {
-      where: gte(ReservationDate.startDate, currentDate.format('YYYY-MM-DD')),
-    },
+    ReservationDate: true,
     Category: true,
     User: {
       columns: {

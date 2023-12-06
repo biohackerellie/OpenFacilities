@@ -17,10 +17,10 @@ async function getData() {
 export default async function Requests() {
   const data = await getData();
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        Requests
-      </h1>
+    <div className="space-y-7">
+      <div>
+        <h1 className="text-lg font-medium">Requests</h1>
+      </div>
       <Suspense fallback={<TableSkeleton />}>
         <DataTable columns={columns} data={data} />
       </Suspense>

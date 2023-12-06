@@ -33,34 +33,55 @@ async function mapRequests(requests: Reservation[]) {
 
 async function mapReservations(Reservations: Reservation[]) {
   const currentDate = moment();
-  const mappedReservations: TableReservation[] = Reservations.map(
-    (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate, 'YYYY-MM-DD').diff(
-          moment(b.startDate, 'YYYY-MM-DD')
-        )
-      );
-      const nextUpcomingDate = sortedDates?.find(
-        (date) => moment(date.startDate, 'YYYY-MM-DD') >= currentDate
-      );
 
-      const mostRecentPastDate =
-        !nextUpcomingDate && sortedDates.length > 0
-          ? sortedDates[sortedDates.length - 1]
-          : 'No Dates Defined';
+  const mappedReservations: any[] = Reservations.map((reservation) => {
+    const sortedDates = reservation.ReservationDate.sort((a, b) =>
+      moment(a.startDate, 'YYYY-MM-DD').diff(moment(b.startDate, 'YYYY-MM-DD'))
+    );
+    const nextUpcomingDate = sortedDates?.find(
+      (date) => moment(date.startDate, 'YYYY-MM-DD') >= currentDate
+    );
+    if (nextUpcomingDate) {
       return {
         eventName: reservation.eventName,
         Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate
-          ? nextUpcomingDate.startDate
-          : mostRecentPastDate?.startDate,
+        ReservationDate: nextUpcomingDate.startDate,
         approved: reservation.approved,
         User: reservation.User?.name || '',
         Details: reservation.id,
       };
     }
-  );
-  return mappedReservations;
+    return null;
+  }).filter((reservation) => reservation !== null);
+  return mappedReservations as TableReservation[];
+}
+
+async function mapPastReservations(Reservations: Reservation[]) {
+  const currentDate = moment();
+  const mappedReservations: any[] = Reservations.map((reservation) => {
+    const sortedDates = reservation.ReservationDate.sort((a, b) =>
+      moment(a.startDate, 'YYYY-MM-DD').diff(moment(b.startDate, 'YYYY-MM-DD'))
+    );
+
+    const nextUpcomingDate = sortedDates?.find(
+      (date) => moment(date.startDate, 'YYYY-MM-DD') >= currentDate
+    );
+    const reservationDate = reservation.ReservationDate.map(
+      (date) => date.startDate
+    );
+    if (!nextUpcomingDate) {
+      return {
+        eventName: reservation.eventName,
+        Facility: reservation.Facility.name,
+        ReservationDate: reservationDate[0],
+        approved: reservation.approved,
+        User: reservation.User?.name || '',
+        Details: reservation.id,
+      };
+    }
+    return null;
+  }).filter((reservation) => reservation !== null);
+  return mappedReservations as TableReservation[];
 }
 
 async function mapDates(ReservationDates: any[]) {
@@ -129,4 +150,5 @@ export {
   mapDates,
   userReservations,
   mappedFacilities,
+  mapPastReservations,
 };
