@@ -13,9 +13,9 @@ Open Facilities is an open-source facility reservation application, developed to
 _TBC_
 For detailed setup and usage instructions, please refer to our comprehensive documentation at [https://docs.epklabs.com](https://docs.epklabs.com).
 
-## Example and Reference
+## Production Example
 
-The Laurel Public Schools district uses a customized fork of this project. You can view their codebase at the [Laurel Public Schools GitHub](https://github.com/Laurel-Public-Schools/LPS-Facilities) and the live version of their app at [facilities.laurel.k12.mt.us](https://facilities.laurel.k12.mt.us).
+I started this project by designing the application for use at the Laurel Public School District in Laurel Montana and you can see the live application at [facilities.laurel.k12.mt.us](https://facilities.laurel.k12.mt.us). The codebase for LPS-Facilities is a fork of this repo, and you can view it [Here](https://github.com/Laurel-Public-Schools/LPS-Facilities).
 
 ## Usage
 
