@@ -5,3 +5,5 @@
 MinIO/
 ./masters.js
 .vercel
+front-end/src/utils/manualSync.*
+front-end/src/app/api/test/*

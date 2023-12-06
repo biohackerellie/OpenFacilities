@@ -23,14 +23,6 @@ export default function SquarePayment(amount: any, user: any) {
               }),
             }
           );
-          console.log(
-            'Received nonce:',
-            token,
-            'and amount:',
-            amount,
-            'n buyer verification token:',
-            verifiedBuyer
-          );
         }}
         locationId={process.env.SQUARE_LOCATION_ID || ''}
       >

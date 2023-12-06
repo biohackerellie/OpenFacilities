@@ -1,11 +1,11 @@
 'use client';
-import { ApproveAll } from '@/components/hooks';
+
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { approveReservation, denyReservation } from '@/functions/reservations';
-import { useToast } from '@/components/ui/use-toast';
+import { TableReservation } from '@/lib/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,16 +18,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-interface TableReservations {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
-  Details: number;
-}
-
-export const columns: ColumnDef<TableReservations>[] = [
+export const columns: ColumnDef<TableReservation>[] = [
   {
     accessorKey: 'eventName',
     header: 'Event Name',
@@ -69,7 +60,9 @@ export const columns: ColumnDef<TableReservations>[] = [
 
       return (
         <AlertDialog>
-          <AlertDialogTrigger>Approve or Deny All</AlertDialogTrigger>
+          <AlertDialogTrigger className="hover:text-secondary">
+            Approve?
+          </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Approve All</AlertDialogTitle>
@@ -120,7 +113,7 @@ export const columns: ColumnDef<TableReservations>[] = [
       const id = parseInt(row.getValue('Details'));
       return (
         <Button>
-          <Link href={`/admin/reservations/${id}`}>Details</Link>
+          <Link href={`/reservation/${id}`}>Details</Link>
         </Button>
       );
     },

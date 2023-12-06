@@ -54,3 +54,5 @@ front-end/src/env/*
 .env*
 **/config.load
 .env
+front-end/src/utils/manualSync.*
+front-end/src/utils/manualSync.js

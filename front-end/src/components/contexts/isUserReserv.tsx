@@ -1,9 +1,5 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import React from 'react';
-
+import { getCurrentUser } from '@/functions/data/auth';
 import { User } from 'next-auth';
 
 interface Reservation {
@@ -15,12 +11,11 @@ interface Props {
   reservation: Reservation;
 }
 
-export default function IsUserReserv({ children, reservation }: Props) {
-  const { data: session, status } = useSession();
-
-  if (status === 'authenticated') {
-    const user = session?.user as User;
-    if (user?.id === reservation.userId) {
+export default async function IsUserReserv({ children, reservation }: Props) {
+  const session = await getCurrentUser();
+  const user = session?.user as User;
+  if (session.user) {
+    if (user?.id === reservation.userId || session.isAdmin()) {
       return <>{children}</>;
     } else {
       return (

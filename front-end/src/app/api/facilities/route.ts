@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
 import { serializeJSON } from '@/utils/serializeJSON';
 
-export const runtime = 'edge';
-
 export async function GET(request: Request) {
-  const res = await prisma.facility.findMany({
-    include: {
+  const res = await db.query.Facility.findMany({
+    with: {
       Category: true,
     },
-    cacheStrategy: { swr: 3600, ttl: 3600 },
   });
   return NextResponse.json(serializeJSON(res));
 }

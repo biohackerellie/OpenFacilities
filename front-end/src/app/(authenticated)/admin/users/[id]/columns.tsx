@@ -9,7 +9,7 @@ interface TableUser {
   eventName: string;
   Facility?: string;
   ReservationDate?: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled' | 'N/A';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled' | 'N/A';
   Details: number;
 }
 
@@ -58,7 +58,7 @@ export const columns: ColumnDef<TableUser>[] = [
       const id = parseInt(row.getValue('Details'));
       return (
         <Button>
-          <Link href={`/admin/reservations/${id}`}>Details</Link>
+          <Link href={`/reservation/${id}`}>Details</Link>
         </Button>
       );
     },

@@ -1,18 +1,14 @@
 'use server';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { Reservation } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export default async function HandleDelete(id: number) {
   try {
-    const response = await prisma.reservation.delete({
-      where: {
-        id: id,
-      },
-    });
+    await db.delete(Reservation).where(eq(Reservation.id, id));
   } catch (error) {
-    console.error('An issue has occurred: ', error);
-  } finally {
-    revalidatePath('/admin/reservations');
+    throw new Error();
   }
-  return;
+  return revalidatePath('/admin/reservations');
 }

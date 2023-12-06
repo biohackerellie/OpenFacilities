@@ -1,57 +1,82 @@
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
-import { Events } from "@prisma/client";
-
-
-export const runtime = 'edge';
+import { NextRequest, NextResponse } from 'next/server';
+import { AllEventsQuery } from '@/lib/db/queries/events';
+import { db } from '@/lib/db';
+import { Events, type InsertEvents } from '@/lib/db/schema';
+import { revalidateTag } from 'next/cache';
+import { eq } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
+  const { events } = await request.json();
+  const headers = request.headers;
+  if (headers.get('x-api-key') !== process.env.EMAIL_API_KEY) {
+    return NextResponse.json(
+      { ok: false, message: 'unauthorized' },
+      { status: 401 }
+    );
+  }
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-	try{
-	const { events } = await request.json();
+  const databaseEvents = await AllEventsQuery.execute();
 
-	const oneMonthAgo = new Date();
-	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-
-	const databaseEvents = await prisma.events.findMany({
-		cacheStrategy: { swr: 60, ttl: 60 }
-	});
-
-	const eventsToDelete = databaseEvents
-  .filter(event => new Date(event.start || '') < oneMonthAgo)
-  .map(event => event.id);
-
-	await prisma.events.deleteMany({
-		where: {
-			id: {
-				in: eventsToDelete,
-			},
-		}
-	})
-
-const eventsToCreate = events
-  .filter((eventData : Events) => !databaseEvents.some(e => e.id === eventData.id))
-  .map((eventData : Events) => ({
-    id: eventData.id,
-    title: eventData.title,
-    start: eventData.start,
-    end: eventData.end,
-    facilityId: BigInt(eventData.facilityId),
-  }));
-
-	const response = await prisma.events.createMany({
-		data: eventsToCreate,
-		skipDuplicates: true,
-	});
-
-
-
-	
-	return NextResponse.json({response: 200, message: response });
-	} catch (error) {
-		console.error(error);
-		return NextResponse.json(error);
-	}
-} 
-	
+  let deleted = 0;
+  let created = 0;
+  let updated = 0;
+  let failed = 0;
+  let messageDetails = '';
+  const eventsToDelete = databaseEvents
+    .filter((event) => new Date(event.start || '') < oneMonthAgo)
+    .map((event) => event.id);
+  if (eventsToDelete.length > 0) {
+    try {
+      for (const event of eventsToDelete) {
+        await db.delete(Events).where(eq(Events.id, event as any));
+        deleted++;
+      }
+    } catch (error) {
+      failed++;
+      messageDetails += `Failed to delete ${error} events. `;
+    }
+  }
+  if (events !== undefined) {
+    try {
+      for (const eventData of events) {
+        const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
+        if (existingEvent && existingEvent.placeholder) {
+          await db
+            .update(Events)
+            .set({
+              title: eventData.title,
+              start: eventData.start,
+              end: eventData.end,
+              facilityId: eventData.facilityId ? eventData.facilityId : null,
+              placeholder: false,
+            })
+            .where(eq(Events.id, eventData.id));
+          updated++;
+        } else {
+          await db.insert(Events).values({
+            id: eventData.id,
+            title: eventData.title,
+            start: eventData.start,
+            end: eventData.end,
+            facilityId: eventData.facilityId ? eventData.facilityId : null,
+            placeholder: false,
+          });
+          created++;
+        }
+      }
+    } catch (error) {
+      failed++;
+      messageDetails += `Failed to create ${error} events. `;
+    }
+  }
+  revalidateTag('events');
+  return NextResponse.json(
+    {
+      ok: true,
+      message: `Deleted ${deleted} events, created ${created} events, and updated ${updated} events. Failed on ${failed} events. ${messageDetails}`,
+    },
+    { status: 200 }
+  );
+}

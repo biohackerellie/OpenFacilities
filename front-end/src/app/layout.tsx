@@ -1,48 +1,50 @@
-import { Roboto_Mono } from 'next/font/google';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
-import { Providers } from '@/components/contexts';
+
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
-import moment from 'moment-timezone';
+import { GeistSans } from 'geist/font';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
+
 import './globals.css';
 
-moment.tz.setDefault('America/Denver');
-
-const roboto_mono = Roboto_Mono({
-	subsets: ['latin'],
-	display: 'swap',
-	variable: '--font-roboto-mono',
-});
-
 export const metadata = {
-	title: 'Open Facilities',
-	description: 'Open Source Facility Rental Software',
+  title: 'Open Facilities',
+  description: 'Open Source Facility Rental Software',
 };
 
+//layout.tsx
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<AuthProvider>
-			<html lang="en" suppressHydrationWarning>
-				<body className={`${roboto_mono.variable}`}>
-					<ThemeProviders>
-						<Providers>
-							<Navbar />
-							{children}
+  return (
+    <AuthProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning={true}
+        className={GeistSans.className}
+      >
+        <body>
+          <ThemeProviders
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
 
-							<Footer />
-							<Toaster />
-						</Providers>
-					</ThemeProviders>
-					<Analytics />
-				</body>
-			</html>
-		</AuthProvider>
-	);
+            {children}
+            <Footer />
+            <Toaster />
+          </ThemeProviders>
+          <Analytics />
+        </body>
+      </html>
+    </AuthProvider>
+  );
 }

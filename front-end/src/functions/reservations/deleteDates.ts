@@ -1,15 +1,16 @@
 'use server';
-import prisma from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { ReservationDate } from '@/lib/db/schema';
+import { revalidateTag } from 'next/cache';
 
-export default async function HandleDelete(id: number) {
+export default async function HandleDelete(id: number, reservationID: number) {
   try {
-    const response = await prisma.reservationDate.delete({
-      where: {
-        id: id,
-      },
-    });
+    const response = await db
+      .delete(ReservationDate)
+      .where(eq(ReservationDate.id, id));
   } catch (error) {
-    console.error('An issue has occurred: ', error);
+    throw new Error();
   }
-  return;
+  return revalidateTag('reservations');
 }

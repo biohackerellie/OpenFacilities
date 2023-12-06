@@ -24,9 +24,6 @@ module.exports = {
       },
     },
     extend: {
-      fontFamily: {
-        mono: ['var(--font-roboto-mono)'],
-      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -47,10 +44,10 @@ module.exports = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
 
-        ...mauve,
-        ...violet,
-        ...green,
-        ...blackA,
+        // ...mauve,
+        // ...violet,
+        // ...green,
+        // ...blackA,
 
         muted: {
           DEFAULT: 'hsl(var(--muted))',

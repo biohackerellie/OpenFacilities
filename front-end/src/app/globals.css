@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
  
-* {
-	-webkit-font-smoothing: auto;
-	
-}
 
 
 
@@ -14,25 +10,33 @@
 
 
 ::-webkit-scrollbar {
+	display: block;
 	width: 5px;
+
+	height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-	background: #acacac4f;
+	background: #8b8b8b25;
 
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #949494;
-  border-radius: 12px;
+	background: #a5a5a5;
+  border-radius: 48px;
+	height: 4em;
+
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #474747;
-  border-radius: 12px;
-	
+  background: #d6d6d6;
+  border-radius: 48px;
+	height: 4px;
 }
+
+
+
 
 
 @layer base {
@@ -83,81 +87,22 @@
 }
 
 
+@layer base {
+	* {
+		@apply border-border;
+	}
+body {
+	@apply bg-background text-foreground;
 
-  
-	.nav-link {
-		color: azure;
-		font-size: large;
-		font-weight: bold;
+	font-feature-settings: "rlig" 1, "calt" 1;
 	
-	}
+	
+}
 
-	
-	.grow {
-		transition: all .2s ease-in-out;
-	}
-	.grow:hover {
-		transform: scale(1.1);
-	}
-	
-	.nav-item {
-		border-radius: 15px;
-		background-color: transparent;
-		width: auto;
-		scale: 1.2;
-		padding-left: 10px;
-		padding-right: 10px;
-		font-weight: bold;
-		transition: all .2s ease-in-out;
-		
-	}
-	
-	
-	.nav-item:hover {
-		
-		transform: scale(1.3);
-		transition: all .2s ease-in-out;
-		
-	
-	}
-	
-	.input {
-		border: 2px solid #000000;
-		background-color: #e9e8e8;
-		color: black;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	
-	.form-button {
-		border: 2px solid #000000;
-		background-color: #f7b512;
-		color: black;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	
-	
-	
-	
-	
-	
-	
-	label {
-		display: block;
-	}
-	
-	input {
-		border: 2px solid #ccc;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-	/* body {
-		height: 100%;
-		@apply bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-gray-100 to-gray-300 dark:bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] dark:from-gray-900 dark:to-gray-600  bg-no-repeat bg-fixed 
+}
 
-	
-	} */
+  	/* -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale; */
  
 .ReactModal__Overlay {
 	opacity: 0;
@@ -306,8 +251,3 @@
   background: #4d436e8c !important;
 }
 
-.form-select:not(:focus) option {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}

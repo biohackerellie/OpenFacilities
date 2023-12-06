@@ -6,13 +6,13 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Modal from 'react-modal';
-import { Events } from '@prisma/client';
+
 import { useTheme } from 'next-themes';
 
 const localizer = momentLocalizer(moment);
 
 interface Props {
-  facilityId: number;
+  events: any[];
   startDate: Date;
 }
 
@@ -20,37 +20,22 @@ interface DateProps {
   startDate: Date;
 }
 
-export default function SmallCalendar({ facilityId, startDate }: Props) {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_HOST + `/api/events/${facilityId}`,
-        { next: { tags: ['events'] } }
-      );
-      const fetchedEvents = await res.json();
-
-      setEvents(
-        fetchedEvents.map((event) => ({
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          building: event.Facility.building,
-          facility: event.Facility.name,
-        }))
-      );
-    };
-    fetchEvents();
-  }, []);
+export default function SmallCalendar({ events, startDate }: Props) {
+  const mappedEvents = events.map((event) => ({
+    title: event.title,
+    start: new Date(event.start),
+    end: new Date(event.end),
+    building: event.Facility.building,
+    facility: event.Facility.name,
+  }));
 
   const { theme } = useTheme();
 
   const isDarkMode = theme === 'dark';
   const calendarStyle = {
     height: 450,
-    width: 600,
-    border: 5,
+    width: 500,
+    border: 2,
     ...(isDarkMode && {
       WebkitTextFillColor: 'white',
       WebkitTextStrokeColor: 'white',
@@ -81,12 +66,12 @@ export default function SmallCalendar({ facilityId, startDate }: Props) {
 
   return (
     <>
-      <div className="flex  h-35 max-h-35 p-3 mb-10">
+      <div className="max-w-[550px] float-left mr-10  h-35 max-h-35 p-3 mb-10">
         <Calendar
           defaultDate={defaultDate}
           views={views}
           localizer={localizer}
-          events={events}
+          events={mappedEvents}
           onSelectEvent={(event) => setSelectedEvent(event)}
           popup
           startAccessor="start"

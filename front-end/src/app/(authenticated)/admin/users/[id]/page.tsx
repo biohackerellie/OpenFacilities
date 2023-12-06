@@ -1,34 +1,30 @@
 import React from 'react';
 import { columns } from './columns';
 import moment from 'moment';
-
-import { User, Facility } from '@prisma/client';
-import { Reservation } from '@/lib/types';
+import { Suspense } from 'react';
+import TableSkeleton from './skeleton';
+import { getUser } from '@/functions/data/users';
+import { Reservation, User } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
 
 interface TableUser {
   Name: string;
+
   eventName: string;
   Facility: string;
   ReservationDate?: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled' | 'N/A';
+  approved: 'pending' | 'approved' | 'denied' | 'canceled' | 'N/A';
   Details: number;
-}
-
-interface ExtendedUser extends User {
-  Reservation?: Reservation[];
-  Facility?: Facility;
 }
 
 const currentDate = moment().format('YYYY-MM-DD');
 
-async function getData(id: string): Promise<TableUser[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${id}`, {
-    method: 'GET',
-  });
-
-  const user: ExtendedUser = await res.json();
+async function getData(id: string) {
+  const user = await getUser(id);
   const reservation: Reservation[] = user.Reservation || [];
+  if (reservation.length === 0) {
+    return [user];
+  }
 
   const mappedReservations: TableUser[] = reservation.map((reservation) => {
     const sortedDates = reservation.ReservationDate.sort((a, b) =>
@@ -55,11 +51,12 @@ export default async function accountPage({
   params: { id: string };
 }) {
   const id = params.id;
-  const data = await getData(id);
-  const name = data.length > 0 ? data[0].Name : 'Unknown';
 
+  const data = await getData(id);
+
+  const name = data[0].Name || data[0].name;
   return (
-    <div className="container mx-auto py-10">
+    <div className="space-y-7 space-x-2 ">
       <h1 className="font-bold flex justify-center m-3 border-b p-3 drop-shadow-lg text-4xl">
         {name}
       </h1>
@@ -69,7 +66,9 @@ export default async function accountPage({
       {data.length === 0 ? (
         <p className="text-center">No reservations found.</p>
       ) : (
-        <DataTable columns={columns} data={data} />
+        <Suspense fallback={<TableSkeleton />}>
+          <DataTable columns={columns} data={data} />
+        </Suspense>
       )}
     </div>
   );

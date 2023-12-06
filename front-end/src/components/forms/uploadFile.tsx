@@ -4,7 +4,8 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Button } from '../ui/buttons';
-import { Uploader } from '@/functions/mutations';
+import { Loader2 } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 
 export function UploadFile({ params }: { params: { id: number } }) {
   const [isUploading, setIsUploading] = useState(false);
@@ -25,19 +26,20 @@ export function UploadFile({ params }: { params: { id: number } }) {
     formData.append('file', file);
     formData.append('id', id);
 
-    console.log('client file', file);
     try {
-      const response = await fetch('/api/files', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        '/api/files?path=/reservation/[id]/insurance',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
       const data = await response.json();
-      console.log('client data', data);
     } catch (error) {
       alert('something went wrong');
     } finally {
       setIsUploading(false);
-      router.refresh();
+      location.reload();
     }
   };
 
@@ -52,9 +54,16 @@ export function UploadFile({ params }: { params: { id: number } }) {
           />
         </div>
         <div className="p-2">
-          <Button name="submit" type="submit" disabled={isUploading || !file}>
-            Upload
-          </Button>
+          {isUploading ? (
+            <Button disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Uploading...
+            </Button>
+          ) : (
+            <Button name="submit" type="submit" disabled={!file}>
+              Upload
+            </Button>
+          )}
         </div>
       </form>
     </div>

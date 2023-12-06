@@ -4,12 +4,14 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuIndicator,
+  NavigationMenuMobileTrigger,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
 import IsAdminNav from '@/components/contexts/isAdminNav';
 import React from 'react';
@@ -33,101 +35,151 @@ export function AuthenticatedMenu() {
   if (status === 'authenticated') {
     return (
       <>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Account</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <Link href="/account" legacyBehavior passHref>
-                <ListItem title="My Reservations">
-                  Manage your reservations
-                </ListItem>
-              </Link>
-              <ListItem
-                className="cursor-pointer"
-                title="Sign Out"
-                onClick={() => signOut()}
-              >
-                Sign out of your account
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <IsAdminNav>
+        <div className="hidden sm:flex">
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
+            <NavigationMenuTrigger>Account</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <Link href="/admin/reservations" legacyBehavior passHref>
-                  <ListItem title="Reservations">Manage reservations</ListItem>
-                </Link>
-                <Link href="/admin/requests" legacyBehavior passHref>
-                  <ListItem title="Requests">
-                    Manage requests <RequestBadge />
+                {/* <Link href="/account" legacyBehavior passHref> */}
+                <a href="/account">
+                  <ListItem title="My Account">
+                    Manage your reservations & account details
                   </ListItem>
-                </Link>
-                <Link href="/admin/users" legacyBehavior passHref>
-                  <ListItem title="Users">Manage users</ListItem>
-                </Link>
+                </a>
+                {/* </Link> */}
+                <ListItem
+                  className="cursor-pointer"
+                  title="Sign Out"
+                  onClick={() => signOut()}
+                >
+                  Sign out of your account
+                </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-        </IsAdminNav>
+          <IsAdminNav>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <Link href="/admin/dashboard" legacyBehavior passHref>
+                    <ListItem title="Dashboard">
+                      View the admin dashboard
+                    </ListItem>
+                  </Link>
+                  <Link href="/admin/reservations" legacyBehavior passHref>
+                    <ListItem title="Reservations">
+                      Manage reservations
+                    </ListItem>
+                  </Link>
+                  <Link href="/admin/requests" legacyBehavior passHref>
+                    <ListItem title="Requests">
+                      Manage requests
+                      <RequestBadge />
+                    </ListItem>
+                  </Link>
+                  <Link href="/admin/users" legacyBehavior passHref>
+                    <ListItem title="Users">Manage users</ListItem>
+                  </Link>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </IsAdminNav>
+        </div>
+        <div className="visible sm:hidden">
+          <Link href="/account" legacyBehavior passHref>
+            <ListItem title="My Reservations" />
+          </Link>
+          <ListItem title="Sign Out" onClick={() => signOut()} />
+        </div>
       </>
     );
   }
   return (
-    <NavigationMenuItem>
-      <NavigationMenuLink
-        className={`${navigationMenuTriggerStyle()}, cursor-pointer`}
-        onClick={() => signIn()}
-      >
-        Sign In
-      </NavigationMenuLink>
-    </NavigationMenuItem>
+    <>
+      <div className="hidden sm:flex">
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            className={`${navigationMenuTriggerStyle()}, cursor-pointer`}
+            onClick={() => signIn()}
+          >
+            Sign In
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </div>
+      <div className="flex sm:hidden">
+        <Link href="/login" legacyBehavior passHref>
+          <ListItem title="Sign In" />
+        </Link>
+      </div>
+    </>
   );
 }
 
-export default function Menu() {
+export default function NavMenu() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Home
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/calendar" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Calendar
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Facilities</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <Link href="/reservation" legacyBehavior passHref>
-                <ListItem title="Reservation Form">
-                  Reserve a space now
-                </ListItem>
+    <>
+      <NavigationMenu>
+        <div className="hidden sm:flex">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Home
+                </NavigationMenuLink>
               </Link>
-              <Link href="/facilities" legacyBehavior passHref>
-                <ListItem title="Find a Space">
-                  View all of our available facilities
-                </ListItem>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/calendar" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Calendar
+                </NavigationMenuLink>
               </Link>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Facilities</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <Link href="/reservation" legacyBehavior passHref>
+                    <ListItem title="Reservation Form">
+                      Reserve a space now
+                    </ListItem>
+                  </Link>
+                  <Link href="/facilities" legacyBehavior passHref>
+                    <ListItem title="Find a Space">
+                      View all of our available facilities
+                    </ListItem>
+                  </Link>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
 
-        <AuthenticatedMenu />
+            <AuthenticatedMenu />
 
-        <ModeToggle />
-      </NavigationMenuList>
-    </NavigationMenu>
+            <ModeToggle />
+          </NavigationMenuList>
+        </div>
+        <div className=" flex flex-1 ml-4 sm:hidden">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuMobileTrigger />
+
+              <NavigationMenuContent className="  ">
+                <ul className="list-none flex flex-col max-h-screen flex-nowrap columns-1 text-lg items-start gap-4">
+                  <Link href="/" legacyBehavior passHref>
+                    <ListItem title="Home" />
+                  </Link>
+                  <Link href="/facilities" legacyBehavior passHref>
+                    <ListItem title="Facilities" />
+                  </Link>
+                  <AuthenticatedMenu />
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </div>
+      </NavigationMenu>
+    </>
   );
 }
 
@@ -146,7 +198,9 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className=" text-lg sm:text-sm font-bold sm:font-medium leading-none">
+            {title}
+          </div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
 import { serializeJSON } from '@/utils/serializeJSON';
-
-export const runtime = 'edge';
+import { BuildingQuery } from '@/lib/db/queries/facility';
+import { db } from '@/lib/db';
+import { like } from 'drizzle-orm';
+import { Facility } from '@/lib/db/schema';
 
 export async function GET(
   request: Request,
@@ -10,13 +11,8 @@ export async function GET(
 ) {
   const facilityBuilding = params.building;
 
-  const res = await prisma.facility.findMany({
-    where: {
-      building: {
-        contains: facilityBuilding,
-      },
-    },
-    cacheStrategy: { swr: 3600, ttl: 3600 },
+  const res = await db.query.Facility.findMany({
+    where: like(Facility.building, facilityBuilding),
   });
   return NextResponse.json(serializeJSON(res));
 }

@@ -1,7 +1,6 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
-import { User } from '@prisma/client';
+import { GetUsers } from '@/lib/db/queries/users';
 import { columns } from './columns';
-import prisma from '@/lib/prisma';
 
 interface TableUsers {
   User: string;
@@ -12,15 +11,7 @@ interface TableUsers {
 
 async function getUsers() {
   'use server';
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-    },
-    cacheStrategy: { swr: 3600, ttl: 3600 },
-  });
+  const users = await GetUsers.execute();
 
   const mappedUsers: TableUsers[] = users.map((user) => {
     return {
@@ -37,10 +28,10 @@ export default async function Users() {
   const data = await getUsers();
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        Users
-      </h1>
+    <div className="space-y-7">
+      <div>
+        <h1 className="text-lg font-medium">Users</h1>
+      </div>
       <DataTable columns={columns} data={data} />
     </div>
   );

@@ -27,12 +27,11 @@ export default function EditPricing(id: any) {
   const { register, handleSubmit } = useForm<IForminput>();
   const router = useRouter();
   const reservationID = id.id;
-  console.log('reservationID', reservationID);
   const onSubmit = async (data: IForminput) => {
     try {
       await addFee(data, reservationID);
-    } catch (errors) {
-      console.log(errors);
+    } catch (error) {
+      throw new Error('Something went wrong', { cause: error });
     } finally {
       router.refresh();
     }

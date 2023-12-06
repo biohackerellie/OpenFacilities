@@ -1,24 +1,17 @@
-import { PrismaClient } from '@prisma/client/edge';
-import { withAccelerate } from '@prisma/extension-accelerate';
+import { PrismaClient } from '@prisma/client';
 
-// Docs about instantiating `PrismaClient` with Next.js:
-// https://pris.ly/d/help/next-js-best-practices
+declare module global {
+  let prisma: PrismaClient | undefined;
+}
 
-// declare global {
-//   var prisma: PrismaClient | undefined;
-// }
-
-// let prisma: PrismaClient;
-
-// if (process.env.NODE_ENV === 'production') {
-//   prisma = new PrismaClient().$extends(withAccelerate());
-// } else {
-//   if (!globalThis.prisma) {
-//     globalThis.prisma = new PrismaClient().$extends(withAccelerate());
-//   }
-//   prisma = globalThis.prisma;
-// }
-
-const prisma = new PrismaClient().$extends(withAccelerate());
+let prisma: PrismaClient;
+if (process.env.NODE_ENV !== 'production') {
+  if (!global.prisma) {
+    global.prisma = new PrismaClient();
+  }
+  prisma = global.prisma;
+} else {
+  prisma = new PrismaClient();
+}
 
 export default prisma;

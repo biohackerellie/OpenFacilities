@@ -2,7 +2,6 @@
 import { revalidatePath } from 'next/cache';
 
 export default async function Uploader(body: any, id: any) {
-  console.log('file', body);
   const file = body.files[0];
   try {
     const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/files', {
@@ -15,7 +14,6 @@ export default async function Uploader(body: any, id: any) {
         id: id,
       }),
     });
-    console.log('res', res);
 
     const { putUrl, getUrl } = await res.json();
 
@@ -26,8 +24,7 @@ export default async function Uploader(body: any, id: any) {
     });
     return { status: uploadResponse.ok, uploadedURL: getUrl };
   } catch (error) {
-    console.log(error);
-    throw error;
+    throw new Error("Couldn't upload file", { cause: error });
   } finally {
     revalidatePath('/reservation/[id]', 'page');
   }

@@ -1,62 +1,55 @@
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
-import moment from 'moment';
+import {
+  mapReservations,
+  mapPastReservations,
+} from '@/functions/calculations/tableData';
 import { headers } from 'next/headers';
-import { Reservation } from 'lib/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import TableSkeleton from '../requests/skeleton';
+import { Suspense } from 'react';
+import { map } from 'zod';
 
-interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  User: string;
-  Details: number;
-}
-
-const currentDate = moment().format('YYYY-MM-DD');
-
-async function getReservations(): Promise<TableReservation[]> {
+async function getReservations() {
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
+
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reservation`, {
     headers: {
       Cookie: auth,
     },
   });
-  const Reservations: Reservation[] = await res.json();
+  const data = await res.json();
+  const [Reservations, PastReservations] = await Promise.all([
+    mapReservations(data),
+    mapPastReservations(data),
+  ]);
 
-  const mappedReservations: TableReservation[] = Reservations.map(
-    (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
-      );
-      const nextUpcomingDate = sortedDates?.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
-      );
-      return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate?.startDate : 'N/A',
-        approved: reservation.approved,
-        User: reservation.User?.name || '',
-        Details: reservation.id,
-      };
-    }
-  );
-
-  return mappedReservations;
+  return { Reservations, PastReservations };
 }
 
 export default async function Reservations() {
-  const data = await getReservations();
-
+  const { Reservations, PastReservations } = await getReservations();
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        Reservations
-      </h1>
-      <DataTable columns={columns} data={data} />
+    <div className="space-y-7">
+      <div>
+        <h1 className="text-lg font-medium">Reservations</h1>
+      </div>
+      <Suspense fallback={<TableSkeleton />}>
+        <Tabs defaultValue="upcoming">
+          <TabsList>
+            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+            <TabsTrigger value="past">Past</TabsTrigger>
+          </TabsList>
+          <TabsContent value="upcoming">
+            <DataTable columns={columns} data={Reservations} />
+          </TabsContent>
+          <TabsContent value="past">
+            <DataTable columns={columns} data={PastReservations} />
+          </TabsContent>
+        </Tabs>
+      </Suspense>
     </div>
   );
 }

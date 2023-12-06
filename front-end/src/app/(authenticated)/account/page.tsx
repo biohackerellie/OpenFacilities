@@ -1,64 +1,41 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
 import { Reservation } from '@/lib/types';
-import moment from 'moment';
+import { userReservations } from '@/functions/calculations/tableData';
 
-interface TableReservation {
-  eventName: string;
-  Facility: string;
-  ReservationDate: any[];
-  approved: 'pending' | 'approved' | 'denied' | 'cancelled';
-  Details: number;
-}
+import { Suspense } from 'react';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getProfile } from '@/functions/data/users';
 
-const currentDate = moment().format('YYYY-MM-DD');
-console.log('currentDate', currentDate);
-async function getData(): Promise<TableReservation[]> {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+async function getData() {
+  try {
+    const userSession = await getProfile();
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/users/${user.id}`
-  );
-  const userSession = await res.json();
+    const reservations: Reservation[] = userSession?.Reservation;
 
-  const reservations: Reservation[] = userSession?.Reservation;
-
-  const Facility = userSession?.Facility;
-  const mappedReservations: TableReservation[] = reservations.map(
-    (reservation) => {
-      const sortedDates = reservation.ReservationDate.sort((a, b) =>
-        moment(a.startDate).diff(moment(b.startDate))
-      );
-      console.log('sorted', sortedDates);
-      const nextUpcomingDate = sortedDates.find((date) =>
-        moment(date.startDate).isSameOrAfter(currentDate)
-      );
-      console.log('upcoming', nextUpcomingDate);
-      return {
-        eventName: reservation.eventName,
-        Facility: reservation.Facility.name,
-        ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
-        approved: reservation.approved,
-        Details: reservation.id,
-      };
+    if (!reservations) {
+      return [];
     }
-  );
 
-  return mappedReservations;
+    return userReservations(reservations);
+  } catch (error) {
+    return [];
+  }
 }
 
 export default async function Account() {
   const data = await getData();
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="font-bold text-3xl text-primary dark:text-secondary shadow-secondary drop-shadow">
-        My Reservations
-      </h1>
-      <DataTable columns={columns} data={data} />
+    <div className="space-y-7">
+      <div>
+        <h3 className="text-lg font-medium">My Reservations</h3>
+      </div>
+      <Separator />
+      <Suspense fallback={<Skeleton className="w-[400px] h-[400px]" />}>
+        <DataTable columns={columns} data={data} />
+      </Suspense>
     </div>
   );
 }

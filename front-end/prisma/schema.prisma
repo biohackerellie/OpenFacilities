@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  url       = env("DIRECT_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -41,16 +41,17 @@ model Category {
 }
 
 model Events {
-  id               String        @id(map: "idx_30101_PRIMARY") @unique(map: "idx_30101_Events_id_key") @db.VarChar(191)
-  calendarId       String?       @db.VarChar(191)
-  title            String?       @db.VarChar(191)
-  start            DateTime?     @db.Timestamptz(3)
-  end              DateTime?     @db.Timestamptz(3)
-  location         String?       @db.VarChar(191)
-  recurringEventId String?       @db.VarChar(191)
-  facilityId       BigInt
-  Facility         Facility      @relation(fields: [facilityId], references: [id], onDelete: Cascade)
-  Reservation      Reservation[]
+  id               String            @id(map: "idx_30101_PRIMARY") @unique(map: "idx_30101_Events_id_key") @db.VarChar(191)
+  calendarId       String?           @db.VarChar(191)
+  title            String?           @db.VarChar(191)
+  start            DateTime?         @db.Timestamptz(3)
+  end              DateTime?         @db.Timestamptz(3)
+  location         String?           @db.VarChar(191)
+  recurringEventId String?           @db.VarChar(191)
+  facilityId       BigInt?
+  placeholder      Boolean?          @default(false)
+  Facility         Facility?         @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  ReservationDate  ReservationDate[]
 
   @@index([facilityId], map: "idx_30101_Events_facilityId_fkey")
 }
@@ -103,7 +104,6 @@ model Reservation {
   ReservationFees  ReservationFees[]
 
   @@index([categoryId], map: "idx_30126_Reservation_categoryId_fkey")
-  @@index([eventId], map: "idx_30126_Reservation_eventId_fkey")
   @@index([facilityId], map: "idx_30126_Reservation_facilityId_fkey")
   @@index([userId], map: "idx_30126_Reservation_userId_fkey")
 }
@@ -116,6 +116,8 @@ model ReservationDate {
   endTime       String                   @db.VarChar(191)
   reservationId BigInt
   approved      ReservationDate_approved @default(pending)
+  gcal_eventid  String?                  @db.VarChar
+  Events        Events?                  @relation(fields: [gcal_eventid], references: [id], onDelete: NoAction)
   Reservation   Reservation              @relation(fields: [reservationId], references: [id], onDelete: Cascade)
 
   @@index([reservationId], map: "idx_30139_ReservationDate_reservationId_fkey")

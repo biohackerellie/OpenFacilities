@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-export const runtime = 'edge';
 
 export async function POST(req: NextRequest, response: NextResponse) {
   const jiraUser = process.env.JIRA_USER;
@@ -11,13 +10,10 @@ export async function POST(req: NextRequest, response: NextResponse) {
     'https://laurelschools.atlassian.net/rest/servicedeskapi/request';
 
   const formData = await req.json();
-  console.log('formdata: ', formData);
   const department = formData.department as string;
 
   const serviceDeskId = department === 'IT' ? '2' : '3';
   const requestTypeId = department === 'IT' ? '98' : '99';
-  console.log('serviceDeskId: ', serviceDeskId);
-  console.log('requestTypeId: ', requestTypeId);
 
   const config = {
     headers: {
@@ -42,7 +38,6 @@ export async function POST(req: NextRequest, response: NextResponse) {
       }),
     });
     const data = await response.json();
-		console.log('data: ', data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(error);
