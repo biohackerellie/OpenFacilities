@@ -1,41 +1,32 @@
 # Open Facilities 🏫
 
-## Introduction
+Open Facilities is an open-source facility reservation application, developed to streamline the process of reserving and managing school district facilities. It's built using TypeScript and Next JS, with a PostgreSQL database using Drizzle ORM.
 
-Hey there! 👋 I'm working on Open Facilities, an open-source facilities reservation app designed specifically with school districts in mind. The project is currently in progress and targeting a 1.0 release. You can either self-host it for free or opt for a paid SaaS solution once it's out. You can see it in action on its first official live usage for Laurel Public Schools in Montana at [https://facilities.laurel.k12.mt.us](https://facilities.laurel.k12.mt.us)
+## Features
 
-## Status 🚧
+- **Integration with Google Calendar API**: Sync your reservations seamlessly.
+- **Square for Payment Processing**: Secure and easy handling of payments.
+- **Next-Auth for Authentication**: Ensures secure access to the application.
 
-The project is still under active development, and I'm super excited about the updates that are coming soon. Stay tuned for the official release!
+## Documentation
 
-For Now, you can view the feature complete prod fork, LPS-Facilities, [here](https://github.com/Laurel-Public-Schools/LPS-Facilities)
+_TBC_
+For detailed setup and usage instructions, please refer to our comprehensive documentation at [https://docs.epklabs.com](https://docs.epklabs.com).
 
-### Roadmap 🗺️
+## Example and Reference
 
-- [x] UI Cleanup
-- [x] Migrate database to Supabase
-- [ ] Convert all customizable options into env variables
-- [ ] Migrate all calendar events to Google Calendar
-- [ ] Customizable Docker Compose
-- [ ] Demo Site
-- [ ] Launch
+The Laurel Public Schools district uses a customized fork of this project. You can view their codebase at the [Laurel Public Schools GitHub](https://github.com/Laurel-Public-Schools/LPS-Facilities) and the live version of their app at [facilities.laurel.k12.mt.us](https://facilities.laurel.k12.mt.us).
 
-## Contributing 🤝
+## Usage
 
-I'm currently accepting contributions! If you're interested in contributing, here's what you need to know:
+Feel free to clone or fork this project and modify it to fit the needs of your own district or organization. Let's make facility management easier for everyone! 😊
 
-- **Framework**: The project is built with Next.js and its newer App Router.
-- **Package Manager**: I'm using pnpm for package management.
-- **Language**: The codebase is in TypeScript.
-- **Database**: I'm using Prisma as the ORM for a MySQL database. However, I'm in the process of migrating to Supabase for the official launch.
+## Contributions
 
-## Documentation 📚
+Contributions are more than welcome! If you're interested in improving Open Facilities, feel free to fork the repository, make your changes, and submit a pull request. 🚀
+License
 
-Full documentation will be available at the time of release. So, keep an eye out for that!
-
----
-
-Feel free to fork, star, or contribute to Open Facilities. Let's make facility management easier for schools together!
+_Open Facilities is under the Apache License. This means it's free to use, modify, and distribute, even for commercial use. For more details, see the LICENSE file in the repository._
 
 ---
 
