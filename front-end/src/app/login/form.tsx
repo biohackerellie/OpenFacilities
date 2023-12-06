@@ -26,7 +26,7 @@ export default function LoginForm() {
         size="lg"
         className="w-full shadow"
       >
-        Use District Staff Account
+        Login with Single Sign On
       </Button>
       <form action={Login}>
         <div className="mb-6">

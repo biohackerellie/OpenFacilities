@@ -63,17 +63,7 @@ export const ReservationDate_approved = pgEnum('ReservationDate_approved', [
   'denied',
   'canceled',
 ]);
-export const User_role = pgEnum('User_role', [
-  'CAL_ADMIN',
-  'ADMIN_ADMIN',
-  'GR_ADMIN',
-  'LHS_ADMIN',
-  'LMS_ADMIN',
-  'WE_ADMIN',
-  'SO_ADMIN',
-  'SUP_ADMIN',
-  'USER',
-]);
+export const User_role = pgEnum('User_role', ['ADMIN', 'USER']);
 
 export type SelectKey_User_role = typeof User_role;
 
@@ -245,25 +235,23 @@ export const InsuranceFiles = facilities_db.table(
 );
 
 export const accounts = facilities_db.table(
-  'Account',
+  'account',
   {
-    id: varchar('id', { length: 191 }).primaryKey().notNull(),
     userId: varchar('userId', { length: 191 })
       .notNull()
       .references(() => User.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
     type: varchar('type', { length: 191 })
       .$type<AdapterAccount['type']>()
       .notNull(),
-    provider: varchar('provider', { length: 191 }).notNull(),
-    providerAccountId: varchar('providerAccountId', { length: 191 }).notNull(),
+    provider: text('provider').notNull(),
+    providerAccountId: text('providerAccountId').notNull(),
     refresh_token: text('refresh_token'),
     access_token: text('access_token'),
     expires_at: integer('expires_at'),
-    token_type: varchar('token_type', { length: 191 }),
-    scope: varchar('scope', { length: 191 }),
+    token_type: text('token_type'),
+    scope: text('scope'),
     id_token: text('id_token'),
-    session_state: varchar('session_state', { length: 191 }),
-    ext_expires_in: integer('ext_expires_in'),
+    session_state: text('session_state'),
   },
   (account) => {
     return {

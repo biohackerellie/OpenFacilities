@@ -449,13 +449,13 @@ export default function ReservationForm() {
                               </h1>
                               Groups in this category are basically community
                               groups (church or secular) whose memberships
-                              involve Laurel school age children whose leaders
-                              or advisors are generally non-paid adults and
-                              whose main purpose is to in some way educate the
-                              youngster member. These groups will not be charged
-                              a rental fee for the use of the buildings except
-                              the LHS auditorium, any computer labs, or the
-                              Stadium.
+                              involve ExampleSchool school age children whose
+                              leaders or advisors are generally non-paid adults
+                              and whose main purpose is to in some way educate
+                              the youngster member. These groups will not be
+                              charged a rental fee for the use of the buildings
+                              except the LHS auditorium, any computer labs, or
+                              the Stadium.
                               <h1 className="font-bold text-lg my-1">
                                 Category 2
                               </h1>
@@ -476,10 +476,11 @@ export default function ReservationForm() {
                               non-profit organizations from outside the
                               community.
                               <h1 className="font-bold text-lg my-1">
-                                LPS Staff
+                                ExampleSchool Staff
                               </h1>
-                              For all LPS Staff members to reserve space for
-                              school related activities, sports, and groups
+                              For all ExampleSchool Staff members to reserve
+                              space for school related activities, sports, and
+                              groups
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>

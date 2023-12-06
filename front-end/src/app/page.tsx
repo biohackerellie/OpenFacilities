@@ -11,16 +11,8 @@ export default function Home() {
           <div className="block flex-1"> </div>
           <div className=" mb-10 flex justify-center max-w-7xl  align-middle">
             <p className=" bg-transparent text-xl sm:text-3xl drop-shadow-md mt-4 mb-10 dark:text-white p-3 text-black ">
-              Hey there! 👋 I'm working on Open Facilities, an open-source
-              facilities reservation app designed specifically with school
-              districts in mind. The project is currently in progress and
-              targeting a 1.0 release. You can either self-host it for free or
-              opt for a paid SaaS solution once it's out. You can see it in
-              action on its first official live usage for Laurel Public Schools
-              in Montana at{' '}
-              <Link href="https://facilities.laurel.k12.mt.us">
-                https://facilities.laurel.k12.mt.us
-              </Link>
+              Hey there! This is the home page file. You can edit this file to
+              change the content of the home page.
             </p>
           </div>
         </div>

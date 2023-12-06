@@ -31,7 +31,7 @@ export async function cancelDate(id: number) {
 
   let fees = 0;
 
-  if (reservation.Facility.building === 'Laurel Stadium') {
+  if (reservation.Facility.building === 'ExampleSchool Stadium') {
     fees = reservation.Category.price;
   } else {
     fees = reservation.Category.price * roundedTotalHours;

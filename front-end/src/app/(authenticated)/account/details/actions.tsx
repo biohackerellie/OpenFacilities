@@ -9,8 +9,8 @@ export async function Update(id: string, formData: FormData) {
   let name = formData.get('name') as string;
   let email = formData.get('email') as string;
   try {
-    if (email && email.includes('@laurel.k12.mt.us')) {
-      throw new Error('You cannot use an LPS email address');
+    if (email && email.includes('@epklabs.com')) {
+      throw new Error('You cannot use an ExampleSchool email address');
     }
     if (name && email) {
       await db

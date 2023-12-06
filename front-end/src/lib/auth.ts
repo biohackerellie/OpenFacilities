@@ -10,7 +10,7 @@ export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: 'Non LPS Staff Login',
+      name: 'Non ExampleSchool Staff Login',
       credentials: {
         email: {
           label: 'Email',

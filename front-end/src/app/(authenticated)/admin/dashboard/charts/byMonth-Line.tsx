@@ -17,8 +17,8 @@ import {
 const buildingColors = [
   { building: 'West Elementary', color: '#800080' },
   { building: 'South Elementary', color: '#0000FF' },
-  { building: 'Laurel Middle School', color: '#008000' },
-  { building: 'Laurel High School', color: '#87CEEB' },
+  { building: 'ExampleSchool Middle School', color: '#008000' },
+  { building: 'ExampleSchool High School', color: '#87CEEB' },
   { building: 'Graff Elementary', color: '#FFC0CB' },
   { building: 'Administration Building', color: '#FFA500' },
 ];

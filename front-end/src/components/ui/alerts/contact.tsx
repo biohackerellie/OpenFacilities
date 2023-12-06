@@ -31,12 +31,12 @@ export default function Contact() {
             Contact the Activities Director at: <br />
             <a
               className="hover:text-blue-500"
-              href="mailto:lpsactivities@laurel.k12.mt.us"
+              href="mailto:ExampleSchoolactivities@epklabs.com"
             >
-              lpsactivities@laurel.k12.mt.us
+              ExampleSchoolactivities@epklabs.com
             </a>{' '}
             <br />
-            or call the Laurel High School Office:
+            or call the ExampleSchool High School Office:
             <br />
             <a className="hover:text-blue-500" href="tel:406-628-3500">
               406-628-3500

@@ -133,7 +133,7 @@ export default async function facilityPage({
                       </p>
                     </TooltipContent>
                   </Tooltip>
-                  {facility.name === 'Laurel Stadium' ? (
+                  {facility.name === 'ExampleSchool Stadium' ? (
                     <p className="justify-around align-bottom items-end font-semibold text-lg text-right self-end col-start-3 justify-items-end right-0 left-9 ">
                       ${category.price}
                     </p>

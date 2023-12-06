@@ -61,7 +61,7 @@ export default function BuildingFilter() {
         <Button
           variant="link"
           className={`${
-            selectedBuilding === 'Laurel High School'
+            selectedBuilding === 'ExampleSchool High School'
               ? 'text-blue-500'
               : 'text-foreground'
           }`}
@@ -69,12 +69,15 @@ export default function BuildingFilter() {
             router.push(
               pathname +
                 '?' +
-                handleSetSelectedBuilding('building', 'Laurel High School')
+                handleSetSelectedBuilding(
+                  'building',
+                  'ExampleSchool High School'
+                )
             )
           }
         >
           {' '}
-          Laurel High School
+          ExampleSchool High School
         </Button>
       </div>
       <Separator orientation="vertical" />
@@ -82,7 +85,7 @@ export default function BuildingFilter() {
         <Button
           variant="link"
           className={`${
-            selectedBuilding === 'Laurel Middle School'
+            selectedBuilding === 'ExampleSchool Middle School'
               ? 'text-blue-500'
               : 'text-foreground'
           }`}
@@ -90,11 +93,14 @@ export default function BuildingFilter() {
             router.push(
               pathname +
                 '?' +
-                handleSetSelectedBuilding('building', 'Laurel Middle School')
+                handleSetSelectedBuilding(
+                  'building',
+                  'ExampleSchool Middle School'
+                )
             )
           }
         >
-          Laurel Middle School
+          ExampleSchool Middle School
         </Button>
       </div>
       <Separator orientation="vertical" />
@@ -162,7 +168,7 @@ export default function BuildingFilter() {
         <Button
           variant="link"
           className={`${
-            selectedBuilding === 'Laurel Stadium'
+            selectedBuilding === 'ExampleSchool Stadium'
               ? 'text-blue-500'
               : 'text-foreground'
           }`}
@@ -170,11 +176,11 @@ export default function BuildingFilter() {
             router.push(
               pathname +
                 '?' +
-                handleSetSelectedBuilding('building', 'Laurel Stadium')
+                handleSetSelectedBuilding('building', 'ExampleSchool Stadium')
             )
           }
         >
-          Laurel Stadium
+          ExampleSchool Stadium
         </Button>
       </div>
     </div>

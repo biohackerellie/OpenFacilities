@@ -30,7 +30,7 @@ export const LHS = [
     group: 'LHS',
   },
   {
-    Id: 'laurel.k12.mt.us_188cgnns65q82hnlgmnnaejo6q1ka6gb64q36cpp60q3ic9j60@resource.calendar.google.com',
+    Id: 'epklabs.com_188cgnns65q82hnlgmnnaejo6q1ka6gb64q36cpp60q3ic9j60@resource.calendar.google.com',
     name: 'LHS Gym',
     group: 'LHS',
   },

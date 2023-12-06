@@ -7,7 +7,7 @@ export async function POST(req: NextRequest, response: NextResponse) {
     'base64'
   );
   const jiraUrl =
-    'https://laurelschools.atlassian.net/rest/servicedeskapi/request';
+    'https://ExampleSchoolschools.atlassian.net/rest/servicedeskapi/request';
 
   const formData = await req.json();
   const department = formData.department as string;

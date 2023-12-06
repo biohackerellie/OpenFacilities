@@ -12,7 +12,7 @@ export const catOptions = [
   {
     value: '1',
     label:
-      'Category 1 - Community groups involving LPS children and non paid adults, or LPS staff',
+      'Category 1 - Community groups involving ExampleSchool children and non paid adults, or ExampleSchool staff',
   },
   {
     value: '2',
@@ -26,7 +26,7 @@ export const catOptions = [
   {
     value: 'staff',
     label:
-      'LPS STAFF - Select this if you are a staff member reserving a space specifically for a LPS event',
+      'ExampleSchool STAFF - Select this if you are a staff member reserving a space specifically for a ExampleSchool event',
   },
 ];
 

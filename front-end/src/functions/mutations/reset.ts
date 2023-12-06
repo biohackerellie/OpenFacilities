@@ -46,7 +46,7 @@ export async function Email(formData: FormData) {
       body: JSON.stringify({
         key: process.env.EMAIL_API_KEY,
         to: email,
-        from: 'Laurel Public Schools',
+        from: 'ExampleSchool Public Schools',
         subject: 'Password Reset',
         html: `<h1> Password Reset </h1> <p>Click <a href="${url}">here</a> to reset your password. \n If you did not request a password reset, you can disregard this email</p>`,
       }),

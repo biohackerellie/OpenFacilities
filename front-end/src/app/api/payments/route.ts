@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
           html:
             'Click the link below to pay for your reservation: \n \n ' +
             paymentUrl +
-            '\n \n If you have any questions, please contact the Activities Director at lpsactivites@laurel.k12.mt.us',
+            '\n \n If you have any questions, please contact the Activities Director at ExampleSchoolactivites@epklabs.com',
         }),
       });
     } catch (error) {
