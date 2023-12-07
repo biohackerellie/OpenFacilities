@@ -10,7 +10,7 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: ['bcryptjs'],
+    optimizePackageImports: ['bcryptjs', 'googleapis'],
   },
   webpack: (config, { webpack }) => {
     config.plugins.push(
