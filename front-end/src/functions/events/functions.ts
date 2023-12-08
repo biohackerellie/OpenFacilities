@@ -65,7 +65,7 @@ const recurringByProperty = <events, fn, calendar, occurences>(
     .apply([], events as any)
     .map((event) => fn(calendar, occurences, event));
 
-const removeCancelled = ({ events }: EventsArray) =>
+const removeCancelled = <events>(events: Schema$Event[]) =>
   events.filter((item) => item.status != 'cancelled');
 
 const removeRecurrenceProperty = (events: any[]) =>

@@ -256,5 +256,20 @@ export const Admin = [
   },
 ];
 
+export const AllMasters = [
+	{
+		id: "c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b@group.calendar.google.com",
+		name: 'Master Calendar',
+	}
+] 
+
+
+export const calendarConfig = {
+	calendars: AllMasters,
+	api_key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+	dailyRecurrence: 365,
+	weeklyRecurrence: 52,
+	monthlyRecurrence: 12,
+} 
 
 export { buildingCalendars,  adminSideBar, buildingSideBar, buildingNames,  Building, BuildingAll, buildingColors, userSideBar };

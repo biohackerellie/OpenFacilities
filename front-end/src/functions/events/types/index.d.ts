@@ -5,7 +5,7 @@ import { Schema } from 'zod';
 
 type calendars = {
   name: string;
-  url: string;
+  id: string;
 };
 
 export type EventProps = {

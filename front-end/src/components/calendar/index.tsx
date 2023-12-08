@@ -1,47 +1,50 @@
 import React, { useCallback, useMemo, useEffect, use } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { Schema$Event } from './events/types';
+import { Schema$Event } from '../../functions/events/types';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import googleAPI from './events/googleAPI';
+import getAllCalendars from '../../functions/events/googleAPI';
 
 type Props = {
   config: {
-    calendars: [
-      {
-        id: string;
-        name: string;
-      }
-    ];
+    calendars: {
+      id: string;
+      name: string;
+    }[];
     api_key: string;
     dailyRecurrence: number;
     weeklyRecurrence: number;
     monthlyRecurrence: number;
   };
-  style?: <Record>([key, string]: any) => Record;
+  style?: React.CSSProperties | undefined;
   OnSelectEvent:
     | ((
         event: {
-          title: string | undefined;
-          start: Date;
-          end: Date;
-          building: string | undefined;
-          facility: string | undefined;
+          start: any;
+        } & {
+          end: any;
         },
         e: React.SyntheticEvent<HTMLElement, globalThis.Event>
       ) => void)
     | undefined;
+  components?: any;
+  eventPropGetter?: any;
 };
 
 const localizer = momentLocalizer(moment);
 
-const BigCalendar = ({ props }: { props: Props }) => {
+const BigCalendar = ({
+  config,
+  style,
+  OnSelectEvent,
+  components,
+  eventPropGetter,
+}: Props) => {
   const [events, setEvents] = React.useState<Schema$Event[][]>([]);
-
+  console.log(config);
   const getGoogleCalendarEvents = useCallback(() => {
-    googleAPI
-      .getAllCalendars(props.config)
+    getAllCalendars(config)
       .then((events) => {
         setEvents(events);
       })
@@ -58,9 +61,11 @@ const BigCalendar = ({ props }: { props: Props }) => {
     <div>
       <Calendar
         localizer={localizer}
-        events={events as any}
-        style={{ height: '100vh' }}
-        onSelectEvent={props.OnSelectEvent}
+        popup
+        style={style}
+        eventPropGetter={eventPropGetter}
+        components={components}
+        onSelectEvent={OnSelectEvent}
       />
     </div>
   );
