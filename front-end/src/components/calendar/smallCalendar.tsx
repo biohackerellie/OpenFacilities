@@ -6,14 +6,14 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Modal from 'react-modal';
-
+import { Schema$Event } from '@/functions/events/types';
 import { useTheme } from 'next-themes';
 
 const localizer = momentLocalizer(moment);
 
 interface Props {
   events: any[];
-  startDate: Date;
+  startDate: any;
 }
 
 interface DateProps {
@@ -21,13 +21,16 @@ interface DateProps {
 }
 
 export default function SmallCalendar({ events, startDate }: Props) {
-  const mappedEvents = events.map((event) => ({
-    title: event.title,
-    start: new Date(event.start),
-    end: new Date(event.end),
-    building: event.Facility.building,
-    facility: event.Facility.name,
-  }));
+  const mappedEvents = events.map((event: Schema$Event) => {
+    if (!event?.location) return null;
+    let facility = (event.location as string).split('-')[0] || 'Event';
+    return {
+      title: event?.title || 'Event',
+      start: new Date(event?.start as unknown as string),
+      end: new Date(event?.end as unknown as string),
+      building: facility,
+    };
+  });
 
   const { theme } = useTheme();
 
@@ -45,7 +48,7 @@ export default function SmallCalendar({ events, startDate }: Props) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const { defaultDate, views } = useMemo(
     () => ({
-      defaultDate: new Date(startDate),
+      defaultDate: mappedEvents[0]?.start || new Date().toISOString(),
       views: {
         month: true,
         week: false,
@@ -90,7 +93,7 @@ export default function SmallCalendar({ events, startDate }: Props) {
           <div className="bg-white rounded-lg p-8">
             <h3 className="text-xl font-bold mb-4">{selectedEvent?.title}</h3>
             <h4 className="text-lg mb-2">{selectedEvent?.building}</h4>
-            <h4 className="text-lg mb-2">{selectedEvent?.facility}</h4>
+
             <p className="mb-2">
               {' '}
               Starts at {selectedEvent?.start.toLocaleString()}

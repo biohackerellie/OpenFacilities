@@ -1,29 +1,27 @@
 enum BuildingAll {
-	All = 'All',
-	West = 'West Elementary',
-	South = 'South Elementary',
-	Middle = 'Laurel Middle School',
-	High = 'Laurel High School',
-	Graff = 'Graff Elementary',
-	Admin = 'Administration Building',
-	Stadium = 'Laurel Stadium',
+  All = 'All',
+  West = 'West Elementary School',
+  South = 'South Elementary School',
+  Middle = 'Laurel Middle School',
+  High = 'Laurel High School',
+  Graff = 'Graff Elementary School',
+  Admin = 'Administration Building',
+  Stadium = 'Laurel Stadium',
 }
-
 
 enum Building {
-	West = 'West Elementary',
-	South = 'South Elementary',
-	Middle = 'Laurel Middle School',
-	High = 'Laurel High School',
-	Graff = 'Graff Elementary',
-	Admin = 'Administration Building',
-	Stadium = 'Laurel Stadium',
+  West = 'West Elementary',
+  South = 'South Elementary',
+  Middle = 'Laurel Middle School',
+  High = 'Laurel High School',
+  Graff = 'Graff Elementary',
+  Admin = 'Administration Building',
+  Stadium = 'Laurel Stadium',
 }
 
-
-
-const buildingCalendars: Readonly <{ [key in BuildingAll]: string}> = {
-  [BuildingAll.All]: 'https://calendar.google.com/calendar/embed?src=c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b%40group.calendar.google.com&ctz=America%2FDenver',
+const buildingCalendars: Readonly<{ [key in BuildingAll]: string }> = {
+  [BuildingAll.All]:
+    'https://calendar.google.com/calendar/embed?src=c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b%40group.calendar.google.com&ctz=America%2FDenver',
   [BuildingAll.West]:
     'https://calendar.google.com/calendar/embed?src=c_0b2e2e109de17b0bfb36c10b64324c2d4ddcaa19c12998aca1cd5a77ac33e8a5%40group.calendar.google.com&ctz=America%2FDenver',
   [BuildingAll.South]:
@@ -40,59 +38,62 @@ const buildingCalendars: Readonly <{ [key in BuildingAll]: string}> = {
     'https://calendar.google.com/calendar/embed?src=c_188f41n72e9d0h33l3n96tt6jg9t6%40resource.calendar.google.com&ctz=America%2FDenver',
 };
 
-
-
 const buildingColors: Record<string, string> = {
-  'West Elementary': 'purple',
-  'South Elementary': 'blue',
+  'West Elementary School': 'purple',
+  'South Elementary School': 'blue',
   'Laurel Middle School': 'green',
   'Laurel High School': 'skyblue',
-  'Graff Elementary': 'pink',
+  'Graff Elementary School': 'pink',
   'Administration Building': 'orange',
 };
 
-
-
 export type SideBarType = {
-	title: string;
-	href: string;
-}[]
+  title: string;
+  href: string;
+}[];
 
-const userSideBar:SideBarType = [
-	{ title: 'Reservations', href: '/account'},
-	{ title: 'Details', href: '/account/details'},
-]
+const userSideBar: SideBarType = [
+  { title: 'Reservations', href: '/account' },
+  { title: 'Details', href: '/account/details' },
+];
 
-const adminSideBar:SideBarType = [
-	{ title: 'Dashboard', href: '/admin/dashboard'},
-	{ title: 'Reservations', href: '/admin/reservations'},
-	{ title: 'Requests', href: '/admin/requests'},
-	{ title: 'Users', href: '/admin/users'},
-]
+const adminSideBar: SideBarType = [
+  { title: 'Dashboard', href: '/admin/dashboard' },
+  { title: 'Reservations', href: '/admin/reservations' },
+  { title: 'Requests', href: '/admin/requests' },
+  { title: 'Users', href: '/admin/users' },
+];
 
 const buildingNames = [
-	'West Elementary',
-	'South Elementary',
-	'Laurel Middle School',
-	'Laurel High School',
-	'Graff Elementary',
-	'Administration Building',
-	'Laurel Stadium',
-]
-
-
+  'West Elementary',
+  'South Elementary',
+  'Laurel Middle School',
+  'Laurel High School',
+  'Graff Elementary',
+  'Administration Building',
+  'Laurel Stadium',
+];
 
 const buildingSideBar = [
-	{ title: 'All'},
-	{ title: 'West Elementary'},
-	{ title: 'South Elementary'},
-	{ title: 'Laurel Middle School'},
-	{ title: 'Laurel High School'},
-	{ title: 'Graff Elementary'},
-	{ title: 'Administration Building'},
-	{ title: 'Laurel Stadium'},
-] 
-
+  { title: 'All' },
+  { title: 'West Elementary' },
+  { title: 'South Elementary' },
+  { title: 'Laurel Middle School' },
+  { title: 'Laurel High School' },
+  { title: 'Graff Elementary' },
+  { title: 'Administration Building' },
+  { title: 'Laurel Stadium' },
+];
+const buildingSideBar2 = [
+  { title: 'All' },
+  { title: 'West Elementary School' },
+  { title: 'South Elementary School' },
+  { title: 'Laurel Middle School' },
+  { title: 'Laurel High School' },
+  { title: 'Graff Elementary School' },
+  { title: 'Administration Building' },
+  { title: 'Laurel Stadium' },
+];
 /**
  * Building Calendars
  */
@@ -257,19 +258,28 @@ export const Admin = [
 ];
 
 export const AllMasters = [
-	{
-		id: "c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b@group.calendar.google.com",
-		name: 'Master Calendar',
-	}
-] 
-
+  {
+    id: 'c_a55b94eb4dd05e5dd936dd548d434d6a25c2694efe67224e3eff10205d2fb82b@group.calendar.google.com',
+    name: 'Master Calendar',
+  },
+];
 
 export const calendarConfig = {
-	calendars: AllMasters,
-	api_key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-	dailyRecurrence: 365,
-	weeklyRecurrence: 52,
-	monthlyRecurrence: 12,
-} 
+  calendars: AllMasters,
+  api_key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+  dailyRecurrence: 365,
+  weeklyRecurrence: 52,
+  monthlyRecurrence: 12,
+};
 
-export { buildingCalendars,  adminSideBar, buildingSideBar, buildingNames,  Building, BuildingAll, buildingColors, userSideBar };
+export {
+  buildingCalendars,
+  adminSideBar,
+  buildingSideBar,
+  buildingSideBar2,
+  buildingNames,
+  Building,
+  BuildingAll,
+  buildingColors,
+  userSideBar,
+};
