@@ -3,7 +3,7 @@ import SmallCalendar from '@/components/calendar/smallCalendar';
 import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-
+import getAllCalendars from '@/functions/events/googleAPI';
 async function getReservation(id: number) {
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
@@ -20,13 +20,15 @@ async function getReservation(id: number) {
 }
 
 async function getEvents(id: number) {
+  'use server';
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/${id}`, {
     next: {
       tags: ['events'],
       revalidate: 3600,
     },
-  });
-  return res.json();
+  }).then((res) => res.json());
+  const events = getAllCalendars(res);
+  return events;
 }
 
 export default async function calPage({ params }: { params: { id: number } }) {

@@ -63,26 +63,21 @@ export default async function submitReservation(data: formValues) {
     const reservationId = NewId.NewId;
 
     // Create new empy arrays for the events and reservation dates table inserts
-    const eventsToInsert = [];
+
     const reservationDatesToInsert = [];
 
     // Loop through each event in the form data and create a new event and reservation date object and add them to the arrays
     for (const event of data.events) {
-      const eventId = generateId();
-      eventsToInsert.push({ id: eventId, placeholder: true });
-
       reservationDatesToInsert.push({
         startDate: event.startDate,
         endDate: event.startDate,
         startTime: event.startTime,
         endTime: event.endTime,
-        gcal_eventid: eventId,
         reservationId: Number(reservationId),
       });
     }
 
     // Insert the events and reservation dates into the database
-    await db.insert(Events).values(eventsToInsert);
     await db.insert(ReservationDate).values(reservationDatesToInsert);
 
     // Send an email to building admins, prevents action while testing

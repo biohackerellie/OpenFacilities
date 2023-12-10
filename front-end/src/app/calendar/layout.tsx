@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { SidebarSearchParamsNav } from '@/components/ui/sidebar-searchParams';
 import { Separator } from '@/components/ui/separator';
-import { buildingSideBar } from '@/lib/types/constants';
+import { buildingSideBar2 } from '@/lib/types/constants';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function calendarLayout({
@@ -24,7 +24,7 @@ export default function calendarLayout({
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5">
             <Suspense fallback={<Skeleton className="w-auto h-auto" />}>
-              <SidebarSearchParamsNav items={buildingSideBar} />
+              <SidebarSearchParamsNav items={buildingSideBar2} />
             </Suspense>
           </aside>
           <div className="flex-1 lg:max-w-2xl">
