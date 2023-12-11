@@ -1,5 +1,5 @@
 'use server';
-import { Promise } from 'bluebird';
+
 import { Schema$Event } from './types';
 import {
   handleDaily,
@@ -17,9 +17,7 @@ import {
   removeCancelled,
   removeRecurrenceProperty,
 } from './functions';
-import { OAuth2Client } from 'google-auth-library';
-import { google } from 'googleapis';
-import { calendars } from './types';
+
 import { calendarConfig } from '@/lib/types/constants';
 
 Object.defineProperty(Array.prototype, 'flat', {

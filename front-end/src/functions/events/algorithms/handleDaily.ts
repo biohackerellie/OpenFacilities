@@ -36,7 +36,7 @@ const handleDaily = ({ calendar, recurrence, e }: EventProps) => {
     },
   ];
 
-  while (recurrence > 0) {
+  while (recurrence && recurrence > 0) {
     const reoccuringEvent = {
       eventType: calendar.name,
       creator: e.creator,

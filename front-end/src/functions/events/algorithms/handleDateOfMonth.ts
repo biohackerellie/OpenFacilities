@@ -27,7 +27,7 @@ const handleDateOfMonth = ({ calendar, recurrence, e }: EventProps) => {
 
   let add = 1;
 
-  while (recurrence > 0) {
+  while (recurrence && recurrence > 0) {
     const reoccuringEvent = {
       eventType: calendar.name,
       creator: e.creator,

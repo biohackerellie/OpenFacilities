@@ -41,7 +41,7 @@ const handleDayOfMonth = ({ calendar, recurrence, e }: EventProps) => {
     },
   ];
 
-  while (recurrence > 0) {
+  while (recurrence && recurrence > 0) {
     let tempCounter = counter;
     let nextStart = new Date(
       start.year(),
