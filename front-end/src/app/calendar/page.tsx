@@ -14,7 +14,7 @@ async function getEvents() {
       revalidate: 60,
     },
   }).then((res) => res.json());
-  console.log(data);
+
   return data;
 }
 
@@ -23,9 +23,7 @@ export default async function Page() {
 
   return (
     <div className="space-y-7">
-      <Suspense fallback={<Skeleton className="w-[1200px] h-[800]" />}>
-        <CalendarMain fetchedEvents={events} />
-      </Suspense>
+      <CalendarMain fetchedEvents={events} />
     </div>
   );
 }
