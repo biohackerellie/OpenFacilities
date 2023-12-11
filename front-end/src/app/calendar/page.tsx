@@ -11,12 +11,11 @@ async function getEvents() {
     // cache: 'no-store',
     next: {
       tags: ['events'],
-      revalidate: 3600,
+      revalidate: 60,
     },
   }).then((res) => res.json());
-  const events = getAllCalendars(data);
-
-  return events;
+  console.log(data);
+  return data;
 }
 
 export default async function Page() {

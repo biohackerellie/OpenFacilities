@@ -27,8 +27,8 @@ async function getEvents(id: number) {
       revalidate: 3600,
     },
   }).then((res) => res.json());
-  const events = getAllCalendars(res);
-  return events;
+
+  return res;
 }
 
 export default async function calPage({ params }: { params: { id: number } }) {

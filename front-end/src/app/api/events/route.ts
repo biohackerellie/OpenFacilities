@@ -23,8 +23,22 @@ export async function GET(request: Request, response: NextResponse) {
       singleEvents: true,
       orderBy: 'startTime',
     });
-
-    return NextResponse.json(response.data.items);
+    if (response.data.items) {
+      const events = response.data.items.map((e) => {
+        const start = e.start?.dateTime || e.start?.date;
+        const end = e.end?.dateTime || e.end?.date;
+        return {
+          gLink: e.htmlLink,
+          description: e.description,
+          location: e.location,
+          start,
+          end,
+          title: e.summary,
+          meta: e,
+        };
+      });
+      return NextResponse.json(events);
+    }
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: 'error' }, { status: 500 });
