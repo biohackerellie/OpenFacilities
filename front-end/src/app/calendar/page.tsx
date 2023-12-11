@@ -1,9 +1,5 @@
 import React from 'react';
 import CalendarMain from '@/components/calendar/Calendar';
-import { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { calendarConfig } from '@/lib/types/constants';
-import getAllCalendars from '@/functions/events/googleAPI';
 
 async function getEvents() {
   'use server';

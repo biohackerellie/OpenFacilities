@@ -1,11 +1,10 @@
 import React from 'react';
-import BuildingFilter from '@/components/calendar/navigation/filterBar';
+
 import { Suspense } from 'react';
 import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
 import CardLayout from './cardLayout';
 import { mappedFacilities } from '@/functions/calculations/tableData';
 import { type FacilityWithCategory } from '@/lib/types';
-import { Separator } from '@/components/ui/separator';
 
 type PartialFacility = Partial<FacilityWithCategory>;
 

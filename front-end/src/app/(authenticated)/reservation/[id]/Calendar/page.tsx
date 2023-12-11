@@ -1,9 +1,7 @@
 import React from 'react';
 import SmallCalendar from '@/components/calendar/smallCalendar';
 import { headers } from 'next/headers';
-import { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import getAllCalendars from '@/functions/events/googleAPI';
+
 async function getReservation(id: number) {
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
@@ -43,13 +41,8 @@ export default async function calPage({ params }: { params: { id: number } }) {
           {reservation.Facility.name}Calendar
         </h3>
       </div>
-      <Suspense
-        fallback={
-          <Skeleton className="h-[450px] w-[500px] sm:w-[700px] sm:h-[500px]" />
-        }
-      >
-        <SmallCalendar startDate={startDate} events={events} />
-      </Suspense>
+
+      <SmallCalendar startDate={startDate} events={events} />
     </div>
   );
 }

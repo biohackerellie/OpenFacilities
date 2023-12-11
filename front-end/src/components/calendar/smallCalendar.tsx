@@ -1,7 +1,7 @@
 //@ts-nocheck
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -16,11 +16,7 @@ interface Props {
   startDate: any;
 }
 
-interface DateProps {
-  startDate: Date;
-}
-
-export default function SmallCalendar({ events, startDate }: Props) {
+export default function SmallCalendar({ events }: Props) {
   const mappedEvents = events.map((event: Schema$Event) => {
     if (!event?.location) return null;
     let facility = (event.location as string).split('-')[0] || 'Event';
@@ -71,7 +67,6 @@ export default function SmallCalendar({ events, startDate }: Props) {
           onSelectEvent={(event) => setSelectedEvent(event)}
           popup
           startAccessor="start"
-          // className="z-0 bg-white max-w-[480px] sm:max-w-2xl font-normal border-solid rounded-lg dark:bg-white-200 text-black dark:text-black"
           endAccessor="end"
           style={calendarStyle}
         />

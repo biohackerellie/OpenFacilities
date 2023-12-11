@@ -37,19 +37,6 @@ type EventComponentProps = {
   building: any | undefined;
 } | null;
 
-// function EventComponent(event: Event) {
-//   const buildingName =
-//     (event.building as string).split('-')[0] || 'Administration Building';
-//   return (
-//     <div
-//       className={`${buildingColors[buildingName]} rbc-event-label`}
-//       title={event.title as string}
-//     >
-//       {(event.title as string) || 'Event'}
-//     </div>
-//   );
-// }
-
 export default function CalendarMain({
   fetchedEvents,
 }: {
@@ -118,7 +105,7 @@ export default function CalendarMain({
             setIsOpen(true);
           }}
           popup
-          eventPropGetter={(event, start, end, isSelected) => ({
+          eventPropGetter={(event) => ({
             style: {
               backgroundColor:
                 buildingColors[event.building || 'Administration Building'],

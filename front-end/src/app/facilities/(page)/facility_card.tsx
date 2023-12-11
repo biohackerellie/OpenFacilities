@@ -13,7 +13,6 @@ export default function FacilityCard({
   name,
   address,
   building,
-  capacity,
   imagePath,
   id,
 }: PartialFacility) {
