@@ -2,7 +2,7 @@
 import { Button } from './button';
 //TODO: Update React types when available
 //@ts-expect-error
-import { useFormStatus } from 'react-dom';
+import { useFormStatus, useFormState } from 'react-dom';
 import { Loader2 } from 'lucide-react';
 
 type Props = {
