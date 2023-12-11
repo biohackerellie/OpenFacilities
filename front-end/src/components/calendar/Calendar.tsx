@@ -84,18 +84,17 @@ export default function CalendarMain({
     }),
   };
 
-  const mappedEvents = fetchedEvents.map((event: Schema$Event) => {
-    if (!event?.location) return null;
-    let facility = (event.location as string).split('-')[0] || 'Event';
+  const mappedEvents = fetchedEvents.map((event) => {
+    if (!event.location) event.location = 'unknown';
+    let facility = (event.location as string).split('-')[0] || 'unknown';
     return {
-      title: event?.title || 'Event',
+      //@ts-expect-error
+      title: event.summary || event.title || 'Event',
       start: new Date(event?.start as unknown as string),
       end: new Date(event?.end as unknown as string),
       building: facility,
     };
   });
-
-  console.log(mappedEvents);
 
   const filteredEvents =
     selectedBuilding === 'All'

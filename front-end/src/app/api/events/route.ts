@@ -23,6 +23,7 @@ export async function GET(request: Request, response: NextResponse) {
       maxResults: 1000,
       singleEvents: true,
       orderBy: 'startTime',
+      fields: 'items(description,end,id,location,start,summary,title)',
     });
 
     return NextResponse.json(response.data.items);

@@ -21,7 +21,7 @@ async function getEvents() {
 
 export default async function Page() {
   const events = await getEvents();
-
+  console.log(events);
   return (
     <div className="space-y-7">
       <Suspense fallback={<Skeleton className="w-[1200px] h-[800]" />}>
