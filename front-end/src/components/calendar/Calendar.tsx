@@ -28,10 +28,6 @@ type Event = {
   start: Date;
   end: Date;
   building: any;
-  Facility: {
-    name: string;
-    building: string;
-  };
 } | null;
 
 type EventComponentProps = {
@@ -39,7 +35,6 @@ type EventComponentProps = {
   start: Date;
   end: Date;
   building: any | undefined;
-  facility: any | undefined;
 } | null;
 
 // function EventComponent(event: Event) {
@@ -100,7 +95,6 @@ export default function CalendarMain({
     selectedBuilding === 'All'
       ? mappedEvents
       : mappedEvents.filter(
-          //@ts-expect-error
           (event: Event) => event?.building === selectedBuilding
         );
 
@@ -139,7 +133,7 @@ export default function CalendarMain({
         <AlertDialogContent>
           <AlertDialogHeader className="text-xl font-bold mb-4">
             {selectedEvent?.title} <br />
-            {selectedEvent?.building} {selectedEvent?.facility}
+            {selectedEvent?.building}
           </AlertDialogHeader>
           <AlertDialogDescription>
             <p className="mb-2">
