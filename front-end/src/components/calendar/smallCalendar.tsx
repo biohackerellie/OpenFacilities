@@ -46,18 +46,12 @@ export default function SmallCalendar({ events, startDate }: Props) {
   };
 
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const { defaultDate, views } = useMemo(
-    () => ({
-      defaultDate: mappedEvents[0]?.start || new Date().toISOString(),
-      views: {
-        month: true,
-        week: false,
-        day: false,
-        agenda: false,
-      },
-    }),
-    [startDate]
-  );
+  const views = {
+    month: true,
+    week: false,
+    day: false,
+    agenda: false,
+  };
 
   useEffect(() => {
     if (selectedEvent) {
@@ -71,7 +65,6 @@ export default function SmallCalendar({ events, startDate }: Props) {
     <>
       <div className="max-w-[550px] float-left mr-10  h-35 max-h-35 p-3 mb-10">
         <Calendar
-          defaultDate={defaultDate}
           views={views}
           localizer={localizer}
           events={mappedEvents}

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
-import getAllCalendars from '@/functions/events/googleAPI';
 
 export async function GET(request: Request, response: NextResponse) {
   const oauth2Client = new OAuth2Client({
@@ -23,7 +22,6 @@ export async function GET(request: Request, response: NextResponse) {
       maxResults: 1000,
       singleEvents: true,
       orderBy: 'startTime',
-      fields: 'items(description,end,id,location,start,summary,title)',
     });
 
     return NextResponse.json(response.data.items);
