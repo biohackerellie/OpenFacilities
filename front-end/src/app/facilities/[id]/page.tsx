@@ -35,7 +35,7 @@ export default async function facilityPage({
     process.env.NEXT_PUBLIC_HOST + `/api/facilities/${params.id}`,
     {
       next: {
-        tags: ['events'],
+        tags: ['events', 'facilities'],
         revalidate: 3600,
       },
     }

@@ -1,3 +1,5 @@
+import { describe } from "node:test";
+
 enum BuildingAll {
   All = 'All',
   West = 'West Elementary School',
@@ -18,6 +20,27 @@ enum Building {
   Admin = 'Administration Building',
   Stadium = 'Laurel Stadium',
 }
+
+
+const CategoryDescriptions = {
+	Staff: {
+		name: 'LPS Staff',
+		description: 'For all LPS Staff to reserve and LPS activity.'
+	},
+	Category1: {
+		name: 'Category 1 - Community groups involving LPS children and non paid adults, or LPS staff ',
+		description: 'Groups in this category are basically community groups (church or secular) whose memberships involve Laurel school age children whose leaders or advisors are generally non-paid adults and whose main purpose is to in some way educate the youngster member. These groups will not be charged a rental fee for the use of the buildings except the LHS auditorium, any computer labs, or the Stadium.'
+	},
+	Category2: {
+		name: 'Category 2 - All community non-profit organizations and groups',
+		description: 'This category includes all community non-profit organizations (IRS numbers) and community groups of people who wish to use facilities owned by the school district for lectures, promotional activities, political rallies, entertainment, college courses, athletic groups, exercise groups, dance groups, church services or other activities for which public halls or commercial facilities generally are rented.'
+	},
+	Category3: {
+		name: 'Category 3 - all for-profit organizations and non-profits from outside of the community',
+		description: 'This group shall include all for-profit organizations not listed in #1 or #2 and non-profit organizations from outside the community.'
+	}
+} as const 
+
 
 const buildingCalendars: Readonly<{ [key in BuildingAll]: string }> = {
   [BuildingAll.All]:
@@ -62,6 +85,7 @@ const adminSideBar: SideBarType = [
   { title: 'Reservations', href: '/admin/reservations' },
   { title: 'Requests', href: '/admin/requests' },
   { title: 'Users', href: '/admin/users' },
+	{ title: 'Facilities', href: '/admin/facilities' },
 ];
 
 const buildingNames = [
@@ -283,4 +307,5 @@ export {
   BuildingAll,
   buildingColors,
   userSideBar,
+	CategoryDescriptions,
 };

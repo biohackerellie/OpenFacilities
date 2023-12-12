@@ -3,14 +3,19 @@ import { DataTable } from '@/components/ui/tables';
 import { Reservation, TableReservation } from '@/lib/types';
 import { mapRequests } from '@/functions/calculations/tableData';
 import { Suspense } from 'react';
-import { getRequests } from '@/functions/data/requests';
-import TableSkeleton from './skeleton';
 
-export const dynamic = 'force-dynamic';
+import TableSkeleton from './skeleton';
 
 async function getData() {
   'use server';
-  const data: Reservation[] = await getRequests();
+  const data: Reservation[] = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/requests`,
+    {
+      next: {
+        tags: ['reservations'],
+      },
+    }
+  ).then((res) => res.json());
   return mapRequests(data);
 }
 
