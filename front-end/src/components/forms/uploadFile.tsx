@@ -1,68 +1,57 @@
-//@ts-nocheck
 'use client';
-
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
 import { Button } from '../ui/buttons';
+
 import { Loader2 } from 'lucide-react';
-import { revalidatePath } from 'next/cache';
+import { useState, useRef } from 'react';
 
 export function UploadFile({ params }: { params: { id: number } }) {
-  const [isUploading, setIsUploading] = useState(false);
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [file, setFile] = useState(null);
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-  const id = params.id;
+  let file: File | null = null;
+  if (inputFileRef.current?.files && inputFileRef.current?.files[0]) {
+    file = inputFileRef.current.files[0];
+  }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!file) return;
-
-    setIsUploading(true);
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', id);
-
-    try {
-      const response = await fetch(
-        '/api/files?path=/reservation/[id]/insurance',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-      const data = await response.json();
-    } catch (error) {
-      alert('something went wrong');
-    } finally {
-      setIsUploading(false);
-      location.reload();
+    setLoading(true);
+    if (!file) {
+      throw new Error('No file selected');
     }
+
+    const response = await fetch(
+      `/api/files/upload?filename=${file.name}&id=${params.id}`,
+      {
+        method: 'POST',
+        body: file,
+      }
+    );
+    const result = await response.json();
+    if (result.error) {
+      alert(result.error);
+    } else {
+      alert('File uploaded successfully!');
+    }
+    setLoading(false);
+    router.refresh();
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <input
-            type="file"
-            accept=".pdf,.docx,.txt,.doc"
-            onChange={handleFileChange}
-          />
+          <input type="file" ref={inputFileRef} accept=".pdf,.docx,.txt,.doc" />
         </div>
         <div className="p-2">
-          {isUploading ? (
-            <Button disabled>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Uploading...
+          {loading ? (
+            <Button disabled={true}>
+              <Loader2 className="animate-spin" />
+              uploading...
             </Button>
           ) : (
-            <Button name="submit" type="submit" disabled={!file}>
-              Upload
-            </Button>
+            <Button>Upload</Button>
           )}
         </div>
       </form>

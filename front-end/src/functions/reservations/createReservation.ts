@@ -7,7 +7,7 @@ import { formSchema } from '@/components/forms/schemas/reservationForm';
 import { UserByEmail } from '@/lib/db/queries/users';
 import { CategoryByFacility } from '@/lib/db/queries/categories';
 import { FacilityQuery } from '@/lib/db/queries/facility';
-import generateId from '../calculations/generate-id';
+
 import { z } from 'zod';
 import {
   Events,
@@ -16,7 +16,7 @@ import {
   ReservationDate,
 } from '@/lib/db/schema';
 import { db } from '@/lib/db';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { newReservationEmail } from '../emails/reservationEmail';
 
 // Validate form data values against the form schema
@@ -91,7 +91,7 @@ export default async function submitReservation(data: formValues) {
     }
 
     // Revalidate the admin page to update the cache
-    revalidatePath('/(authenticated)/admin', 'layout');
+    revalidateTag('reservations');
     return 'Success';
   } catch (error) {
     throw new Error('Error creating reservation');
