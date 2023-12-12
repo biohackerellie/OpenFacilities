@@ -9,7 +9,6 @@ import { headers } from 'next/headers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TableSkeleton from '../requests/skeleton';
 import { Suspense } from 'react';
-import { map } from 'zod';
 
 async function getReservations() {
   const headersInstance = headers();

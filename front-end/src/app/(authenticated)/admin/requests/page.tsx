@@ -3,14 +3,20 @@ import { DataTable } from '@/components/ui/tables';
 import { Reservation, TableReservation } from '@/lib/types';
 import { mapRequests } from '@/functions/calculations/tableData';
 import { Suspense } from 'react';
-
+import { headers } from 'next/headers';
 import TableSkeleton from './skeleton';
 
 async function getData() {
   'use server';
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
+
   const data: Reservation[] = await fetch(
     `${process.env.NEXT_PUBLIC_HOST}/api/requests`,
     {
+      headers: {
+        Cookie: auth,
+      },
       next: {
         tags: ['reservations'],
       },
