@@ -77,25 +77,23 @@ const UpdatePricesForm = ({ CategoryIDs }: FormProps) => {
   return (
     <>
       {CategoryIDs?.map((category, index) => (
-        <form
-          key={index}
-          action={updateCategoryPrices}
-          className="gap-y-4 my-4"
-        >
-          <label htmlFor="Category" className="text-ellipsis overflow-hidden">
-            {category.name}
-          </label>
-          <input type="hidden" name="id" id="id" value={category.id} />
-          <label htmlFor="price">Price</label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            defaultValue={category.price}
-            className={inputStyle}
-          />
-          <SubmitButton variant="outline">Update</SubmitButton>
-        </form>
+        <div key={index}>
+          <form action={updateCategoryPrices} className="gap-y-4 my-4">
+            <label htmlFor="Category" className="text-ellipsis overflow-hidden">
+              {category.name}
+            </label>
+            <input type="hidden" name="id" id="id" value={category.id} />
+            <label htmlFor="price">Price</label>
+            <input
+              type="number"
+              name="price"
+              id="price"
+              defaultValue={category.price}
+              className={inputStyle}
+            />
+            <SubmitButton variant="outline">Update</SubmitButton>
+          </form>
+        </div>
       ))}
     </>
   );
