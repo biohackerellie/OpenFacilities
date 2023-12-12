@@ -29,8 +29,10 @@ export default function NewFacilityForm() {
         />
         <label htmlFor="building">Building</label>
         <select name="building" id="building" required className={inputStyle}>
-          {buildingNames.map((building) => (
-            <option value={building}>{building}</option>
+          {buildingNames.map((building, index) => (
+            <option key={index} value={building}>
+              {building}
+            </option>
           ))}
         </select>
         <label htmlFor="address">Address</label>
