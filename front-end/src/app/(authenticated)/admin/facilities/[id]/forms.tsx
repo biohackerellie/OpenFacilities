@@ -76,8 +76,12 @@ const FacilityNameForm = ({ id, name }: FormProps) => {
 const UpdatePricesForm = ({ CategoryIDs }: FormProps) => {
   return (
     <>
-      {CategoryIDs?.map((category) => (
-        <form action={updateCategoryPrices} className="gap-y-4 my-4">
+      {CategoryIDs?.map((category, index) => (
+        <form
+          key={index}
+          action={updateCategoryPrices}
+          className="gap-y-4 my-4"
+        >
           <label htmlFor="Category" className="text-ellipsis overflow-hidden">
             {category.name}
           </label>

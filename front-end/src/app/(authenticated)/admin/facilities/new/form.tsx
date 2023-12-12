@@ -13,7 +13,7 @@ const initialState = {
   message: null,
 };
 
-const newFacilityForm = () => {
+export default function NewFacilityForm() {
   const [state, formAction] = useFormState(newFacility, initialState);
   return (
     <div className="flex flex-col justify-center">
@@ -106,6 +106,4 @@ const newFacilityForm = () => {
       </form>
     </div>
   );
-};
-
-export default newFacilityForm;
+}
