@@ -5,14 +5,14 @@ import dynamic from 'next/dynamic';
 
 import { FacilityWithCategory } from '@/lib/types';
 
-// export async function generateStaticParams() {
-//   const facilities = await fetch(
-//     process.env.NEXT_PUBLIC_HOST + `/api/facilities`
-//   ).then((res) => res.json());
-//   return facilities.map((facility: any) => ({
-//     id: facility.id.toString(),
-//   }));
-// }
+export async function generateStaticParams() {
+  const facilities = await fetch(
+    process.env.NEXT_PUBLIC_HOST + `/api/facilities`
+  ).then((res) => res.json());
+  return facilities.map((facility: any) => ({
+    id: facility.id.toString(),
+  }));
+}
 
 export default async function facilityEditForm({
   params,

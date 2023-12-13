@@ -14,6 +14,13 @@ export type ReservationClassType = SelectReservation & {
   ReservationFees?: SelectReservationFees[];
   User?: SelectUser;
 };
+
+/**
+ * `ReservationClass` is a class that handles operations related to reservations.
+ *
+ * @class
+ * @exports ReservationClass
+ */
 class ReservationClass {
   id: number | BigInt;
   userId: string;
@@ -65,6 +72,10 @@ class ReservationClass {
     this.doorAccess = reservation.doorAccess;
     this.doorsDetails = reservation.doorsDetails;
   }
+  /**
+   *  @method
+   * 	@returns {string} - A string representing the date range of the reservation.
+   */
   range(): string {
     let ReservationDate = this.ReservationDate || [];
     let dateRange = '';
@@ -77,6 +88,17 @@ class ReservationClass {
     }
     return dateRange;
   }
+
+  /**
+   * This method calculates the total cost of a reservation.
+   *
+   * If the category ID is 105, 106, or 107, the total cost is the sum of the category price and additional fees.
+   * Otherwise, the total cost is calculated based on the total hours of approved reservation dates,
+   * multiplied by the category price, and then added to the additional fees.
+   *
+   * @method
+   * @returns {number} The total cost of the reservation, rounded to two decimal places.
+   */
   CostReducer(): number {
     let additionalFeesTotal = 0;
     let ReservationFees = this.ReservationFees || [];

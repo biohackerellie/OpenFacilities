@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuMobileTrigger,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -80,6 +79,9 @@ export function AuthenticatedMenu() {
                   </Link>
                   <Link href="/admin/users" legacyBehavior passHref>
                     <ListItem title="Users">Manage users</ListItem>
+                  </Link>
+                  <Link href="/admin/facilities" legacyBehavior passHref>
+                    <ListItem title="Facilities">Manage facilities</ListItem>
                   </Link>
                 </ul>
               </NavigationMenuContent>
