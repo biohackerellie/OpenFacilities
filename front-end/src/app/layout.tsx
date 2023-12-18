@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
 import { GeistSans } from 'geist/font';
@@ -42,6 +42,7 @@ export default function RootLayout({
             <Footer />
             <Toaster />
           </ThemeProviders>
+          <SpeedInsights />
           <Analytics />
         </body>
       </html>

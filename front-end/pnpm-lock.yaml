@@ -107,6 +107,9 @@ dependencies:
   '@vercel/blob':
     specifier: ^0.16.0
     version: 0.16.0
+  '@vercel/speed-insights':
+    specifier: ^1.0.2
+    version: 1.0.2
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.23)
@@ -1738,8 +1741,8 @@ packages:
       - supports-color
     dev: true
 
-  /@maxim_mazurok/gapi.client.calendar-v3@0.0.20231201:
-    resolution: {integrity: sha512-J38R6hiTr6TJqf5uP215MfSc+ja3JRcj5XANtSKJQHr7bMUB4MAYryZf9JOD+Kr0xK7FzoQz9lFxf+oF1j/tTA==}
+  /@maxim_mazurok/gapi.client.calendar-v3@0.0.20231208:
+    resolution: {integrity: sha512-UZjLMIvbHOwTl0EQX+tGoAYCQbrhdYr5huhSyDyqcHx0Bduo3s49twzOLUDVoWUk+GI3syNHRDJJ9eSg+Fls7w==}
     dependencies:
       '@types/gapi.client': 1.0.8
       '@types/gapi.client.discovery-v1': 0.0.4
@@ -3478,7 +3481,7 @@ packages:
   /@types/gapi.client.calendar-v3@0.0.4:
     resolution: {integrity: sha512-EwXzPhk98ef+esL1R951e3HFeMQSP6hSBv+YBbaAJoOLLRANV2JY5KHOImBSkk7HKt1PiarQGx5BD8+4eHeeIQ==}
     dependencies:
-      '@maxim_mazurok/gapi.client.calendar-v3': 0.0.20231201
+      '@maxim_mazurok/gapi.client.calendar-v3': 0.0.20231208
     dev: false
 
   /@types/gapi.client.discovery-v1@0.0.4:
@@ -3769,6 +3772,11 @@ packages:
       - canvas
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@vercel/speed-insights@1.0.2:
+    resolution: {integrity: sha512-y5HWeB6RmlyVYxJAMrjiDEz8qAIy2cit0fhBq+MD78WaUwQvuBnQlX4+5MuwVTWi46bV3klaRMq83u9zUy1KOg==}
+    requiresBuild: true
     dev: false
 
   /@wojtekmaj/date-utils@1.5.1:
