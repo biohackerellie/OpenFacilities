@@ -1,13 +1,11 @@
-import  CreateAccount  from "./form"
-
-
+import CreateAccount from './form';
 
 export default function registrationPage() {
   return (
     <>
-    <section>  
-      <CreateAccount />
-    </section>
+      <section className="">
+        <CreateAccount />
+      </section>
     </>
-  )
+  );
 }
