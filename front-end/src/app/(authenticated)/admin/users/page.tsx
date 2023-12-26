@@ -9,6 +9,8 @@ interface TableUsers {
   Details: string;
 }
 
+const revalidateTags = ['users'];
+
 async function getUsers() {
   'use server';
   const users = await GetUsers.execute();
