@@ -147,7 +147,11 @@ export default function NavMenu() {
                       Reserve a space now
                     </ListItem>
                   </Link>
-                  <Link href="/facilities" legacyBehavior passHref>
+                  <Link
+                    href="https://facilities.laurel.k12.mt.us/facilities"
+                    legacyBehavior
+                    passHref
+                  >
                     <ListItem title="Find a Space">
                       View all of our available facilities
                     </ListItem>
