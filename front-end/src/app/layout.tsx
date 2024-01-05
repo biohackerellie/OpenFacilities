@@ -12,29 +12,6 @@ import { Toaster } from '@/components/ui/toaster';
 
 import './globals.css';
 
-// export const metadata = {
-//   title: 'LPS Facilities',
-//   description: 'Laurel Public Schools Facility Rentals',
-//   keywords: ['Laurel Public Schools, Facility Rentals, Laurel, Montana'],
-//   authors: [{ name: 'Ellie Kerns', url: 'https://epklabs.com' }],
-//   creator: 'Ellie Kerns',
-//   publisher: 'EPKLabs',
-//   openGraph: {
-//     title: 'LPS Facilities',
-//     description: 'Laurel Public Schools Facility Rentals',
-//     url: 'https://facilities.laurel.k12.mt.us',
-//     siteName: 'LPS Facilities',
-//     images: [
-//       {
-//         url: 'https://facilities.laurel.k12.mt.us/og.png',
-//         width: 800,
-//         height: 600,
-//       },
-//     ],
-//     local: 'en_US',
-//     type: 'website',
-//   },
-// };
 
 //layout.tsx
 export default function RootLayout({
