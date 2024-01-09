@@ -4,14 +4,14 @@ import moment from 'moment';
 import { Suspense } from 'react';
 import TableSkeleton from './skeleton';
 import { getUser } from '@/functions/data/users';
-import { Reservation, User } from '@/lib/types';
+import { ReservationWithAll, User } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
 
 interface TableUser {
   Name: string;
 
   eventName: string;
-  Facility: string;
+  Facility: string | undefined;
   ReservationDate?: any[];
   approved: 'pending' | 'approved' | 'denied' | 'canceled' | 'N/A';
   Details: number;
@@ -21,22 +21,26 @@ const currentDate = moment().format('YYYY-MM-DD');
 
 async function getData(id: string) {
   const user = await getUser(id);
-  const reservation: Reservation[] = user.Reservation || [];
+  const reservation: ReservationWithAll[] = user.Reservation || [];
   if (reservation.length === 0) {
     return [user];
   }
 
   const mappedReservations: TableUser[] = reservation.map((reservation) => {
-    const sortedDates = reservation.ReservationDate.sort((a, b) =>
+    const sortedDates = reservation.ReservationDate?.sort((a, b) =>
       moment(a.startDate).diff(moment(b.startDate))
     );
-    const nextUpcomingDate = sortedDates.find((date) =>
-      moment(date.startDate).isSameOrAfter(currentDate)
-    );
+    const nextUpcomingDate =
+      sortedDates && sortedDates.length > 0
+        ? sortedDates.find((date) =>
+            moment(date.startDate).isSameOrAfter(currentDate)
+          )
+        : 'No Dates Defined';
     return {
       Name: user.name,
       eventName: reservation.eventName,
-      Facility: reservation.Facility.name,
+      Facility: reservation.Facility?.name,
+      //@ts-expect-error
       ReservationDate: nextUpcomingDate ? nextUpcomingDate.startDate : 'N/A',
       approved: reservation.approved,
       Details: reservation.id,
