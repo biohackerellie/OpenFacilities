@@ -1,7 +1,7 @@
-import { Reservation } from '@/lib/types';
+import { ReservationWithAll } from '@/lib/types';
 import React from 'react';
 
-export const pageSum = (reservation: Reservation) => {
+export const pageSum = (reservation: ReservationWithAll) => {
   return (
     <div className="hidden sm:inline-block justify-between border  p-2    my-5  gap-48">
       <div className="hidden sm:flex pb-4">
