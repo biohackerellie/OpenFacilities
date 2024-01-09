@@ -11,6 +11,7 @@ export const GetRequests = db.query.Reservation.findMany({
   with: {
     Facility: true,
     ReservationDate: true,
+
     User: {
       columns: {
         id: true,
