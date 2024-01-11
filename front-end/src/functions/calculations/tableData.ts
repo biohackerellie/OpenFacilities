@@ -3,7 +3,6 @@ import { Category, SelectFacility } from '@/lib/db/schema';
 import {
   Reservation,
   TableReservation,
-  ReservationWithAll,
   ReservationDate,
   DateType,
   FacilityWithCategory,
@@ -14,19 +13,16 @@ import moment from 'moment';
 
 const dateOptions = {};
 
-async function mapRequests(requests: ReservationWithAll[]) {
-  const mappedRequests = requests.map((requests) => {
-    const sortedDates = requests.ReservationDate?.sort((a, b) =>
+async function mapRequests(requests: Reservation[]) {
+  const mappedRequests: TableReservation[] = requests.map((requests) => {
+    const sortedDates = requests.ReservationDate.sort((a, b) =>
       moment(a.startDate).diff(moment(b.startDate))
     );
     return {
       eventName: requests.eventName,
-      Facility: requests.Facility?.name,
+      Facility: requests.Facility.name,
 
-      ReservationDate:
-        sortedDates && sortedDates.length > 0
-          ? sortedDates[0].startDate
-          : 'No Dates Defined',
+      ReservationDate: sortedDates[0]?.startDate || 'No Dates Defined',
 
       approved: requests.approved,
       User: requests.User?.name || '',
@@ -36,11 +32,11 @@ async function mapRequests(requests: ReservationWithAll[]) {
   return mappedRequests;
 }
 
-async function mapReservations(Reservations: ReservationWithAll[]) {
+async function mapReservations(Reservations: Reservation[]) {
   const currentDate = moment();
 
   const mappedReservations: any[] = Reservations.map((reservation) => {
-    const sortedDates = reservation.ReservationDate?.sort((a, b) =>
+    const sortedDates = reservation.ReservationDate.sort((a, b) =>
       moment(a.startDate, 'YYYY-MM-DD').diff(moment(b.startDate, 'YYYY-MM-DD'))
     );
     const nextUpcomingDate = sortedDates?.find(
@@ -49,7 +45,7 @@ async function mapReservations(Reservations: ReservationWithAll[]) {
     if (nextUpcomingDate) {
       return {
         eventName: reservation.eventName,
-        Facility: reservation.Facility?.name,
+        Facility: reservation.Facility.name,
         ReservationDate: nextUpcomingDate.startDate,
         approved: reservation.approved,
         User: reservation.User?.name || '',
@@ -61,27 +57,24 @@ async function mapReservations(Reservations: ReservationWithAll[]) {
   return mappedReservations as TableReservation[];
 }
 
-async function mapPastReservations(Reservations: ReservationWithAll[]) {
+async function mapPastReservations(Reservations: Reservation[]) {
   const currentDate = moment();
   const mappedReservations: any[] = Reservations.map((reservation) => {
-    const sortedDates = reservation.ReservationDate?.sort((a, b) =>
+    const sortedDates = reservation.ReservationDate.sort((a, b) =>
       moment(a.startDate, 'YYYY-MM-DD').diff(moment(b.startDate, 'YYYY-MM-DD'))
     );
 
     const nextUpcomingDate = sortedDates?.find(
       (date) => moment(date.startDate, 'YYYY-MM-DD') >= currentDate
     );
-    const reservationDate = reservation.ReservationDate?.map(
+    const reservationDate = reservation.ReservationDate.map(
       (date) => date.startDate
     );
     if (!nextUpcomingDate) {
       return {
         eventName: reservation.eventName,
-        Facility: reservation.Facility?.name,
-        ReservationDate:
-          reservationDate && reservationDate.length > 0
-            ? reservationDate[0]
-            : 'No Dates Defined',
+        Facility: reservation.Facility.name,
+        ReservationDate: reservationDate[0],
         approved: reservation.approved,
         User: reservation.User?.name || '',
         Details: reservation.id,
@@ -107,12 +100,11 @@ async function mapDates(ReservationDates: any[]) {
   return mappedDates;
 }
 
-async function userReservations(Reservations: ReservationWithAll[]) {
+async function userReservations(Reservations: Reservation[]) {
   const currentDate = moment();
-  //@ts-expect-error
   const mappedReservations: TableReservation[] = Reservations.map(
     (reservation) => {
-      const sortedDates = reservation.ReservationDate?.sort((a, b) =>
+      const sortedDates = reservation.ReservationDate.sort((a, b) =>
         moment(a.startDate).diff(moment(b.startDate))
       );
       const nextUpcomingDate = sortedDates?.find(
@@ -120,17 +112,15 @@ async function userReservations(Reservations: ReservationWithAll[]) {
       );
 
       const mostRecentPastDate =
-        !nextUpcomingDate && sortedDates && sortedDates.length > 0
+        !nextUpcomingDate && sortedDates.length > 0
           ? sortedDates[sortedDates.length - 1]
           : 'No Dates Defined';
       return {
         eventName: reservation.eventName,
-        Facility: reservation.Facility?.name,
+        Facility: reservation.Facility.name,
         ReservationDate: nextUpcomingDate
           ? nextUpcomingDate.startDate
-          : typeof mostRecentPastDate !== 'string'
-          ? mostRecentPastDate.startDate
-          : 'No Dates Defined',
+          : mostRecentPastDate?.startDate,
         approved: reservation.approved,
         Details: reservation.id,
       };

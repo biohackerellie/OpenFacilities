@@ -5,23 +5,23 @@ import {
   mapReservations,
   mapPastReservations,
 } from '@/functions/calculations/tableData';
-import { GetReservations } from '@/lib/db/queries/reservations';
-import { unstable_cache } from 'next/cache';
+import { headers } from 'next/headers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TableSkeleton from '../requests/skeleton';
 import { Suspense } from 'react';
 
 async function getReservations() {
-  'use server';
-  const cachedData = unstable_cache(
-    async () => GetReservations.execute(),
-    ['reservations']
-  );
-  const data = await cachedData();
+  const headersInstance = headers();
+  const auth = headersInstance.get('Cookie') as string;
+
+  const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/reservation`, {
+    headers: {
+      Cookie: auth,
+    },
+  });
+  const data = await res.json();
   const [Reservations, PastReservations] = await Promise.all([
-    //@ts-expect-error
     mapReservations(data),
-    //@ts-expect-error
     mapPastReservations(data),
   ]);
 

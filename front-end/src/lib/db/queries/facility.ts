@@ -22,9 +22,3 @@ export const BuildingQuery = db.query.Facility.findMany({
 export const BuildingnameQuery = db.query.Facility.findFirst({
   where: like(Facility.building, sql.placeholder('building')),
 }).prepare('buildingname_Facility');
-
-export const AllFacilitiesQuery = db.query.Facility.findMany({
-  with: {
-    Category: true,
-  },
-}).prepare('all_Facility');

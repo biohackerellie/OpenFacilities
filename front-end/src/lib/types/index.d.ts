@@ -1,12 +1,10 @@
 import NextAuth, { User as NextAuthUser } from 'next-auth';
 import {
-  Reservation,
   Category,
   ReservationDate,
   ReservationFees,
   SelectEvents,
   SelectFacility,
-  SelectUser,
 } from '../db/schema';
 import { Path, UseFormRegister } from 'react-hook-form';
 import { $Enums, Category } from '@prisma/client';
@@ -99,6 +97,36 @@ export type ReservationDate = {
   gcal_eventid: string | null;
 };
 
+export interface Reservation {
+  id: number;
+  name?: string;
+  userId: string;
+  eventName: string;
+  eventId?: string;
+  people?: string;
+  doorAccess?: boolean;
+  doorsDetails?: string;
+  techSupport?: boolean;
+  techDetails?: string;
+
+  primaryContact?: string;
+  insurance?: string;
+  phone?: string;
+  details?: string;
+  fees?: string;
+  facilityId: number;
+  recurrence?: string;
+  approved: 'pending' | 'approved' | 'denied' | 'canceled';
+  createdAt: Date;
+  updatedAt: Date;
+  additionalFees: [];
+  Event?: any[];
+  Category?: Category;
+  Facility: Facility;
+  User?: User;
+  ReservationDate: any[];
+}
+
 export interface IAlert {
   title: string;
   text: string;
@@ -126,7 +154,7 @@ export interface IAlert {
 export interface TableReservation {
   eventName: string;
   Facility: string;
-  ReservationDate: SelectReservationDate[];
+  ReservationDate: any[];
   approved: 'pending' | 'approved' | 'denied' | 'canceled';
   User?: string;
   Details: number;
@@ -169,7 +197,7 @@ export type Events = {
 export type SelectCategory = typeof Category.$inferSelect;
 export type SelectReservationFees = typeof ReservationFees.$inferSelect;
 export type SelectReservationDate = typeof ReservationDate.$inferSelect;
-export type Reservation = typeof Reservation.$inferSelect;
+
 export type EventsWithFacility = SelectEvents & {
   facility?: SelectFacility;
 };
@@ -179,7 +207,6 @@ export type ReservationWithAll = Reservation & {
   ReservationFees?: SelectReservationFees[];
   Facility?: SelectFacility;
   Category?: SelectCategory;
-  User?: SelectUser;
 };
 
 export type FacilityWithCategory = SelectFacility & {

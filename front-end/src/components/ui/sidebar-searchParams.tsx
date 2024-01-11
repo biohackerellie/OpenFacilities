@@ -23,6 +23,7 @@ export function SidebarSearchParamsNav({
   if (searchParams && searchParams.has('building')) {
     selectedBuilding = searchParams.get('building');
   }
+  console.log('selectedBuilding', selectedBuilding);
   const handleSetSelectedBuilding = useCallback(
     (building: string, name: string) => {
       const params = new URLSearchParams(searchParams);

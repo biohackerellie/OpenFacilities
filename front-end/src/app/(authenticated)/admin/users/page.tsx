@@ -1,9 +1,6 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
 import { GetUsers } from '@/lib/db/queries/users';
 import { columns } from './columns';
-import { unstable_cache } from 'next/cache';
-import { Suspense } from 'react';
-import TableSkeleton from '../requests/skeleton';
 
 interface TableUsers {
   User: string;
@@ -12,10 +9,12 @@ interface TableUsers {
   Details: string;
 }
 
+const revalidateTags = ['users'];
+
 async function getUsers() {
   'use server';
-  const data = unstable_cache(async () => GetUsers.execute(), ['users']);
-  const users = await data();
+  const users = await GetUsers.execute();
+
   const mappedUsers: TableUsers[] = users.map((user) => {
     return {
       User: user.name,
@@ -35,9 +34,7 @@ export default async function Users() {
       <div>
         <h1 className="text-lg font-medium">Users</h1>
       </div>
-      <Suspense fallback={<TableSkeleton />}>
-        <DataTable columns={columns} data={data} />
-      </Suspense>
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }
