@@ -8,9 +8,6 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  typeScript: {
-    ignoreBuildErrors: true,
-  },
 
   experimental: {
     optimizePackageImports: ['bcryptjs', 'googleapis'],
