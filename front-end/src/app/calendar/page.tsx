@@ -4,11 +4,11 @@ import CalendarMain from '@/components/calendar/Calendar';
 async function getEvents() {
   'use server';
   const data = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events', {
-    cache: 'no-store',
-    // next: {
-    //   tags: ['events'],
-    //   revalidate: 60,
-    // },
+
+    next: {
+      tags: ['events'],
+      revalidate: 60,
+    },
   }).then((res) => res.json());
 
   return data;

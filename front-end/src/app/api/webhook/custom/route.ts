@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { Facility } from '@/lib/db/schema';
+import { OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
 import moment from 'moment-timezone';
+import { time } from 'console';
 
 export async function GET(req: NextRequest) {
   return NextResponse.error();
@@ -26,6 +29,16 @@ export async function POST(req: NextRequest) {
       message: 'Unauthorized',
     });
   }
+
+  const oauth2Client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+  });
+  oauth2Client.setCredentials({
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+  });
+
   const currentDate = moment().tz('America/Denver').startOf('day').toDate();
   const sevenDaysFromNow = moment()
     .tz('America/Denver')
@@ -33,6 +46,7 @@ export async function POST(req: NextRequest) {
     .add(7, 'days')
     .toDate();
 
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
   const schools = [
     {
       name: 'Laurel High School',
@@ -70,55 +84,62 @@ export async function POST(req: NextRequest) {
     const schoolBuilding = await db.query.Facility.findFirst({
       where: eq(Facility.building, school.name),
     });
-    const events = await SortedEventsQuery.execute({
-      facilityId: Number(schoolBuilding?.id),
-      start: currentDate,
-      end: sevenDaysFromNow,
+
+    const events = await calendar.events.list({
+      calendarId: schoolBuilding?.googleCalendarId,
+      maxResults: 100,
+      singleEvents: true,
+      orderBy: 'startTime',
+      timeMin: currentDate.toISOString(),
+      timeMax: sevenDaysFromNow.toISOString(),
     });
-
-    const eventsInMST = events.map((event) => {
-      return {
-        ...event,
-        start: moment(event.start)
-          .tz('America/Denver')
-          .format('dddd, MMMM Do, h:mm a'),
-        end: moment(event.end).tz('America/Denver').format('h:mm a'),
-        location: event.Facility?.name,
-      };
-    });
-
-    const eventList = eventsInMST
-      .map(
-        (event) =>
-          `<li>"${event.title}" at ${event.location} on ${event.start} to ${event.end}</li>`
-      )
-      .join('');
-
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          key: process.env.EMAIL_API_KEY,
-          to: school.email,
-          from: 'Weekly Events',
-          subject: 'Weekly Events',
-          html: `<h1>Here are the events happening in your building this week: </h1><ul>${eventList}</ul>`,
-        }),
+    if (events.data.items) {
+      const eventsInMST = events.data.items.map((event) => {
+        return {
+          ...event,
+          start: moment(event.start?.dateTime || event.start?.date)
+            .tz('America/Denver')
+            .format('dddd, MMMM Do, h:mm a'),
+          end: moment(event.end?.dateTime || event.end?.date)
+            .tz('America/Denver')
+            .format('h:mm a'),
+          location: event.location || 'No Location Provided',
+        };
       });
-    } catch (error) {
-      return NextResponse.json({
-        ok: false,
-        status: 500,
-        message: 'Internal Server Error',
-      });
+
+      const eventList = eventsInMST
+        .map(
+          (event) =>
+            `<li>"${event.summary}" at ${event.location} on ${event.start} to ${event.end}</li>`
+        )
+        .join('');
+
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_EMAIL_API}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            key: process.env.EMAIL_API_KEY,
+            to: school.email,
+            from: 'Weekly Events',
+            subject: 'Weekly Events',
+            html: `<h1>Here are the events happening in your building this week: </h1><ul>${eventList}</ul>`,
+          }),
+        });
+      } catch (error) {
+        return NextResponse.json({
+          ok: false,
+          status: 500,
+          message: 'Internal Server Error',
+        });
+      }
     }
+    return NextResponse.json({
+      ok: true,
+      status: 200,
+      message: 'Success',
+    });
   }
-  return NextResponse.json({
-    ok: true,
-    status: 200,
-    message: 'Success',
-  });
 }
