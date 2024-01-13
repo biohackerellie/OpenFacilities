@@ -13,8 +13,7 @@ import {
 import { CalendarInfo } from '../ui';
 import { useTheme } from 'next-themes';
 import { Button } from '../ui/buttons';
-import { ParamParser } from '@/lib/paramParser';
-import { useQueryState } from 'nuqs';
+import { useSearchParams } from 'next/navigation';
 import {
   buildingCalendars,
   BuildingAll,
@@ -40,14 +39,19 @@ type EventComponentProps = {
 
 export default function CalendarMain({
   fetchedEvents,
-  building,
 }: {
   fetchedEvents: Schema$Event[];
-  building: string;
 }) {
+  const searchParams = useSearchParams();
+
   const [selectedEvent, setSelectedEvent] = useState<EventComponentProps>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const selectedBuilding = building;
+
+  let selectedBuilding: string | null = 'All';
+  if (searchParams && searchParams.has('building')) {
+    selectedBuilding = searchParams.get('building');
+  }
+
   const { theme } = useTheme();
 
   const isDarkMode = theme === 'dark';

@@ -5,8 +5,6 @@ import { useSearchParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
-import { useQueryState, parseAsString } from 'nuqs';
-import { Button } from './buttons';
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -19,11 +17,22 @@ export function SidebarSearchParamsNav({
   items,
   ...props
 }: SidebarNavProps) {
-  const [selectedBuilding, setSelectedBuilding] = useQueryState(
-    'building',
-    parseAsString.withDefault('All')
-  );
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  let selectedBuilding: string | null = 'All';
+  if (searchParams && searchParams.has('building')) {
+    selectedBuilding = searchParams.get('building');
+  }
   console.log('selectedBuilding', selectedBuilding);
+  const handleSetSelectedBuilding = useCallback(
+    (building: string, name: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(building, name);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <nav
@@ -34,9 +43,11 @@ export function SidebarSearchParamsNav({
       {...props}
     >
       {items.map((item) => (
-        <Button
+        <Link
           key={item.title}
-          onClick={() => setSelectedBuilding(item.title)}
+          href={
+            pathname + '?' + handleSetSelectedBuilding('building', item.title)
+          }
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             selectedBuilding === item.title
@@ -46,7 +57,7 @@ export function SidebarSearchParamsNav({
           )}
         >
           {item.title}
-        </Button>
+        </Link>
       ))}
     </nav>
   );

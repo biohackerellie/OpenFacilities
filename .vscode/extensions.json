@@ -1,6 +1,5 @@
 {
 	"recommendations": [
-		"ms-vscode.vscode-typescript-next",
-		"shalldie.background"
+		"ms-vscode.vscode-typescript-next"
 	]
 }

@@ -1,5 +1,6 @@
 'use client';
 import FacilityCard from './facility_card';
+import { useSearchParams } from 'next/navigation';
 import { type FacilityWithCategory } from '@/lib/types';
 import React from 'react';
 
@@ -7,12 +8,14 @@ type PartialFacility = Partial<FacilityWithCategory>;
 
 export default function CardLayout({
   facilities,
-  building,
 }: {
   facilities: PartialFacility[];
-  building: string;
 }) {
-  const selectedBuilding = building;
+  const searchParams = useSearchParams();
+  let selectedBuilding: string | null = 'All';
+  if (searchParams && searchParams.has('building')) {
+    selectedBuilding = searchParams.get('building');
+  }
 
   if (selectedBuilding !== 'All') {
     const filteredFacilities = facilities.filter(

@@ -3,7 +3,6 @@ import { SidebarSearchParamsNav } from '@/components/ui/sidebar-searchParams';
 import { Separator } from '@/components/ui/separator';
 import { buildingSideBar } from '@/lib/types/constants';
 import { Suspense } from 'react';
-import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function facilitiesLayout({
@@ -25,9 +24,7 @@ export default function facilitiesLayout({
               <SidebarSearchParamsNav items={buildingSideBar} />
             </Suspense>
           </aside>
-          <div className="flex-1 lg:max-w-4xl">
-            <Suspense fallback={<FacilityCardSkeleton />}>{children}</Suspense>
-          </div>
+          <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
     </div>
