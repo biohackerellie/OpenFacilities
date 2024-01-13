@@ -8,15 +8,28 @@
 		"plaintext",
 		"javascript"
 	],
-	"workbench.preferredDarkColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredHighContrastColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredHighContrastLightColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredLightColorTheme": "Beautiful Dracula Normal",
+	"workbench.preferredDarkColorTheme": "Alex's Dark Theme",
+	"workbench.preferredHighContrastColorTheme": "Alex's Dark Theme",
+	"workbench.preferredHighContrastLightColorTheme": "Alex's Dark Theme",
+	"workbench.preferredLightColorTheme": "Alex's Dark Theme",
+	"workbench.colorTheme": "Alex's Dark Theme" ,
 	"workbench.iconTheme": "material-icon-theme",
-	"workbench.colorTheme": "Beautiful Dracula Normal" ,
 	"editor.tabSize": 2,
 	"editor.wordWrap": "on",
 	"editor.cursorBlinking": "phase",
 	"editor.cursorSmoothCaretAnimation": "on",
 	"editor.fontFamily": "FiraCode Nerd Font Mono",
+	"background.fullscreen": {
+		"images": [
+			"https://cdn.wallpapersafari.com/71/14/Hr7ZQj.jpg",
+			"https://wallpapercave.com/wp/wp6952566.jpg",
+			"https://w.wallhaven.cc/full/7p/wallhaven-7p3z53.png",
+			"https://wallpapercave.com/wp/wp6051017.jpg"
+		], // urls of your images
+		"opacity": 0.92, // 0.85 ~ 0.95 recommended
+		"size": "cover", // also css, `cover` to self-adaption (recommended)，or `contain`、`200px 200px`
+		"useFront": false,
+		"position": "center", // alias to `background-position`, default `center`
+		"interval": 600 // seconds of interval for carousel, default `0` to disabled.
+	},
 }
