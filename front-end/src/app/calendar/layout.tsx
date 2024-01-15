@@ -25,11 +25,7 @@ export default function calendarLayout({
           <aside className="-mx-4 lg:w-1/5">
             <SidebarSearchParamsNav items={buildingSideBar2} />
           </aside>
-          <div className="flex-1 lg:max-w-2xl">
-            <Suspense fallback={<Skeleton className="w-auto h-auto" />}>
-              {children}
-            </Suspense>
-          </div>
+          <div className="flex-1 lg:max-w-2xl">{children}</div>
         </div>
       </div>
     </div>

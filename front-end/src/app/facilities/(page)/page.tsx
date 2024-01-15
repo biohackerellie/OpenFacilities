@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Suspense } from 'react';
-import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
 import CardLayout from './cardLayout';
 import { mappedFacilities } from '@/functions/calculations/tableData';
 import { type FacilityWithCategory } from '@/lib/types';
@@ -24,9 +22,7 @@ export default async function FacilitiesPage() {
 
   return (
     <div className=" space-y-7 ">
-      <Suspense fallback={<FacilityCardSkeleton />}>
-        <CardLayout facilities={facilities as unknown as PartialFacility[]} />
-      </Suspense>
+      <CardLayout facilities={facilities as unknown as PartialFacility[]} />
     </div>
   );
 }
