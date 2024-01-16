@@ -31,9 +31,8 @@ export default async function insurancePage({
 
   let link;
   if (reservation.insuranceLink) {
-    link = encodeURI(reservation.insuranceLink);
+    link = reservation.insuranceLink;
   }
-
   return (
     <div className="space-y-7">
       <div className=" ">

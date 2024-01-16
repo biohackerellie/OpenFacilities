@@ -9,6 +9,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (!request.body) {
     return NextResponse.json({ error: 'No File Provided' }, { status: 400 });
   }
+  console.log('request', request);
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get('filename') || 'file';
 

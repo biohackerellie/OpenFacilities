@@ -7,19 +7,18 @@ import { useState, useRef } from 'react';
 
 export function UploadFile({ params }: { params: { id: number } }) {
   const inputFileRef = useRef<HTMLInputElement>(null);
+  console.log(inputFileRef);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  let file: File | null = null;
-  if (inputFileRef.current?.files && inputFileRef.current?.files[0]) {
-    file = inputFileRef.current.files[0];
-  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setLoading(true);
-    if (!file) {
-      throw new Error('No file selected');
+    if (!inputFileRef.current?.files) {
+      throw new Error('no file selected');
     }
+    const file = inputFileRef.current.files[0];
 
     const response = await fetch(
       `/api/files/upload?filename=${file.name}&id=${params.id}`,
@@ -58,3 +57,7 @@ export function UploadFile({ params }: { params: { id: number } }) {
     </div>
   );
 }
+/**
+ * https://tqhpkz4oxpax9gag.public.blob.vercel-storage.com/CORS%20Plugin%20-%20ElysiaJS%20ElysiaJS-xH8CbBAPcEXLLZ88rpqIVga2EfWufV.pdf
+ * https://tqhpkz4oxpax9gag.public.blob.vercel-storage.com/CORS%2520Plugin%2520-%2520ElysiaJS%2520ElysiaJS-xH8CbBAPcEXLLZ88rpqIVga2EfWufV.pdf
+ */
