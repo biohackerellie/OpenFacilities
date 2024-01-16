@@ -44,8 +44,8 @@ export async function approveReservation(id: number) {
       let subject = 'Your Facility Reservation has been approved';
       let data = { to, subject, message };
       await reservationEmail(data);
-      revalidatePath('/admin/requests', 'page');
-      revalidatePath('/admin/reservations', 'page');
+      revalidatePath('/', 'layout');
+      revalidateTag('reservations');
       return 'success';
     } catch (error) {
       throw new Error('Something went wrong');
@@ -85,9 +85,8 @@ export async function denyReservation(id: number) {
     let subject = 'Your Facility Reservation has been denied';
     let data = { to, subject, message };
     await reservationEmail(data);
-    revalidatePath('/admin/requests', 'page');
+    revalidatePath('/', 'layout');
     revalidateTag('reservations');
-    revalidatePath('/admin/reservations', 'page');
     return 'success';
   } catch (error) {
     throw new Error('Something went wrong');

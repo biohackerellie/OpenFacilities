@@ -2,7 +2,7 @@
 import { db } from '@/lib/db';
 import { Reservation } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export default async function HandleDelete(id: number) {
   try {
@@ -10,5 +10,5 @@ export default async function HandleDelete(id: number) {
   } catch (error) {
     throw new Error();
   }
-  return revalidatePath('/admin/reservations');
+  return revalidatePath('reservations');
 }

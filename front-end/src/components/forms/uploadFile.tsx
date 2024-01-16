@@ -7,7 +7,7 @@ import { useState, useRef } from 'react';
 
 export function UploadFile({ params }: { params: { id: number } }) {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  console.log(inputFileRef);
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
