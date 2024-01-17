@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import { SidebarNav } from '@/components/ui/sidebar-nav';
 import { Skeleton } from '@/components/ui/skeleton';
 
+export const dynamic = 'force dynamic';
+
 export default function authLayout({
   children,
 }: {

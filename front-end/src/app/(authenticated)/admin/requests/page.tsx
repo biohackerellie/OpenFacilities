@@ -6,8 +6,9 @@ import { Suspense } from 'react';
 import { headers } from 'next/headers';
 import TableSkeleton from './skeleton';
 
+export const dynamic = 'force dynamic';
+
 async function getData() {
-  'use server';
   const headersInstance = headers();
   const auth = headersInstance.get('Cookie') as string;
 
@@ -17,9 +18,7 @@ async function getData() {
       headers: {
         Cookie: auth,
       },
-      next: {
-        tags: ['reservations'],
-      },
+      cache: 'no-store',
     }
   ).then((res) => res.json());
   return mapRequests(data);
