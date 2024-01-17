@@ -20,6 +20,7 @@ import {
   buildingColors,
 } from '@/lib/types/constants';
 import { AlertDialogAction } from '@radix-ui/react-alert-dialog';
+import { Schema$Event } from '@/functions/events/types';
 const localizer = momentLocalizer(moment);
 
 type Event = {
@@ -27,10 +28,6 @@ type Event = {
   start: Date;
   end: Date;
   building: any;
-  Facility: {
-    name: string;
-    building: string;
-  };
 } | null;
 
 type EventComponentProps = {
@@ -38,24 +35,12 @@ type EventComponentProps = {
   start: Date;
   end: Date;
   building: any | undefined;
-  facility: any | undefined;
 } | null;
-
-function EventComponent(event: Event) {
-  return (
-    <div
-      className={`${buildingColors[event?.building]} rbc-event-label`}
-      title={event?.title}
-    >
-      {event?.title}
-    </div>
-  );
-}
 
 export default function CalendarMain({
   fetchedEvents,
 }: {
-  fetchedEvents: Event[];
+  fetchedEvents: Schema$Event[];
 }) {
   const searchParams = useSearchParams();
 
@@ -81,19 +66,22 @@ export default function CalendarMain({
     }),
   };
 
-  const mappedEvents = fetchedEvents.map((event: Event) => ({
-    title: event?.title,
-    start: new Date(event?.start as unknown as string),
-    end: new Date(event?.end as unknown as string),
-    building: event?.Facility.building,
-    facility: event?.Facility.name,
-  }));
+  const mappedEvents = fetchedEvents.map((event) => {
+    if (!event.location) event.location = 'unknown';
+    let facility = (event.location as string).split('-')[0] || 'unknown';
+    return {
+      //@ts-expect-error
+      title: event.summary || event.title || 'Event',
+      start: new Date(event?.start as unknown as string),
+      end: new Date(event?.end as unknown as string),
+      building: facility,
+    };
+  });
 
   const filteredEvents =
     selectedBuilding === 'All'
       ? mappedEvents
       : mappedEvents.filter(
-          //@ts-expect-error
           (event: Event) => event?.building === selectedBuilding
         );
 
@@ -108,6 +96,7 @@ export default function CalendarMain({
           </a>
           <CalendarInfo />
         </div>
+
         <Calendar
           localizer={localizer}
           events={filteredEvents}
@@ -116,7 +105,7 @@ export default function CalendarMain({
             setIsOpen(true);
           }}
           popup
-          eventPropGetter={(event, start, end, isSelected) => ({
+          eventPropGetter={(event) => ({
             style: {
               backgroundColor:
                 buildingColors[event.building || 'Administration Building'],
@@ -125,17 +114,13 @@ export default function CalendarMain({
           startAccessor="start"
           endAccessor="end"
           style={calendarStyle}
-          components={{
-            // @ts-expect-error
-            event: EventComponent,
-          }}
         />
       </div>
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader className="text-xl font-bold mb-4">
             {selectedEvent?.title} <br />
-            {selectedEvent?.building} {selectedEvent?.facility}
+            {selectedEvent?.building}
           </AlertDialogHeader>
           <AlertDialogDescription>
             <p className="mb-2">

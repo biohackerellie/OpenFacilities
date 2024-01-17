@@ -33,13 +33,6 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
         'America/Denver'
       )
       .toISOString();
-    let eventID;
-    if (reservationDate.gcal_eventid) {
-      eventID = reservationDate.gcal_eventid;
-    }
-    if (!reservationDate.gcal_eventid) {
-      eventID = generateId();
-    }
 
     const endDateTime = moment
       .tz(
@@ -49,8 +42,6 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
       .toISOString();
 
     const event = {
-      id: eventID,
-
       summary: approvedReservation?.eventName,
 
       description: approvedReservation?.details,

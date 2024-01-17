@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuMobileTrigger,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -40,13 +39,11 @@ export function AuthenticatedMenu() {
             <NavigationMenuTrigger>Account</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                {/* <Link href="/account" legacyBehavior passHref> */}
-                <a href="/account">
+                <Link href="/account" prefetch={false} legacyBehavior passHref>
                   <ListItem title="My Account">
                     Manage your reservations & account details
                   </ListItem>
-                </a>
-                {/* </Link> */}
+                </Link>
                 <ListItem
                   className="cursor-pointer"
                   title="Sign Out"
@@ -80,6 +77,9 @@ export function AuthenticatedMenu() {
                   </Link>
                   <Link href="/admin/users" legacyBehavior passHref>
                     <ListItem title="Users">Manage users</ListItem>
+                  </Link>
+                  <Link href="/admin/facilities" legacyBehavior passHref>
+                    <ListItem title="Facilities">Manage facilities</ListItem>
                   </Link>
                 </ul>
               </NavigationMenuContent>
@@ -145,7 +145,11 @@ export default function NavMenu() {
                       Reserve a space now
                     </ListItem>
                   </Link>
-                  <Link href="/facilities" legacyBehavior passHref>
+                  <Link
+                    href="https://facilities.laurel.k12.mt.us/facilities"
+                    legacyBehavior
+                    passHref
+                  >
                     <ListItem title="Find a Space">
                       View all of our available facilities
                     </ListItem>

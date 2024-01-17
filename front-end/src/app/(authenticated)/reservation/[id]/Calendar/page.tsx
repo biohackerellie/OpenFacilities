@@ -1,8 +1,6 @@
 import React from 'react';
 import SmallCalendar from '@/components/calendar/smallCalendar';
 import { headers } from 'next/headers';
-import { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
@@ -20,13 +18,15 @@ async function getReservation(id: number) {
 }
 
 async function getEvents(id: number) {
+  'use server';
   const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/${id}`, {
     next: {
       tags: ['events'],
       revalidate: 3600,
     },
-  });
-  return res.json();
+  }).then((res) => res.json());
+
+  return res;
 }
 
 export default async function calPage({ params }: { params: { id: number } }) {
@@ -41,13 +41,8 @@ export default async function calPage({ params }: { params: { id: number } }) {
           {reservation.Facility.name}Calendar
         </h3>
       </div>
-      <Suspense
-        fallback={
-          <Skeleton className="h-[450px] w-[500px] sm:w-[700px] sm:h-[500px]" />
-        }
-      >
-        <SmallCalendar startDate={startDate} events={events} />
-      </Suspense>
+
+      <SmallCalendar startDate={startDate} events={events} />
     </div>
   );
 }

@@ -42,7 +42,10 @@ export async function POST(request: NextRequest) {
     try {
       for (const eventData of events) {
         const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
-        if (existingEvent && existingEvent.placeholder) {
+        if (
+          (existingEvent && existingEvent.placeholder) ||
+          (existingEvent && existingEvent.start === null)
+        ) {
           await db
             .update(Events)
             .set({

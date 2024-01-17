@@ -1,11 +1,8 @@
 import React from 'react';
-import BuildingFilter from '@/components/calendar/navigation/filterBar';
-import { Suspense } from 'react';
-import FacilityCardSkeleton from '@/components/ui/skeletons/CardSkeleton';
+
 import CardLayout from './cardLayout';
 import { mappedFacilities } from '@/functions/calculations/tableData';
 import { type FacilityWithCategory } from '@/lib/types';
-import { Separator } from '@/components/ui/separator';
 
 type PartialFacility = Partial<FacilityWithCategory>;
 
@@ -25,9 +22,7 @@ export default async function FacilitiesPage() {
 
   return (
     <div className=" space-y-7 ">
-      <Suspense fallback={<FacilityCardSkeleton />}>
-        <CardLayout facilities={facilities as unknown as PartialFacility[]} />
-      </Suspense>
+      <CardLayout facilities={facilities as unknown as PartialFacility[]} />
     </div>
   );
 }

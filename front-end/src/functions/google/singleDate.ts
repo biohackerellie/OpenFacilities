@@ -36,7 +36,6 @@ export async function CreateGoogleEvent(id: Number | BigInt) {
     .toISOString();
 
   const event = {
-    id: approvedDate?.gcal_eventid,
     summary: approvedDate?.Reservation.eventName,
 
     description: approvedDate?.Reservation.details,

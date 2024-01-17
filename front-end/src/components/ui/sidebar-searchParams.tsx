@@ -45,6 +45,7 @@ export function SidebarSearchParamsNav({
       {items.map((item) => (
         <Link
           key={item.title}
+          prefetch={false}
           href={
             pathname + '?' + handleSetSelectedBuilding('building', item.title)
           }

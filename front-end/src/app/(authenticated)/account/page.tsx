@@ -3,10 +3,8 @@ import { columns } from './columns';
 import React from 'react';
 import { Reservation } from '@/lib/types';
 import { userReservations } from '@/functions/calculations/tableData';
-
-import { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
+
 import { getProfile } from '@/functions/data/users';
 
 async function getData() {
@@ -33,9 +31,7 @@ export default async function Account() {
         <h3 className="text-lg font-medium">My Reservations</h3>
       </div>
       <Separator />
-      <Suspense fallback={<Skeleton className="w-[400px] h-[400px]" />}>
-        <DataTable columns={columns} data={data} />
-      </Suspense>
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }

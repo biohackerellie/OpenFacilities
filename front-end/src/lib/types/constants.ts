@@ -1,3 +1,5 @@
+import { describe } from "node:test";
+
 enum BuildingAll {
   All = 'All',
   West = 'West Elementary',
@@ -51,7 +53,14 @@ export type SideBarType = {
   title: string;
   href: string;
 }[];
+  title: string;
+  href: string;
+}[];
 
+const userSideBar: SideBarType = [
+  { title: 'Reservations', href: '/account' },
+  { title: 'Details', href: '/account/details' },
+];
 const userSideBar: SideBarType = [
   { title: 'Reservations', href: '/account' },
   { title: 'Details', href: '/account/details' },
