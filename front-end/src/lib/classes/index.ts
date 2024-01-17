@@ -83,9 +83,12 @@ class ReservationClass {
       dateRange = `${ReservationDate[0].startDate} - ${
         ReservationDate[ReservationDate.length - 1].endDate
       }`;
-    } else {
+    } else if (ReservationDate.length === 1) {
       dateRange = `${ReservationDate[0].startDate}`;
+    } else {
+      dateRange = 'No Upcoming Dates';
     }
+
     return dateRange;
   }
 

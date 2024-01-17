@@ -57,9 +57,15 @@ export default withAuth(
       }
     }
 
+    if (request.nextUrl.pathname.startsWith('/api/users') && token) {
+      if (token.role === 'USER' || token.role === null) {
+        return new Response('Unauthorized', { status: 401 });
+      }
+    }
+
     // Redirects to the 404 page if a user tries to access the admin dashboard without being an admin.
     if (request.nextUrl.pathname.startsWith('/admin') && token) {
-      if (token.role === 'USER' || token.rull === null) {
+      if (token.role === 'USER' || token.role === null) {
         return NextResponse.redirect(new URL('/404', request.url));
       }
     }

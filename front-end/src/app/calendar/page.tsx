@@ -2,9 +2,7 @@ import React from 'react';
 import CalendarMain from '@/components/calendar/Calendar';
 
 async function getEvents() {
-  'use server';
   const data = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events', {
-
     next: {
       tags: ['events'],
       revalidate: 60,
