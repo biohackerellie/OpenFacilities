@@ -2,9 +2,8 @@ import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables';
 import { Reservation, TableReservation } from '@/lib/types';
 import { mapRequests } from '@/functions/calculations/tableData';
-import { Suspense } from 'react';
+
 import { headers } from 'next/headers';
-import TableSkeleton from './skeleton';
 
 async function getData() {
   const headersInstance = headers();
@@ -32,9 +31,7 @@ export default async function Requests() {
       <div>
         <h1 className="text-lg font-medium">Requests</h1>
       </div>
-      <Suspense fallback={<TableSkeleton />}>
-        <DataTable columns={columns} data={data} />
-      </Suspense>
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }

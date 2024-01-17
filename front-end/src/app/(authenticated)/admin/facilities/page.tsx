@@ -6,7 +6,6 @@ import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 
 async function getFacilities() {
-  'use server';
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/facilities', {
     next: {
       revalidate: 3600,
