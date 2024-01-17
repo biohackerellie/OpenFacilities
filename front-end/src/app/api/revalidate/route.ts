@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {
@@ -7,6 +7,9 @@ export async function GET(req: NextRequest) {
   if (headers.get('x-api-key') !== process.env.EMAIL_API_KEY) {
     return new Response('Unauthorized', { status: 401 });
   }
-
-  return revalidatePath('/', 'layout');
+  revalidatePath('/', 'layout');
+  return NextResponse.json(
+    { message: `Revalidated at ${new Date().toISOString()}` },
+    { status: 200 }
+  );
 }
