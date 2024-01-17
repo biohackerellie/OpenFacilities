@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const dns = require('dns');
-dns.setDefaultResultOrder('ipv4first');
-
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
@@ -10,7 +7,7 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: ['bcryptjs'],
+    optimizePackageImports: ['bcryptjs', 'googleapis'],
   },
   webpack: (config, { webpack }) => {
     config.plugins.push(

@@ -6,6 +6,8 @@ import { headers } from 'next/headers';
 import { mapDates } from '@/functions/calculations/tableData';
 import { adminColumns } from './adminColumns';
 import { getCurrentUser } from '@/functions/data/auth';
+import { Button } from '@/components/ui/buttons';
+import dynamic from 'next/dynamic';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
@@ -33,6 +35,7 @@ export default async function reservationDatesPage({
   params: { id: number };
 }) {
   const session = await getCurrentUser();
+  const AddDates = dynamic(() => import('@/components/ui/alerts/addDates'));
 
   const mappedDates = await getReservation(params.id);
   return (
@@ -43,7 +46,12 @@ export default async function reservationDatesPage({
         </div>
 
         {session.isAdmin() ? (
-          <DataTable columns={adminColumns} data={mappedDates} />
+          <>
+            <DataTable columns={adminColumns} data={mappedDates} />
+            <div className="float-right">
+              <AddDates id={params.id} />
+            </div>
+          </>
         ) : (
           <>
             <DataTable columns={columns} data={mappedDates} />

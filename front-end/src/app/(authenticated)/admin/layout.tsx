@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import { SidebarNav } from '@/components/ui/sidebar-nav';
 import { Skeleton } from '@/components/ui/skeleton';
 
+export const revalidate = 60;
+
 export default function authLayout({
   children,
 }: {

@@ -8,15 +8,16 @@
 		"plaintext",
 		"javascript"
 	],
-	"workbench.preferredDarkColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredHighContrastColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredHighContrastLightColorTheme": "Beautiful Dracula Normal",
-	"workbench.preferredLightColorTheme": "Beautiful Dracula Normal",
+	"workbench.preferredDarkColorTheme": "Alex's Dark Theme",
+	"workbench.preferredHighContrastColorTheme": "Alex's Dark Theme",
+	"workbench.preferredHighContrastLightColorTheme": "Alex's Dark Theme",
+	"workbench.preferredLightColorTheme": "Alex's Dark Theme",
 	"workbench.iconTheme": "material-icon-theme",
-	"workbench.colorTheme": "Beautiful Dracula Normal" ,
+	"workbench.colorTheme": "Alex's Dark Theme" ,
 	"editor.tabSize": 2,
 	"editor.wordWrap": "on",
 	"editor.cursorBlinking": "phase",
 	"editor.cursorSmoothCaretAnimation": "on",
 	"editor.fontFamily": "FiraCode Nerd Font Mono",
 }
+

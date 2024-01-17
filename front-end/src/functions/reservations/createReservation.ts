@@ -7,7 +7,7 @@ import { formSchema } from '@/components/forms/schemas/reservationForm';
 import { UserByEmail } from '@/lib/db/queries/users';
 import { CategoryByFacility } from '@/lib/db/queries/categories';
 import { FacilityQuery } from '@/lib/db/queries/facility';
-import generateId from '../calculations/generate-id';
+
 import { z } from 'zod';
 import {
   Events,
@@ -16,7 +16,7 @@ import {
   ReservationDate,
 } from '@/lib/db/schema';
 import { db } from '@/lib/db';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { newReservationEmail } from '../emails/reservationEmail';
 
 // Validate form data values against the form schema
@@ -63,26 +63,21 @@ export default async function submitReservation(data: formValues) {
     const reservationId = NewId.NewId;
 
     // Create new empy arrays for the events and reservation dates table inserts
-    const eventsToInsert = [];
+
     const reservationDatesToInsert = [];
 
     // Loop through each event in the form data and create a new event and reservation date object and add them to the arrays
     for (const event of data.events) {
-      const eventId = generateId();
-      eventsToInsert.push({ id: eventId, placeholder: true });
-
       reservationDatesToInsert.push({
         startDate: event.startDate,
         endDate: event.startDate,
         startTime: event.startTime,
         endTime: event.endTime,
-        gcal_eventid: eventId,
         reservationId: Number(reservationId),
       });
     }
 
     // Insert the events and reservation dates into the database
-    await db.insert(Events).values(eventsToInsert);
     await db.insert(ReservationDate).values(reservationDatesToInsert);
 
     // Send an email to building admins, prevents action while testing
@@ -96,7 +91,7 @@ export default async function submitReservation(data: formValues) {
     }
 
     // Revalidate the admin page to update the cache
-    revalidatePath('/(authenticated)/admin', 'layout');
+    revalidateTag('reservations');
     return 'Success';
   } catch (error) {
     throw new Error('Error creating reservation');

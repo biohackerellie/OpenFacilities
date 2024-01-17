@@ -160,6 +160,17 @@ export interface TableReservation {
   Details: number;
 }
 
+export interface TableFacility {
+  id: number;
+  name: string;
+  building: string;
+  address: string;
+  imagePath: string;
+  capacity: number;
+  googleCalendarId: string;
+  Category: Category[];
+}
+
 export type DateType = {
   Options?: number;
   startDate: string;

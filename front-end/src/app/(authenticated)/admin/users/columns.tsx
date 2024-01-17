@@ -53,7 +53,7 @@ export const columns: ColumnDef<TableUsers>[] = [
     cell: ({ row }) => {
       const id = row.getValue('Details') as string;
       return (
-        <Button>
+        <Button asChild>
           <Link href={`/admin/users/${id}`}>Details</Link>
         </Button>
       );

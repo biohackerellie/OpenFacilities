@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/ui/footer';
 import Navbar from '@/components/ui/navbar/Navbar';
 import { GeistSans } from 'geist/font';
 import { Analytics } from '@vercel/analytics/react';
+export { meta as metadata } from './metadata';
 import { Toaster } from '@/components/ui/toaster';
 
 import './globals.css';
@@ -23,13 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning={true}
-        className={GeistSans.className}
-      >
-        <body>
+    <html
+      lang="en"
+      suppressHydrationWarning={true}
+      className={GeistSans.className}
+    >
+      <body>
+        <AuthProvider>
           <ThemeProviders
             attribute="class"
             defaultTheme="system"
@@ -42,9 +43,10 @@ export default function RootLayout({
             <Footer />
             <Toaster />
           </ThemeProviders>
+          <SpeedInsights />
           <Analytics />
-        </body>
-      </html>
-    </AuthProvider>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

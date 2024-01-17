@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth/next';
@@ -40,9 +39,9 @@ class Session {
   }
 }
 
-export const getCurrentUser = cache(async () => {
+export const getCurrentUser = async () => {
   const session = await getServerSession(authOptions);
   const ServerSession = new Session(session?.user);
 
   return ServerSession;
-});
+};
