@@ -2,7 +2,7 @@ import React from 'react';
 import { SidebarSearchParamsNav } from '@/components/ui/sidebar-searchParams';
 import { Separator } from '@/components/ui/separator';
 import { buildingSideBar } from '@/lib/types/constants';
-
+import { Suspense } from 'react';
 export default function facilitiesLayout({
   children,
 }: {
@@ -18,7 +18,9 @@ export default function facilitiesLayout({
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5">
-            <SidebarSearchParamsNav items={buildingSideBar} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SidebarSearchParamsNav items={buildingSideBar} />
+            </Suspense>
           </aside>
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>

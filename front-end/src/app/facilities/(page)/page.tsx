@@ -3,6 +3,8 @@ import React from 'react';
 import CardLayout from './cardLayout';
 import { mappedFacilities } from '@/functions/calculations/tableData';
 import { type FacilityWithCategory } from '@/lib/types';
+import { Suspense } from 'react';
+import LoadingScreen from '@/components/ui/loadingScreen';
 
 type PartialFacility = Partial<FacilityWithCategory>;
 
@@ -22,7 +24,9 @@ export default async function FacilitiesPage() {
 
   return (
     <div className=" space-y-7 ">
-      <CardLayout facilities={facilities as unknown as PartialFacility[]} />
+      <Suspense fallback={<LoadingScreen />}>
+        <CardLayout facilities={facilities as unknown as PartialFacility[]} />
+      </Suspense>
     </div>
   );
 }

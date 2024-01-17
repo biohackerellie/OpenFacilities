@@ -1,5 +1,7 @@
 import React from 'react';
 import CalendarMain from '@/components/calendar/Calendar';
+import { Suspense } from 'react';
+import LoadingScreen from '@/components/ui/loadingScreen';
 
 async function getEvents() {
   const data = await fetch(process.env.NEXT_PUBLIC_HOST + '/api/events', {
@@ -17,7 +19,9 @@ export default async function Page() {
 
   return (
     <div className="space-y-7">
-      <CalendarMain fetchedEvents={events} />
+      <Suspense fallback={<LoadingScreen />}>
+        <CalendarMain fetchedEvents={events} />
+      </Suspense>
     </div>
   );
 }
