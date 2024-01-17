@@ -18,6 +18,10 @@ async function getReservations() {
     headers: {
       Cookie: auth,
     },
+    next: {
+      revalidate: 60,
+      tags: ['reservations'],
+    },
   });
   const data = await res.json();
   const [Reservations, PastReservations] = await Promise.all([

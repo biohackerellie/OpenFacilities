@@ -10,5 +10,5 @@ export default async function HandleDelete(id: number) {
   } catch (error) {
     throw new Error();
   }
-  return revalidatePath('reservations');
+  return revalidateTag('reservations');
 }
