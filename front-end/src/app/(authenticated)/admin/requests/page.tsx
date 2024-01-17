@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 import { headers } from 'next/headers';
 import TableSkeleton from './skeleton';
 
-export const dynamic = 'force dynamic';
+export const dynamic = 'force-dynamic';
 
 async function getData() {
   const headersInstance = headers();
