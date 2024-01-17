@@ -1,5 +1,6 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
 import { GetUsers } from '@/lib/db/queries/users';
+import { SelectUser } from '@/lib/db/schema';
 import { columns } from './columns';
 import { headers } from 'next/headers';
 
@@ -20,7 +21,7 @@ async function getUsers() {
     },
     cache: 'no-store',
   });
-  const users = await res.json();
+  const users: SelectUser[] = await res.json();
 
   const mappedUsers: TableUsers[] = users.map((user) => {
     return {
