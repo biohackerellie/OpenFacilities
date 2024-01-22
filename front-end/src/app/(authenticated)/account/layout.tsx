@@ -3,6 +3,8 @@ import { userSideBar } from '@/lib/types/constants';
 import { SidebarNav } from '@/components/ui/sidebar-nav';
 import { Separator } from '@/components/ui/separator';
 
+export const dynamic = 'force-dynamic';
+
 export default async function accountLayout({
   children,
 }: {

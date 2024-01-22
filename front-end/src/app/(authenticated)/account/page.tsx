@@ -4,6 +4,7 @@ import React from 'react';
 import { Reservation } from '@/lib/types';
 import { userReservations } from '@/functions/calculations/tableData';
 import { Separator } from '@/components/ui/separator';
+import { getServerSession } from 'next-auth/next';
 
 import { getProfile } from '@/functions/data/users';
 
