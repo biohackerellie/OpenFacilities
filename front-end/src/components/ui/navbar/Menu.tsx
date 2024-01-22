@@ -39,7 +39,13 @@ export function AuthenticatedMenu() {
             <NavigationMenuTrigger>Account</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <Link href="/account" prefetch={false} legacyBehavior passHref>
+                <Link
+                  href={`${process.env.NEXT_PUBLIC_HOST}/account`}
+                  prefetch={false}
+                  replace={true}
+                  legacyBehavior
+                  passHref
+                >
                   <ListItem title="My Account">
                     Manage your reservations & account details
                   </ListItem>
