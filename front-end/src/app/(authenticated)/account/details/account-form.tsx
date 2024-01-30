@@ -18,7 +18,7 @@ export default function AccountForm({ data }: { data: UserName }) {
     <form action={updateUserID} className="space-y-8">
       <label className="block font-bold text-lg">Name: {data.name} </label>
       <input
-        className="form-input ring-transparent rounded-sm border-forground"
+        className="form-input ring-transparent text-black  rounded-sm border-forground"
         name="name"
         type="text"
         id="name"
@@ -32,7 +32,7 @@ export default function AccountForm({ data }: { data: UserName }) {
       <Separator />
       <label className="block font-bold text-lg">Email: {data.email} </label>
       <input
-        className="form-input ring-transparent rounded-sm border-forground"
+        className="form-input ring-transparent text-black rounded-sm border-forground"
         name="email"
         type="email"
         id="email"
