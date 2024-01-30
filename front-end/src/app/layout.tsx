@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { Providers } from './providers';
 import AuthProvider from '@/components/contexts/providers/AuthProvider';
 import { ThemeProviders } from '@/components/contexts/providers/ThemeProvider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -32,11 +32,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
+            <Providers>
+              <Navbar />
 
-            {children}
-            <Footer />
-            <Toaster />
+              {children}
+              <Footer />
+              <Toaster />
+            </Providers>
           </ThemeProviders>
           <SpeedInsights />
           <Analytics />
