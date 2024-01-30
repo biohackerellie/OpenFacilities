@@ -5,6 +5,7 @@ import { columns } from './columns';
 import React from 'react';
 import { Reservation, TableReservation } from '@/lib/types';
 import { userReservations } from '@/functions/calculations/tableData';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/components/ui/separator';
 
 import { useSession } from 'next-auth/react';
@@ -13,14 +14,11 @@ import { Suspense } from 'react';
 
 const baseUrl = process.env.NEXT_PUBLIC_HOST;
 
-function useSessionQuery() {
-  const { data: session } = useSession();
-  const userID = session?.user?.id;
-  console.log('userID', userID);
+function useSessionQuery(props: { id: string }) {
   const query = useSuspenseQuery({
-    queryKey: ['user', userID],
+    queryKey: ['user', props.id],
     queryFn: async () => {
-      const path = `/api/account?userId=${userID}`;
+      const path = `/api/account?userId=${props.id}`;
       const url = baseUrl + path;
 
       const res = await (
@@ -35,13 +33,16 @@ function useSessionQuery() {
   return [query.data, query] as const;
 }
 
-function TableComponent() {
-  const [data] = useSessionQuery();
+function TableComponent(props: { id: string }) {
+  const [data] = useSessionQuery(props);
 
   return <DataTable columns={columns} data={data} />;
 }
 
 export default function Account() {
+  const { data: session } = useSession();
+  const userID = session?.user?.id;
+
   return (
     <div className="space-y-7">
       <div>
@@ -49,9 +50,17 @@ export default function Account() {
       </div>
       <Separator />
 
-      <Suspense fallback="Loading...">
-        <TableComponent />
+      <Suspense fallback={<LoadingComponent />}>
+        <TableComponent id={userID} />
       </Suspense>
     </div>
   );
 }
+
+const LoadingComponent = () => {
+  return (
+    <div>
+      Loading <ReloadIcon className="w-4 h-4 animate-spin" />
+    </div>
+  );
+};
