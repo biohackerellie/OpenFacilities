@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
   if (!user) return NextResponse.error();
   const reservations = user?.Reservation;
 
+  //@ts-expect-error
   const mappedReservations = await userReservations(reservations);
 
   return NextResponse.json(mappedReservations);

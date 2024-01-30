@@ -83,6 +83,7 @@ export default withAuth(
 // The matcher property is used to specify which paths the middleware should run on.
 export const config = {
   matcher: [
+    '/api/account',
     '/api/users',
     '/api/requests',
     '/api/reservation',
