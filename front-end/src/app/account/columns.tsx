@@ -59,7 +59,9 @@ export const columns: ColumnDef<TableReservations>[] = [
 
       return (
         <Button asChild>
-          <Link href={`/reservation/${id}`}>Details</Link>
+          <Link prefetch={false} href={`/reservation/${id}`}>
+            Details
+          </Link>
         </Button>
       );
     },
