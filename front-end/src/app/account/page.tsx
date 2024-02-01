@@ -1,47 +1,43 @@
-'use client';
-
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
 import { Reservation, TableReservation } from '@/lib/types';
 import { userReservations } from '@/functions/calculations/tableData';
+
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/components/ui/separator';
+import { getServerSession } from 'next-auth/next';
 
-import { useSession } from 'next-auth/react';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
+import { GetUserById } from '@/lib/db/queries/users';
+import { authOptions } from '@/lib/auth';
 
 const baseUrl = process.env.NEXT_PUBLIC_HOST;
 
-function useSessionQuery(props: { id: string }) {
-  const query = useSuspenseQuery({
-    queryKey: ['user', props.id],
-    queryFn: async () => {
-      const path = `/api/account?userId=${props.id}`;
-      const url = baseUrl + path;
-
-      const res = await (
-        await fetch(url, {
-          cache: 'no-store',
-        })
-      ).json();
-      return res;
-    },
-  });
-
-  return [query.data, query] as const;
+async function getData() {
+  try {
+    const userSession = await getServerSession(authOptions);
+    if (!userSession) {
+      return [];
+    } else if (userSession) {
+      const user = await GetUserById.execute({ id: userSession.user.id });
+      //@ts-expect-error
+      const reservations: Reservation[] = user?.Reservation;
+      if (!reservations) {
+        return [];
+      }
+      return userReservations(reservations);
+    }
+  } catch (error) {
+    return [];
+  }
 }
 
-function TableComponent(props: { id: string }) {
-  const [data] = useSessionQuery(props);
-
-  return <DataTable columns={columns} data={data} />;
-}
-
-export default function Account() {
-  const { data: session } = useSession();
-  const userID = session?.user?.id;
+export default async function Account() {
+  const data = await getData();
+  if (!data) {
+    return <div>loading ...</div>;
+  }
 
   return (
     <div className="space-y-7">
@@ -51,7 +47,7 @@ export default function Account() {
       <Separator />
 
       <Suspense fallback={<LoadingComponent />}>
-        <TableComponent id={userID} />
+        <DataTable columns={columns} data={data} />
       </Suspense>
     </div>
   );
