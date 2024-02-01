@@ -2,6 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NavMenu from './Menu';
 import { ModeToggle } from '../buttons';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
+
 export default function Navbar() {
   return (
     <>
@@ -20,7 +23,9 @@ export default function Navbar() {
           </h1>
         </div>
         <div className="justify-end">
-          <NavMenu />
+          <Suspense fallback={<Loader2 className="h-4 w-4 animate-spin" />}>
+            <NavMenu />
+          </Suspense>
         </div>
         <div className="flex sm:hidden mr-4">
           <ModeToggle />
