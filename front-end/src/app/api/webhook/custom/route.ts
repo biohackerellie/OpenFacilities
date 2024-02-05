@@ -1,8 +1,6 @@
 import { SortedEventsQuery } from '@/lib/db/queries/events';
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { eq } from 'drizzle-orm';
-import { Facility } from '@/lib/db/schema';
+import { calendarIDs } from '@/lib/types/constants';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import moment from 'moment-timezone';
@@ -78,21 +76,24 @@ export async function POST(req: NextRequest) {
       email:
         'lillian_kooistra@laurel.k12.mt.us, lpsactivities@laurel.k12.mt.us, stacy_hall@laurel.k12.mt.us, john_stilson@laurel.k12.mt.us, tamara_raty@laurel.k12.mt.us, wendi_clark@laurel.k12.mt.us, paul_damjanovich@laurel.k12.mt.us, austin_anderson@laurel.k12.mt.us, mischele_miller@laurel.k12.mt.us, hsmessage@laurel.k12.mt.us',
     },
-  ];
+  ] as const;
+
+  //match the school name from the school array to the calendarIDs array
 
   for (const school of schools) {
-    const schoolBuilding = await db.query.Facility.findFirst({
-      where: eq(Facility.building, school.name),
+    const schoolBuilding = calendarIDs.find((building) => {
+      return building.school === school.name;
     });
 
     const events = await calendar.events.list({
-      calendarId: schoolBuilding?.googleCalendarId,
+      calendarId: schoolBuilding?.calendar,
       maxResults: 100,
       singleEvents: true,
       orderBy: 'startTime',
       timeMin: currentDate.toISOString(),
       timeMax: sevenDaysFromNow.toISOString(),
     });
+    console.log(events.data.items);
     if (events.data.items) {
       const eventsInMST = events.data.items.map((event) => {
         return {

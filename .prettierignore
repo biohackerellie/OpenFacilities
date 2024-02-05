@@ -7,4 +7,3 @@
 masters.js
 front-end/app/components/calendar/Calendar.tsx
 front-end/src/components/forms/schemas/reservationForm.ts
-front-end/src/lib/types/constants.ts
