@@ -10,6 +10,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { IssuesForm } from '@/components/forms';
 
 import { Button, ModeToggle, RequestBadge } from '@/components/ui/buttons';
 import IsAdminNav from '@/components/contexts/isAdminNav';
@@ -183,6 +184,7 @@ export default function NavMenu() {
                     <ListItem title="Facilities" />
                   </Link>
                   <AuthenticatedMenu />
+                  <IssuesForm />
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
