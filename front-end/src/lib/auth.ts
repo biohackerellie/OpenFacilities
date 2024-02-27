@@ -110,6 +110,7 @@ export const authOptions = {
   pages: {
     signIn: '/login',
   },
+  debug: true,
 
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {
