@@ -7,3 +7,5 @@ export async function GET(req: Request) {
   const res = await getRequests();
   return NextResponse.json(serializeJSON(res));
 }
+
+export const dynamic = 'force-dynamic';

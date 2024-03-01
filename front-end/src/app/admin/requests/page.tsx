@@ -15,10 +15,7 @@ async function getData() {
       headers: {
         Cookie: auth,
       },
-      next: {
-        revalidate: 60,
-        tags: ['reservations'],
-      },
+      cache: 'no-store',
     }
   ).then((res) => res.json());
   return mapRequests(data);
