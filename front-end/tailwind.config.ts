@@ -1,5 +1,5 @@
 import type {Config} from 'tailwindcss';
-import animate from 'tailwind-animate';
+import animate from 'tailwindcss-animate';
 import forms from '@tailwindcss/forms';
 import scrollbar from 'tailwind-scrollbar';
 import typography from '@tailwindcss/typography';
@@ -18,7 +18,7 @@ export default {
     typography,
   ],
   theme: {
-    typography: (theme) => ({}),
+
     container: {
       center: true,
       padding: '2rem',
@@ -85,71 +85,17 @@ export default {
         full: '100%',
       },
       keyframes: {
-        slideUpAndFade: {
-          '0%': { opacity: 0, transform: 'translateY(2px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
-        slideRightAndFade: {
-          '0%': { opacity: 0, transform: 'translateX(-2px)' },
-          '100%': { opacity: 1, transform: 'translateX(0)' },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
-        slideDownAndFade: {
-          '0%': { opacity: 0, transform: 'translateY(-2px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' },
-        },
-        slideLeftAndFade: {
-          '0%': { opacity: 0, transform: 'translateX(2px)' },
-          '100%': { opacity: 1, transform: 'translateX(0)' },
-        },
-        enterFromRight: {
-          from: { opacity: 0, transform: 'translateX(200px)' },
-          to: { opacity: 1, transform: 'translateX(0)' },
-        },
-        enterFromLeft: {
-          from: { opacity: 0, transform: 'translateY(200px)' },
-          to: { opacity: 1, transform: 'translateX(0)' },
-        },
-        exitToRight: {
-          from: { opacity: 1, transform: 'translateX(0)' },
-          to: { opacity: 0, transform: 'translateX(200px)' },
-        },
-        exitToLeft: {
-          from: { opacity: 1, transform: 'translateX(0)' },
-          to: { opacity: 0, transform: 'translateX(-200px)' },
-        },
-        scaleIn: {
-          from: { opacity: 0, transform: 'rotateX(-10deg) scale(0.9)' },
-          to: { opacity: 1, transform: 'rotateX(0deg) scale(1)' },
-        },
-        scaleOut: {
-          from: { opacity: 1, transform: 'rotateX(0deg) scale(1)' },
-          to: { opacity: 0, transform: 'rotateX(-10deg) scale(0.95)' },
-        },
-        fadeIn: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
-        fadeOut: {
-          from: { opacity: 1 },
-          to: { opacity: 0 },
-        },
+      
 
-        overlayShow: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
-        contentShow: {
-          from: { opacity: 0, transform: 'translate(-50%, -48%) scale(0.96)' },
-          to: { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
-        },
-        'accordion-down': {
-          from: { height: 0 },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
-        },
+    },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -180,5 +126,5 @@ export default {
         exitToRight: 'exitToRight 250ms ease',
       },
     },
-  },
+
 } satisfies Config;
