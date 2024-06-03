@@ -1,0 +1,8 @@
+{
+  "extends": "@local/tsconfig/base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": ".turbo/.cache/tsbuildinfo.json"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
+}

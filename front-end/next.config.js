@@ -1,19 +1,20 @@
+import dns from "dns";
+
+
 /** @type {import('next').NextConfig} */
 
-const dns = require('dns');
-const { type } = require('os');
+
+
 
 dns.setDefaultResultOrder('ipv4first');
 
 const nextConfig = {
   reactStrictMode: true,
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
+
   typescript: {
     ignoreBuildErrors: true,
   },
-
+  eslint: { ignoreDuringBuilds: true },
   experimental: {
     optimizePackageImports: ['bcryptjs', 'googleapis'],
   },
@@ -29,4 +30,4 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 };
 
-module.exports = nextConfig;
+export default nextConfig;

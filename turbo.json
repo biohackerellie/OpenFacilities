@@ -1,0 +1,63 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env"],
+  "experimentalUI": true,
+  "pipeline": {
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "next-env.d.ts",
+        ".expo/**",
+        ".output/**",
+        ".vercel/output/**"
+      ]
+    },
+
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "interactive": true
+    },
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    },
+    "clean:outs": {
+      "cache": false
+    },
+    "db": {
+      "cache": false
+    },
+    "format": {
+      "outputs": [".turbo/.cache/.prettiercache"],
+      "outputMode": "new-only"
+    },
+    "lint": {
+      "dependsOn": ["^topo"],
+      "outputs": [".turbo/.cache/.eslintcache"]
+    },
+    "typecheck": {
+      "dependsOn": ["^topo"],
+      "outputs": [".turbo/.cache/tsbuildinfo.json"]
+    }
+  },
+  "globalEnv": [
+    "DIRECT_URL",
+    "DATABASE_URL",
+    "NEXT_PUBLIC_HOST",
+    "NEXT_PUBLIC_PORT",
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_API_PORT",
+    "NEXTAUTH_SECRET",
+    "AZURE_AD_CLIENT_ID",
+    "AZURE_AD_CLIENT_SECRET",
+    "AZURE_AD_TENANT_ID"
+  ]
+}

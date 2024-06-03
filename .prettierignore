@@ -1,9 +1,0 @@
-./front-end/.prettierrc
-./front-end/app/(authenticated)/reservation/form.tsx
-./front-end/src/components/forms/schemas/reservationForm.ts
-/back-end
-*.prettierrc
-*.json
-masters.js
-front-end/app/components/calendar/Calendar.tsx
-front-end/src/components/forms/schemas/reservationForm.ts

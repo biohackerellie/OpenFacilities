@@ -1,56 +1,25 @@
 {
+  "extends": "@local/tsconfig/base.json",
   "compilerOptions": {
-		"target": "ES2022",
-    "lib": ["dom", "dom.iterable", "ES2022"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
+    "baseUrl": ".",
     "jsx": "preserve",
-    "incremental": true,
-    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@/*": ["./src/*"],
+    },
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "baseUrl": "src/",
-    "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/app/*": [
-        "app/*"
-      ],
-      "@/components/*": [
-        "components/*"
-      ],
-			
-      "@/lib/*": [
-        "lib/*"
-      ],
-      "@/utils/*": [
-        "utils/*"
-      ],
-      "@/functions/*": [
-        "functions/*"
-      ]
-    }
+    "tsBuildInfoFile": ".turbo/.cache/tsbuildinfo.json",
+    "module": "esnext"
   },
   "include": [
-    "next-env.d.ts",
+    ".",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/middleware.js", "src/middleware.js", "../.vscode/scripts/manualGoogleSync.js", "src/app/api/test/route.js"  ],
-  "exclude": [
-    "node_modules",
-    "node_modules/*"
-  ]
+    ".next/types/**/*.ts",
+    "src/app/template.tsx"
+  ],
+  "exclude": ["node_modules"]
 }

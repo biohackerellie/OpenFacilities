@@ -1,23 +1,66 @@
 {
-	"spellright.language": [
-		"en"
-	],
-	"spellright.documentTypes": [
-		"markdown",
-		"latex",
-		"plaintext",
-		"javascript"
-	],
-	"workbench.preferredDarkColorTheme": "Alex's Dark Theme",
-	"workbench.preferredHighContrastColorTheme": "Alex's Dark Theme",
-	"workbench.preferredHighContrastLightColorTheme": "Alex's Dark Theme",
-	"workbench.preferredLightColorTheme": "Alex's Dark Theme",
-	"workbench.iconTheme": "material-icon-theme",
-	"workbench.colorTheme": "Alex's Dark Theme" ,
-	"editor.tabSize": 2,
-	"editor.wordWrap": "on",
-	"editor.cursorBlinking": "phase",
-	"editor.cursorSmoothCaretAnimation": "on",
-	"editor.fontFamily": "FiraCode Nerd Font Mono",
-}
+  "editor.cursorBlinking": "phase",
+  "workbench.colorTheme": "Alex's Dark Theme",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorSurroundingLinesStyle": "all",
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true,
+  "terminal.integrated.smoothScrolling": true,
 
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+  "eslint.workingDirectories": [
+    { "pattern": "apps/*/" },
+    { "pattern": "packages/*/" }
+  ],
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "next/router.d.ts",
+    "next/dist/client/router.d.ts"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "tailwindCSS.experimental.configFile": "./tooling/tailwind/web.ts",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.linkedEditing": true,
+  "editor.mouseWheelZoom": true,
+  "editor.fontFamily": "Cascadia Code", // =>
+  "editor.accessibilitySupport": "off",
+  "editor.detectIndentation": false,
+  "editor.fontLigatures": "'calt', 'ss01'",
+  "[python]": {
+    "editor.insertSpaces": true,
+
+    "editor.tabSize": 4
+  },
+  "cSpell.words": ["elysia", "jiti"],
+  "python.analysis.typeCheckingMode": "basic",
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "workbench.editor.customLabels.patterns": {
+    "apps/**/src/**/page.tsx": "${dirname}/📄",
+    "apps/**/src/**/layout.tsx": "${dirname}/${filename}",
+    "apps/**/src/routes/**/index.ts": "${dirname}/${filename}",
+    "apps/server/src/routes/**/handlers.ts": "${dirname}/${filename}"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "editor.insertSpaces": true
+}

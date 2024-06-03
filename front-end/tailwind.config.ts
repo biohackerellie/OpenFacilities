@@ -1,7 +1,10 @@
-const { violet, blackA, mauve, green } = require('@radix-ui/colors');
+import type {Config} from 'tailwindcss';
+import animate from 'tailwind-animate';
+import forms from '@tailwindcss/forms';
+import scrollbar from 'tailwind-scrollbar';
+import typography from '@tailwindcss/typography';
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: ['class'],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,10 +12,10 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   plugins: [
-    require('@tailwindcss/typography'),
-    require('tailwindcss-animate'),
-    require('@tailwindcss/forms'),
-    require('tailwind-scrollbar')({ nocompatible: true }),
+    forms,
+    scrollbar,
+    animate,
+    typography,
   ],
   theme: {
     typography: (theme) => ({}),
@@ -178,4 +181,4 @@ module.exports = {
       },
     },
   },
-};
+} satisfies Config;

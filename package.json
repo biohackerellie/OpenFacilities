@@ -1,0 +1,34 @@
+{
+  "name": "LPS-Facilities",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "front-end",
+    "tooling/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "clean": "git clean -xdf node_modules",
+    "clean:outs": "turbo run clean:outs",
+    "format": "turbo format --continue -- --cache --cache-location .turbo/.cache/.prettiercache",
+    "format:fix": "turbo format --continue -- --write --cache --cache-location .turbo/.cache/.prettiercache",
+    "lint": "turbo lint --continue -- --cache --cache-location .turbo/.cache/.eslintcache",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location .turbo/.cache/.eslintcache",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "lint:ws:fix": "pnpm dlx sherif@latest --fix",
+    "postinstall": "pnpm lint:ws",
+    "typecheck": "turbo typecheck",
+    "ui-add": "pnpm -F ui ui-add"
+  },
+  "devDependencies": {
+    "@local/prettier-config": "workspace:*",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@turbo/gen": "^1.13.3",
+    "prettier": "^3.3.0",
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
+  },
+  "prettier": "@local/prettier-config",
+  "packageManager": "pnpm@9.1.4"
+}
