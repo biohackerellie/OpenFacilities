@@ -1,18 +1,18 @@
 'use client';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpDown } from 'lucide-react';
 
-import { TableFacility } from '@/lib/types';
+import type { TableFacility } from '@/lib/types';
 
 export const columns: ColumnDef<TableFacility>[] = [
   {
     accessorKey: 'imagePath',
     header: 'Image',
     cell: ({ row }) => {
-      const imagePath = row.getValue('imagePath') as string | undefined;
+      const imagePath = row.getValue('imagePath');
       return (
         <>
           {imagePath ? (
@@ -72,11 +72,10 @@ export const columns: ColumnDef<TableFacility>[] = [
     accessorKey: 'Category',
     header: 'Category Prices',
     cell: ({ row }) => {
-      const prices = row.getValue('Category') as number[] | undefined;
+      const prices = row.getValue('Category');
       return (
         <>
-          {prices &&
-            prices.map((price, index) => <div key={index}>${price}/hr</div>)}
+          {prices?.map((price, index) => <div key={index}>${price}/hr</div>)}
         </>
       );
     },
@@ -91,7 +90,7 @@ export const columns: ColumnDef<TableFacility>[] = [
       );
     },
     cell: ({ row }) => {
-      const id = row.getValue('id') as string;
+      const id = row.getValue('id');
       return (
         <>
           <Button variant="link" asChild>

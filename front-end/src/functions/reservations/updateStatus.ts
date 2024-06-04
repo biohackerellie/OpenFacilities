@@ -7,11 +7,11 @@ import { Reservation, ReservationDate } from '@/lib/db/schema';
 import { GetReservationbyID } from '@/lib/db/queries/reservations';
 import { CreateGoogleEvent } from '../google/singleDate';
 
-type props = {
+interface props {
   id: number;
   status: 'approved' | 'denied' | 'pending';
   reservationID?: number;
-};
+}
 
 export default async function UpdateStatus({
   id,

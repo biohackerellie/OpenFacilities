@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
+  const auth = headersInstance.get('Cookie')!;
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
     {

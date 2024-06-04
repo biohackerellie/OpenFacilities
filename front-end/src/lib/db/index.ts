@@ -3,11 +3,11 @@ import * as schema from './schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-declare module global {
+declare namespace global {
   let postgresSqlClient: ReturnType<typeof postgres> | undefined;
 }
 
-const connectionString = process.env.DATABASE_URL as string;
+const connectionString = process.env.DATABASE_URL!;
 
 let postgresSqlClient;
 

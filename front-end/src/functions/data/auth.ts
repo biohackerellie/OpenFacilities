@@ -3,13 +3,13 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth/next';
 import { SelectKey_User_role } from '@/lib/db/schema';
 
-type User = {
+interface User {
   id: string;
   name: string;
   email: string;
   image?: string | undefined;
   roles: string;
-};
+}
 
 const adminRoles = [
   'CAL_ADMIN',

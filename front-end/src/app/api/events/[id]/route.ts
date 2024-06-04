@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { EventsByFacilityIdQuery } from '@/lib/db/queries/events';
 import { FacilityQuery } from '@/lib/db/queries/facility';
 import { GetApprovedDates } from '@/lib/db/queries/reservations';

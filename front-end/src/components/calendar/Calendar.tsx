@@ -14,13 +14,14 @@ import { CalendarInfo } from '../ui';
 import { useTheme } from 'next-themes';
 import { Button } from '../ui/buttons';
 import { useSearchParams } from 'next/navigation';
+import type {
+  BuildingAll} from '@/lib/types/constants';
 import {
   buildingCalendars,
-  BuildingAll,
   buildingColors,
 } from '@/lib/types/constants';
 import { AlertDialogAction } from '@radix-ui/react-alert-dialog';
-import { Schema$Event } from '@/functions/events/types';
+import type { Schema$Event } from '@/functions/events/types';
 const localizer = momentLocalizer(moment);
 
 type Event = {
@@ -68,7 +69,7 @@ export default function CalendarMain({
 
   const mappedEvents = fetchedEvents.map((event) => {
     if (!event.location) event.location = 'unknown';
-    let facility = (event.location as string).split('-')[0] || 'unknown';
+    const facility = (event.location).split('-')[0] || 'unknown';
     return {
       //@ts-expect-error
       title: event.summary || event.title || 'Event',

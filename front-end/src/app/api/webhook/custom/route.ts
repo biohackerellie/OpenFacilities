@@ -1,5 +1,6 @@
 import { SortedEventsQuery } from '@/lib/db/queries/events';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { calendarIDs } from '@/lib/types/constants';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';

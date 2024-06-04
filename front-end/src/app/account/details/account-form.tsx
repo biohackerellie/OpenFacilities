@@ -2,11 +2,11 @@ import { Separator } from '@/components/ui/separator';
 import { SubmitButton } from '@/components/ui/buttons/submitButton';
 import { Update } from './actions';
 
-type UserName = {
+interface UserName {
   id: string;
   name: string;
   email: string;
-};
+}
 
 export default function AccountForm({ data }: { data: UserName }) {
   const updateUserID = Update.bind(null, data.id);

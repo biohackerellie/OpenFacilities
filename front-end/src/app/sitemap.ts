@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 
 const baseURL =
   process.env.NEXT_PUBLIC_HOST || 'https://facilities.laurel.k12.mt.us';

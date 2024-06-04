@@ -1,6 +1,6 @@
 'use server';
 
-import { Schema$Event } from './types';
+import type { Schema$Event } from './types';
 import {
   handleDaily,
   handleDateOfMonth,
@@ -40,7 +40,7 @@ export default async function getAllCalendars(items: any[]) {
   const config = calendarConfig;
   const calendar = calendarConfig.calendars[0];
   const events = removeCancelled(items);
-  const oneTimeEvents = oneTime(calendar, events) as Array<Schema$Event>;
+  const oneTimeEvents = oneTime(calendar, events) as Schema$Event[];
   const recurringEvents = recurring(events);
 
   const daily = filterByOneProperty('RRULE:FREQ=DAILY', recurringEvents);

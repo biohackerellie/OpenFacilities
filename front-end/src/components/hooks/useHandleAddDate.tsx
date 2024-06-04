@@ -1,14 +1,14 @@
-import { FieldArrayMethodProps } from 'react-hook-form';
+import type { FieldArrayMethodProps } from 'react-hook-form';
 import useCalculateNumberOfEvents from './useCalculateNumberOfEvents';
 import moment from 'moment-timezone';
 
 moment.tz.setDefault('America/Denver');
 
-type Event = {
+interface Event {
 	startDate: string;
 	endTime: string;
 	startTime: string;
-};
+}
 // Define the useHandleAddDate hook
 export default function useHandleAddDate(
 	append: {

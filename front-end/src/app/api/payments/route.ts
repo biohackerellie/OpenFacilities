@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { Client } from 'square';
 import generateId from '@/functions/calculations/generate-id';
 import { db } from '@/lib/db';
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
           amount: BigInt(Math.round(body.fees * 100)),
           currency: 'USD',
         },
-        locationId: process.env.SQUARE_LOCATION_ID as string,
+        locationId: process.env.SQUARE_LOCATION_ID!,
       },
       checkoutOptions: {
         allowTipping: false,

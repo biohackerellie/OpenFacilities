@@ -6,7 +6,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Modal from 'react-modal';
-import { Schema$Event } from '@/functions/events/types';
+import type { Schema$Event } from '@/functions/events/types';
 import { useTheme } from 'next-themes';
 
 const localizer = momentLocalizer(moment);
@@ -19,7 +19,7 @@ interface Props {
 export default function SmallCalendar({ events }: Props) {
   const mappedEvents = events.map((event: Schema$Event) => {
     if (!event?.location) return null;
-    let facility = (event.location as string).split('-')[0] || 'Event';
+    const facility = (event.location).split('-')[0] || 'Event';
     return {
       title: event?.title || 'Event',
       start: new Date(event?.start as unknown as string),

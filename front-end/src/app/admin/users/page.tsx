@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/ui/tables/users/data-table';
 import { GetUsers } from '@/lib/db/queries/users';
-import { SelectUser } from '@/lib/db/schema';
+import type { SelectUser } from '@/lib/db/schema';
 import { columns } from './columns';
 import { headers } from 'next/headers';
 
@@ -13,7 +13,7 @@ interface TableUsers {
 
 async function getUsers() {
   const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
+  const auth = headersInstance.get('Cookie')!;
 
   const res = await fetch(process.env.NEXT_PUBLIC_HOST + `/api/users`, {
     headers: {

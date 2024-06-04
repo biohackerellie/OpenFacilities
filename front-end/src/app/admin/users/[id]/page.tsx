@@ -4,7 +4,8 @@ import moment from 'moment';
 import { Suspense } from 'react';
 import TableSkeleton from './skeleton';
 import { getUser } from '@/functions/data/users';
-import { Reservation, User } from '@/lib/types';
+import type { Reservation} from '@/lib/types';
+import { User } from '@/lib/types';
 import { DataTable } from '@/components/ui/tables';
 
 interface TableUser {

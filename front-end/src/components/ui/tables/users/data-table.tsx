@@ -2,12 +2,13 @@
 import { Button } from '@/components/ui/buttons';
 import * as React from 'react';
 
-import {
+import type {
   SortingState,
   ColumnFiltersState,
+  ColumnDef} from '@tanstack/react-table';
+import {
   getFilteredRowModel,
   getSortedRowModel,
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,

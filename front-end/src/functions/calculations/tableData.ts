@@ -1,12 +1,13 @@
 'use server';
 import { Category, SelectFacility } from '@/lib/db/schema';
-import {
+import type {
   Reservation,
   TableReservation,
-  ReservationDate,
-  DateType,
   FacilityWithCategory,
-  TableFacility,
+  TableFacility} from '@/lib/types';
+import {
+  ReservationDate,
+  DateType
 } from '@/lib/types';
 
 import moment from 'moment';

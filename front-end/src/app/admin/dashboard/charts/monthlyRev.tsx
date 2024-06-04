@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { RevenueData } from '@/lib/types';
+import type { RevenueData } from '@/lib/types';
 import {
   BarChart,
   Bar,

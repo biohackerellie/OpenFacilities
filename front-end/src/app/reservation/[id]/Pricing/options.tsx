@@ -28,13 +28,13 @@ import { categoryChange, costChange, facilityChange } from '@/functions/mutation
 import { categoryOptions, locations } from '@/lib/formOptions';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import type * as z from "zod";
 
 
 type formValues = z.infer<typeof formSchema>;
 
 
-type Props = {
+interface Props {
 	id: number;
 	facilityID: number;
 }

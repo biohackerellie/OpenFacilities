@@ -1,11 +1,12 @@
+import type {
+  Schema$Event,
+  calendars} from './types';
 import {
   OnePropType,
   filterIncludes,
   EventsProps,
   EventsArray,
-  ByPropertyType,
-  Schema$Event,
-  calendars,
+  ByPropertyType
 } from './types';
 
 /**

@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import Link from 'next/link';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
@@ -51,7 +51,7 @@ export const columns: ColumnDef<TableUsers>[] = [
     accessorKey: 'Details',
     header: 'Details',
     cell: ({ row }) => {
-      const id = row.getValue('Details') as string;
+      const id = row.getValue('Details');
       return (
         <Button asChild>
           <Link href={`/admin/users/${id}`}>Details</Link>

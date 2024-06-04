@@ -3,8 +3,9 @@
  * This function is used to calculate the monthly revenue for the last 6 months
  */
 
-import { ReservationClass, ReservationClassType } from '@/lib/classes';
-import { RevenueData } from '@/lib/types';
+import type { ReservationClassType } from '@/lib/classes';
+import { ReservationClass } from '@/lib/classes';
+import type { RevenueData } from '@/lib/types';
 
 import {
   format,
@@ -94,8 +95,8 @@ export default async function MonthlyRevenue({
   });
 
   const sortedChartData = chartData.sort((a, b) => {
-    const monthA = parse(a.month as string, 'MMMM', new Date());
-    const monthB = parse(b.month as string, 'MMMM', new Date());
+    const monthA = parse(a.month!, 'MMMM', new Date());
+    const monthB = parse(b.month!, 'MMMM', new Date());
     return compareAsc(monthA, monthB);
   });
 

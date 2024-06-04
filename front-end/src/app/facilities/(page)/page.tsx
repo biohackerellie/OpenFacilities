@@ -2,7 +2,7 @@ import React from 'react';
 
 import CardLayout from './cardLayout';
 import { mappedFacilities } from '@/functions/calculations/tableData';
-import { type FacilityWithCategory } from '@/lib/types';
+import type {FacilityWithCategory} from '@/lib/types';
 import { Suspense } from 'react';
 import LoadingScreen from '@/components/ui/loadingScreen';
 

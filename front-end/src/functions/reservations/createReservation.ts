@@ -3,15 +3,16 @@
  * Serverless function for creating a new reservation from form data
  */
 
-import { formSchema } from '@/components/forms/schemas/reservationForm';
+import type { formSchema } from '@/components/forms/schemas/reservationForm';
 import { UserByEmail } from '@/lib/db/queries/users';
 import { CategoryByFacility } from '@/lib/db/queries/categories';
 import { FacilityQuery } from '@/lib/db/queries/facility';
 
-import { z } from 'zod';
+import type { z } from 'zod';
+import type {
+  NewReservation} from '@/lib/db/schema';
 import {
   Events,
-  NewReservation,
   Reservation,
   ReservationDate,
 } from '@/lib/db/schema';

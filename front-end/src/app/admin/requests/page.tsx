@@ -1,13 +1,14 @@
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/tables';
-import { Reservation, TableReservation } from '@/lib/types';
+import type { Reservation} from '@/lib/types';
+import { TableReservation } from '@/lib/types';
 import { mapRequests } from '@/functions/calculations/tableData';
 
 import { headers } from 'next/headers';
 
 async function getData() {
   const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
+  const auth = headersInstance.get('Cookie')!;
 
   const data: Reservation[] = await fetch(
     `${process.env.NEXT_PUBLIC_HOST}/api/requests`,

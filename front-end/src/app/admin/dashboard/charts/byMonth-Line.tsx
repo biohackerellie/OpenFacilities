@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ReservationWithAll, ChartData } from '@/lib/types';
+import type { ChartData } from '@/lib/types';
+import { ReservationWithAll } from '@/lib/types';
 
 import {
   LineChart,

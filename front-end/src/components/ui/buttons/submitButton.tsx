@@ -5,11 +5,11 @@ import { Button } from './button';
 import { useFormStatus, useFormState } from 'react-dom';
 import { Loader2 } from 'lucide-react';
 
-type Props = {
+interface Props {
   children?: React.ReactNode;
   className?: string;
   variant?: 'destructive' | 'outline' | 'ghost' | 'default' | 'secondary';
-};
+}
 
 export function SubmitButton({ children, className, variant }: Props) {
   const { pending } = useFormStatus();

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { SelectFacility as Facility } from '@/lib/db/schema';
+import type { SelectFacility as Facility } from '@/lib/db/schema';
 import { Button } from '@/components/ui/buttons';
 import { useToast } from '@/components/ui/use-toast';
 import { updateEmail } from '@/functions/emails';
@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface ResNavProps {
-  id: number | BigInt;
+  id: number | bigint;
   facility: Facility | undefined;
 }
 
@@ -52,7 +52,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     }
   };
 
-  const approveAll = async (id: number | BigInt) => {
+  const approveAll = async (id: number | bigint) => {
     setIsSubmitting(true);
     try {
       await approveReservation(id as number);
@@ -71,7 +71,7 @@ export default function ReservationOptions({ id, facility }: ResNavProps) {
     }
   };
 
-  const denyAll = async (id: number | BigInt) => {
+  const denyAll = async (id: number | bigint) => {
     setIsSubmitting(true);
     try {
       await denyReservation(id as number);

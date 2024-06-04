@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { EventProps } from '../types';
+import type { EventProps } from '../types';
 
 /**
  * Handles events that occur evern 'n' number of days
@@ -7,7 +7,7 @@ import { EventProps } from '../types';
  */
 
 const handleDaily = ({ calendar, recurrence, e }: EventProps) => {
-  if (!e || !e.start || !e.end || !e.recurrence || !recurrence) return;
+  if (!e?.start || !e.end || !e.recurrence || !recurrence) return;
   const start = e.start.date ? moment(e.start.date) : moment(e.start.dateTime);
 
   const end = e.end.date ? moment(e.end.date) : moment(e.end.dateTime);
@@ -22,7 +22,7 @@ const handleDaily = ({ calendar, recurrence, e }: EventProps) => {
 
   const n = wtfGoogle;
   let add = wtfGoogle;
-  let reoccuringEvents = [
+  const reoccuringEvents = [
     {
       eventType: calendar.name,
       creator: e.creator,

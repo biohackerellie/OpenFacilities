@@ -1,11 +1,4 @@
-import {
-  type SelectReservation,
-  type SelectReservationDate,
-  type SelectReservationFees,
-  type SelectFacility,
-  type SelectCategory,
-  type SelectUser,
-} from '../db/schema';
+import type {SelectReservation, SelectReservationDate, SelectReservationFees, SelectFacility, SelectCategory, SelectUser} from '../db/schema';
 
 export type ReservationClassType = SelectReservation & {
   Facility?: SelectFacility;
@@ -22,13 +15,13 @@ export type ReservationClassType = SelectReservation & {
  * @exports ReservationClass
  */
 class ReservationClass {
-  id: number | BigInt;
+  id: number | bigint;
   userId: string;
   eventName: string;
   phone?: string | null;
   User?: SelectUser;
-  categoryId: number | BigInt;
-  facilityId: number | BigInt;
+  categoryId: number | bigint;
+  facilityId: number | bigint;
   details?: string | null;
   approved: 'pending' | 'approved' | 'denied' | 'canceled';
   inPerson: boolean;
@@ -77,7 +70,7 @@ class ReservationClass {
    * 	@returns {string} - A string representing the date range of the reservation.
    */
   range(): string {
-    let ReservationDate = this.ReservationDate || [];
+    const ReservationDate = this.ReservationDate || [];
     let dateRange = '';
     if (ReservationDate.length > 1) {
       dateRange = `${ReservationDate[0].startDate} - ${
@@ -104,11 +97,11 @@ class ReservationClass {
    */
   CostReducer(): number {
     let additionalFeesTotal = 0;
-    let ReservationFees = this.ReservationFees || [];
-    let ReservationDate = this.ReservationDate || [];
-    let categoryId = this.categoryId;
-    let Category = this.Category || null;
-    let CategoryPrice = Category?.price || 0;
+    const ReservationFees = this.ReservationFees || [];
+    const ReservationDate = this.ReservationDate || [];
+    const categoryId = this.categoryId;
+    const Category = this.Category || null;
+    const CategoryPrice = Category?.price || 0;
     let totalCost = 0;
     if (ReservationFees.length > 0) {
       for (let i = 0; i < ReservationFees.length; i++) {
@@ -117,7 +110,7 @@ class ReservationClass {
         additionalFeesTotal += ReservationFees[i].additionalFees;
       }
     }
-    let approvedReservationDates = ReservationDate.filter(
+    const approvedReservationDates = ReservationDate.filter(
       (reservationDate: any) => {
         return reservationDate.approved === 'approved';
       }
@@ -125,7 +118,7 @@ class ReservationClass {
     if (categoryId === 105 || categoryId === 106 || categoryId === 107) {
       totalCost = CategoryPrice + additionalFeesTotal;
     } else {
-      let totalHours = approvedReservationDates.reduce(
+      const totalHours = approvedReservationDates.reduce(
         (acc: any, reservationDate: any) => {
           const startTime: any = new Date(
             `1970-01-01T${reservationDate.startTime}Z`

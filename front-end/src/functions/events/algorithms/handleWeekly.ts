@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { EventProps } from '../types';
+import type { EventProps } from '../types';
 
 /**
  * Handles events that occur the same day of the week
@@ -7,11 +7,11 @@ import { EventProps } from '../types';
  */
 
 const handleWeekly = ({ calendar, recurrence, e }: EventProps) => {
-  if (!e || !e.start || !e.end || !e.recurrence) return;
+  if (!e?.start || !e.end || !e.recurrence) return;
   const start = e.start.date ? moment(e.start.date) : moment(e.start.dateTime);
   const end = e.end.date ? moment(e.end.date) : moment(e.end.dateTime);
 
-  let reoccuringEvents = [
+  const reoccuringEvents = [
     {
       eventType: calendar.name,
       creator: e.creator,

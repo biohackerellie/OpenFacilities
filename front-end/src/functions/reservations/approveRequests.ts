@@ -38,11 +38,11 @@ export async function approveReservation(id: number) {
         return { user, eventName };
       });
 
-      let message = `<H1>Reservation Approved</H1><p>Your reservation for ${res.eventName} has been approved.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If applicable, please provide any and all payments and insurance information in person or in the link above prior to your event dates. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
-      let user = res.user;
-      let to = user;
-      let subject = 'Your Facility Reservation has been approved';
-      let data = { to, subject, message };
+      const message = `<H1>Reservation Approved</H1><p>Your reservation for ${res.eventName} has been approved.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If applicable, please provide any and all payments and insurance information in person or in the link above prior to your event dates. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+      const user = res.user;
+      const to = user;
+      const subject = 'Your Facility Reservation has been approved';
+      const data = { to, subject, message };
       await reservationEmail(data);
       revalidatePath('/', 'layout');
       revalidateTag('reservations');
@@ -79,11 +79,11 @@ export async function denyReservation(id: number) {
       const user = email.email;
       return { user, eventName };
     });
-    let message = `<H1>Reservation Denied</H1><p>Your reservation for ${res.eventName} has been denied.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
-    let user = res.user;
-    let to = user;
-    let subject = 'Your Facility Reservation has been denied';
-    let data = { to, subject, message };
+    const message = `<H1>Reservation Denied</H1><p>Your reservation for ${res.eventName} has been denied.</p> <p> You can view the details at https://facilities.laurel.k12.mt.us/reservation/${id}. </p> <p> If you have any questions, please contact the Activities Director at lpsactivities@laurel.k12.mt.us`;
+    const user = res.user;
+    const to = user;
+    const subject = 'Your Facility Reservation has been denied';
+    const data = { to, subject, message };
     await reservationEmail(data);
     revalidatePath('/', 'layout');
     revalidateTag('reservations');

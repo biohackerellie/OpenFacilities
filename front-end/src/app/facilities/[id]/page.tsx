@@ -1,4 +1,4 @@
-import { SelectCategory, Events } from '@/lib/types';
+import type { SelectCategory, Events } from '@/lib/types';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/buttons/button';
 import Link from 'next/link';
@@ -120,8 +120,7 @@ export default async function facilityPage({
 
           <div className="p-4 border-4 my-3 mr-4 max-w-sm sm:max-w-md items-end justify-center sm:justify-between">
             <h1 className="font-bold text-2xl border-b-2">Pricing</h1>
-            {Category &&
-              Category.map((category: SelectCategory) => (
+            {Category?.map((category: SelectCategory) => (
                 <div key={catID} className="grid grid-cols-3   p-4">
                   <Tooltip>
                     <TooltipTrigger className="font-semibold text-left col-start-1  col-span-2 text-lg truncate">

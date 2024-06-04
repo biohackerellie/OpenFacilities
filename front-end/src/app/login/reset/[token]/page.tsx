@@ -6,7 +6,7 @@ async function decodeToken(token: string) {
   'use server';
 
   const publicKey: string = Buffer.from(
-    process.env.RSA_PUBLIC_KEY as string,
+    process.env.RSA_PUBLIC_KEY!,
     'base64'
   ).toString('utf-8');
   const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] });

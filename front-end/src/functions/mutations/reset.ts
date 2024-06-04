@@ -26,7 +26,7 @@ export async function Email(formData: FormData) {
     return NextResponse.json({ response: 404, message: 'User not found' });
   }
   const privateKey: string = Buffer.from(
-    process.env.RSA_PRIVATE_KEY as string,
+    process.env.RSA_PRIVATE_KEY!,
     'base64'
   ).toString('utf-8');
 

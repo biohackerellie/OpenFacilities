@@ -16,10 +16,11 @@ import {
   primaryKey,
 } from 'drizzle-orm/pg-core';
 import {
-  relations,
-  type InferSelectModel,
-  type InferInsertModel,
+  relations
+  
+  
 } from 'drizzle-orm';
+import type {InferSelectModel, InferInsertModel} from 'drizzle-orm';
 import type { AdapterAccount } from 'next-auth/adapters';
 import { sql } from 'drizzle-orm';
 export const key_status = pgEnum('key_status', [

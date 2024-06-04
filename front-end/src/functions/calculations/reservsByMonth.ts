@@ -1,9 +1,7 @@
 'use server';
-import { ReservationWithAll } from '@/lib/types';
+import type { ReservationWithAll } from '@/lib/types';
 
-interface ChartData {
-  [key: string]: number | string | undefined;
-}
+type ChartData = Record<string, number | string | undefined>;
 
 export default async function aggregateChartData({
   data,

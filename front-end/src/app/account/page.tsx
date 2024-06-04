@@ -1,7 +1,8 @@
 import { DataTable } from '@/components/ui/tables';
 import { columns } from './columns';
 import React from 'react';
-import { Reservation, TableReservation } from '@/lib/types';
+import type { Reservation} from '@/lib/types';
+import { TableReservation } from '@/lib/types';
 import { userReservations } from '@/functions/calculations/tableData';
 
 import { ReloadIcon } from '@radix-ui/react-icons';

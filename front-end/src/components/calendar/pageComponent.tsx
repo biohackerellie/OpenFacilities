@@ -1,9 +1,9 @@
 import React from 'react';
 import SmallCalendar from './smallCalendar';
 import getAllCalendars from '@/functions/events/googleAPI';
-type Props = {
+interface Props {
   facilityId: number;
-};
+}
 
 async function getEvents(id: number) {
   'use server';

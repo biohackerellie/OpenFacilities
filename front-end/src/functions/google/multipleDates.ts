@@ -8,7 +8,7 @@ import generateId from '../calculations/generate-id';
 import moment from 'moment-timezone';
 import { OAuth2Client } from 'google-auth-library';
 
-export default async function CreateGoogleEvents(id: Number | BigInt) {
+export default async function CreateGoogleEvents(id: number | bigint) {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
   const oauth2Client = new OAuth2Client({
     clientId: process.env.GOOGLE_CLIENT_ID,
@@ -56,7 +56,7 @@ export default async function CreateGoogleEvents(id: Number | BigInt) {
     };
     try {
       const response = await calendar.events.insert({
-        calendarId: approvedReservation?.Facility.googleCalendarId as string,
+        calendarId: approvedReservation?.Facility.googleCalendarId!,
         requestBody: event,
       });
     } catch (error) {

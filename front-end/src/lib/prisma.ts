@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-declare module global {
+declare namespace global {
   let prisma: PrismaClient | undefined;
 }
 

@@ -20,7 +20,7 @@ export default function NewFacilityForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const handeFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.type.match('image.*')) {
+    if (file?.type.match('image.*')) {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const result = e.target?.result;

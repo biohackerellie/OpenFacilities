@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Facility, SelectCategory as Category } from '@/lib/types';
+import type React from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import type { Facility, SelectCategory as Category } from '@/lib/types';
 
 export function useFacilities(onFacilitySelect?: (facility: Facility) => void) {
   const [facilities, setFacilities] = useState<Facility[]>([]);

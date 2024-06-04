@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
-import { FacilityWithCategory } from '@/lib/types';
+import type { FacilityWithCategory } from '@/lib/types';
 
 export async function generateStaticParams() {
   const facilities = await fetch(

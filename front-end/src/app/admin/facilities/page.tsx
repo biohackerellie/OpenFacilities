@@ -1,5 +1,5 @@
 import { mapFacilityTable } from '@/functions/calculations/tableData';
-import { type FacilityWithCategory } from '@/lib/types';
+import type {FacilityWithCategory} from '@/lib/types';
 import { Suspense } from 'react';
 import TableSkeleton from '../requests/skeleton';
 import { DataTable } from '@/components/ui/tables';

@@ -1,11 +1,11 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons/button';
 import HandleDelete from '@/functions/reservations/deleteDates';
 import UpdateStatus from '@/functions/reservations/updateStatus';
 import { ArrowUpDown } from 'lucide-react';
-import { DateType } from '@/lib/types';
+import type { DateType } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
 import {
@@ -85,8 +85,8 @@ export const adminColumns: ColumnDef<DateType>[] = [
     accessorKey: 'Options',
     header: 'Options',
     cell: ({ row }) => {
-      const dateID = row.getValue('Options') as number;
-      const ReservationID = row.getValue('Edit') as number;
+      const dateID = row.getValue('Options');
+      const ReservationID = row.getValue('Edit');
       const isApproved = row.getValue('approved') === 'approved';
       const isDenied = row.getValue('approved') === 'denied';
 
@@ -151,12 +151,12 @@ export const adminColumns: ColumnDef<DateType>[] = [
       );
     },
     cell: ({ row }) => {
-      const id = row.getValue('Options') as any;
-      const startDate = row.getValue('startDate') as string;
-      const endDate = row.getValue('endDate') as string;
-      const startTime = row.getValue('startTime') as string;
-      const endTime = row.getValue('endTime') as string;
-      const reservationID = row.getValue('Edit') as any;
+      const id = row.getValue('Options');
+      const startDate = row.getValue('startDate');
+      const endDate = row.getValue('endDate');
+      const startTime = row.getValue('startTime');
+      const endTime = row.getValue('endTime');
+      const reservationID = row.getValue('Edit');
 
       return (
         <EditDates

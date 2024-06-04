@@ -1,6 +1,6 @@
 'use client';
 
-import { Reservation } from '@/lib/types';
+import type { Reservation } from '@/lib/types';
 
 import React, { createContext, useContext, useState } from 'react';
 

@@ -54,7 +54,7 @@ import { Check, ChevronsUpDown, ScrollText, Loader2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import * as z from 'zod';
+import type * as z from 'zod';
 import { ToastAction } from '../ui/toast';
 import { formSchema } from './schemas/reservationForm';
 import submitReservation from '@/functions/reservations/createReservation';
@@ -89,7 +89,7 @@ export default function ReservationForm() {
       doorsDetails: '',
     },
   });
-  let control = form.control;
+  const control = form.control;
 
   const { fields, append, remove } = useFieldArray({
     control,

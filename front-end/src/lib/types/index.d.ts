@@ -1,13 +1,14 @@
-import NextAuth, { User as NextAuthUser } from 'next-auth';
-import {
+import type { User as NextAuthUser } from 'next-auth';
+import NextAuth from 'next-auth';
+import type {
   Category,
   ReservationDate,
   ReservationFees,
   SelectEvents,
   SelectFacility,
 } from '../db/schema';
-import { Path, UseFormRegister } from 'react-hook-form';
-import { $Enums, Category } from '@prisma/client';
+import type { Path, UseFormRegister } from 'react-hook-form';
+import type { $Enums, Category } from '@prisma/client';
 
 export interface Facility {
   map(
@@ -38,7 +39,7 @@ export interface User extends NextAuthUser {
   email: string;
 }
 
-export type FormData = {
+export interface FormData {
   eventName: string;
   Category: string;
   name: string;
@@ -52,7 +53,7 @@ export type FormData = {
   endDate: string;
   endTime: string;
   details: string;
-};
+}
 
 export interface IFormInput {
   eventName: string;
@@ -79,14 +80,14 @@ export interface IFormInput {
   facilityName: { key: string; value: number; name: string };
 }
 
-export type InputProps = {
+export interface InputProps {
   label: Path<IFormInput>;
   register: UseFormRegister<IFormInput>;
   required: boolean;
   defaultValue?: string;
-};
+}
 
-export type ReservationDate = {
+export interface ReservationDate {
   id: number;
   startDate: string;
   endDate: string;
@@ -95,7 +96,7 @@ export type ReservationDate = {
   reservationId: bigint;
   approved: $Enums.ReservationDate_approved;
   gcal_eventid: string | null;
-};
+}
 
 export interface Reservation {
   id: number;
@@ -171,7 +172,7 @@ export interface TableFacility {
   Category: Category[];
 }
 
-export type DateType = {
+export interface DateType {
   Options?: number;
   startDate: string;
   endDate: string;
@@ -179,9 +180,9 @@ export type DateType = {
   endTime: string;
   approved: 'pending' | 'approved' | 'denied' | 'canceled';
   ReservationID: any;
-};
+}
 
-export type Events = {
+export interface Events {
   id: string;
   calendarId: string | null;
   title: string | null;
@@ -192,7 +193,7 @@ export type Events = {
   facilityId: bigint | number;
   Facility: Facility;
   placeholder: boolean;
-};
+}
 
 export type SelectCategory = typeof Category.$inferSelect;
 export type SelectReservationFees = typeof ReservationFees.$inferSelect;

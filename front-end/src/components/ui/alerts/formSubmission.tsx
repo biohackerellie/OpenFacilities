@@ -13,7 +13,7 @@ import {
 } from "./alert-dialog"
 import * as React from "react"
 
-type Props = {
+interface Props {
 	isOpen: boolean
 }
 

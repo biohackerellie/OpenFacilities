@@ -1,12 +1,11 @@
 'use server';
 
-import { ReservationClass, ReservationClassType } from '@/lib/classes';
+import type { ReservationClassType } from '@/lib/classes';
+import { ReservationClass } from '@/lib/classes';
 
 import moment from 'moment';
 
-interface ChartData {
-  [key: string]: number | string | undefined;
-}
+type ChartData = Record<string, number | string | undefined>;
 
 export default async function WeeklyUnpaidCount({
   data,

@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
+  const auth = headersInstance.get('Cookie')!;
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,
     {

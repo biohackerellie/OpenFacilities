@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/buttons';
 import React from 'react';
 import { removeFee } from '@/functions/mutations';
@@ -47,7 +47,7 @@ export const adminColumns: ColumnDef<TableFees>[] = [
     accessorKey: 'options',
     header: 'options',
     cell: ({ row }) => {
-      const feeID = row.getValue('options') as number;
+      const feeID = row.getValue('options');
 
       return (
         <>

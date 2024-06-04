@@ -47,7 +47,7 @@ export default async function newFacility(prevState: any, formData: FormData) {
     let cat1Price = 0;
     let cat2Price = 0;
     let cat3Price = 0;
-    let staffPrice = 0;
+    const staffPrice = 0;
 
     if (category1) {
       cat1Price = category1;

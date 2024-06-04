@@ -1,6 +1,7 @@
 //@ts-nocheck
 
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { Client } from 'minio';
 import { revalidatePath } from 'next/cache';
@@ -9,8 +10,8 @@ import { Reservation } from '@/lib/db/schema';
 const minioClient = new Client({
   endPoint: 's3.laurel.k12.mt.us',
   useSSL: true,
-  accessKey: process.env.S3_ACCESS_KEY as string,
-  secretKey: process.env.S3_SECRET as string,
+  accessKey: process.env.S3_ACCESS_KEY!,
+  secretKey: process.env.S3_SECRET!,
 });
 
 export async function POST(request: NextRequest) {

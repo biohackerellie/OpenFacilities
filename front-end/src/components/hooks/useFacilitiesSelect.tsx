@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Facility } from '@/lib/types';
+import type { Facility } from '@/lib/types';
 
-type FacilitySelectProps = {
+interface FacilitySelectProps {
   facilities: Facility[];
   onFacilitySelect: (facility: Facility) => void;
-};
+}
 
 export default function FacilitySelect({
   facilities,

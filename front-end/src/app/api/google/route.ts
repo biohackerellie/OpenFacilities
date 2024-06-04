@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { AllEventsQuery } from '@/lib/db/queries/events';
 import { db } from '@/lib/db';
-import { Events, type InsertEvents } from '@/lib/db/schema';
+import { Events  } from '@/lib/db/schema';
+import type {InsertEvents} from '@/lib/db/schema';
 import { revalidateTag } from 'next/cache';
 import { eq } from 'drizzle-orm';
 
@@ -43,7 +45,7 @@ export async function POST(request: NextRequest) {
       for (const eventData of events) {
         const existingEvent = databaseEvents.find((e) => e.id === eventData.id);
         if (
-          (existingEvent && existingEvent.placeholder) ||
+          (existingEvent?.placeholder) ||
           (existingEvent && existingEvent.start === null)
         ) {
           await db

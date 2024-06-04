@@ -1,11 +1,11 @@
 'use client';
 
-import { Facility } from '@/lib/types';
+import type { Facility } from '@/lib/types';
 
 import React, { createContext, useContext, useState } from 'react';
 
 interface FacilityContextProps {
-  facility: Facility | null | undefined | undefined;
+  facility: Facility | null | undefined  ;
   setFacility: React.Dispatch<
     React.SetStateAction<Facility | null | undefined>
   >;

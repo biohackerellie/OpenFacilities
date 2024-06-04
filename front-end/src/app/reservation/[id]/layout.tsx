@@ -3,7 +3,7 @@ import { SidebarNav } from '@/components/ui/sidebar-nav';
 import IsUserReserv from '@/components/contexts/isUserReserv';
 import { headers } from 'next/headers';
 import { Separator } from '@/components/ui/separator';
-import { type SideBarType } from '@/lib/types/constants';
+import type {SideBarType} from '@/lib/types/constants';
 import { ReservationClass } from '@/lib/classes';
 import AdminPanel from './adminButtons';
 import { getCurrentUser } from '@/functions/data/auth';
@@ -11,7 +11,7 @@ import { Suspense } from 'react';
 
 async function getReservation(id: number) {
   const headersInstance = headers();
-  const auth = headersInstance.get('Cookie') as string;
+  const auth = headersInstance.get('Cookie')!;
 
   const res = await fetch(
     process.env.NEXT_PUBLIC_HOST + `/api/reservation/${id}`,

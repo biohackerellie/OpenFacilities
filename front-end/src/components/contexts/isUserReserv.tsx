@@ -1,6 +1,6 @@
 import React from 'react';
 import { getCurrentUser } from '@/functions/data/auth';
-import { User } from 'next-auth';
+import type { User } from 'next-auth';
 
 interface Reservation {
   userId: string;

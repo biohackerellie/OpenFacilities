@@ -1,4 +1,4 @@
-import { Reservation } from '@/lib/types';
+import type { Reservation } from '@/lib/types';
 import React from 'react';
 
 export const pageSum = (reservation: Reservation) => {

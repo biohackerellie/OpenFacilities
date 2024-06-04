@@ -3,12 +3,12 @@
 import React from 'react';
 import { Separator } from '@/components/ui/separator';
 import { JiraModal } from '@/components/forms';
-import { SelectFacility as Facility } from '@/lib/db/schema';
+import type { SelectFacility as Facility } from '@/lib/db/schema';
 
 import ReservationOptions from '@/components/ui/tables/reservations/reservation/options';
 
 interface AdminPanelProps {
-  id: number | BigInt;
+  id: number | bigint;
   facility: Facility | undefined;
 }
 

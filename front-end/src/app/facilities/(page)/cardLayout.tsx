@@ -1,7 +1,7 @@
 'use client';
 import FacilityCard from './facility_card';
 import { useSearchParams } from 'next/navigation';
-import { type FacilityWithCategory } from '@/lib/types';
+import type {FacilityWithCategory} from '@/lib/types';
 import React from 'react';
 
 type PartialFacility = Partial<FacilityWithCategory>;

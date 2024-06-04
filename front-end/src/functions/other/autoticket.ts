@@ -1,7 +1,7 @@
 export default async function autoTicket(reservation: any) {
-  let ticket = false;
+  const ticket = false;
 
-  let data = {
+  const data = {
     summary: `A Facility Reservation that requires unlocked doors, ${reservation.eventName} , at ${reservation.Facility.building}  has been approved`,
     description: `Visit https://facilities.laurel.k12.mt.us/reservation/${reservation.id} to view the details \n \n Additional details: ${reservation.doorDetails}`,
     department: 'IT',

@@ -3,42 +3,42 @@ import Schema$Event = calendar_v3.Schema$Event;
 import Schema$Events = calendar_v3.Schema$Events;
 import { Schema } from 'zod';
 
-type calendars = {
+interface calendars {
   name: string;
   id: string;
-};
+}
 
-export type EventProps = {
+export interface EventProps {
   calendar: calendars;
   recurrence?: number;
   e: Schema$Event;
-};
+}
 
-export type OnePropType = {
+export interface OnePropType {
   property: string;
   events: [{}];
-};
+}
 
-export type filterIncludes = {
+export interface filterIncludes {
   filters: string[];
   str: string;
-};
+}
 
-export type EventsProps = {
+export interface EventsProps {
   calendar: calendars;
   events: Schema$Event[];
   recurrence?: number;
-};
+}
 
-export type EventsArray = {
+export interface EventsArray {
   events: Schema$Event[];
-};
+}
 
-export type ByPropertyType = {
+export interface ByPropertyType {
   events: Schema$Event[];
   fn: Function;
   calendar: calendars;
   occurences: number;
-};
+}
 
 export type Schema$Event = calendar_v3.Schema$Event;

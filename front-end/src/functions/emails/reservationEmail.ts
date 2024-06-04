@@ -1,10 +1,10 @@
 'use server';
 
-type emailData = {
+interface emailData {
   to: string;
   message: string;
   subject: string;
-};
+}
 
 export default async function reservationEmail(data: emailData) {
   try {
@@ -15,9 +15,9 @@ export default async function reservationEmail(data: emailData) {
       },
       body: JSON.stringify({
         key: process.env.EMAIL_API_KEY,
-        to: data.to as string,
+        to: data.to,
         from: 'Laurel Facility Rental',
-        subject: data.subject as string,
+        subject: data.subject,
         html: `${data.message}`,
       }),
     });
@@ -27,12 +27,12 @@ export default async function reservationEmail(data: emailData) {
   }
 }
 
-type data = {
+interface data {
   name: string;
   eventName: string;
   reservationId: number | bigint;
   building?: string;
-};
+}
 
 export async function newReservationEmail(data: data) {
   let to = '';
@@ -67,7 +67,7 @@ export async function newReservationEmail(data: data) {
       },
       body: JSON.stringify({
         key: process.env.EMAIL_API_KEY,
-        to: to as string,
+        to: to,
         from: 'Facility Rental',
         subject: 'New Facility Reservation',
         html: `<h1> New Facility Reservation </h1> <p>A new reservation request has been submitted by ${data.name} for ${data.eventName}. You can view the reservation here: https://facilities.laurel.k12.mt.us/reservation/${data.reservationId}</p>`,

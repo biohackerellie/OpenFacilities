@@ -6,8 +6,8 @@ import { User } from '@/lib/db/schema';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function Update(id: string, formData: FormData) {
-  let name = formData.get('name') as string;
-  let email = formData.get('email') as string;
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
   try {
     if (email && email.includes('@laurel.k12.mt.us')) {
       throw new Error('You cannot use an LPS email address');
